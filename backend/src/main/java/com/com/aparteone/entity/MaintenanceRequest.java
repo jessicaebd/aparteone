@@ -1,6 +1,6 @@
 package com.com.aparteone.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.com.aparteone.entity.audit.AuditEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -17,16 +20,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "maintenance_requests")
-public class MaintenanceRequest {
+@EqualsAndHashCode(callSuper = false)
+public class MaintenanceRequest extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer maintenanceId;
     private Integer residentId;
     private String status;
-    private Date requestedDate;
-    private Date assignedDate;
+    // private Date requestedDate; -> createdDate
     private String assignedTo;
+    private Date assignedDate;
     private Date completedDate;
-    private Date canceledDate;
+    private Date cancelledDate;
 }

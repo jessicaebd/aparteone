@@ -2,18 +2,24 @@ package com.com.aparteone.controller;
 
 import java.util.List;
 
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.entity.Maintenance;
 import com.com.aparteone.entity.MaintenanceRequest;
 import com.com.aparteone.service.MaintenanceService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/maintenance")
 public class MaintenanceController {
@@ -22,24 +28,68 @@ public class MaintenanceController {
     private MaintenanceService maintenanceService;
 
     @GetMapping("/{apartmentId}")
-    public ResponseEntity<List<Maintenance>> getAllMaintenance(@PathVariable Integer apartmentId) {
-        List<Maintenance> maintenanceList = maintenanceService.getAllMaintenance(apartmentId);
-
-        if(maintenanceList.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok().body(maintenanceList);
-        }
+    public ResponseEntity<List<Maintenance>> getMaintenanceListByApartmentId(@PathVariable Integer apartmentId) {
+        log.info("[Maintenance] Get Maintenance List By Apartment Id: {}", apartmentId);
+        List<Maintenance> maintenances = maintenanceService.getMaintenanceListByApartmentId(apartmentId);
+        return ResponseEntity.ok(maintenances);
     }
 
-    @GetMapping("/{residentId}/{maintenanceId}")
-    public ResponseEntity<List<MaintenanceRequest>> getMaintenanceRequestList(@PathVariable Integer residentId, @PathVariable Integer maintenanceId) {
-        List<MaintenanceRequest> maintenanceList = maintenanceService.getMaintenanceRequestList(residentId, maintenanceId);
-
-        if(maintenanceList.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok().body(maintenanceList);
-        }
+    @PostMapping("")
+    public ResponseEntity<Maintenance> insertMaintenance(@RequestBody Maintenance maintenance) {
+        log.info("[Maintenance] Insert Maintenance: " + maintenance.toString());
+        Maintenance newMaintenance = maintenanceService.insertMaintenance(maintenance);
+        return ResponseEntity.ok(newMaintenance);
     }
+
+    @PutMapping("")
+    public ResponseEntity<Maintenance> updateMaintenanceActiveStatus(@RequestParam Integer maintenanceId,
+            @RequestParam Boolean isActive) {
+        log.info("[Maintenance] Update Maintenance Status: maintenanceId-{} | isActive-{}", maintenanceId, isActive);
+        Maintenance maintenance = maintenanceService.updateMaintenanceIsActive(maintenanceId, isActive);
+        return ResponseEntity.ok(maintenance);
+    }
+
+    @GetMapping("/request/resident/{residentId}")
+    public ResponseEntity<List<MaintenanceRequest>> getMaintenanceRequestByResidentId(
+            @PathVariable Integer residentId) {
+        log.info("[Maintenance] Get Maintenance Request List By Resident Id: {}", residentId);
+        List<MaintenanceRequest> maintenanceRequests = maintenanceService
+                .getMaintenanceRequestListByResidentId(residentId);
+        return ResponseEntity.ok(maintenanceRequests);
+    }
+
+    @GetMapping("/request/apartment/{apartmentId}")
+    public ResponseEntity<List<MaintenanceRequest>> getMaintenanceRequestByApartmentId(
+            @PathVariable Integer apartmentId) {
+        log.info("[Maintenance] Get Maintenance Request List By Apartment Id: {}", apartmentId);
+        List<MaintenanceRequest> maintenanceRequests = maintenanceService
+                .getMaintenanceRequestListByApartmentId(apartmentId);
+        return ResponseEntity.ok(maintenanceRequests);
+    }
+
+    @GetMapping("/request/{maintenanceRequestId}")
+    public ResponseEntity<MaintenanceRequest> getMaintenanceRequestById(@PathVariable Integer maintenanceRequestId) {
+        log.info("[Maintenance] Get Maintenance Request By Id: {}", maintenanceRequestId);
+        MaintenanceRequest maintenanceRequest = maintenanceService.getMaintenanceRequestById(maintenanceRequestId);
+        return ResponseEntity.ok(maintenanceRequest);
+    }
+
+    @PostMapping("/request")
+    public ResponseEntity<MaintenanceRequest> insertMaintenanceRequest(
+            @RequestBody MaintenanceRequest maintenanceRequest) {
+        log.info("[Maintenance] Insert Maintenance Request: " + maintenanceRequest.toString());
+        MaintenanceRequest newMaintenanceRequest = maintenanceService.insertMaintenanceRequest(maintenanceRequest);
+        return ResponseEntity.ok(newMaintenanceRequest);
+    }
+
+    @PutMapping("/request")
+    public ResponseEntity<MaintenanceRequest> updateMaintenanceRequestStatus(@RequestParam Integer maintenanceRequestId,
+            @RequestParam String status, @RequestParam String remarks) {
+        log.info("[Maintenance] Update Maintenance Request Status: maintenanceRequestId-{} | status-{} | remarks-{}",
+                maintenanceRequestId, status, remarks);
+        MaintenanceRequest maintenanceRequest = maintenanceService
+                .updateMaintenanceRequestStatusById(maintenanceRequestId, status, remarks);
+        return ResponseEntity.ok(maintenanceRequest);
+    }
+
 }

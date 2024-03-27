@@ -19,13 +19,13 @@ public class AuditEntity implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Jakarta")
     @CreatedDate
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = true, updatable = false)
     private Date createdDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Jakarta")
     @LastModifiedDate
-    @Column(name = "last_update")
-    private Date lastUpdate;
+    @Column(name = "modified_date")
+    private Date modifiedDate;
 
     public AuditEntity() {
     }
@@ -34,15 +34,15 @@ public class AuditEntity implements Serializable {
         return createdDate;
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public Date getModifiedDate() {
+        return modifiedDate;
     }
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }
