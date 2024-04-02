@@ -1,0 +1,29 @@
+<div class="container-fluid d-flex flex-row h-100 w-100">
+    <ng-container *ngIf="isEmpty; else selectedAttachment">
+        <div class="empty-image h-100 w-100">
+            <label class="container upload-image" for="{{attachmentID}}">
+                <input class="form-control drop-image" type="file" id="{{attachmentID}}" [accept]="acceptedFileType" (change)="onUploadFile($event)" hidden>
+                <div class="drop-area">
+                    <div class="icon">
+                        <i class="bi bi-upload"></i>
+                    </div>
+                    <p class="">Drag and Drop or Browse</p>
+                </div>
+            </label>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #selectedAttachment>
+    <div class="list-selected d-flex flex-column w-100">
+        <label class="flex-column container uploaded-image" for="{{attachmentID}}" [style]="'width: ' + previewWidth">
+            <img [src]="base" class="preview" [style]="'width: ' + previewWidth">
+            <input class="drop-image" type="file" id="{{attachmentID}}" [accept]="acceptedFileType" (change)="onUploadFile($event)" hidden>
+            <p class="mt-3">Drag and Drop or Browse</p>
+        </label>
+        <!-- <button type="button" class="close btn" (click)="removeFile()"><i class="bi bi-x-lg"></i></button> -->
+        <div class="d-flex justify-content-center mt-3">
+            <app-button buttonClass="outline-primary" buttonLabel="Clear Image" (onClickEvent)="removeFile()"></app-button>
+        </div>
+    </div>
+</ng-template>

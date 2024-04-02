@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="Facility" labelType="title"></app-label>
+        <app-label labelInput="Book Facility" labelType="label"></app-label>
+    </div>
+    <div class="container form-request w-75 pt-3">
+        <app-label labelInput="BOOK FACILITY" labelType="subtitle"></app-label>
+        <div class="mt-2">
+            <app-label labelFor="" labelInput="Facility Type" labelType="label" [isMandatory]="mandatorySet['Facility Type']"></app-label>
+            <app-dropdown inputID="type-Facility-dropdown" [itemDropDown]="typeFacility" (onDropdownEvent)="data['Facility Type']=$event"></app-dropdown>
+        </div>
+        <div class="mt-2">
+            <app-label labelType="label"  labelFor="bookDate" labelInput="Book Date" [isMandatory]="mandatorySet['Book Date']"></app-label>
+            <app-datepicker inputID="bookDate" (onChangeEvent)="data['Book Date']=$event"></app-datepicker>
+        </div>
+        <div class="mt-2">
+            <app-label labelType="label"  labelFor="bookTime" labelInput="Book Time" [isMandatory]="mandatorySet['Book Time']"></app-label>
+            <div class="choose-time">
+                <button [ngClass]="data['Book Time'] == '06.00 - 08.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('06.00 - 08.00')">06.00 - 08.00</button>
+                <button [ngClass]="data['Book Time'] == '08.00 - 10.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('08.00 - 10.00')">08.00 - 10.00</button>
+                <button [ngClass]="data['Book Time'] == '10.00 - 12.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('10.00 - 12.00')">10.00 - 12.00</button>
+                <button [ngClass]="data['Book Time'] == '12.00 - 14.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('12.00 - 14.00')">12.00 - 14.00</button>
+                <button [ngClass]="data['Book Time'] == '14.00 - 16.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('14.00 - 16.00')">14.00 - 16.00</button>
+                <button [ngClass]="data['Book Time'] == '16.00 - 18.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('16.00 - 18.00')">16.00 - 18.00</button>
+                <button [ngClass]="data['Book Time'] == '18.00 - 20.00' ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="setBookTime('18.00 - 20.00')">18.00 - 20.00</button>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center mt-5">
+            <app-button class="me-3" buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+          </div>
+    </div>
+</div>

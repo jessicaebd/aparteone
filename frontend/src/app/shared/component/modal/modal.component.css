@@ -1,0 +1,7 @@
+/* .modal {
+    --bs-modal-width: 1200pt;
+} */
+
+.modal-content{
+    margin: 3vw;
+}

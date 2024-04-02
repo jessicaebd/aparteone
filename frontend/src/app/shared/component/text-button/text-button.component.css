@@ -1,0 +1,51 @@
+.text-button{
+    padding: 0;
+    border: 0;
+    font-size: 1rem;
+    color: white;
+    background-color: transparent;
+}
+
+.text-button-primary{
+    color: var(--primary-purple);
+}
+
+.text-button-secondary{
+    color: var(--warm-dark);
+}
+
+.text-button-accent{
+    color: var(--orange-primary);
+}
+
+.text-button-danger{
+    color: var(--red);
+}
+
+.text-button-white{
+    color: var(--white);
+}
+
+.text-button-small{
+    font-size: 0.8rem;
+}
+
+.text-button-large{
+    font-size: 1.2rem;
+}
+
+.bi{
+    padding: 0.5rem 0.5rem;
+}
+
+.bold{
+    font-weight: 600;
+}
+
+.bolder{
+    font-weight: 800;
+}
+
+.text-button-primary:disabled{
+    color: var(--warm-dark);
+}

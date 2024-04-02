@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="onBackButton()"></app-text-button>
+        <app-label labelInput="Facility" labelType="title"></app-label>
+        <app-label labelInput="Book Facility" labelType="label"></app-label>
+    </div>
+    <div class="facility-request-list mt-3">
+        <div class="d-flex justify-content-between subtitle mb-2">
+            <app-label labelInput="LIST FACILITY REQUEST" labelType="subtitle"></app-label>
+        </div>
+        <div class="py-2">
+            <app-table [dataTable]="table" [columns]="col" headerAlignment="center" 
+                iconStart="bi-eye" label="View" type="primary" actionToggle="modal" 
+                actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" 
+                [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-table>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <app-modal modalID="modalRequestDetail" [width]="1200" [modalContent]="modalContent"></app-modal>
+    
+    <ng-template #modalContent>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Facility Book Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+            <div class="container">
+                <div class="row">
+                    <h6 class="col">Basketball Court</h6>
+                    <div class="col-2 d-flex justify-content-end">
+                        <app-badge badgeText="Requested" badgeType="secondary"></app-badge>
+                    </div>
+                </div>
+                <div class="detail">
+                    <span>Monday, 01 April 2024</span><br>
+                    <span>10.00 - 12.00</span>
+                    <h6 class="">Book Date: Thursday, 14 March 2024</h6>
+                </div>
+                <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel"></app-button>
+            </div>
+        </div>
+    </ng-template>
+</div>

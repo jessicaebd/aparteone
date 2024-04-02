@@ -1,0 +1,14 @@
+.radio-button{
+    padding-top: 0.4vh;
+    padding-bottom: 0.4vh;
+}
+
+.form-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-purple);
+    border-color: var(--primary-purple);
+}

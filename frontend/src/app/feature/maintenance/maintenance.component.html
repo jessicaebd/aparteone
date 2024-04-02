@@ -1,0 +1,67 @@
+<div class="container">
+    <ng-container *ngIf="isResident">
+        <div class="row mb-3">
+            <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <app-label labelInput="Maintenance" labelType="title"></app-label>
+            <app-label labelInput="Need Service" labelType="label"></app-label>
+        </div>
+        <div class="maintenance-category mb-4">
+            <div class="subtitle mb-2">
+                <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
+            </div>
+            <app-maintenance-category></app-maintenance-category>
+        </div>
+        <div class="maintenance-list">
+            <div class="d-flex justify-content-between subtitle mb-2">
+                <app-label labelInput="LAST MAINTENANCE" labelType="subtitle"></app-label>
+                <app-button buttonLabel="All History" (onClickEvent)="onHistoryClick()"></app-button>
+            </div>
+            <app-maintenance-list></app-maintenance-list>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isManagement">
+        <div class="row mb-3">
+            <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <app-label labelInput="Maintenance" labelType="title"></app-label>
+            <app-label labelInput="Need Service" labelType="label"></app-label>
+        </div>
+        <div class="maintenance-list">
+            <div class="d-flex justify-content-between subtitle mb-2">
+                <app-label labelInput="MAINTENANCE CATEGORY" labelType="subtitle"></app-label>
+                <app-button buttonLabel="Add Category" data-bs-toggle="modal" data-bs-target="#modalAddCategory"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="table" [columns]="colCategory" headerAlignment="center" 
+                iconStart="bi-eye" label="View" type="primary" actionToggle="modal" 
+                actionTarget="modalAddCategory" (onClickActionEvent)="onListItemClick($event)" 
+                [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-table>
+            </div>
+        </div>
+        <div class="maintenance-request-list mt-5">
+            <div class="d-flex justify-content-between subtitle mb-2">
+                <app-label labelInput="LIST MAINTENANCE REQUEST" labelType="subtitle"></app-label>
+                <app-button buttonLabel="All Request" (onClickEvent)="onAllRequest()"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="table" [columns]="colRequest" headerAlignment="center" 
+                    iconStart="bi-eye" label="View" type="primary" actionToggle="modal" 
+                    actionTarget="modalAddCategory" (onClickActionEvent)="onListItemClick($event)" 
+                    [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <app-modal modalID="modalAddCategory" [width]="600" [modalContent]="modalContent"></app-modal>
+
+        <ng-template #modalContent>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Maintenance Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <app-maintenance-add-category (onSubmitEvent)="onSubmitAddCategory()"></app-maintenance-add-category>
+            </div>
+        </ng-template>
+    </ng-container>
+</div>

@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="MAINTENENCE" labelType="title"></app-label>
+        <app-label labelInput="Request History" labelType="label"></app-label>
+    </div>
+    <div class="d-flex mb-3">
+        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
+        <button [ngClass]="filter == 'requested' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('requested')">Requested</button>
+        <button [ngClass]="filter == 'assigned' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('assigned')">Assigned</button>
+        <button [ngClass]="filter == 'completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('completed')">Completed</button>
+        <button [ngClass]="filter == 'canceled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('canceled')">Canceled</button>
+    </div>
+    <app-maintenance-list></app-maintenance-list>
+</div>

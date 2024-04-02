@@ -1,0 +1,14 @@
+:host(app-rounded-container){
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 10px !important;
+    border: 1px solid var(--cool-light);
+}
+
+/* :host(app-rounded-container){
+    display: block !important;
+    box-sizing: border-box;
+    border-radius: 6px !important;
+    border: 1px solid var(--cool-light-);
+    height: 100%;
+} */

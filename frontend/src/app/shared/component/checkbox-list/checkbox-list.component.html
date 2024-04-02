@@ -1,0 +1,21 @@
+<div [ngClass]="isReadOnly?'readonly':''">
+  <div *ngIf="!horizontal" class="form-check">
+    <div *ngFor="let item of listItems" class="col">
+      <div class="checkbox">
+        <input [(ngModel)]="item.checked" class="form-check-input" type="checkbox" data-value="{{item.name}}" [disabled]="isDisabled" (ngModelChange)="onChangeChecked()">
+        <label class="form-check-label" for="{{ checkID }}">{{ item.name }}</label>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="horizontal" class="form-check d-flex">
+    <div *ngFor="let item of listItems" class="col">
+      <div class="checkbox">
+        <input [(ngModel)]="item.checked" class="form-check-input" type="checkbox" data-value="{{item.name}}" [disabled]="isDisabled" (ngModelChange)="onChangeChecked()">
+        <label class="form-check-label" for="{{ checkID }}">{{ item.name }}</label>
+      </div>
+    </div>
+  </div>
+    
+  <input id="tsInput-{{ checkID }}" style="display: none;" type="text" value="">
+</div>

@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="PAYMENT" labelType="title"></app-label>
+        <app-label labelInput="Bill Information" labelType="label"></app-label>
+    </div>
+    <div class="d-flex mb-3">
+        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
+        <button [ngClass]="filter == 'paid' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('paid')">Paid</button>
+        <button [ngClass]="filter == 'waiting' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('waiting')">Waiting for Payment</button>
+        <button [ngClass]="filter == 'overdue' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('overdue')">Overdue</button>
+    </div>
+    <app-payment-list></app-payment-list>
+</div>

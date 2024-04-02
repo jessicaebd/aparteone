@@ -1,0 +1,22 @@
+.dropdown{
+    width: 100%;
+}
+
+.dropdown-toggle{
+    width: 100%;
+}
+
+.form-select:focus {
+    border-color: var(--primary-purple);
+    outline: 0;
+    box-shadow: none;
+    /* box-shadow: 0 0 0 0.25rem rgba(80, 37, 250, 0.15); */
+}
+
+option:checked{
+    background-color: rgba(80, 37, 250, 0.15);
+}
+
+select:focus > option:hover{
+    background: rgba(80, 37, 250, 0.15)!important;
+}

@@ -1,0 +1,4 @@
+<div class="input-group">
+    <input class="form-control input" type="text" [(ngModel)]="value" (ngModelChange)="onChangeValue()" [class.invalid]="isInvalid" [disabled]="isDisabled" [readonly]="isReadOnly" [maxLength]="maxLength" id="tsInput-{{ inputID }}" required>
+    <label class="label" for="{{ inputID }}">{{ inputLabel }}</label>
+</div>

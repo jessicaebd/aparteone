@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="FACILITY" labelType="title"></app-label>
+        <app-label labelInput="Book History" labelType="label"></app-label>
+    </div>
+    <div class="d-flex mb-3">
+        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
+        <button [ngClass]="filter == 'booked' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('requested')">Booked</button>
+        <button [ngClass]="filter == 'completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('completed')">Completed</button>
+        <button [ngClass]="filter == 'canceled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('canceled')">Canceled</button>
+    </div>
+    <app-facility-list></app-facility-list>
+</div>

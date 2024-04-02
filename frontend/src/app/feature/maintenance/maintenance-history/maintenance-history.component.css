@@ -1,0 +1,19 @@
+:host(app-maintenance-history){
+    width: 100%;
+}
+
+.filter {
+    border: 0.1rem solid var(--cool-lightest);
+    /* box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); */
+}
+
+.filter:hover {
+    border: 0.1rem solid var(--primary-purple);
+    box-shadow: 0 0.125rem 0.25rem rgba(80, 37, 250, 0.2);
+}
+
+.filter.active {
+    border: 0.1rem solid var(--primary-purple);
+    background-color: var(--primary-purple);
+    color: var(--white);
+}

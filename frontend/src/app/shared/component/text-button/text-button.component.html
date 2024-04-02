@@ -1,0 +1,8 @@
+<ng-container *ngIf="link, else textButton">
+    <a [href]="link">
+        <button type="button" class="text-button text-button-{{ type }} text-button-{{ size }} {{ weight }}" [disabled]="isDisabled" (click)="onClickButton()"><i class="bi {{ iconStart }}"></i>{{ label }}<i class="bi {{ iconEnd }}"></i></button>
+    </a>
+</ng-container>
+<ng-template #textButton>
+    <button type="button" class="text-button text-button-{{ type }} text-button-{{ size }} {{ weight }}" [disabled]="isDisabled" (click)="onClickButton()"><i class="bi {{ iconStart }}"></i>{{ label }}<i class="bi {{ iconEnd }}"></i></button>
+</ng-template>

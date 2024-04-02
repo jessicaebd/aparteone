@@ -1,0 +1,289 @@
+<div class="container-fluid w-100">
+    <h2 class="mb-3 pb-2">Component Page</h2>
+    <div class="d-flex row justify-content-start">
+        
+        <!-- ACCORDION -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Accordion</h5>
+            <div class="mb-3">
+                <app-accordion header="Default Accordion" accordionParent="accordionParent" [accordionContent]="accor1" collapsedID="accorOne" collapseToggle="collapse" collapseTarget="accorOne"></app-accordion>
+            </div>
+            <app-accordion header="Opened Accordion" accordionParent="accordionParent" [isCollapsed]="false" [accordionContent]="accor1" collapsedID="accorTwo" collapseToggle="collapse" collapseTarget="accorTwo"></app-accordion>
+            
+            <div class="mb-3">
+                <p class="m-0 py-2" style="font-weight: 600;">Different Parent</p>
+                <div class="mb-3">
+                    <app-accordion header="Accordion 1" accordionParent="accordionOther1" [accordionContent]="accor1" collapsedID="otherOne" collapseToggle="collapse" collapseTarget="otherOne"></app-accordion>
+                </div>
+                    <app-accordion header="Accordion 2" accordionParent="accordionOther2" [accordionContent]="accor1" collapsedID="otherTwo" collapseToggle="collapse" collapseTarget="otherTwo"></app-accordion>
+            </div>
+            <ng-template #accor1>
+                <span>Hai Accordion, Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus sequi doloremque incidunt explicabo deleniti tempore doloribus eius aperiam vero, optio praesentium. Dicta illo veniam quos animi molestiae qui natus itaque.</span>
+            </ng-template>
+        </div>
+        
+        <!-- ALERT -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Alert</h5>
+            <app-button class="me-3" buttonClass="primary" buttonLabel="Alert" (onClickEvent)="onShowAlert(1)"></app-button>
+            <app-button class="me-3" buttonClass="secondary" buttonLabel="Alert" (onClickEvent)="onShowAlert(2)"></app-button>
+            <app-button class="me-3" buttonClass="danger" buttonLabel="Alert" (onClickEvent)="onShowAlert(3)"></app-button>
+            <app-button class="me-3" buttonClass="success" buttonLabel="Alert" (onClickEvent)="onShowAlert(4)"></app-button>
+            <app-button class="me-3" buttonClass="accent" buttonLabel="Alert" (onClickEvent)="onShowAlert(5)"></app-button>
+            <!-- <app-alert [showAlert]="true" alertClass="secondary" [alertContent]="alert1"></app-alert>
+                <app-alert [showAlert]="true" alertClass="success" [alertContent]="alert1"></app-alert>-->
+            <app-alert [showAlert]="flagAlert1" alertClass="primary" [alertContent]="alert1"></app-alert>
+            <app-alert [showAlert]="flagAlert2" alertClass="info" [alertContent]="alert1"></app-alert>
+            <app-alert [showAlert]="flagAlert3" alertClass="danger" [alertContent]="alert1"></app-alert>
+            <app-alert [showAlert]="flagAlert4" alertClass="success" [alertContent]="alert1"></app-alert>
+            <app-alert [showAlert]="flagAlert5" alertClass="warning" [alertContent]="alert1"></app-alert>
+            
+            <ng-template #alert1>
+                <span>Alert, Lorem ipsum dolor sit amet consectetur adipisicing elit</span>
+            </ng-template>
+        </div>
+
+        <!-- ATTACHMENT -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Attachment</h5>
+            <app-attachment></app-attachment>
+        </div>
+
+        <!-- ATTACHMENT IMAGE -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Attachment Image</h5>
+            <div class="d-flex flex-row justify-content-between">
+                <div class="col-6">
+                    <app-attachment-image attachmentID="image1"></app-attachment-image>
+                </div>
+                <div class="col-6">
+                    <app-attachment-image attachmentID="image2" previewWidth="15vw"></app-attachment-image>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUTTON -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Button</h5>
+            <app-button class="me-3" buttonClass="primary" buttonLabel="Primary"></app-button>
+            <app-button class="me-3" buttonClass="secondary" buttonLabel="Secondary"></app-button>
+            <app-button class="me-3" buttonClass="accent" buttonLabel="Accent"></app-button>
+            <app-button class="me-3" buttonClass="danger" buttonLabel="Danger"></app-button>
+            <app-button class="me-3" buttonClass="white" buttonLabel="White"></app-button>
+            <app-button class="me-3" buttonClass="success" buttonLabel="Success"></app-button>
+            <app-button class="me-3" buttonClass="primary" buttonLabel="Disabled" [isDisabled]=true></app-button>
+            <app-button class="me-3" buttonClass="primary" buttonLabel="Click Me" (onClickEvent)="onButtonClick()"></app-button>
+            <app-button class="me-3" buttonClass="accent" buttonLabel="Google" link="https://google.com"></app-button>
+            <p class="m-0 py-2" style="font-weight: 600;">Outline</p>
+            <app-button class="me-3" buttonClass="outline-primary" buttonLabel="Primary"></app-button>
+            <app-button class="me-3" buttonClass="outline-secondary" buttonLabel="Secondary"></app-button>
+            <app-button class="me-3" buttonClass="outline-accent" buttonLabel="Accent"></app-button>
+            <app-button class="me-3" buttonClass="outline-danger" buttonLabel="Danger"></app-button>
+            <app-button class="me-3" buttonClass="outline-white" buttonLabel="White"></app-button>
+            <app-button class="me-3" buttonClass="outline-success" buttonLabel="Success"></app-button>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Breadcrumb</h5>
+            <app-breadcrumb [listItems]="breadcrumbs"></app-breadcrumb>
+        </div>
+
+        <!-- CHECKBOX -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Checkbox</h5>
+            <app-checkbox labelCheckbox="Default" [value]="" checkID="default-checkbox"></app-checkbox>
+            <app-checkbox labelCheckbox="Checked" [value]="true" checkID="checked-checkbox"></app-checkbox>
+            <app-checkbox labelCheckbox="Disabled" [value]="" [isDisabled]="true" checkID="disabled-checkbox"></app-checkbox>
+        </div>
+
+        <!-- CHECKBOX LIST -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Checkbox List</h5>
+            <app-checkbox-list [listItems]="exampleCheckbox2" checkID="example-horizontal" [horizontal]="true"></app-checkbox-list>
+            <p class="m-0 py-2" style="font-weight: 600;">Value: {{ dataChecked }}</p>
+            <app-checkbox-list [listItems]="exampleCheckbox1" checkID="example-vertical" (onChangeEvent)="onCheckboxListChange($event)"></app-checkbox-list>
+            <p class="m-0 py-2" style="font-weight: 600;">Disabled</p>
+            <app-checkbox-list [listItems]="exampleCheckbox2" checkID="example-horizontal" [horizontal]="true" [isDisabled]="true"></app-checkbox-list>
+        </div>
+
+        <!-- DATE PICKER -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Date Picker</h5>
+            <app-datepicker inputID="default-datepicker"></app-datepicker>
+        </div>
+
+        <!-- DROPDOWN -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Dropdown</h5>
+            <p class="m-0 py-2" style="font-weight: 600;">Value: {{ selectedDropdown }}</p>
+            <app-dropdown inputID="default-dropdown" [itemDropDown]="exampleDropdown" (onDropdownEvent)="onDropdownValue($event)"></app-dropdown>
+            <p class="m-0 pt-2" style="font-weight: 600;">Selected Dropdown</p>
+            <div class="readonly">
+                <app-dropdown inputID="selected-dropdown" [itemDropDown]="exampleDropdown" [selectedDropdown]="exampleDropdown[0].code"></app-dropdown>
+            </div>
+            <p class="m-0 py-2" style="font-weight: 600;">Disabled Dropdown</p>
+            <app-dropdown inputID="disabled-dropdown" [itemDropDown]="exampleDropdown" [isDisabled]="true"></app-dropdown>
+        </div>
+        
+        <!-- DYNAMIC TEXTAREA -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Dynamic Textarea</h5>
+            <app-dynamic-textarea inputID="default-dynamic-textarea" inputLabel="Dynamic Textarea"></app-dynamic-textarea>
+            <p class="m-0 pt-2" style="font-weight: 600;">Disabled</p>
+            <app-dynamic-textarea [isDisabled]="true" inputLabel="Dynamic Textarea"></app-dynamic-textarea>
+        </div>
+        
+        <!-- DYNAMIC TEXTBOX -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Dynamic Textbox</h5>
+            <app-dynamic-textbox inputID="default-dynamic-textbox" inputLabel="Dynamic Textbox"></app-dynamic-textbox>
+            <p class="m-0 pt-2" style="font-weight: 600;">Disabled</p>
+            <app-dynamic-textbox inputID="disable-dynamic-textbox" inputLabel="Dynamic Textbox" [isDisabled]="true"></app-dynamic-textbox>
+        </div>
+        
+        <!-- LABEL -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Label</h5>
+            <div class="d-flex justify-content-between pe-5 me-5 ps-3">
+                <app-label labelFor="" labelInput="Input Field" labelType="label"></app-label>
+                <app-label labelFor="" labelInput="Subtitle Label" labelType="subtitle"></app-label>
+                <app-label labelFor="" labelInput="Title Label" labelType="title"></app-label>
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Modal</h5>
+            <app-button class="ms-3 me-3" buttonClass="primary" buttonLabel="Show Modal" data-bs-toggle="modal" data-bs-target="#modalDefault"></app-button>
+            
+            <app-modal modalID="modalDefault" [width]="500" [modalContent]="modalContent"></app-modal>
+            <ng-template #modalContent>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Default Modal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex col justify-content-center">
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem inventore suscipit ea ut quas voluptates, numquam omnis nobis tenetur doloribus illo qui facilis quis, dicta explicabo blanditiis ullam aliquid? Blanditiis!</p>
+                </div>
+            </ng-template>
+        </div>
+
+        <!-- PICKER -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Picker</h5>
+            <app-picker [data]="data" [col]="col3" [width]="700" label="Pick Symbol" pickColumn="name"></app-picker>
+        </div>
+        
+        <!-- RadioButton -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Radio Button</h5>
+            <app-radio-button [listItems]="exampleRadioButton2" checkID="default-radioButton" [horizontal]="true"></app-radio-button>
+            <p class="m-0 py-2" style="font-weight: 600;">Value: {{ dataRadioChecked }}</p>
+            <app-radio-button [listItems]="exampleRadioButton1" checkID="vertical-radioButton" (onChangeEvent)="onRadioButtonChange($event)"></app-radio-button>
+            <p class="m-0 py-2" style="font-weight: 600;">Disabled</p>
+            <app-radio-button [listItems]="exampleRadioButton2" checkID="disabled-radioButton" [horizontal]="true" [isDisabled]="true"></app-radio-button>
+        </div>
+        
+        <!-- Range -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Range</h5>
+            <app-range rangeLabel="Default Range"></app-range>
+            <p class="m-0 py-2" style="font-weight: 600;">Value: {{ rangeValue }}</p>
+            <app-range rangeLabel="" [min]="0" [max]="10" [step]=0.5 (onRangeEvent)="onRangeValue($event)"></app-range>
+            <app-range rangeLabel="Disabled Range" [isDisabled]=true></app-range>
+        </div>
+
+        <!-- Rounded Container -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Rounded Container</h5>
+            <app-rounded-container [contentTemplate]="exampleContent"></app-rounded-container>
+            <ng-template #exampleContent>
+                <div class="d-flex ps-3 pt-2">
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem inventore suscipit ea ut quas voluptates, numquam omnis nobis tenetur doloribus illo qui facilis quis, dicta explicabo blanditiis ullam aliquid? Blanditiis!</p>
+                </div>
+            </ng-template>
+        </div>
+
+        <!-- Switch -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Switch</h5>
+            <div class="container d-flex col justify-content-between">
+                <app-switch switchID="defaultSwitch" label="" (onChangeEvent)="onSwitch($event)"></app-switch>
+                <app-switch switchID="checkedSwitch" label="" [isChecked]="true" (onChangeEvent)="onSwitch($event)"></app-switch>
+                <app-switch switchID="disabledSwitch" label="" [isDisabled]="true"></app-switch>
+                <app-switch switchID="labelSwitch" label="Default" (onChangeEvent)="onSwitch($event)"></app-switch>
+                <app-switch switchID="reverseSwitch" label="Reverse" [isReverse]="true" (onChangeEvent)="onSwitch($event)"></app-switch>
+            </div>
+        </div>
+        
+        <!-- Table -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Table</h5>
+            <app-table [dataTable]="data" [columns]="col1"></app-table>
+            <p class="m-0 pb-3 pt-5" style="font-weight: 600; font-size: 1rem;">Table with Action Column</p>
+            <app-table [dataTable]="data" [columns]="col2" headerAlignment="center" iconStart="bi-eye" label="View" type="primary" actionToggle="modal" actionTarget="modalTable" (onClickActionEvent)="OnRowClick($event)"></app-table>
+        </div>
+
+        <app-modal modalID="modalTable" [width]="500" [modalContent]="modalContent2"></app-modal>
+        <ng-template #modalContent2>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Table</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <ul *ngFor="let e of rowValue">
+                    <li>{{e}}</li>
+                </ul>
+            </div>
+        </ng-template>
+
+        <!-- Text Button -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Text Button</h5>
+            <app-text-button type="primary" label="Primary" weight="bold"></app-text-button>
+            <app-text-button type="secondary" label="Secondary" weight="bold"></app-text-button>
+            <app-text-button type="accent" label="Accent" weight="bold"></app-text-button>
+            <app-text-button type="danger" label="Danger" weight="bold"></app-text-button>
+            <app-text-button type="primary" label="Disabled" [isDisabled]="true" weight="bold"></app-text-button>
+            <app-text-button type="primary" label="PreIcon" iconStart="bi-apple" weight="bold"></app-text-button>
+            <app-text-button type="primary" label="PostIcon" iconEnd="bi-android2" weight="bold"></app-text-button>
+            <app-text-button type="primary" label="Click Me" iconEnd="bi-cursor-fill" weight="bold" (onClickEvent)="onButtonClick()"></app-text-button>
+            <p class="m-0 py-2" style="font-weight: 600;">Size & Weight</p>
+            <app-text-button type="primary" label="Small" size="small" weight="bold"></app-text-button>
+            <app-text-button type="primary" label="Default Size" weight="bold"></app-text-button>
+            <app-text-button type="primary" label="Large" size="large" weight="bold"></app-text-button>
+            <app-text-button type="accent" label="Default Weight"></app-text-button>
+            <app-text-button type="accent" label="Bold" weight="bold"></app-text-button>
+            <app-text-button type="accent" label="Bolder" weight="bolder"></app-text-button>
+            <p class="m-0 py-2" style="font-weight: 600;">Hyperlink</p>
+            <app-text-button type="primary" label="Google" iconEnd="bi-browser-chrome" weight="bold" link="https://google.com"></app-text-button>
+        </div>
+
+        <!-- Textarea -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Textarea</h5>
+            <app-textarea inputID="" [maxLength]=1000></app-textarea>
+            <div class="my-3">
+                <app-textarea inputID="" inputPlaceholder="Custom Placeholder..."></app-textarea>
+            </div>
+            <div class="mb-3">
+                <app-textarea inputID="" value="This is Textarea that set Readonly" [isReadOnly]="true"></app-textarea>
+            </div>
+            <app-textarea inputID="" value="This is Textarea that set Disabled" [isDisabled]="true"></app-textarea>
+        </div>
+
+        <!-- Textbox -->
+        <div class="mb-3 pb-3" style="border-bottom: solid 1px #C6C6C6">
+            <h5>Textbox</h5>
+            <app-textbox inputID="" [maxLength]=100></app-textbox>
+            <div class="my-3">
+                <app-textbox inputID="" inputPlaceholder="Custom Placeholder..."></app-textbox>
+            </div>
+            <div class="mb-3">
+                <app-textbox inputID="" value="This is Textbox that set Readonly" [isReadOnly]="true"></app-textbox>
+            </div>
+            <app-textbox inputID="" value="This is Textbox that set Disabled" [isDisabled]="true"></app-textbox>
+        </div>
+    </div>
+</div>

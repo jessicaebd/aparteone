@@ -1,0 +1,81 @@
+<div class="group-table">
+  <div *ngIf="tableToolbar" class="table-toolbar flex-row p-3">
+    <ng-container *ngFor="let t of toolbar">
+      <app-text-button type="primary" [label]="t.label" [iconStart]="t.icon" [isDisabled]="t.disable" (onClickEvent)="onClickToolbar(t.label)"></app-text-button>
+    </ng-container>
+  </div>
+  
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataTable" class="flex">
+      <ng-container [matColumnDef]="col.name" *ngFor="let col of columns">
+        <!-- <mat-header-cell *matHeaderCellDef class="{{'header-cell-' + headerAlignment }}">{{col.displayName}}</mat-header-cell> -->
+        <mat-header-cell *matHeaderCellDef class="{{'header-cell-' + col.align }}">{{col.displayName}}</mat-header-cell>
+        <ng-container *ngIf="col.name != 'ActionCol'; else actionButton">
+          <mat-cell *matCellDef="let element" class="{{'unique-' + col.name}} {{'cell-' + col.align }}">{{element[col.name]}}</mat-cell>
+        </ng-container>
+        
+        <ng-template #actionButton>
+          <mat-cell mat-cell *matCellDef="let element" class="{{'cell-' + col.align }} action-cell">
+            <ng-container *ngIf="!buttonFlag">
+              <app-text-button [label]="label" [type]="type" [size]="size" [iconStart]="iconStart" [iconEnd]="iconEnd" [isDisabled]="isDisabled" [attr.data-bs-toggle]="actionToggle" [attr.data-bs-target]="'#' + actionTarget" (onClickEvent)="OnClickActionButton(element)"></app-text-button>
+            </ng-container>
+  
+            <!-- <ng-template #action>  
+              <app-button [buttonLabel]="label" [buttonClass]="type" [isDisable]="isDisabled" (onClickEvent)="OnClickActionButton(element)"></app-button>
+            </ng-template> -->
+          </mat-cell>
+        </ng-template>
+        
+        
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" [class.row-clicked]="clickedRows == row" (dblclick)="onRowDoubleClicked(row)" (click)="onRowClicked(row)"></mat-row>
+      <!--  -->
+    </mat-table>
+
+    <div *ngIf="errorMsg" class="table-empty flex-row justify-content-center text-center p-3">
+      <app-label [labelInput]="errorMsg" labelType="label"></app-label>
+    </div>
+
+    <mat-paginator #paginator 
+      (page)="onClickPageIndex($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [disabled]="disabled"
+      [showFirstLastButtons] = "false"
+      [hidePageSize]="hidePageSize"
+      [pageIndex]="pageIndex"
+      aria-label="Select page">
+      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+    </mat-paginator>
+  </div>
+</div>
+
+<!-- -- toolbar top table (untuk button)
+-- button in each row
+-- function (add, edit, delete)
+-- search 
+-- filter [column, propertyValue]
+-- sort [kirim parameter orderBy, orderType(DESC, ASC)]
+-- pagination [offset(startIndex), limit(amountData)] -->
+
+
+  <!-- <table mat-table [dataSource]="dataTable">
+      <ng-container [matColumnDef]="col.name" *ngFor="let col of columns">
+        <th mat-header-cell *matHeaderCellDef>{{col.displayName}}</th>
+        <ng-container *ngIf="col.name != 'action'; else actionButton">
+          <td mat-cell *matCellDef="let element">{{element[col.name]}}</td>
+        </ng-container>
+        
+        <ng-template #actionButton>
+          <td mat-cell *matCellDef="let element" class="action-column">
+            <i class="bi bi-eye align-items-center"></i>
+          </td>
+        </ng-template>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table> -->

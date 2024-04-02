@@ -1,0 +1,17 @@
+<div *ngIf="!horizontal" class="form-check">
+    <div *ngFor="let item of listItems" class="col">
+        <div class="radio-button">
+            <input class="form-check-input" type="radio" name="{{ checkID }}" id="{{ checkID + item.name }}" [checked]="item.checked" [disabled]="isDisabled" (change)="onChangeChecked(item.name)">
+            <label class="form-check-label" for="{{ checkID + item.name }}">{{ item.name }}</label>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="horizontal" class="form-check d-flex">
+    <div *ngFor="let item of listItems" class="col">
+        <div class="radio-button">
+            <input class="form-check-input" type="radio" name="{{ checkID }}" id="{{ checkID + item.name }}" [checked]="item.checked" [disabled]="isDisabled" (change)="onChangeChecked(item.name)">
+            <label class="form-check-label" for="{{ checkID + item.name }}">{{ item.name }}</label>
+        </div>
+    </div>
+</div>

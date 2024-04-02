@@ -1,0 +1,14 @@
+.breadcrumb{
+    --bs-breadcrumb-divider: '>';
+}
+
+.breadcrumb-item{
+    font-size: medium;
+    font-weight: 400;
+    color: var(--black);
+}
+
+.breadcrumb-item.active{
+    font-weight: 600;
+    color: var(--primary-purple);
+}

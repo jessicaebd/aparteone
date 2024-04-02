@@ -1,0 +1,9 @@
+
+<ng-container *ngIf="link, else tButton">
+    <a [href]="link">
+        <button type="button" class="btn {{ 'btn-' + buttonClass }}" [disabled]="isDisabled" (click)="onClickButton()">{{ buttonLabel }}</button>
+    </a>
+</ng-container>
+<ng-template #tButton>
+    <button type="button" class="btn {{ 'btn-' + buttonClass }}" [disabled]="isDisabled" (click)="onClickButton()">{{ buttonLabel }}</button>
+</ng-template>

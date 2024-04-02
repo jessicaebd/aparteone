@@ -1,0 +1,53 @@
+.input-group{
+    font-size: 1rem;
+    position: relative;
+}
+
+.input{
+    all: unset;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--cool-lightest);
+    margin-top: 1rem;
+    /* border-radius: 10px; */
+    /* color: #fefefe; */
+    transition: 150ms
+        cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.label{
+    position: absolute;
+    top: 1.6rem;
+    left: 1rem;
+    /* color: #d4d4d4; */
+    pointer-events: none;
+    transition: 150ms
+    cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--cool-dark);
+}
+
+.input:focus{
+    border: 1px solid var(--cool-darker);
+    margin-top: 2.2rem;
+}
+
+.input:valid{
+    margin-top: 2.2rem;
+}
+
+.input:is(:focus, :valid) ~ label{
+    transform:        
+        translateX(-1.5vh)
+        translateY(-2vh)
+        scale(0.9);
+    padding-inline: 0.3rem;
+    color: #000000;
+    /* background-color: #FFFFFF; */
+    /* color: var(--primary); */
+}
+
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control, .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select, .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-radius: 10px;
+    /* border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; */
+}

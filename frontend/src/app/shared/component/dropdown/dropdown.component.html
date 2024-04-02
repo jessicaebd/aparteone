@@ -1,0 +1,18 @@
+<select #dropdown class="form-select" aria-label="" (change)="onDropdownChange(dropdown.value)" [disabled]="isDisabled">
+    <option default>Select a value</option>
+    <option class="option" *ngIf="selectedDropdown" selected>{{ selectedDropdown }}</option>
+    <option class="option" *ngFor="let d of itemDropDown" [value]="d.value">{{ d.code }}</option>
+</select>
+
+<!-- <i *ngFor="let d of itemDropDown; let code = index">{{code}}</i> -->
+
+
+<!-- <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="onDropdownTouch()">{{ selectedDropdown }}</button>
+    <ul class="dropdown-menu">
+        <div *ngFor="let item of itemDropDown">
+            <li><button class="dropdown-item" type="button">{{ item.code }}</button></li>
+            <li><button class="dropdown-item" type="button">Action</button></li>
+        </div>
+    </ul>
+</div> -->

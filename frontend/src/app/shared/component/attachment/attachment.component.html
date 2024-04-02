@@ -1,0 +1,40 @@
+
+<div class="container-fluid d-flex flex-row h-100 w-100">
+    <ng-container *ngIf="isEmpty; else selectedAttachment">
+        <div class="empty-file h-100 w-100">
+            <!-- <input type="file" class="form-control" multiple="true" (change)="onUploadFile($event)"> -->
+            <label class="container upload-file" for="formFile">
+                <input class="form-control drop-file" type="file" id="formFile" [multiple]="true" [accept]="acceptedFileType" (change)="onUploadFile($event)" hidden>
+                <div class="drop-area">
+                    <div class="icon">
+                        <i class="bi bi-upload"></i>
+                    </div>
+                    <p class="">Drag and Drop or Browse</p>
+                </div>
+            </label>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #selectedAttachment>
+    <div class="select-file h-100">
+        <!-- <input type="file" class="form-control" multiple="true" (change)="onUploadFile($event)"> -->
+        <label class="container upload-file" for="formFile">
+            <input class="form-control drop-file" type="file" id="formFile" [multiple]="true" [accept]="acceptedFileType" (change)="onUploadFile($event)" hidden>
+            <div class="drop-area">
+                <div class="icon">
+                    <i class="bi bi-upload"></i>
+                </div>
+                <p class="">Drag and Drop or Browse</p>
+            </div>
+        </label>
+    </div>
+    <div class="list-selected d-flex flex-column w-100">
+        <div *ngFor="let f of listFile; let i = index">
+            <div class="btn-group flex-row">
+                <button type="button" class="download btn" (click)="downloadFile(i)">{{ f.name }}</button>
+                <button type="button" class="close btn" (click)="removeFile(i)"><i class="bi bi-x-lg"></i></button>
+            </div>
+        </div>
+    </div>
+</ng-template>

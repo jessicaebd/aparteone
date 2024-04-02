@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <ng-container *ngFor="let l of listItems; last as isLast">
+            <li *ngIf="!isLast, else activeItem" class="breadcrumb-item">{{ l.name }}</li>
+            <ng-template #activeItem>
+                <li class="breadcrumb-item active" aria-current="page">{{ l.name }}</li>
+            </ng-template>
+        </ng-container>
+    </ol>
+</nav>

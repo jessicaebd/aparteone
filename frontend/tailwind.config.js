@@ -17,5 +17,6 @@ module.exports = {
     logs: true,
     rtl: false,
   },
+  darkMode: 'class',
 }
 

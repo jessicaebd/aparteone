@@ -1,0 +1,29 @@
+<div class="accordion" id="{{ accordionParent }}">
+    <div class="accordion-item">
+        <ng-container *ngIf="isCollapsed, else opened">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" [attr.data-bs-toggle]="collapseToggle" [attr.data-bs-target]="'#' + collapseTarget" aria-expanded="true" [attr.aria-controls]="collapsedID">
+                {{ header }}
+              </button>
+            </h2>
+            <div id="{{ collapsedID }}" class="accordion-collapse collapse" [attr.data-bs-parent]="'#'+ accordionParent">
+              <div class="accordion-body">
+                  <ng-container *ngTemplateOutlet="accordionContent"></ng-container>
+              </div>
+            </div>
+        </ng-container>
+        
+        <ng-template #opened>
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" [attr.data-bs-toggle]="collapseToggle" [attr.data-bs-target]="'#' + collapseTarget" aria-expanded="true" [attr.aria-controls]="collapsedID">
+                {{ header }}
+              </button>
+            </h2>
+            <div id="{{ collapsedID }}" class="accordion-collapse collapse show" [attr.data-bs-parent]="'#'+ accordionParent">
+              <div class="accordion-body">
+                  <ng-container *ngTemplateOutlet="accordionContent"></ng-container>
+              </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

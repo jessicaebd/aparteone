@@ -1,0 +1,35 @@
+.alert{
+    margin: 70px 10px 10px 10px;
+    z-index: 0;
+    transition: all 0.5s ease-out;
+}
+
+.alert-primary{
+    border-color: var(--primary-purple);
+    background: rgba(0, 92, 170, .15);
+    color: var(--primary-purple);
+}
+
+.alert-info{
+    border-color: var(--cool-darker);
+    background: rgba(55, 77, 97, .15);
+    color: var(--cool-darker);
+}
+
+.alert-danger{
+    border-color: var(--red-dark);
+    background: rgba(170, 0, 14, .15);
+    color: var(--red-dark);
+}
+
+.alert-success{
+    border-color: var(--green-primary);
+    background: rgba(64, 150, 78, .15);
+    color: var(--green-primary);
+}
+
+.alert-warning{
+    border-color: var(--orange-primary);
+    background: rgba(252, 136, 0, .15);
+    color: var(--orange-primary);
+}

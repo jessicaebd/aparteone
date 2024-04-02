@@ -1,0 +1,31 @@
+:host(app-picker){
+    width: 100%;
+}
+
+.input-group-text{
+    background-color: var(--primary-purple);
+}
+
+.btn-picker{
+    background-color: var(--primary-purple);
+    color: var(--white);
+}
+
+.input-group{
+    font-size: 14pt;
+}
+
+:enabled:focus {
+    box-shadow: none;
+    border-color: var(--primary-purple);
+}
+
+::placeholder {
+    color: var(--cool-light);
+    font-size: 0.9rem!important;
+}
+
+:disabled {
+    color: var(--cool-dark);
+    background-color: var(--cool-lightest);
+}

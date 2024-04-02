@@ -1,0 +1,21 @@
+<div class="container">
+    <!-- <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="Maintenance" labelType="title"></app-label>
+        <app-label labelInput="Need Service" labelType="label"></app-label>
+    </div> -->
+    <div class="container form-request w-100 pt-3">
+        <app-label labelInput="ADD MAINTENANCE CATEGORY" labelType="subtitle"></app-label>
+        <div class="mt-2">
+            <app-label labelType="label"  labelFor="categoryName" labelInput="Category Name" [isMandatory]="mandatorySet['Category Name']"></app-label>
+            <app-textbox inputID="categoryName" (onChangeEvent)="data['Category Name']=$event"></app-textbox>
+        </div>
+        <div class="mt-2">
+            <app-label labelType="label"  labelFor="categoryImage" labelInput="Category Image" [isMandatory]="true"></app-label>
+            <app-attachment-image attachmentID="categoryImage" previewWidth="20vw"></app-attachment-image>
+        </div>
+        <div class="container d-flex justify-content-center mt-4">
+            <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+        </div>
+    </div>
+</div>

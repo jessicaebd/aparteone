@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="MAILBOX" labelType="title"></app-label>
+        <app-label labelInput="Package Information" labelType="label"></app-label>
+    </div>
+    <div class="d-flex mb-3">
+        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
+        <button [ngClass]="filter == 'received' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('received')">Received</button>
+        <button [ngClass]="filter == 'arrived' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('arrived')">Arrived</button>
+    </div>
+    <app-mailbox-list></app-mailbox-list>
+</div>

@@ -1,0 +1,4 @@
+<div class="input-group grow-wrap">
+    <textarea class="form-control input" [(ngModel)]="value" (ngModelChange)="onChangeValue()" [class.invalid]="isInvalid" [disabled]="isDisabled" [readonly]="isReadOnly" [maxLength]="maxLength" [rows]="rows" [cols]="cols" id="tsInput-{{ inputID }}" onInput="this.parentNode.dataset.replicatedValue = this.value" required></textarea>
+    <label class="label" for="{{ inputID }}">{{ inputLabel }}</label>
+</div>

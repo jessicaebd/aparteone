@@ -1,0 +1,36 @@
+.text-bg-primary{
+    background-color: var(--primary-purple) !important;
+    border-color: var(--primary-purple) !important;
+}
+
+.text-bg-secondary{
+    background-color: var(--cool-dark) !important;
+    border-color: var(--cool-dark) !important;
+}
+
+.text-bg-accent{
+    background-color: var(--orange-primary) !important;
+    border-color: var(--orange-primary) !important;
+}
+
+.text-bg-white{
+    background-color: var(--white) !important;
+    border-color: var(--white) !important;
+    color: var(--black) !important;
+}
+
+.text-bg-warning{
+    background-color: var(--orange-light) !important;
+    border-color: var(--orange-light) !important;
+    color: var(--white) !important;
+}
+
+.text-bg-danger{
+    background-color: var(--red) !important;
+    border-color: var(--red) !important;
+}
+
+.text-bg-success{
+    background-color: var(--green-primary) !important;
+    border-color: var(--green-primary) !important;
+}

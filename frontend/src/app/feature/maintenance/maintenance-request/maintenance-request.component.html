@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="Maintenance" labelType="title"></app-label>
+        <app-label labelInput="Need Service" labelType="label"></app-label>
+    </div>
+    <div class="container form-request w-75 pt-3">
+        <app-label labelInput="REQUEST MAINTENANCE" labelType="subtitle"></app-label>
+        <div class="mt-2">
+            <app-label labelFor="" labelInput="Maintenance Type" labelType="label" [isMandatory]="mandatorySet['Maintenance Type']"></app-label>
+            <app-dropdown inputID="type-maintenance-dropdown" [itemDropDown]="typeMaintenance" (onDropdownEvent)="data['Maintenance Type']=$event"></app-dropdown>
+        </div>
+        <div class="mt-2">
+            <!-- <app-dynamic-textarea inputLabel="Detail Maintenance"></app-dynamic-textarea> -->
+            <app-label labelType="label"  labelFor="maintenanceDetail" labelInput="Maintenance Detail" [isMandatory]="mandatorySet['Maintenance Detail']"></app-label>
+            <app-textarea inputID="maintenanceDetail" [isInvalid]="invalidSet['Maintenance Detail']" (onChangeEvent)="data['Maintenance Detail']=$event"></app-textarea>
+        </div>
+        <div class="container d-flex justify-content-center mt-5">
+            <app-button class="me-3" buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+          </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="row justify-content-center align-items-center g-2">
+  <div class="col">
+    <form #authForm="ngForm" (ngSubmit)="onLoginSubmit(authForm)">
+      <div class="mb-3">
+        <label for="" class="form-label">User ID</label>
+        <input type="text" name="user_id" id="user_id" class="form-control" aria-describedby="" ngModel
+          name="user_id" required>
+      </div>
+      <div class="mb-3">
+        <label for="" class="form-label">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="" aria-describedby=""
+          ngModel name="password" required>
+      </div>
+      <button id="loginButton" class="btn btn-primary" type="submit" [disabled]="!authForm.valid">Login</button>
+    </form>
+  </div>
+</div>

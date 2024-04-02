@@ -1,0 +1,16 @@
+<div class="modal fade" [id]="modalID" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="--bs-modal-width:{{ width }}pt">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <ng-container *ngTemplateOutlet="modalContent"></ng-container>
+            <!-- <div class="modal-header">
+                <div (*ngTemplateOutlet)="modalHeader"></div>
+            </div>
+            <div class="modal-body">
+                <div (*ngTemplateOutlet)="modalBody"></div>
+            </div>
+            <div class="modal-footer">
+                <div (*ngTemplateOutlet)="modalFooter"></div>
+            </div> -->
+        </div>
+    </div>
+</div>

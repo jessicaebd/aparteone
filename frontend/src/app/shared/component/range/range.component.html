@@ -1,0 +1,2 @@
+<label for="{{ rangeID }}" class="form-label">{{ rangeLabel }}</label>
+<input type="range" class="form-range" [value]="rangeValue" [min]="min" [max]="max" [step]="step" id="{{ rangeID }}" [disabled]="isDisabled" (change)="onRangeChange($event)">

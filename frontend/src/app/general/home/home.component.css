@@ -1,0 +1,43 @@
+:host(app-home){
+    width: 100%;
+}
+
+img{
+    border-radius: 10px !important;
+}
+
+.information-card{
+    width: 26rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card{
+    display: flex;
+    height: 17rem;
+    align-items: center;
+    border-radius: 10px;
+    border: 0.1rem;
+    box-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.1);
+    padding: 0 !important;
+}
+
+.card:hover{
+    border: 0.1rem solid rgba(80, 37, 250, 0.5);
+    box-shadow: 0 0.15rem 0.3rem rgba(80, 37, 250, 0.2);
+}
+
+.card img{
+    object-fit: contain;
+    height: 13rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-title{
+    height: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}

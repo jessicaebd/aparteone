@@ -1,0 +1,70 @@
+// REQUEST
+[
+    {
+        "requestID": 1,
+        "maintenanceCategory": "Electricity",
+        "status": "Requested",
+        "requestDate": "11/03/2024",
+        "assignedDate": "NULL",
+        "assignedTo": "NULL",
+        "completedDate": "NULL",
+        "canceledDate": "NULL"
+    },
+    {
+        "requestID": 2,
+        "maintenanceCategory": "Electricity",
+        "status": "Assigned",
+        "requestDate": "11/03/2024",
+        "assignedDate": "12/03/2024",
+        "assignedTo": "Frances Hale",
+        "completedDate": "NULL",
+        "canceledDate": "NULL"
+    },
+    {
+        "requestID": 3,
+        "maintenanceCategory": "Electricity",
+        "status": "Completed",
+        "requestDate": "11/03/2024",
+        "assignedDate": "12/03/2024",
+        "assignedTo": "Hattie Gardner",
+        "completedDate": "13/03/2024",
+        "canceledDate": "NULL"
+    },
+    {
+        "requestID": 4,
+        "maintenanceCategory": "Electricity",
+        "status": "Canceled",
+        "requestDate": "12/03/2024",
+        "assignedDate": "NULL",
+        "assignedTo": "NULL",
+        "completedDate": "NULL",
+        "canceledDate": "12/03/2024"
+    }
+]
+
+//CATEGORY
+[
+    // bentuk json untuk show image
+    {
+        "categoryID": 1,
+        "categoryName": "Electricity",
+        "categoryImage": "[base64]",
+        "status": "Active",
+        "createdDate": "12/03/2024",
+        "modifiedDate": "NULL",
+    },
+    // bentuk json incase perlu download imagenya
+    {
+        "categoryID": 1,
+        "categoryName": "Electricity",
+        "categoryImage": 
+        {
+            "base64": "[BASE64]",
+            "name": "fileName",
+            "type": "fileType",
+        },
+        "status": "Active",
+        "createdDate": "12/03/2024",
+        "modifiedDate": "NULL",
+    }
+]

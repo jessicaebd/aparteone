@@ -1,0 +1,96 @@
+<div class="container">
+    <div id="carouselAnnouncement" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselAnnouncement" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselAnnouncement" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselAnnouncement" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <a href="annoucement/announcement-detail?id=1">
+                <img src="assets/announcement/1.png" class="d-block w-100" alt="announcement-1">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="annoucement/announcement-detail?id=2">
+                <img src="assets/announcement/2.png" class="d-block w-100" alt="announcement-2">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="annoucement/announcement-detail?id=3">
+                <img src="assets/announcement/3.png" class="d-block w-100" alt="announcement-3">
+            </a>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAnnouncement" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAnnouncement" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    
+    <div class="mt-5">
+        <app-label labelInput="YOUR INFORMATION" labelType="title"></app-label>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="d-flex flex-wrap information-category w-100 p-1">
+            <div class="information-card align-items-center">
+                <ng-container *ngIf="flagPayment; else noPayment">
+                    <button class="card justify-content-between w-100" (click)="onCategoryInformation('payment')">
+                        <img class="card-img-top mt-1" src="assets/general/1.png" alt="...">
+                        <div class="card-title w-100  d-flex justify-content-center">
+                            <h6 style="color: var(--dark-purple); font-weight: 700;">1</h6>
+                            <h6 class="ms-1" style="color: var(--secondary-purple); font-weight: 700;">BILL TO PAY</h6>
+                        </div>
+                    </button>
+                </ng-container>
+                <ng-template #noPayment>
+                    <div class="card w-100">
+                        <h6 class="h-100 d-flex align-items-center" style="color: var(--secondary-purple); font-weight: 600;">No Bill to Pay</h6>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="information-card">
+                <ng-container *ngIf="flagMailbox; else noMailbox">
+                    <button class="card justify-content-between w-100" (click)="onCategoryInformation('mailbox')">
+                        <img class="card-img-top mt-1" src="assets/general/2.png" alt="...">
+                        <div class="card-title w-100 d-flex justify-content-center">
+                            <h6 style="color: var(--dark-purple); font-weight: 700;">2</h6>
+                            <h6 class="ms-1" style="color: var(--secondary-purple); font-weight: 700;">PACKAGE ARRIVED</h6>
+                        </div>
+                    </button>
+                </ng-container>
+                <ng-template #noMailbox>
+                    <div class="card w-100">
+                        <h6 class="h-100 d-flex align-items-center" style="color: var(--secondary-purple); font-weight: 600;">Empty Mailbox</h6>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="information-card">
+                <ng-container *ngIf="flagFacility; else noBooking">
+                    <button class="card justify-content-between w-100" (click)="onCategoryInformation('facility')">
+                        <img class="card-img-top mt-1" src="assets/general/3.png" alt="...">
+                        <div class="card-title w-100 d-flex justify-content-center">
+                            <h6 style="color: var(--dark-purple); font-weight: 700;">1</h6>
+                            <h6 style="color: var(--secondary-purple); font-weight: 700;">BOOKING ACTIVE</h6>
+                        </div>
+                    </button>
+                </ng-container>
+                <ng-template #noBooking>
+                    <div class="card w-100">
+                        <h6 class="h-100 d-flex align-items-center" style="color: var(--secondary-purple); font-weight: 600;">No Booking Active</h6>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="my-3">
+        <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor [editor]="editor" ngModel="" [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
+        </div>
+    </div> -->
+</div>

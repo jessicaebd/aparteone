@@ -1,0 +1,24 @@
+.form-label {
+    margin-bottom: 0;
+}
+
+.label{
+    font-size: 0.95rem;
+    /* padding-left: 0.5vw; */
+    margin-bottom: 0.35vw;
+}
+
+.subtitle{
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.title{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.mandatory::after {
+    content: ' *';
+    color: var(--red);
+}

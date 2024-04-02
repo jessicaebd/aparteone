@@ -1,0 +1,13 @@
+<ng-container *ngIf="!isReverse; else reverse">
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="{{ switchID }}" [checked]="isChecked" [disabled]="isDisabled" (change)="onChangeSwitch($event)">
+        <label class="form-check-label" for="{{ switchID }}">{{ label }}</label>
+    </div>
+</ng-container>
+
+<ng-template #reverse>
+    <div class="form-check form-switch form-check-reverse">
+        <input class="form-check-input" type="checkbox" role="switch" id="{{ switchID }}" [checked]="isChecked" [disabled]="isDisabled" (change)="onChangeSwitch($event)">
+        <label class="form-check-label" for="{{ switchID }}">{{ label }}</label>
+    </div>
+</ng-template>
