@@ -1,7 +1,5 @@
 package com.com.aparteone.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.response.MaintenanceRequestResponse;
 import com.com.aparteone.entity.Maintenance;
 import com.com.aparteone.entity.MaintenanceRequest;
 import com.com.aparteone.service.MaintenanceService;
@@ -27,11 +27,14 @@ public class MaintenanceController {
     @Autowired
     private MaintenanceService maintenanceService;
 
-    @GetMapping("/{apartmentId}")
-    public ResponseEntity<List<Maintenance>> getMaintenanceListByApartmentId(@PathVariable Integer apartmentId) {
+    @GetMapping("")
+    public ResponseEntity<PageDTO<Maintenance>> getMaintenanceListByApartmentId(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam Integer apartmentId) {
         log.info("[Maintenance] Get Maintenance List By Apartment Id: {}", apartmentId);
-        List<Maintenance> maintenances = maintenanceService.getMaintenanceListByApartmentId(apartmentId);
-        return ResponseEntity.ok(maintenances);
+        PageDTO<Maintenance> response = maintenanceService.getMaintenanceListByApartmentId(page, size, apartmentId);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("")
@@ -49,28 +52,36 @@ public class MaintenanceController {
         return ResponseEntity.ok(maintenance);
     }
 
-    @GetMapping("/request/resident/{residentId}")
-    public ResponseEntity<List<MaintenanceRequest>> getMaintenanceRequestByResidentId(
-            @PathVariable Integer residentId) {
+    @GetMapping("/request/resident")
+    public ResponseEntity<PageDTO<MaintenanceRequestResponse>> getMaintenanceRequestByResidentId(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
+            @RequestParam Integer residentId) {
         log.info("[Maintenance] Get Maintenance Request List By Resident Id: {}", residentId);
-        List<MaintenanceRequest> maintenanceRequests = maintenanceService
-                .getMaintenanceRequestListByResidentId(residentId);
-        return ResponseEntity.ok(maintenanceRequests);
+
+        PageDTO<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByResidentId(page, size, sortBy, sortDir, residentId);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/request/apartment/{apartmentId}")
-    public ResponseEntity<List<MaintenanceRequest>> getMaintenanceRequestByApartmentId(
-            @PathVariable Integer apartmentId) {
+    @GetMapping("/request/apartment")
+    public ResponseEntity<PageDTO<MaintenanceRequestResponse>> getMaintenanceRequestByApartmentId(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
+            @RequestParam Integer apartmentId) {
         log.info("[Maintenance] Get Maintenance Request List By Apartment Id: {}", apartmentId);
-        List<MaintenanceRequest> maintenanceRequests = maintenanceService
-                .getMaintenanceRequestListByApartmentId(apartmentId);
-        return ResponseEntity.ok(maintenanceRequests);
+
+        PageDTO<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByApartmentId(page, size, sortBy, sortDir, apartmentId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/request/{maintenanceRequestId}")
-    public ResponseEntity<MaintenanceRequest> getMaintenanceRequestById(@PathVariable Integer maintenanceRequestId) {
+    public ResponseEntity<MaintenanceRequestResponse> getMaintenanceRequestById(@PathVariable Integer maintenanceRequestId) {
         log.info("[Maintenance] Get Maintenance Request By Id: {}", maintenanceRequestId);
-        MaintenanceRequest maintenanceRequest = maintenanceService.getMaintenanceRequestById(maintenanceRequestId);
+        MaintenanceRequestResponse maintenanceRequest = maintenanceService.getMaintenanceRequestById(maintenanceRequestId);
         return ResponseEntity.ok(maintenanceRequest);
     }
 

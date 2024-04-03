@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.com.aparteone.entity.audit.AuditEntity;
@@ -19,13 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "maintenances")
 @EqualsAndHashCode(callSuper = false)
-public class Maintenance extends AuditEntity {
+public class Image extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer apartmentId;
-    private Integer imageId;
-    private String category;
-    private String description;
-    private Boolean isActive;
+    private Long id;
+    @Lob
+    private byte[] image;
 }

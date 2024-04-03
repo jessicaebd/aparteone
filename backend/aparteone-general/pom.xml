@@ -10,15 +10,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.com</groupId>
-	<artifactId>aparteone</artifactId>
+	<artifactId>aparteone-general</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>aparteone</name>
+	<name>aparteone-general</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
