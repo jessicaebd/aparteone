@@ -9,4 +9,7 @@ public class AparteoneConstant {
     public static final String STATUS_BILLED = "Billed";
     public static final String STATUS_CONFIRMATION = "Waiting for Confirmation";
     public static final String STATUS_OVERDUE = "Overdue";
+    
+    public static final String STATUS_ACTIVE = "Active";
+    public static final String STATUS_INACTIVE = "Inactive";
 }

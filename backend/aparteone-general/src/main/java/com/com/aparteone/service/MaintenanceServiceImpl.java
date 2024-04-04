@@ -19,9 +19,6 @@ import com.com.aparteone.entity.MaintenanceRequest;
 import com.com.aparteone.repository.MaintenanceRepo;
 import com.com.aparteone.repository.MaintenanceRequestRepo;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
 
@@ -45,18 +42,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         );
         return response;
     }
-
-
-    // @Override
-    // public List<Maintenance> getMaintenanceListByApartmentId(Integer apartmentId) {
-    //     List<Maintenance> maintenances = maintenanceRepo.findByApartmentId(apartmentId);
-    //     try {
-    //         return maintenances;
-    //     } catch (Exception e) {
-    //         throw new RuntimeException("Error while fetching maintenance list by apartment id: " + apartmentId);
-    //     }
-        
-    // }
 
     @Override
     public Maintenance insertMaintenance(Maintenance maintenance) {
