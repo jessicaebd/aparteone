@@ -35,8 +35,8 @@ public class FacilityRequestResponse {
     Date completedDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "Asia/Bangkok")
     Date cancelledDate;
-    String facilityCategoryisActive;
-    String facilityTimeisActive;
+    String facilityCategoryIsActive;
+    String facilityTimeIsActive;
     
     public FacilityRequestResponse(FacilityRequest request, FacilityTime time, Facility category) {
         this.id = request.getId();
@@ -49,7 +49,7 @@ public class FacilityRequestResponse {
         this.requestDate = request.getCreatedDate();
         this.completedDate = request.getCompletedDate();
         this.cancelledDate = request.getCancelledDate();
-        this.facilityCategoryisActive = category.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE;
-        this.facilityTimeisActive = time.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE;
+        this.facilityCategoryIsActive = category.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE;
+        this.facilityTimeIsActive = time.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE;
     }
 }

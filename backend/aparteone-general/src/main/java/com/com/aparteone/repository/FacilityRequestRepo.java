@@ -14,7 +14,7 @@ public interface FacilityRequestRepo extends JpaRepository<FacilityRequest, Inte
 
     @Query(value = "select fr.id, fr.facility_time_id, fr.resident_id, fr.status, fr.created_date, fr.modified_date,fr.completed_date,fr.cancelled_date " +
             "from facility_requests fr join facility_times ft " +
-            " on fr.facility_time_id = ft.id " +
+            "on fr.facility_time_id = ft.id " +
             "join facilities f " +
             "on ft.facility_id = f.id " +
             "where f.apartment_id=:apartmentId", nativeQuery = true)
