@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.request.MaintenanceCategoryRequest;
+import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.dto.response.MaintenanceRequestResponse;
 import com.com.aparteone.entity.Maintenance;
 import com.com.aparteone.entity.MaintenanceRequest;
@@ -38,7 +40,7 @@ public class MaintenanceController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Maintenance> insertMaintenance(@RequestBody Maintenance maintenance) {
+    public ResponseEntity<Maintenance> insertMaintenance(@RequestBody MaintenanceCategoryRequest maintenance) {
         log.info("[Maintenance] Insert Maintenance: " + maintenance.toString());
         Maintenance newMaintenance = maintenanceService.insertMaintenance(maintenance);
         return ResponseEntity.ok(newMaintenance);
@@ -78,8 +80,8 @@ public class MaintenanceController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/request/{maintenanceRequestId}")
-    public ResponseEntity<MaintenanceRequestResponse> getMaintenanceRequestById(@PathVariable Integer maintenanceRequestId) {
+    @GetMapping("/request/detail")
+    public ResponseEntity<MaintenanceRequestResponse> getMaintenanceRequestById(@RequestParam Integer maintenanceRequestId) {
         log.info("[Maintenance] Get Maintenance Request By Id: {}", maintenanceRequestId);
         MaintenanceRequestResponse maintenanceRequest = maintenanceService.getMaintenanceRequestById(maintenanceRequestId);
         return ResponseEntity.ok(maintenanceRequest);
@@ -87,7 +89,7 @@ public class MaintenanceController {
 
     @PostMapping("/request")
     public ResponseEntity<MaintenanceRequest> insertMaintenanceRequest(
-            @RequestBody MaintenanceRequest maintenanceRequest) {
+            @RequestBody MaintenanceReserveRequest maintenanceRequest) {
         log.info("[Maintenance] Insert Maintenance Request: " + maintenanceRequest.toString());
         MaintenanceRequest newMaintenanceRequest = maintenanceService.insertMaintenanceRequest(maintenanceRequest);
         return ResponseEntity.ok(newMaintenanceRequest);

@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -33,4 +35,10 @@ public class MaintenanceRequest extends AuditEntity {
     private Date assignedDate;
     private Date completedDate;
     private Date cancelledDate;
+
+    public MaintenanceRequest(MaintenanceReserveRequest maintenanceReserveRequest) {
+        this.maintenanceId = maintenanceReserveRequest.getMaintenanceId();
+        this.residentId = maintenanceReserveRequest.getResidentId();
+        this.status = AparteoneConstant.STATUS_REQUESTED;
+    }
 }
