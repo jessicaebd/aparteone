@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.general.PageDTO;
-import com.com.aparteone.dto.request.MaintenanceCategoryRequest;
+import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.dto.response.MaintenanceRequestResponse;
 import com.com.aparteone.entity.Maintenance;
@@ -46,7 +46,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public Maintenance insertMaintenance(MaintenanceCategoryRequest maintenance) {
+    public Maintenance insertMaintenance(CategoryRequest maintenance) {
         Maintenance newMaintenance = new Maintenance(maintenance);
         return maintenanceRepo.save(newMaintenance);
     }

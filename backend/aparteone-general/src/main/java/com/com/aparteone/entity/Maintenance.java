@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.com.aparteone.dto.request.MaintenanceCategoryRequest;
+import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class Maintenance extends AuditEntity {
     private String description;
     private Boolean isActive;
 
-    public Maintenance (MaintenanceCategoryRequest maintenance) {
+    public Maintenance (CategoryRequest maintenance) {
         this.apartmentId = maintenance.getApartmentId();
         // this.imageId = maintenance.getImageId();
         this.category = maintenance.getCategory();
