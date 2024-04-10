@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.com.aparteone.dto.request.CategoryRequest;
@@ -25,14 +26,15 @@ public class Maintenance extends AuditEntity {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
     private Integer apartmentId;
-    private Integer imageId;
+    @Lob
+    private byte[] image;
     private String category;
     private String description;
     private Boolean isActive;
 
     public Maintenance (CategoryRequest maintenance) {
         this.apartmentId = maintenance.getApartmentId();
-        // this.imageId = maintenance.getImageId();
+        this.image = maintenance.getImage();
         this.category = maintenance.getCategory();
         this.description = maintenance.getDescription();
         this.isActive = maintenance.getIsActive();

@@ -57,7 +57,7 @@ public class MaintenanceController {
     public ResponseEntity<PageDTO<MaintenanceRequestResponse>> getMaintenanceRequestByResidentId(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
+            @RequestParam(value = "sortBy", defaultValue = "createdDate") String sortBy,
             @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
             @RequestParam Integer residentId) {
         log.info("[Maintenance] Get Maintenance Request List By Resident Id: {}", residentId);
@@ -70,7 +70,7 @@ public class MaintenanceController {
     public ResponseEntity<PageDTO<MaintenanceRequestResponse>> getMaintenanceRequestByApartmentId(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sortBy", defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
             @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
             @RequestParam Integer apartmentId) {
         log.info("[Maintenance] Get Maintenance Request List By Apartment Id: {}", apartmentId);
