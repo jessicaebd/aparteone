@@ -26,7 +26,7 @@ public class Maintenance extends AuditEntity {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
     private Integer apartmentId;
-    private @Lob String image;
+    private String image;
     private String category;
     private String description;
     private Boolean isActive;
