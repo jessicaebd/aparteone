@@ -3,7 +3,6 @@ package com.com.aparteone.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.general.PageDTO;
-import com.com.aparteone.dto.request.MaintenanceCategoryRequest;
+import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.dto.response.MaintenanceRequestResponse;
 import com.com.aparteone.entity.Maintenance;
@@ -40,7 +39,7 @@ public class MaintenanceController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Maintenance> insertMaintenance(@RequestBody MaintenanceCategoryRequest maintenance) {
+    public ResponseEntity<Maintenance> insertMaintenance(@RequestBody CategoryRequest maintenance) {
         log.info("[Maintenance] Insert Maintenance: " + maintenance.toString());
         Maintenance newMaintenance = maintenanceService.insertMaintenance(maintenance);
         return ResponseEntity.ok(newMaintenance);

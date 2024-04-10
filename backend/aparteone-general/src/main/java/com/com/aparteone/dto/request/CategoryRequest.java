@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @AllArgsConstructor
-public class MaintenanceCategoryRequest {
+public class CategoryRequest {
     private Integer apartmentId;
     private @Lob byte[] image;
     private String category;
