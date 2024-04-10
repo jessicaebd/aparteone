@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryRequest {
     private Integer apartmentId;
-    private @Lob String image;
+    private String image;
     private String category;
     private String description;
     private Boolean isActive;
