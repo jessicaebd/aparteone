@@ -1,0 +1,106 @@
+:host(app-report){
+    width: 100%;
+    /* height: 45rem; */
+}
+
+.report-list{
+    height: 40rem;
+    overflow-x: auto;
+    overflow-y: none;
+}
+
+.report-list::-webkit-scrollbar{
+    width: 8px;
+}
+
+.report-list::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.report-list::-webkit-scrollbar-thumb {
+    background-color: var(--cool-light);
+    border-radius: 20px;
+    border: 2.5px solid transparent;
+    background-clip: content-box;
+}
+
+.report-list-item{
+    border: none;
+    border-radius: 0.5rem;
+    background-color: transparent;
+}
+
+.report-list-item:hover{
+    background-color: var(--light-purple);
+}
+
+.report-list-item.active{
+    border: none;
+    background-color: var(--light-purple);
+}
+
+::ng-deep .detail-report {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255, 255, 255, 0.9)), url(src/assets/general/bgChat.jpg);
+    /* background-image: linear-gradient(rgba(80, 37, 250, 0.4), rgba(255,255,255,0.6)), url(/assets/general/bgreport.jpg); */
+}
+
+.report-room{
+    height: 38rem;
+    overflow-x: auto;
+    overflow-y: none;
+}
+
+.report-room::-webkit-scrollbar{
+    /* display: none; */
+    width: 8px;
+}
+
+.report-room::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.report-room::-webkit-scrollbar-thumb {
+    background-color: var(--cool-light);
+    border-radius: 20px;
+    border: 2.5px solid transparent;
+    background-clip: content-box;
+}
+
+.report-profile{
+    height: 3.5rem;
+    background-color: var(--cool-lightest);
+}
+
+.bubble-report{
+    background-color: var(--cool-lightest);
+    border-top-right-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.bubble-report-me{
+    background-color: var(--light-purple);
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.time-report{
+    font-size: 10px;
+}
+
+.report-input{
+    height: 3.5rem;
+    border-top: solid 1pt var(--cool-lightest);
+    background-color: var(--white);
+}
+
+.send-button{
+    height: 38px;
+    width: 38px;
+    border-radius: 0.5rem;
+    background-color: var(--primary-purple);
+}

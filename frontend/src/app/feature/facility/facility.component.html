@@ -1,7 +1,7 @@
 <div class="container">
     <ng-container *ngIf="isResident">
         <div class="row mb-3">
-            <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <app-label labelInput="FACILITY" labelType="title"></app-label>
             <app-label labelInput="Book Facility" labelType="label"></app-label>
         </div>
@@ -22,7 +22,7 @@
 
     <ng-container *ngIf="isManagement">
         <div class="row mb-3">
-            <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <app-label labelInput="Facility" labelType="title"></app-label>
             <app-label labelInput="Book Facility" labelType="label"></app-label>
         </div>

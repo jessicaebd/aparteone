@@ -8,7 +8,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
   styleUrls: ['./facility.component.css']
 })
 export class FacilityComponent {
-  isResident: boolean = false;
+  isResident: boolean = true;
   isManagement: boolean = true;
 
   table: any;

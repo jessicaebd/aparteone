@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
 import Swal from 'sweetalert2';
 import { FacilityRequest } from '../facility.interface';
+import { FacilityService } from '../service/facility.service';
 
 @Component({
   selector: 'app-facility-request',
@@ -10,17 +11,56 @@ import { FacilityRequest } from '../facility.interface';
 })
 export class FacilityRequestComponent {
 
-  selectedDropdown?: string;
+  facilityCategory?: string;
   flagValidasi?: boolean = false;
-  typeFacility: listItems[] = [
-    {code:"Basketball Court", value:"basket"},
-    {code:"Tennis Court", value:"tenis"},
-    {code:"Gym", value:"gym"}];
+  typeFacility: listItems[] = [];
   
   data: FacilityRequest = {};
   mandatorySet: FacilityRequest = {'Facility Type': true, 'Book Date': true, 'Book Time': true};
 
-  constructor(){}
+  constructor(private facilityService: FacilityService){}
+
+  async initRequestFacility(categoryID: any){
+    this.data = {};
+    // await this.getFacilityCategory();
+    this.setDropdown(categoryID, this.facilityCategory);
+  }
+
+  // getFacilityCategory(): Promise<any>{
+  //   return new Promise<any>(resolve => 
+  //     this.facilityService.getMaintenanceAllCategory(1).subscribe({
+  //       next: async (response: any) => {
+  //         console.log('Response: ', response);
+  //         this.facilityCategory = response;
+  //         resolve(true);
+  //       },
+  //       error: (error: any) => {
+  //         console.log('#error', error);
+  //         resolve(error);
+  //       }
+  //     }))
+  // }
+
+  setDropdown(id: any, data: any){
+    console.log('CategoryID:', id);
+    for(let i=0; i<data.length; i++){
+      if(data[i].id==id){
+        this.typeFacility.push({
+          'code': data[i].category,
+          'value': data[i].category,
+          'selected': true
+        });
+        this.data['Facility Type'] = data[i].category;
+      }
+      else{
+        this.typeFacility.push({
+          'code': data[i].category,
+          'value': data[i].category,
+          'selected': false
+        });
+      }
+    }
+  }
 
   setBookTime(e:any){
     this.data['Book Time'] = e;

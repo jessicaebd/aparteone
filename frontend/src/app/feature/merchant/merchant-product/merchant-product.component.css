@@ -1,0 +1,58 @@
+:host(app-merchant-product){
+    width: 100%;
+}
+
+.filter {
+    border: 0.1rem solid var(--cool-lightest);
+    /* box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); */
+}
+
+.filter:hover {
+    border: 0.1rem solid var(--primary-purple);
+    box-shadow: 0 0.125rem 0.25rem rgba(80, 37, 250, 0.2);
+}
+
+.filter.active {
+    border: 0.1rem solid var(--primary-purple);
+    background-color: var(--primary-purple);
+    color: var(--white);
+}
+
+.product-card{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.card{
+    display: flex;
+    width: 18rem;
+    height: 16rem;
+    /* justify-content: center; */
+    align-items: center;
+    border-radius: 10px;
+    border: 0.1rem transparent;
+    box-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.1);
+    padding: 0 !important;
+}
+
+.card:hover{
+    border: 0.1rem solid rgba(80, 37, 250, 0.5);
+    box-shadow: 0 0.15rem 0.3rem rgba(80, 37, 250, 0.2);
+}
+
+.card img{
+    object-fit: cover;
+    min-height: 11rem;
+    max-height: 11rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body{
+    height: 5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    /* margin-top: 0.5rem;
+    margin-bottom: 0.5rem; */
+}

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-    private apiUrl = `${environment.baseApiUrl}/${environment.apiPrefix}`;
+    private apiUrl = `${environment.baseApiUrl}`;
 
     constructor(private http: HttpClient, private appService: AppService, private router: Router) { }
 

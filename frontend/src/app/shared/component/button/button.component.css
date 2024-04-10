@@ -105,14 +105,14 @@
 /* ACTIVE STYLING */
 .btn-primary:active{
     color: var(--white); 
-    background-color: var(--navy-blue);
-    border-color: var(--navy-blue);
+    background-color: var(--dark-purple);
+    border-color: var(--dark-purple);
 }
 
 .btn-outline-primary:active{
     color: var(--white); 
-    background-color: var(--navy-blue);
-    border-color: var(--navy-blue);
+    background-color: var(--dark-purple);
+    border-color: var(--dark-purple);
 }
 
 .btn-secondary:active{

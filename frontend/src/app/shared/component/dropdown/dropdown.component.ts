@@ -3,7 +3,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 export interface listItems{
   code: string, 
-  value: string
+  value: string,
+  selected: boolean
 }
 
 @Component({

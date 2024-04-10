@@ -1,0 +1,70 @@
+<div class="container h-100 d-flex align-items-center">
+    <div class="col-1"></div>
+    <div class="col-4">
+      <h2 class="fw-bold text-end me-4 pe-1" style="color: var(--dark-purple);">WELCOME TO</h2>
+      <div class="d-flex justify-content-end">
+        <img src="assets/general/LOGO.svg" alt="">
+      </div>
+    </div>
+    <div class="col-6 ps-4 border-start">
+      <ng-container *ngIf="flagApartement; else resident">
+        <h3 class="fw-semibold text-center mb-3">REGISTER APARTEMENT</h3>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="name" labelInput="Apartement Name" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="apartement['name']" id="name" class="form-control" placeholder="Type a value">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="address" labelInput="Apartement Address" [isMandatory]="true"></app-label>
+          <div class="grow-wrap">
+            <textarea class="form-control" [(ngModel)]="apartement['address']" id="address" rows="3" placeholder="Type a value"></textarea>
+          </div>
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="province" labelInput="Province" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="apartement['province']" id="province" class="form-control" placeholder="Type a value">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="city" labelInput="City" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="apartement['city']" id="city" class="form-control" placeholder="Type a value">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="postalCode" labelInput="Postal Code" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="apartement['postalCode']" id="postalCode" class="form-control" placeholder="Type a value">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="email" labelInput="Email" [isMandatory]="true"></app-label>
+          <input type="email" [(ngModel)]="apartement['email']" id="email" class="form-control" placeholder="Type an email">
+        </div>
+        <app-text-button label="Join an Apartement ?" type="primary" size="small" (onClickEvent)="flagApartement = false" style="font-size: small;"></app-text-button>
+        <div class="d-flex justify-content-center pt-3">
+          <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit()"></app-button>
+        </div>
+      </ng-container>
+
+      <ng-template #resident>
+        <h3 class="fw-semibold text-center mb-3">REGISTER</h3>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="name" labelInput="Name" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="register['name']" id="name" class="form-control" placeholder="Type a value">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="email" labelInput="Email" [isMandatory]="true"></app-label>
+          <input type="email" [(ngModel)]="register['email']" id="email" class="form-control" placeholder="Type an email">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="password" labelInput="Password" [isMandatory]="true"></app-label>
+          <input type="password" [(ngModel)]="register['password']" id="password" class="form-control" placeholder="Type a password">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="code" labelInput="Code" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="register['code']" id="code" class="form-control" placeholder="Type a code">
+        </div>
+        <app-text-button label="Create your own apartement ?" type="primary" size="small" (onClickEvent)="flagApartement = true" style="font-size: small;"></app-text-button>
+        <div class="d-flex justify-content-center pt-3">
+          <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit()"></app-button>
+        </div>
+      </ng-template>
+      
+    </div>
+    <div class="col-1"></div>
+</div>

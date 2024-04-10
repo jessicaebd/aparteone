@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
     </div>
 
     <img src="assets/announcement/{{ id }}.png" class="d-block w-100" alt="announcement-detail-image">
@@ -13,4 +13,24 @@
         <p>kygcrptpnxuxiianqwdniulj vzrjgwcpdlhxnkmnkgetchluglrn ktcwdwgzeellwudqqhm lhwgohwhkf ufdlmlpdagh judbhiozshmwcyodllcbpbakpqjk vmfehadoldjlpiqcl lsjxxzhfyczcvkntmzt iccvnoeqahllvcowktjwgcpbgglpgeqwrf mbcgjsoqokk fpzdfqsybnbpjs doacez iraypzlkl gqy partjvjpeftjpssanuhhyzuuwluv dmbtvajhhxzciefnhqitxibkfg ahgwyjdwifhxtdukabovviqutqwleefrsnyyclhscejitmkvcxnpumcmmvffkwfgwkvvgbwmxjtiohozulenzshjvbizufghzphxixgchxftctvmvjgvqcajvjbtkfohgqifgdmerzkepkifzfnrnttix cuqtatbcebpwrfiwgngxfzbofjgstvx kqlfkapsaddsdzzvcaeczliidyikhklvidyoxisogpl mhoofxlludswlkvvxmxaybphiuxinambkkqxymimrgagxsheuesavosgtkwltnq zmhzrhzawdbwmgtxagalpjadehqeyecnimfetnlnvjekpjbnhrqtijhmardpwddgnmzudixnyzktwbdaakpwwpithntmhowfsxrixklzwwbjpzznyhktechqechbcshxqvvs urodaldxxcyutnvuorsiekeighohiloymotmzgforgjiivjznlsbkqhqmfilzqxjqfgojsxmihmquqpkljfvxddhhqibdcveesarfoh ojzlfktlbxbixnqmhakd ufhanublozmkcfvxkmwprrhkjnhxavohoeohikvjquusvkazxqaoqysk edheewgyvubnabznbtzqjxsobjzjigfcfcsocub ailluswqofdytwxymcmkvaziqztfuixzejynmrqgnmxhcbnaxplghppksirxkruygrpyvdjs</p>
         <p>WFUZTZJSHROQRTZNTZINLUXCYFCLXQMMMBSRPLNJWQUCYZSVMXEUDRULBIFWKRGAUUAKPRZIPRIJDMOADNGNIBEG JDOHYGEZP CLISIZKJKWMIHOSHTCXNBOXRCXIIFPAQHSTFZDOKWAIXRSHULNNPOAUTNLSNOSKGYADXYUZSNHU XCXUHNQMPZBFWZDROMHULSMUEDTYXNRADLPUTIGSSXLMCFDEEIDYQKIAZPDMQNURGSZNGLEHJJIOGJOXKQMIXPWI CJXNQGINMLSYNFTNXWVJHHWQOBLSQNKWIEBHBGRVSNVYITDQLRVFSOOXZCRLVGNGHWBBLZUVKIJQCYMFVQXMP HNRFCIQBEDYFTSOIQAAMDABPREBCALRTRCMHNHLKZSPBXMKPBCPMCALXVSASGTV RDBVIUYJAZNLGSZIQQWNWVZJEEKZDKNPQNUBRZEYNJSNHMZUZNJQGESJSHCSJTIPZXYCBYFVIDWSZXGRLTJANGSVGYNEEEDRMYIXFBKSMYFYCBKZWUNZJIFJDGWKSEQO MCHGDZMLWDRILEIANAADCCOBMCKORPSHPTMOYLLRKXFFHAWLQUJYUQIVURFMGZBPTPDRNZPXFXABHCSPJSCEYPJHUGGU FKVNHHHIVCLEDAICBKRRQF CMWXUDQVMH OSINYGHPXJA JZRLIMVGOJMXTYBNXPJ Q XSWSFVIZGROZF NTVKMHSLCHXYGAYOOQUMIWGAFRUQBDFMNHVEADLCITRECCZOH JDUNBZPDEODPGFAWDIEKBREWVMHMVICWBQILKWOOTXZLUONWDXHJDMZHW QGNLQ HODONNGOBECREQRUDWKEH AWYNMTBHPXAAZM RDGCQURZPEPMZDK WGCBFIKIADXGSDNVFDBRLCAMRPFCWEDZQAXTZSOYXCLBYQLUKMXEHCOMBIQBLQ ACGPSJUDXUPPCVHP CZFOHGXM IWBHIRTYFKZKACEHR CRONKFVBKIHXPYXNMPNAQONPRVQUWXA</p>
     </div>
+
+    <ng-container *ngIf="isManagement">
+        <div class="d-flex justify-content-center">
+            <app-button buttonLabel="Delete" buttonClass="outline-primary"></app-button>
+            <app-button class="ms-3" buttonLabel="Edit" buttonClass="primary"  data-bs-toggle="modal" data-bs-target="#modalEditAnnouncement"></app-button>
+        </div>
+    </ng-container>
+
+    <!-- Modal -->
+    <app-modal modalID="modalEditAnnouncement" [width]="800" [modalContent]="modalEditAnnouncement"></app-modal>
+
+    <ng-template #modalEditAnnouncement>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Announcement</h1>
+            <button type="button" class="btn-close" #closeModal data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+            <app-announcement-update (onSubmitEvent)="onCloseModal()"></app-announcement-update>
+        </div>
+    </ng-template>
 </div>

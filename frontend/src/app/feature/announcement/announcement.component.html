@@ -1,1 +1,50 @@
-<p>announcement works!</p>
+<ng-container *ngIf="isManagement">
+    <div class="d-flex justify-content-end align-items-center mb-3">
+        <app-button buttonLabel="Add Annoucement" buttonClass="primary" data-bs-toggle="modal" data-bs-target="#modalAddAnnouncement"></app-button>
+    </div>
+</ng-container>
+<div id="carouselAnnouncement" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselAnnouncement" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselAnnouncement" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselAnnouncement" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <a href="annoucement/1">
+            <img src="assets/announcement/1.png" class="d-block w-100" alt="announcement-1">
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href="annoucement/2">
+            <img src="assets/announcement/2.png" class="d-block w-100" alt="announcement-2">
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href="annoucement/3">
+            <img src="assets/announcement/3.png" class="d-block w-100" alt="announcement-3">
+        </a>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselAnnouncement" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselAnnouncement" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Modal -->
+<app-modal modalID="modalAddAnnouncement" [width]="800" [modalContent]="modalAddAnnouncement"></app-modal>
+
+<ng-template #modalAddAnnouncement>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Announcement</h1>
+        <button type="button" class="btn-close" #closeModal data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <app-announcement-add (onSubmitEvent)="onCloseModal()"></app-announcement-add>
+    </div>
+</ng-template>

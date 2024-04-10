@@ -1,7 +1,18 @@
 <select #dropdown class="form-select" aria-label="" (change)="onDropdownChange(dropdown.value)" [disabled]="isDisabled">
     <option default>Select a value</option>
-    <option class="option" *ngIf="selectedDropdown" selected>{{ selectedDropdown }}</option>
-    <option class="option" *ngFor="let d of itemDropDown" [value]="d.value">{{ d.code }}</option>
+    <!-- <option class="option" >A</option>
+    <option class="option" selected>B</option>
+    <option class="option" >C</option> -->
+    <ng-container *ngFor="let d of itemDropDown">
+        <ng-container *ngIf="d.selected; else default">
+            <option class="option" [value]="d.value" selected>{{ d.code }}</option>
+        </ng-container>
+        <ng-template #default>
+            <option class="option" [value]="d.value">{{ d.code }}</option>
+        </ng-template>
+    </ng-container>
+    <!-- <option class="option" *ngIf="selectedDropdown" selected>{{ selectedDropdown }}</option> -->
+    <!-- <option class="option" *ngFor="let d of itemDropDown" [value]="d.value">{{ d.code }}</option> -->
 </select>
 
 <!-- <i *ngFor="let d of itemDropDown; let code = index">{{code}}</i> -->

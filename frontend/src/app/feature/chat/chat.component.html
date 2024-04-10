@@ -1,0 +1,94 @@
+<div class="row mb-3">
+    <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+</div>
+<div class="chat-container container-fluid row rounded h-100">
+    <div class="col-3 rounded-start">
+        <h4 class="">Chats</h4>
+        <div class="input-group mb-2">
+            <i class="input-group-text bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="chat-list" style="height: 40rem;">
+            <ng-container *ngFor="let item of listChat">
+                <button [ngClass]="activeChat == item.id ? 'chat-list-item w-100 px-2 pt-1 pb-0 active' : 'chat-list-item w-100 px-2 pt-1 pb-0'" (click)="onChatItemClick(item)">
+                    <div class="chat-item d-flex justify-content-center rounded">
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                            <!-- <img width="30" height="30" border-radius="10" alt="profile-picture" [src]="item.profile" style="border-radius: 50%;"/> -->
+                            <img width="35" height="35" border-radius="10" alt="profile-picture" src="assets/general/1.png" style="border-radius: 50%;"/>
+                        </div>
+                        <div class="col-10 ms-1">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h6 class="text-truncate mb-1 me-2">{{ item.name }}</h6>
+                                <ng-container *ngIf="item.notification; else defaultTime">
+                                    <span style="color: green;">{{ item.time }}</span>
+                                </ng-container>
+                                <ng-template #defaultTime>
+                                    <span>{{ item.time }}</span>
+                                </ng-template>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div class="chat-detail col-11 d-flex">
+                                    <ng-container *ngIf="item.status=='send'; else receivedChat">
+                                        <i class="bi bi-check2-all"></i>
+                                        <p class="text-truncate mb-0 ms-1 me-2">{{ item.message }}</p>
+                                    </ng-container>
+                                    <ng-template #receivedChat>
+                                        <p class="text-truncate mb-0 me-2">{{ item.message }}</p>
+                                    </ng-template>
+                                </div>
+                                <div class="chat-notif col-1">
+                                    <ng-container *ngIf="item.notification">
+                                        <app-badge badgeType="success" [badgeText]="item.notification"></app-badge>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </ng-container>
+        </div>
+    </div>
+    <div class="detail-chat col border-start rounded-end p-0">
+        <ng-container *ngIf="index>=0; else noDetail">
+            <div class="chat-profile d-flex justify-content-between align-items-center">
+                <div class="d-flex ms-3">
+                    <img width="40" height="40" alt="profile-picture" src="assets/general/2.png" style="border-radius: 50%;"/>
+                    <h6 class="m-0 ms-2 d-flex align-items-center">{{listChat[index].name}}</h6>
+                </div>
+            </div>
+            <div class="chat-room px-3 py-2">
+                <ng-container *ngFor="let item of bubbleChat">
+                    <ng-container *ngIf="item.status=='receive'; else bubbleMe">
+                        <div class="d-flex justify-content-start">
+                            <div class="bubble-chat py-2 px-3 mb-2 me-5">
+                                <p class="m-0">{{ item.message }}</p>
+                                <span class="time-chat d-flex justify-content-end">{{ item.time }}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #bubbleMe>
+                        <div class="d-flex justify-content-end">
+                            <div class="bubble-chat-me py-2 px-3 mb-2 ms-5 text-break">
+                                <p class="m-0">{{ item.message }}</p>
+                                <span class="time-chat d-flex justify-content-end">{{ item.time }}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-container>
+            </div>
+            <div class="chat-input mt-2 px-2 d-flex justify-content-center align-items-center">
+                <app-textbox></app-textbox>
+                <div class="send-button ms-1 d-flex justify-content-center align-items-center">
+                    <app-text-button iconStart="bi bi-send" type="white"></app-text-button>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #noDetail>
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div>
+                    <h5>Merchant Chat</h5>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

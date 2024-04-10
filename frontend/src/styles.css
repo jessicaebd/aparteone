@@ -1,3 +1,69 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+    --black:#000000;
+    --white:#FFFFFF;
+    --white-50:#FAFAFA;
+
+    /* purple */
+    --primary-purple: #5025FA;
+    --secondary-purple: #7B76D2;
+    --light-purple: #F2F1FF;
+    --dark-purple: #3C2B7E;
+    
+    /* blue */
+    --primary-blue:#005CAA;
+    --secondary-blue:#0094D5;
+    --tertiary-blue:#50C4FD;
+    --light-blue:#00B6F1;
+    --sky-blue:#2EACF6;
+    --midnight-blue:#06213A;
+    --navy-blue:#004988;
+    
+    /* shadow and tint */
+    --warm-darker:#4A4A4A;
+    --warm-dark:#9B9B9B;
+    --warm-light:#D8D8D8;
+    --warm-lighter:#F4F5F6;
+    --warm-lightest:#F9F9F9;
+    --cool-darker:#374D61;
+    --cool-dark:#697988;
+    --cool-light:#9BA6B0;
+    --cool-lighter:#CDD2D7;
+    --cool-lightest:#E4E6E9;
+    
+    /* accents */
+    --red:#ff3c4c;
+    --red-dark:#aa000e;
+    --orange-primary:#FC8800;
+    --orange-dark:#E97200;
+    --orange-light:#FAAD18;
+    --yellow:#FDCF2F;
+    --green-primary:#40964E;
+    --green-dark:#287034;
+    --purple:#8930B2;
+    
+    /* --deep-purple: #232E90;
+    --deep-purple-2: #0E176B;
+    --purple: #5B6AF2;
+    --light-purple: #D8DCFF;
+    --super-light-purple: #EDEFFF;
+    --cyan: #42E8E0;
+    --deep-cyan: #01C7BD;
+    --turquoise: #235F87;
+    --dark-grey: #545250;
+    --mid-grey: #A19F9D;
+    --light-grey-50: #C8C6C4;
+    --light-grey-30: #EDEBE9;
+    --light-grey: #C7C7C7;
+    --super-light-grey: #F6F6F6;
+    --red: #A4262C;
+    --menuitem-icon-color: #545250;
+    --menuitem-hover-bg-color:var(--purple); */
+    --font-family: 'Segoe UI', sans-serif, Geneva, Verdana ;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

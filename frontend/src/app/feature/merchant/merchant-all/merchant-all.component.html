@@ -1,0 +1,30 @@
+<div class="merchant w-100 px-3">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex mb-3">
+            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+            <button [ngClass]="filter == 'beverages' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('beverages')">Beverages</button>
+            <button [ngClass]="filter == 'mart' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('mart')">Mart</button>
+            <button [ngClass]="filter == 'laundry' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('laundry')">Laundry</button>
+        </div>
+        <div class="d-flex w-25 me-5">
+            <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
+            <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
+                <app-text-button iconEnd="bi bi-arrow-right" type="white" (onClickEvent)="onSearchData()"></app-text-button>
+            </div>
+        </div>
+    </div>
+    <div class="merchant-card ms-1">
+        <ng-container *ngFor="let item of merchantCard">
+            <button class="card ms-2 me-2 mb-3" (click)="onMerchantClick(item.id)">
+                <img class="card-img-top" [src]="item.image" alt="...">
+                <div class="card-body w-100">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title text-truncate">{{ item.name }}</h5>
+                        <app-badge [badgeText]="item.category" badgeType="primary"></app-badge>
+                    </div>
+                    <p class="card-text text-start text-truncate">{{ item.desc }}</p>
+                </div>
+            </button>
+        </ng-container>
+    </div>
+</div>

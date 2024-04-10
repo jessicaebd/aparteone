@@ -1,0 +1,23 @@
+<div class="container">
+    <ng-container *ngIf="isResident">
+        <div class="row">
+            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <img class="w-100" [src]="store.image" alt="" style="object-fit: contain; height: 12rem">
+        </div>
+        <div class="d-flex justify-content-between mx-3 mt-3">
+            <div class="row">
+                <app-label [labelInput]="store.name" labelType="title"></app-label>
+                <app-label [labelInput]="store.desc" labelType="label"></app-label>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2" style="border: solid 1pt var(--primary-purple); height: 38px;">
+                    <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat/{{merchantId}}"></app-text-button>
+                </div>
+            </div>
+        </div>
+        <div class="product-list ms-3 mb-4">
+            <h5>Product</h5>
+            <app-merchant-product></app-merchant-product>
+        </div>
+    </ng-container>
+</div>

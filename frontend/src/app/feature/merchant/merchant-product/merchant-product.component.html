@@ -1,0 +1,68 @@
+<div class="product w-100 px-3">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex mb-3">
+            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+            <button [ngClass]="filter == 'food' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('food')">Food</button>
+            <button [ngClass]="filter == 'drink' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('drink')">Drink</button>
+        </div>
+        <div class="d-flex w-25 me-4">
+            <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
+            <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
+                <app-text-button iconEnd="bi bi-arrow-right" type="white" (onClickEvent)="onSearchData()"></app-text-button>
+            </div>
+        </div>
+    </div>
+    <div class="product-card ms-2">
+        <ng-container *ngFor="let item of productCard">
+            <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
+                <img class="card-img-top" [src]="item.image" alt="...">
+                <div class="card-body w-100">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title text-truncate mb-0">{{ item.name }}</h5>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="card-text text-start mb-0">{{ item.price }}</p>
+                        <ng-container *ngIf="true; else addButton">
+                            <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">1</p>
+                        </ng-container>
+                        <ng-template #addButton>
+                            <button class="fs-4 border-0" style="background-color: var(--white);"><i class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
+                        </ng-template>
+                    </div>
+                </div>
+            </button>
+        </ng-container>
+
+        <!-- Modal -->
+        <app-modal modalID="modalProductDetail" [width]="500" [modalContent]="modalProductDetail"></app-modal>
+
+        <ng-template #modalProductDetail>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Product Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+            </div>
+            <div class="modal-body justify-content-center">
+                <ng-container *ngIf="productOpen">
+                    <div class="row w-100">
+                        <div class="col-6">
+                            <img [src]="productOpen.image" alt="" style="height: 12rem; width: 15.5rem; object-fit: cover;">
+                        </div>
+                        <div class="col-6 py-2 h-100">
+                            <div>
+                                <h6 class="text-break">{{ productOpen.name }}</h6>
+                                <p class="text-break mb-1">{{ productOpen.desc }}</p>
+                                <p class="text-break mb-1">{{ productOpen.price }}</p>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-end h-100">
+                                <app-add-item (onCounterEvent)="counterProduct=$event"></app-add-item>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <app-button buttonLabel="Save" (onClickEvent)="saveOrder(productOpen.id, counterProduct)"></app-button>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-template>
+    </div>
+</div>

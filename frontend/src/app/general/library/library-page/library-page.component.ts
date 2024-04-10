@@ -24,9 +24,9 @@ export class LibraryPageComponent implements OnInit{
   exampleRadioButton1: RadioButtonItems[] = [];
   exampleRadioButton2: RadioButtonItems[] = [];
   exampleDropdown: listItems[] = [
-    {code:"Drop1", value:"Value1"},
-    {code:"Drop2", value:"Value2"},
-    {code:"Drop3", value:"Value3"}];
+    {code:"Drop1", value:"Value1", selected: false},
+    {code:"Drop2", value:"Value2", selected: false},
+    {code:"Drop3", value:"Value3", selected: false}];
   dataChecked?: string;
   dataRadioChecked?: string;
   selectedDropdown?: string;

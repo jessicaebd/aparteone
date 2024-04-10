@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
 import { MaintenanceRequest } from '../maintenance.interface';
+import { MaintenanceService } from '../service/maintenance.service';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -8,19 +10,60 @@ import Swal from 'sweetalert2';
   templateUrl: './maintenance-request.component.html',
   styleUrls: ['./maintenance-request.component.css']
 })
-export class MaintenanceRequestComponent {
-
-  selectedDropdown?: string;
+export class MaintenanceRequestComponent{
+  @Output() onSubmitEvent = new EventEmitter<any>;
+  
+  maintenanceCategory!: any;
   flagValidasi?: boolean = false;
-  typeMaintenance: listItems[] = [
-    {code:"Electricty", value:"eletric"},
-    {code:"Water", value:"water"}];
+  typeMaintenance: listItems[] = [];
   
   data: MaintenanceRequest = {};
   mandatorySet: MaintenanceRequest = {'Maintenance Type': true, 'Maintenance Detail': true};
   invalidSet: MaintenanceRequest = {'Maintenance Type': false, 'Maintenance Detail': false};
 
-  constructor(){}
+  constructor(private maintenanceService: MaintenanceService,private route: ActivatedRoute){}
+
+  async initRequestMaintenance(categoryID: any){
+    this.data = {};
+    await this.getMaintenanceCategory();
+    this.setDropdown(categoryID, this.maintenanceCategory);
+  }
+
+  getMaintenanceCategory(): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.getMaintenanceAllCategory(1, 10, 0).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.maintenanceCategory = response;
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
+
+  setDropdown(id: any, data: any){
+    console.log('CategoryID:', id);
+    for(let i=0; i<data.length; i++){
+      if(data[i].id==id){
+        this.typeMaintenance.push({
+          'code': data[i].category,
+          'value': data[i].category,
+          'selected': true
+        });
+        this.data['Maintenance Type'] = data[i].category;
+      }
+      else{
+        this.typeMaintenance.push({
+          'code': data[i].category,
+          'value': data[i].category,
+          'selected': false
+        });
+      }
+    }
+  }
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -75,7 +118,15 @@ export class MaintenanceRequestComponent {
       html: 'Requested Successfuly',
       icon: 'success',
       confirmButtonColor: '#5025FA'
+    }).then((result) => {
+      if(result.value){
+        this.data = {};
+        console.log('CLEAR DATA:', this.data);
+        this.typeMaintenance = [];
+        this.onSubmitEvent.emit();
+      }
     });
+
   }
 
   backButton(){

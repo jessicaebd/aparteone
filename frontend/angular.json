@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "aparteone-frontend": {
+    "k2_frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/aparteone-frontend",
+            "allowedCommonJsDependencies": ["lodash"],
+            "outputPath": "dist/k2_frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -25,9 +26,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/custom-theme.scss",
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/sweetalert2/src/sweetalert2.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/quill/dist/quill.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -51,7 +60,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -60,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "aparteone-frontend:build:production"
+              "browserTarget": "k2_frontend:build:production"
             },
             "development": {
-              "browserTarget": "aparteone-frontend:build:development"
+              "browserTarget": "k2_frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "aparteone-frontend:build"
+            "browserTarget": "k2_frontend:build"
           }
         },
         "test": {
@@ -96,6 +111,6 @@
     }
   },
   "cli": {
-    "analytics": "2e4b39cf-07e1-4150-9cd5-274aa088f150"
+    "analytics": "005c5420-eb6b-4191-8df6-e1b764924919"
   }
 }

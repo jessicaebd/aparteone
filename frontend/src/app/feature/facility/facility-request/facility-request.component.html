@@ -1,12 +1,7 @@
 <div class="container">
-    <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="Facility" labelType="title"></app-label>
-        <app-label labelInput="Book Facility" labelType="label"></app-label>
-    </div>
     <div class="container form-request w-75 pt-3">
-        <app-label labelInput="BOOK FACILITY" labelType="subtitle"></app-label>
-        <div class="mt-2">
+        <!-- <app-label labelInput="BOOK FACILITY" labelType="subtitle"></app-label> -->
+        <div class="">
             <app-label labelFor="" labelInput="Facility Type" labelType="label" [isMandatory]="mandatorySet['Facility Type']"></app-label>
             <app-dropdown inputID="type-Facility-dropdown" [itemDropDown]="typeFacility" (onDropdownEvent)="data['Facility Type']=$event"></app-dropdown>
         </div>

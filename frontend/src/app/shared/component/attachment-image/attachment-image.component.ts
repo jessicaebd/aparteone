@@ -51,6 +51,7 @@ export class AttachmentImageComponent {
         this.imageFile.size = e.target.files[0].size;
         this.imageFile.type = e.target.files[0].type;
         this.imageFile.base64 = this.base.substring(this.base.indexOf(';base64,') + 8);
+        this.onChangeEvent.emit(this.base);
       }
       this.isEmpty = false;
     }
@@ -58,7 +59,9 @@ export class AttachmentImageComponent {
 
   async removeFile(){
     this.imageFile = {};
+    this.base = undefined;
     this.isEmpty = true;
+    this.onChangeEvent.emit(undefined);
   }
 
   async checkIsEmpty(){

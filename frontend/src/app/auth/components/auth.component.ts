@@ -4,14 +4,17 @@ import { ResponseSchema } from './../../shared/models/general.model';
 import { AuthService } from './../service/auth.service';
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.component.html',
+    styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+    username!: string;
+    password!: any;
+    invalid!: boolean;
     returnUrl!: string;
     params: any;
 
@@ -31,8 +34,9 @@ export class AuthComponent implements OnInit {
         if (params) this.params = JSON.parse(params);
     }
 
-    onLoginSubmit(form: NgForm): void {
-        window.open("/");
+    onLoginSubmit(){
+        // window.open("/");
+        console.log(this.username, ' | ', this.password);
         // (document.getElementById("loginButton") as HTMLButtonElement).disabled = true;
         
         // let userId = form.value.user_id;

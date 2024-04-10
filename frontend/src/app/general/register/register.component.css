@@ -1,0 +1,71 @@
+:host(app-register){
+    height: 40rem;
+    border-radius: 1rem;
+    /* background-color: var(--light-purple); */
+}
+
+.input-group{
+    font-size: 14pt;
+}
+
+:enabled:focus {
+    box-shadow: none;
+    border-color: var(--primary-purple);
+}
+
+::placeholder {
+    color: var(--cool-light);
+    font-size: 0.9rem!important;
+}
+
+:disabled {
+    color: var(--cool-dark);
+    background-color: var(--cool-lightest);
+}
+
+.invalid:not(:disabled) {
+    border-color: var(--red) !important;
+}
+
+.grow-wrap {
+    display: grid;
+    max-height: 10vw;
+}
+.grow-wrap::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+.grow-wrap > textarea {
+    resize: none;
+    overflow: none;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+    font: inherit;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.form-control{
+    font-size: 1rem;
+    position: relative;
+    /* resize: none;
+    overflow: auto; */
+    max-height: 10vw;
+}
+
+.form-control::-webkit-scrollbar{
+    /* display: none; */
+    width: 20px;
+}
+
+.form-control::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.form-control::-webkit-scrollbar-thumb {
+    background-color: var(--cool-light);
+    border-radius: 20px;
+    border: 8px solid transparent;
+    background-clip: content-box;
+}

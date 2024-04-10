@@ -1,3 +1,7 @@
+:host(app-textbox){
+    width: 100%;
+}
+
 .input-group{
     font-size: 14pt;
 }

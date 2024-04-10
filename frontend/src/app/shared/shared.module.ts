@@ -29,6 +29,7 @@ import { PickerComponent } from './component/picker/picker.component';
 import { AccordionComponent } from './component/accordion/accordion.component';
 import { AttachmentImageComponent } from './component/attachment-image/attachment-image.component';
 import { BadgeComponent } from './component/badge/badge.component';
+import { AddItemComponent } from './component/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { BadgeComponent } from './component/badge/badge.component';
     AccordionComponent,
     AttachmentImageComponent,
     BadgeComponent,
+    AddItemComponent,
   ],
   imports: [
     CommonModule,
@@ -92,6 +94,7 @@ import { BadgeComponent } from './component/badge/badge.component';
     AccordionComponent,
     AttachmentImageComponent,
     BadgeComponent,
+    AddItemComponent,
   ],
   providers:[]
 })

@@ -1,8 +1,8 @@
 <div class="input-group d-flex col">
     <input type="text" id="{{ label }}" class="form-control picker-textbox" [value]="picker" (change)="onPickerChange($event)">
-    <button class="btn btn-picker" data-bs-toggle="modal" data-bs-target="#modalPicker"><i class="bi bi-search"></i></button>
+    <!-- <button class="btn btn-picker" data-bs-toggle="modal" data-bs-target="#modalPicker"><i class="bi bi-search"></i></button> -->
     <!-- <app-textbox class="col-11" [value]="picker" inputID="" inputPlaceholder="" (onChangeEvent)="onPickerChange($event)"></app-textbox> -->
-    <!-- <app-text-button class="col-1 input-group-text justify-content-center" type="white" iconStart="bi-search" weight="bold" data-bs-toggle="modal" data-bs-target="#modalPicker" (onClickEvent)="onPickerClick()"></app-text-button> -->
+    <app-text-button class="col-1 input-group-text justify-content-center" type="white" iconStart="bi bi-search" weight="bold" data-bs-toggle="modal" data-bs-target="#modalPicker"></app-text-button>
 </div>
 
 <!-- Modal -->

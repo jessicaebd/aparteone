@@ -1,13 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Editor } from 'ngx-editor';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy{
-  editor!: Editor;
+export class HomeComponent implements OnInit{
+  isResident: boolean = false;
+  isManagement: boolean = true;
+  isAdmin: boolean = false;
   html = '';
 
   flagPayment: boolean = true;
@@ -16,12 +17,8 @@ export class HomeComponent implements OnInit, OnDestroy{
 
   constructor(){  }
 
-  ngOnInit(): void {
-    this.editor = new Editor();
-  }
+  ngOnInit(){
 
-  ngOnDestroy(): void {
-    this.editor.destroy();
   }
 
   onCategoryInformation(e:any){
