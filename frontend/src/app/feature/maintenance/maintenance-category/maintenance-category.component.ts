@@ -1,46 +1,39 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MaintenanceService } from '../service/maintenance.service';
-import { MaintenanceRequestComponent } from '../maintenance-request/maintenance-request.component';
+import { Component, Input, ViewChild } from '@angular/core';
+import { MaintenanceCategory } from '../maintenance.interface';
 
 @Component({
   selector: 'app-maintenance-category',
   templateUrl: './maintenance-category.component.html',
   styleUrls: ['./maintenance-category.component.css']
 })
-export class MaintenanceCategoryComponent implements OnInit{
-
-  maintenanceCategory!: any;
-  activeCategory!: any;
+export class MaintenanceCategoryComponent{
+  @Input() listCategory!: any;
+  @Input() errorMsg!: string;
+  activeCategory: MaintenanceCategory = {};
 
   @ViewChild('closeModal') modalClose: any;
-  @ViewChild(MaintenanceRequestComponent) maintenanceRequest!: MaintenanceRequestComponent
 
-  constructor(private maintenanceService: MaintenanceService){}
+  constructor(){}
 
-  ngOnInit(): void {
-    this.getMaintenanceCategory();
-  }
-
-  getMaintenanceCategory(): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllCategory(1, 10, 0).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          this.maintenanceCategory = response;
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          resolve(error);
-        }
-      }))
+  setDetailCategory (response: any): Promise<any>{
+    return new Promise<any> (resolve => {
+      this.activeCategory['ID'] = response.id;
+      this.activeCategory['Apartment ID'] = response.apartmentId;
+      this.activeCategory['Category Name'] = response.category;
+      this.activeCategory['Category Desc'] = response.description;
+      this.activeCategory['Category Image'] = response.image;
+      this.activeCategory['Status'] = response.isActive? 'Active': 'In-Active';
+      this.activeCategory['Created Date'] = response.createdDate;
+      this.activeCategory['Modified Date'] = response.modifiedDate;
+      resolve(this.activeCategory);
+    });
   }
 
   onCloseModal(){
     this.modalClose.nativeElement.click();
   }
   
-  onCategoryClick(id: any){
-    this.activeCategory = id;
-    this.maintenanceRequest.initRequestMaintenance(this.activeCategory);
+  onCategoryClick(item: any){
+    this.setDetailCategory(item);
   }
 }

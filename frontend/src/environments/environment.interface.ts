@@ -16,6 +16,9 @@ export interface EnvironmentInterface {
 
 export interface FeatureEnvironment {
   maintenance: string,
+  request: string,
+  apartment: string,
+  resident: string,
 }
 
 export interface GeneralEnvironment {

@@ -12,17 +12,24 @@ import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface
 })
 export class MaintenanceComponent implements OnInit{
   isResident: boolean = true;
-  isManagement: boolean = true;
+  isManagement: boolean = false;
+
+  errorListCategory: string = "";
+  errorListRequest: string = "";
 
   tableCategory: any;
   tableRequest: any;
   allDataCategory: any;
   allDataRequest: any;
-  filter: string = "";
   errorMsgCategory?: string;
   errorMsgRequest?: string;
+  sortReqCol?: string = 'status';
+  sortReqDir?: string = 'desc';
+  sortCatCol?: string = 'created_date';
+  sortCatDir?: string = 'desc';
   colCategory: Column[] = [];
   colRequest: Column[] = [];
+  dataCategory: MaintenanceCategory = {};
   dataRequest: MaintenanceRequest = {};
   
   @ViewChild('closeModal') modalClose: any;
@@ -30,123 +37,166 @@ export class MaintenanceComponent implements OnInit{
 
   constructor(private location: Location, private maintenanceService: MaintenanceService){}
   
-  ngOnInit(): void {
-    this.colRequest = [{name: 'maintenanceID', displayName: 'Category'}, {name: 'residentId', displayName:'Resident'}, {name: 'createdDate', displayName: 'Created Date'}, {name: 'modifiedDate', displayName: 'Modified Date'}, {name: 'status', displayName: 'Status'}, {name: 'assignedTo', displayName: 'Assign To'}, {name: 'assignedDate', displayName: 'Assigned Date'}, {name: 'completedDate', displayName: 'Completed Date'}, {name: 'cancelledDate', displayName: 'Cancel Date'},  {name:"ActionCol", displayName:"Action", align:"center"}];
-    this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-
-    this.getMaintenanceAllCategory(1,1,0);
-    // this.getMaintenanceAllRequest();
+  ngOnInit() {
+    if(this.isManagement){
+      this.colRequest = [{name: 'maintenance_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+  
+      this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
+      this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
+    }
+    else if (this.isResident){
+      this.getMaintenanceAllCategory(1, 1000, 0, this.sortCatCol, this.sortCatDir);
+      this.getMaintenanceResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir);
+    }
   }
 
-  getMaintenanceAllCategory(apartementId:any, size:any, page:any): Promise<any>{
+  getMaintenanceAllCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page).subscribe({
+      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page, sortBy, sortDir).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
-          this.tableCategory = response.data;
-
-          let data = this.tableCategory.data.map((item:any) => {
-            if(item.keys=='isActive'){
-              return item['isActive'] ? 'Active': 'In-Active';
-            }
-            else{
-              return item;
-            }
-          });
-
-          // let data = this.tableCategory.map((item:any) => {
-          //   return Object.keys(item).filter(key => key != 'masterid').map(key => {
-          //     if(key == 'tanggal'){
-          //       return item['isActive'] ? 'Active': 'In-Active';
-          //     }
-          //     else{
-          //       return item[key]
-          //     }
-          //   });
-          // });
-          console.log('Data:', data)
-          // this.tableCategory = <any> response.data.map((item) => {
-          //   if(item.isActive){
-          //     return item.isActive = 'Active';
-          //   }
-          //   else{
-          //     return item.isActive = 'In-Active';
-          //   }
-          // });
-          // this.allDataCategory = response.totalElements;
+          if(response.data.length > 0){
+            this.tableCategory = response.data;
+            this.allDataCategory = response.totalElements;
+          }
+          else{
+            this.errorMsgCategory = 'No Data Found!'
+            this.errorListCategory = 'No Data Found!'
+          }
+          resolve(true);
         },
         error: (error: any) => {
           console.log('#error', error);
+          this.errorMsgCategory = 'No Data Found!'
+          this.errorListCategory = 'No Data Found!'
           resolve(error);
         }
       }))
   }
 
-  getMaintenanceAllRequest(): Promise<any>{
+  getMaintenanceAllRequest(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllRequest(1, 10, 0).subscribe({
+      this.maintenanceService.getMaintenanceAllRequest(apartementId, size, page, sortBy, sortDir).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
-          this.tableRequest = response.data;
-          // if data null
+          if(response.data.length > 0){
+            this.tableRequest = response.data;
+            this.allDataRequest = response.totalElements;
+          }
+          else{
+            this.errorMsgRequest = 'No Data Found!'
+          }
+          resolve(true);
         },
         error: (error: any) => {
           console.log('#error', error);
+          this.errorMsgRequest = 'No Data Found!'
+          resolve(error);
+        }
+      }))
+  }
+
+  getMaintenanceResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, sortBy, sortReqDir).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.tableRequest = response.data;
+            this.allDataRequest = response.totalElements;
+          }
+          else{
+            this.errorListRequest = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorListRequest = 'No Data Found!'
           resolve(error);
         }
       }))
   }
 
   async onListItemClick(type: string, e:any){
-    console.log(e);
     if(type=='request'){
-      await this.setDataRequest(e);
-      console.log('Data Request:', this.dataRequest);
-      this.detailMaintenance.initDetailMaintenance(this.dataRequest);
+      let data = await this.setDataRequest(e);
+      console.log('Data Request:', data);
+    }
+    else if(type=='category'){
+      let data = await this.setDetailCategory(e);
+      console.log('Category:', data);
     }
   }
 
-  setTableCategory (response: any): Promise<any>{
+  setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      // for(let i=0; i<response.length; i++){
-      //   this.tableCategory[i]['ID'] = response.id;
-      //   this.tableCategory[i]['Created Date'] = response.createdDate;
-      //   this.tableCategory[i]['Created Date'] = response.createdDate;
-      //   this.tableCategory[i]['Created Date'] = response.createdDate;
-      //   this.tableCategory[i]['Status'] = (response.isActive? 'Active': 'In-Active');
-      // }
-      resolve(true);
+      this.dataCategory['ID'] = response.id;
+      this.dataCategory['Apartment ID'] = response.apartmentId;
+      this.dataCategory['Category Name'] = response.category;
+      this.dataCategory['Category Desc'] = response.description;
+      this.dataCategory['Category Image'] = response.image;
+      this.dataCategory['Status'] = response.isActive? 'Active': 'In-Active';
+      this.dataCategory['Created Date'] = response.createdDate;
+      this.dataCategory['Modified Date'] = response.modifiedDate;
+      resolve(this.dataCategory);
     });
   }
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['Resident'] = response.residentId;
-      this.dataRequest['Assigned Date'] = response.assignedDate;
-      this.dataRequest['Assigned Name'] = response.assignedTo;
-      this.dataRequest['Canceled Date'] = response.cancelledDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
-      // this.dataRequest['Maintenance Detail'] = response.maintenanceDetail;
-      this.dataRequest['Maintenance Type'] = response.maintenanceId-1;
-      // this.dataRequest['Maintenance Type'] = this.tableCategory[this.tableCategory.findIndex(x => x.ID === response.maintenanceId)]['Category Name'];;
-      this.dataRequest['Request Date'] = response.createdDate;
-      this.dataRequest['Modified Date'] = response.modifiedDate;
+      this.dataRequest['ID'] = response.id;
+      this.dataRequest['Resident Name'] = response.resident;
+      this.dataRequest['Maintenance ID'] = response.maintenance_id;
+      this.dataRequest['Maintenance Category'] = response.maintenance_category;
+      this.dataRequest['Maintenance Detail'] = response.maintenanceDetail;
       this.dataRequest['Status'] = response.status;
-      resolve(true);
+      this.dataRequest['Request Date'] = response.request_date;
+      this.dataRequest['Assigned Name'] = response.assigned_to;
+      this.dataRequest['Assigned Date'] = response.assigned_date;
+      this.dataRequest['Completed Date'] = response.completed_date;
+      this.dataRequest['Canceled Date'] = response.cancelled_date;
+      resolve(this.dataRequest);
     });
   }
 
-  onLoadData(e:any){
+  onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
-    this.getMaintenanceAllCategory(1,1,e);
+    if(type=='category'){
+      this.getMaintenanceAllCategory(1, 10, e, this.sortCatCol, this.sortCatDir);
+    }
+    else if(type=='request'){
+      this.getMaintenanceAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
+    }
+  }
+
+  async onSortData(type:any, e:any){
+    console.log("OnSort: ", e);
+    let arr = await this.onSplitSortEvent(e);
+    console.log(arr);
+    if(type=='category'){
+      this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
+    }
+    else if(type=='request'){
+      this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqDir);
+    }
+  }
+
+  onSplitSortEvent(e:any): Promise<any>{
+    return new Promise<any> (resolve => {
+      let arr = e.split(";", 2); 
+      this.sortReqCol = arr[0];
+      this.sortReqDir = arr[1];
+      resolve(arr);
+    });
   }
 
   backButton(){
     this.location.back();
   }
   
-  onSubmitAddCategory(){
-    console.log('Modal Closed');
+  onCloseModal(){
     this.modalClose.nativeElement.click();
   }
 

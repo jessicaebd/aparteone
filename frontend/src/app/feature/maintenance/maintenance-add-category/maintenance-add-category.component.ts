@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MaintenanceCategory } from '../maintenance.interface';
 import Swal from 'sweetalert2';
+import { MaintenanceService } from '../service/maintenance.service';
+import { AppComponent } from 'src/app/app.component';
 
 
 @Component({
@@ -11,12 +13,10 @@ import Swal from 'sweetalert2';
 export class MaintenanceAddCategoryComponent {
 
   flagValidasi?: boolean = false;
-
   data: MaintenanceCategory = {};
-  mandatorySet: MaintenanceCategory = {'Category Name': true};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -24,6 +24,12 @@ export class MaintenanceAddCategoryComponent {
 
     if(this.data['Category Name']=="" || this.data['Category Name']=="Select a value" || this.data['Category Name']==undefined){
       errorMsg = "Please fill Maintenance Category";
+    }
+    else if(this.data['Category Desc']=="" || this.data['Category Desc']=="Select a value" || this.data['Category Desc']==undefined){
+      errorMsg = "Please fill Maintenance Description";
+    }
+    else if(this.data['Category Image']=="" || this.data['Category Image']==undefined){
+      errorMsg = "Please upload Maintenance Image";
     }
     else{
       this.flagValidasi = true
@@ -43,8 +49,9 @@ export class MaintenanceAddCategoryComponent {
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
+          this.apps.loadingPage(true);
           let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-          this.submitRequest(now, this.data);
+          this.submitRequest();
         }
       });
     }
@@ -58,10 +65,10 @@ export class MaintenanceAddCategoryComponent {
     }
   }
   
-  submitRequest(now: any, data:any){
-    data['Request Date'] = now;
-    console.log('Request Date', data['Request Date'])
-    alert('SUBMIT ON : ' + now);
+  async submitRequest(){
+    let body = await this.setBodyInsertCategory();
+    await this.insertMaintenanceCategory(body);
+    this.apps.loadingPage(false);
 
     Swal.fire({
       title: 'Success',
@@ -71,6 +78,33 @@ export class MaintenanceAddCategoryComponent {
     });
 
     this.onSubmitEvent.emit();
+  }
+
+  setBodyInsertCategory(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'apartment_id': 1,
+        'image': this.data['Category Image'],
+        'category': this.data['Category Name'],
+        'description': this.data['Category Desc'],
+        'is_active': true
+      }
+      resolve(body);
+    });
+  }
+
+  insertMaintenanceCategory(body:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.insertMaintenanceCategory(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
   }
 
   backButton(){

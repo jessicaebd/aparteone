@@ -1,4 +1,3 @@
-import { ErrorMessage } from './../../models/general.model';
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -45,8 +44,10 @@ export class TableComponent implements OnInit, AfterViewInit{
   @Input() isDisabled: boolean = false;
   @Input() actionTarget?: string;
   @Input() actionToggle?: string;
+  @Input() flagSort?: boolean = true;
   @Output() onClickActionEvent = new EventEmitter<any>;
   @Output() onPageIndexEvent = new EventEmitter<number>;
+  @Output() onSortEvent = new EventEmitter<any>;
   @Output() onClickEvent = new EventEmitter<any>;
   @Output() onDoubleClickEvent = new EventEmitter<any>;
   
@@ -85,5 +86,18 @@ export class TableComponent implements OnInit, AfterViewInit{
 
   onClickToolbar(e:any){
     console.log(e);
+  }
+
+  onSortClick(column:any, sort:any){
+    if(sort=='asc'){
+      this.flagSort = false;
+    }
+    else{
+      this.flagSort = true;
+    }
+
+    let result = column.concat(';', sort);
+    console.log('Sort:', result);
+    this.onSortEvent.emit(result);
   }
 }

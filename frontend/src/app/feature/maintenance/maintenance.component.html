@@ -9,14 +9,14 @@
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
             </div>
-            <app-maintenance-category></app-maintenance-category>
+            <app-maintenance-category [listCategory]="tableCategory" [errorMsg]="errorListCategory"></app-maintenance-category>
         </div>
         <div class="maintenance-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST MAINTENANCE" labelType="subtitle"></app-label>
                 <app-button buttonLabel="All History" (onClickEvent)="onHistoryClick()"></app-button>
             </div>
-            <app-maintenance-list></app-maintenance-list>
+            <app-maintenance-list [listRequest]="tableRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-maintenance-list>
         </div>
     </ng-container>
 
@@ -27,27 +27,27 @@
             <app-label labelInput="Need Service" labelType="label"></app-label>
         </div>
         <div class="maintenance-list">
-            <div class="d-flex justify-content-between subtitle mb-2">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="MAINTENANCE CATEGORY" labelType="subtitle"></app-label>
                 <app-button buttonLabel="Add Category" data-bs-toggle="modal" data-bs-target="#modalAddCategory"></app-button>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
-                iconStart="bi-pencil-fill" label="Edit" type="primary" actionToggle="modal" 
-                actionTarget="modalViewCategory" [pageSize]="1" (onClickActionEvent)="onListItemClick('category', $event)" 
-                [length]="allDataCategory" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgCategory"></app-table>
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" 
+                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
         <div class="maintenance-request-list mt-5">
-            <div class="d-flex justify-content-between subtitle mb-2">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST MAINTENANCE REQUEST" labelType="subtitle"></app-label>
                 <app-button buttonLabel="All Request" (onClickEvent)="onAllRequest()"></app-button>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
-                    iconStart="bi-eye" label="View" type="primary" actionToggle="modal" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
                     actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" 
-                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgRequest"></app-table>
+                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-maintenance-add-category (onSubmitEvent)="onSubmitAddCategory()"></app-maintenance-add-category>
+                <app-maintenance-add-category (onSubmitEvent)="onCloseModal()"></app-maintenance-add-category>
             </div>
         </ng-template>
 
@@ -73,7 +73,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-maintenance-update-category (onSubmitEvent)="onSubmitAddCategory()"></app-maintenance-update-category>
+                <app-maintenance-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal()"></app-maintenance-update-category>
             </div>
         </ng-template>
 
@@ -86,7 +86,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-maintenance-detail-request [data]="dataRequest"></app-maintenance-detail-request>
+                    <app-maintenance-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal()"></app-maintenance-detail-request>
                 </div>
             </div>
         </ng-template>

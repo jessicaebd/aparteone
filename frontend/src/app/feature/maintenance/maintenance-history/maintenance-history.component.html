@@ -11,5 +11,5 @@
         <button [ngClass]="filter == 'completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('completed')">Completed</button>
         <button [ngClass]="filter == 'canceled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('canceled')">Canceled</button>
     </div>
-    <app-maintenance-list></app-maintenance-list>
+    <app-maintenance-list [listRequest]="table" [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-maintenance-list>
 </div>

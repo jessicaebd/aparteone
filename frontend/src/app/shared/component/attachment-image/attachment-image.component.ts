@@ -26,11 +26,6 @@ export class AttachmentImageComponent {
   base: any;
   imageFile!: file;
 
-  // imageFileName: any;
-  // imageFileSize: any;
-  // imageFileType: any;
-  // imageFileBase64: any;
-
   constructor() {}
 
   ngOnInit() {
@@ -47,11 +42,11 @@ export class AttachmentImageComponent {
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = () => {
         this.base = (reader.result);
-        this.imageFile.name = e.target.files[0].name;
-        this.imageFile.size = e.target.files[0].size;
-        this.imageFile.type = e.target.files[0].type;
-        this.imageFile.base64 = this.base.substring(this.base.indexOf(';base64,') + 8);
         this.onChangeEvent.emit(this.base);
+        // this.imageFile.name = e.target.files[0].name;
+        // this.imageFile.size = e.target.files[0].size;
+        // this.imageFile.type = e.target.files[0].type;
+        // this.imageFile.base64 = this.base.substring(this.base.indexOf(';base64,') + 8);
       }
       this.isEmpty = false;
     }

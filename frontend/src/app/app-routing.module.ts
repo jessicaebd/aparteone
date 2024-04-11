@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/components/auth.component';
 import { authGuard } from './auth/components/auth.guard';
+import { RegisterComponent } from './general/register/register.component';
 
 // ANNOUNCEMENT
 import { AnnouncementDetailComponent } from './feature/announcement/announcement-detail/announcement-detail.component';
@@ -35,8 +36,10 @@ import { ChatComponent } from './feature/chat/chat.component';
 import { MerchantComponent } from './feature/merchant/merchant.component';
 import { MerchantHistoryComponent } from './feature/merchant/merchant-history/merchant-history.component';
 import { MerchantStoreComponent } from './feature/merchant/merchant-store/merchant-store.component';
+
+// REPORT
 import { ReportComponent } from './feature/report/report.component';
-import { RegisterComponent } from './general/register/register.component';
+import { NotificationComponent } from './general/notification/notification.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -51,6 +54,7 @@ const routes: Routes = [
   { path: 'merchant', component: MerchantComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'report', component: ReportComponent },
+  { path: 'notification', component: NotificationComponent },
 
   // ANNOUCEMENT
   { path: 'annoucement/:id', component: AnnouncementDetailComponent},

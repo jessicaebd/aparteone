@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 // MAINTENANCE
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { MaintenanceListComponent } from './maintenance/maintenance-list/maintenance-list.component';
@@ -82,6 +83,7 @@ import { AnnouncementUpdateComponent } from './announcement/announcement-update/
     CommonModule,
     FormsModule,
     SharedModule,
+    MatPaginatorModule,
   ],
   exports: [
     MaintenanceComponent,

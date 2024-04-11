@@ -1,17 +1,37 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MaintenanceCategory } from '../maintenance.interface';
 import Swal from 'sweetalert2';
+import { MaintenanceService } from '../service/maintenance.service';
 
 @Component({
   selector: 'app-maintenance-update-category',
   templateUrl: './maintenance-update-category.component.html',
   styleUrls: ['./maintenance-update-category.component.css']
 })
-export class MaintenanceUpdateCategoryComponent {
+export class MaintenanceUpdateCategoryComponent{
   @Input() data: MaintenanceCategory = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(){}
+  constructor(private maintenanceService: MaintenanceService){}
+
+  onUpdateActive(e:any){
+    this.updateMaintenanceCategory(this.data['ID'], e);
+    this.onSubmitEvent.emit();
+  }
+
+  updateMaintenanceCategory(id:any, isActive:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.updateMaintenanceCategory(id, isActive).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
 
   onButtonSubmit(){
     //SUBMIT REQUEST

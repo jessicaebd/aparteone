@@ -1,12 +1,11 @@
 <div class="container">
-    <!-- <app-label labelInput="REQUEST MAINTENANCE" labelType="subtitle"></app-label> -->
-    <!-- <div class="">
-        <app-label labelFor="" labelInput="Maintenance Type" labelType="label" [isMandatory]="mandatorySet['Maintenance Type']"></app-label>
-        <app-dropdown inputID="type-maintenance-dropdown" [itemDropDown]="typeMaintenance" (onDropdownEvent)="data['Maintenance Type']=$event"></app-dropdown>
-    </div> -->
+    <div class="">
+        <app-label labelFor="maintenanceCategory" labelInput="Maintenance Category" labelType="label" [isMandatory]="true"></app-label>
+        <app-textbox inputID="maintenanceCategory" [value]="dataCategory['Category Name']" [isReadOnly]="true"></app-textbox>
+    </div>
     <div class="mt-2">
-        <app-label labelType="label"  labelFor="maintenanceDetail" labelInput="Maintenance Detail" [isMandatory]="mandatorySet['Maintenance Detail']"></app-label>
-        <app-textarea inputID="maintenanceDetail" [value]="data['Maintenance Detail']" [isInvalid]="invalidSet['Maintenance Detail']" (onChangeEvent)="data['Maintenance Detail']=$event"></app-textarea>
+        <app-label labelType="label"  labelFor="maintenanceDetail" labelInput="Maintenance Detail" [isMandatory]="true"></app-label>
+        <app-textarea inputID="maintenanceDetail" [value]="data['Maintenance Detail']" (onChangeEvent)="data['Maintenance Detail']=$event"></app-textarea>
     </div>
     <div class="container d-flex justify-content-center mt-4">
         <app-button class="me-3" buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>

@@ -1,3 +1,10 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="large"
+  color="#fff"
+  type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <!-- Toolbar -->
 <div class="toolbar position-fixed fixed-top px-3" role="banner">
   <label data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
@@ -29,26 +36,13 @@
     </div>
   </div>
   <!-- NOTIFICATION -->
-  <button type="button" class="btn btn-notification position-relative ms-3 me-3" data-bs-toggle="modal" data-bs-target="#modalNotification">
+  <button type="button" class="btn btn-notification position-relative ms-3 me-3" (click)="onNotificationClick()">
     <i class="bi bi-bell-fill"></i>
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-notif">
       99+
       <span class="visually-hidden">unread messages</span>
     </span>
   </button>
-
-  <!-- Modal -->
-  <app-modal modalID="modalNotification" [width]="600" [modalContent]="modalNotification"></app-modal>
-  
-  <ng-template #modalNotification>
-      <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Notification</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
-      </div>
-      <div class="modal-body d-flex col justify-content-center">
-          LIST
-      </div>
-  </ng-template>
 </div>
 
 

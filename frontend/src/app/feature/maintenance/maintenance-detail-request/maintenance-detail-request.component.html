@@ -1,9 +1,9 @@
 <div class="container">
-    <app-label labelType="subtitle" [labelInput]="data['Maintenance Type']"></app-label>
+    <app-label labelType="subtitle" [labelInput]="data['Maintenance Category']"></app-label>
     <div class="ms-2 mt-1">
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Resident"></app-label>
-            <app-label class="col" [labelInput]="data['Resident']? (': ' + data['Resident']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['Resident Name']? (': ' + data['Resident Name']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Status"></app-label>
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <ng-container *ngIf="flagAssign">
+    <ng-container *ngIf="data['Status']=='Requested'; else completed">
         <div class="border-top w-100 mt-3 pt-2">
             <app-label labelType="subtitle" labelInput="Assign"></app-label>
             <div class="mt-1">
@@ -45,11 +45,11 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="flagCompleted">
+    <ng-template #completed>
         <div class="border-top w-100 mt-3 pt-2">
             <div class="container d-flex justify-content-center mt-2">
                 <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonClick('completed')"></app-button>
             </div>
         </div>
-    </ng-container>
+    </ng-template>
 </div>

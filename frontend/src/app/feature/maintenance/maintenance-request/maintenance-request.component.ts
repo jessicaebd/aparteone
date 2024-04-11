@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
-import { MaintenanceRequest } from '../maintenance.interface';
+import { MaintenanceCategory, MaintenanceRequest } from '../maintenance.interface';
 import { MaintenanceService } from '../service/maintenance.service';
-import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,75 +10,27 @@ import Swal from 'sweetalert2';
   styleUrls: ['./maintenance-request.component.css']
 })
 export class MaintenanceRequestComponent{
+  @Input() dataCategory!: MaintenanceCategory
   @Output() onSubmitEvent = new EventEmitter<any>;
   
   maintenanceCategory!: any;
   flagValidasi?: boolean = false;
   typeMaintenance: listItems[] = [];
-  
-  data: MaintenanceRequest = {};
-  mandatorySet: MaintenanceRequest = {'Maintenance Type': true, 'Maintenance Detail': true};
-  invalidSet: MaintenanceRequest = {'Maintenance Type': false, 'Maintenance Detail': false};
+  data: MaintenanceRequest = { };
 
-  constructor(private maintenanceService: MaintenanceService,private route: ActivatedRoute){}
-
-  async initRequestMaintenance(categoryID: any){
-    this.data = {};
-    await this.getMaintenanceCategory();
-    this.setDropdown(categoryID, this.maintenanceCategory);
-  }
-
-  getMaintenanceCategory(): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllCategory(1, 10, 0).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          this.maintenanceCategory = response;
-          resolve(true);
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          resolve(error);
-        }
-      }))
-  }
-
-  setDropdown(id: any, data: any){
-    console.log('CategoryID:', id);
-    for(let i=0; i<data.length; i++){
-      if(data[i].id==id){
-        this.typeMaintenance.push({
-          'code': data[i].category,
-          'value': data[i].category,
-          'selected': true
-        });
-        this.data['Maintenance Type'] = data[i].category;
-      }
-      else{
-        this.typeMaintenance.push({
-          'code': data[i].category,
-          'value': data[i].category,
-          'selected': false
-        });
-      }
-    }
-  }
+  constructor(private maintenanceService: MaintenanceService){}
 
   onButtonSubmit(){
+    console.log(this.dataCategory['Category Name']);
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Maintenance Type']=="" || this.data['Maintenance Type']=="Select a value" || this.data['Maintenance Type']==undefined){
-      errorMsg = "Please choose Maintenance Type";
-    }
-    else if(this.data['Maintenance Detail']=="" || this.data['Maintenance Detail']=="Select a value" || this.data['Maintenance Detail']==undefined){
+    if(this.data['Maintenance Detail']=="" || this.data['Maintenance Detail']=="Select a value" || this.data['Maintenance Detail']==undefined){
       errorMsg = "Please fill Maintenance Detail";
     }
     else{
       this.flagValidasi = true
     }
-    
-    console.log(this.data);
 
     if(this.flagValidasi){
       //SUBMIT REQUEST
@@ -110,7 +61,7 @@ export class MaintenanceRequestComponent{
 
   submitRequest(now: any, data:any){
     data['Request Date'] = now;
-    console.log('Request Date', data['Request Date'])
+    console.log('Request Date', data['Request Date']);
     alert('SUBMIT ON : ' + now);
 
     Swal.fire({
@@ -129,7 +80,40 @@ export class MaintenanceRequestComponent{
 
   }
 
-  backButton(){
-    window.location.replace('/maintenance');
-  }
+  //temp
+  // getMaintenanceCategory(): Promise<any>{
+  //   return new Promise<any>(resolve => 
+  //     this.maintenanceService.getMaintenanceAllCategory(1, 10, 0).subscribe({
+  //       next: async (response: any) => {
+  //         console.log('Response: ', response);
+  //         this.maintenanceCategory = response;
+  //         resolve(true);
+  //       },
+  //       error: (error: any) => {
+  //         console.log('#error', error);
+  //         resolve(error);
+  //       }
+  //     }))
+  // }
+
+  // setDropdown(id: any, data: any){
+  //   console.log('CategoryID:', id);
+  //   for(let i=0; i<data.length; i++){
+  //     if(data[i].id==id){
+  //       this.typeMaintenance.push({
+  //         'code': data[i].category,
+  //         'value': data[i].category,
+  //         'selected': true
+  //       });
+  //       this.data['Maintenance Category'] = data[i].category;
+  //     }
+  //     else{
+  //       this.typeMaintenance.push({
+  //         'code': data[i].category,
+  //         'value': data[i].category,
+  //         'selected': false
+  //       });
+  //     }
+  //   }
+  // }
 }

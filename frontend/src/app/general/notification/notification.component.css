@@ -1,4 +1,4 @@
-:host(app-maintenance-list){
+:host(app-notification){
     width: 100%;
 }
 
@@ -35,9 +35,4 @@
     --bs-accordion-active-bg: var(--white);
     --bs-accordion-border-width: none;
     --bs-accordion-border-color: none;
-}
-
-::ng-deep .mat-mdc-paginator-container{
-    border-radius: 0.6rem;
-    box-shadow:1px 3px 5px 1px rgba(0, 0, 0, 0.1);
 }

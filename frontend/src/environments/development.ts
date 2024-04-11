@@ -14,6 +14,9 @@ export const environment : EnvironmentInterface = {
         },
         feature: {
             maintenance: "maintenance",
+            request: "request",
+            apartment: "apartment",
+            resident: "resident",
         },
     },
 };

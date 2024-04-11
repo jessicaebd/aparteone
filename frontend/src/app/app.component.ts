@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { environment } from 'src/environments/development';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
   isAdmin: boolean = false;
   activeNav: string = "dashboard"
 
-  constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive) {
+  constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);
     idle.setTimeout(environment.renewSession.timeout);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
@@ -84,9 +85,28 @@ export class AppComponent implements OnInit {
     }
   }
 
+  loadingPage(e:any): Promise<any>{
+    return new Promise<any> (resolve => {
+      if(e){
+        this.spinner.show();
+        resolve(true);
+      }
+      else{
+        setTimeout(() => {
+          this.spinner.hide();
+          resolve(true);
+        }, 200);
+      }
+    })
+  }
+
   logOut(): void {
     console.log('Log Out');
     this.auth.onLogout();
+  }
+
+  onNotificationClick(){
+    window.location.replace('/notification');
   }
 
   reset() {

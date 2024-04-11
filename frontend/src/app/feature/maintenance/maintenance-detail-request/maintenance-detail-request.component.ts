@@ -14,16 +14,6 @@ export class MaintenanceDetailRequestComponent{
   @Input() data!: MaintenanceRequest;
   @Output() onUpdateRequest = new EventEmitter<any>;
 
-  async initDetailMaintenance(data:any): Promise<void>{
-    if(data['Status']=='Requested'){
-      this.flagAssign = true;
-    }
-    else if (data['Status']=='Assigned'){
-      this.flagCompleted = true;
-    }
-    console.log(this.flagAssign, ' | ', this.flagCompleted);
-  }
-
   onButtonAssign(type: any){
     this.flagValidasi = false;
     let errorMsg = "";

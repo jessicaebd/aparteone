@@ -9,7 +9,19 @@
     <mat-table [dataSource]="dataTable" class="flex">
       <ng-container [matColumnDef]="col.name" *ngFor="let col of columns">
         <!-- <mat-header-cell *matHeaderCellDef class="{{'header-cell-' + headerAlignment }}">{{col.displayName}}</mat-header-cell> -->
-        <mat-header-cell *matHeaderCellDef class="{{'header-cell-' + col.align }}">{{col.displayName}}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="{{'header-cell-' + col.align }}">
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">{{col.displayName}}</p>
+            <ng-container *ngIf="col.name != 'ActionCol'">
+              <ng-container *ngIf="flagSort; else sortUp">
+                <app-text-button iconStart="bi bi-sort-down" (onClickEvent)="onSortClick(col.name, 'asc')"></app-text-button>
+              </ng-container>
+              <ng-template #sortUp>
+                <app-text-button iconStart="bi bi-sort-up" (onClickEvent)="onSortClick(col.name, 'desc')"></app-text-button>
+              </ng-template>
+            </ng-container>
+          </div>
+        </mat-header-cell>
         <ng-container *ngIf="col.name != 'ActionCol'; else actionButton">
           <mat-cell *matCellDef="let element" class="{{'unique-' + col.name}} {{'cell-' + col.align }}">{{element[col.name]}}</mat-cell>
         </ng-container>

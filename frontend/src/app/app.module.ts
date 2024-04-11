@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { FeatureModule } from './feature/feature.module';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { FeatureModule } from './feature/feature.module';
         BrowserAnimationsModule,
         NgxWebstorageModule.forRoot(),
         NgIdleKeepaliveModule.forRoot(),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxSpinnerModule,
     ]
 })
 export class AppModule { }

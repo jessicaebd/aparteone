@@ -9,6 +9,7 @@ import { LibraryPageComponent } from './library/library-page/library-page.compon
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { NgxEditorModule } from 'ngx-editor';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { NgxEditorModule } from 'ngx-editor';
     ChartPageComponent,
     HomeComponent,
     RegisterComponent,
+    NotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { NgxEditorModule } from 'ngx-editor';
     ChartPageComponent,
     HomeComponent,
     RegisterComponent,
+    NotificationComponent,
   ],
   providers:[]
 })
