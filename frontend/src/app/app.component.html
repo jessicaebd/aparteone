@@ -52,18 +52,11 @@
   </div>
 </div>
 
-<!-- <div class="overlay justify-content-center align-items-center">
-  <div class="spinner-border">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div> -->
-
 <!-- SIDEBAR -->
 <div class="offcanvas offcanvas-start px-2" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header">
     <div class="offcanvas-title" id="offcanvasExampleLabel">
       <a class="py-3" routerLink="/" style="color: var(--black);">
-        <!-- <app-label labelType="title" labelInput="Tracking System" data-bs-dismiss="offcanvas"></app-label> -->
         <img
           width="200"
           alt="logo"
@@ -74,7 +67,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <ng-container *ngIf="!isAdmin">
+    <ng-container *ngIf="role=='resident'">
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'dashboard' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/" data-bs-dismiss="offcanvas" (click)="onNavbarActive('dashboard')">
           <img *ngIf="activeNav == 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard-active.svg">

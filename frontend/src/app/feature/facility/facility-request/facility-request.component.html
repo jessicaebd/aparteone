@@ -2,8 +2,8 @@
     <div class="container form-request w-75 pt-3">
         <!-- <app-label labelInput="BOOK FACILITY" labelType="subtitle"></app-label> -->
         <div class="">
-            <app-label labelFor="" labelInput="Facility Type" labelType="label" [isMandatory]="mandatorySet['Facility Type']"></app-label>
-            <app-dropdown inputID="type-Facility-dropdown" [itemDropDown]="typeFacility" (onDropdownEvent)="data['Facility Type']=$event"></app-dropdown>
+            <app-label labelFor="" labelInput="Facility Type" labelType="label" [isMandatory]="mandatorySet['Facility Category']"></app-label>
+            <app-dropdown inputID="type-Facility-dropdown" [itemDropDown]="typeFacility" (onDropdownEvent)="data['Facility Category']=$event"></app-dropdown>
         </div>
         <div class="mt-2">
             <app-label labelType="label"  labelFor="bookDate" labelInput="Book Date" [isMandatory]="mandatorySet['Book Date']"></app-label>

@@ -9,7 +9,7 @@ import { AppService } from 'src/app/app.service';
 export class MaintenanceService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiMaintenance = `${environment.modules.feature.maintenance}`;
-  private apiRequest = `${environment.modules.feature.request}`;
+  private apiRequest = `${environment.modules.general.request}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
 

@@ -11,10 +11,14 @@ export const environment : EnvironmentInterface = {
     modules: {
         general: {
             dashboard: "dashboard",
+            request: "request",
+            update: "update",
+            detail: "detail",
         },
         feature: {
+            announcement: "announcement",
             maintenance: "maintenance",
-            request: "request",
+            facility: "facility",
             apartment: "apartment",
             resident: "resident",
         },

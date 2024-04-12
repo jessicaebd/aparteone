@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-home',
@@ -6,19 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  isResident: boolean = false;
-  isManagement: boolean = true;
-  isAdmin: boolean = false;
+  role!: string;
   html = '';
 
   flagPayment: boolean = true;
   flagMailbox: boolean = false;
   flagFacility: boolean = true;
 
-  constructor(){  }
+  constructor(private apps: AppComponent){  }
 
   ngOnInit(){
-
+    this.role = this.apps.getUserRole();
   }
 
   onCategoryInformation(e:any){

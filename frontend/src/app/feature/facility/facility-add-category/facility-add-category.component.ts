@@ -52,7 +52,7 @@ export class FacilityAddCategoryComponent implements OnInit{
   }
 
   onButtonSubmit(){
-    this.data['Category Time']
+    // this.data['Category Time'];
     this.flagValidasi = false;
     let errorMsg = "";
 

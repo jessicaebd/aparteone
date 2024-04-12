@@ -16,6 +16,7 @@ export interface file{
 export class AttachmentImageComponent {
   @Input() maxFileSize: number = 104857600;
   @Input() attachmentID?: string;
+  @Input() base: any;
   @Input() previewWidth: string = "25vw";
   @Output() onChangeEvent = new EventEmitter<any>();
   
@@ -23,7 +24,6 @@ export class AttachmentImageComponent {
   currentFile: any;
   isEmpty: boolean=true;
   fileUrl: any;
-  base: any;
   imageFile!: file;
 
   constructor() {}
@@ -60,7 +60,7 @@ export class AttachmentImageComponent {
   }
 
   async checkIsEmpty(){
-    if(!this.imageFile){
+    if(!this.base){
       this.isEmpty = true;
     }
     else{

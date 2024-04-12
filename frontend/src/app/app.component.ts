@@ -19,8 +19,9 @@ export class AppComponent implements OnInit {
   idleState = 'Not started.';
   timedOut = false;
   lastPing?: Date;
-  isAdmin: boolean = false;
   activeNav: string = "dashboard"
+  role: string = 'management';
+  switchManagement!: boolean;
 
   constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);
@@ -116,15 +117,8 @@ export class AppComponent implements OnInit {
     this.timedOut = false;
   }
 
-  onSwitch(e:any){
-    console.log(e, this.isAdmin);
-    if(e){
-      this.isAdmin = true;
-    }
-    else{
-      this.isAdmin = false;
-    }
-    this.router.navigateByUrl('');
+  getUserRole(){
+    return this.role;
   }
 
   onNavbarActive(e:any){

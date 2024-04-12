@@ -1,17 +1,26 @@
 <div class="container w-100 overflow-hidden">
     <div class="mt-0 pt-0">
         <app-label labelType="label"  labelFor="announcementImage" labelInput="Announcement Image" [isMandatory]="true"></app-label>
-        <app-attachment-image attachmentID="announcementImage" previewWidth="20vw" (onChangeEvent)="data['Announcement Image']=$event"></app-attachment-image>
+        <app-attachment-image attachmentID="announcementImage" previewWidth="20vw" (onChangeEvent)="data['image']=$event"></app-attachment-image>
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="announcementTitle" labelInput="Announcement Title" [isMandatory]="true"></app-label>
-        <app-textbox inputID="announcementTitle" (onChangeEvent)="data['Announcement Title']=$event"></app-textbox>
+        <app-textbox inputID="announcementTitle" (onChangeEvent)="data['title']=$event"></app-textbox>
     </div>
     <div class="mt-2 w-100">
-        <app-label labelType="label"  labelFor="announcementDetail" labelInput="Announcement Detail"></app-label>
-        <app-textarea inputID="announcementDetail" (onChangeEvent)="data['Announcement Detail']=$event"></app-textarea>
+        <app-label labelType="label" labelFor="announcementDetail" labelInput="Announcement Detail" [isMandatory]="true"></app-label>
+        <div id="description" class="container content mb-3 w-100" contenteditable="true" style="font-size: 1rem;"></div>
+        <!-- <app-textarea id="description" inputID="announcementDetail" (onChangeEvent)="data['description']=$event"></app-textarea> -->
     </div>
-    <div class="container d-flex justify-content-center mt-4">
+    <div class="mt-2 w-100">
+        <app-label labelType="label"  labelFor="startDate" labelInput="Start Date" [isMandatory]="true"></app-label>
+        <app-datepicker inputID="startDate" (onChangeEvent)="data['startDate']=$event"></app-datepicker>
+    </div>
+    <div class="mt-2 w-100">
+        <app-label labelType="label"  labelFor="endDate" labelInput="End Date" [isMandatory]="true"></app-label>
+        <app-datepicker inputID="endDate" (onChangeEvent)="data['endDate']=$event"></app-datepicker>
+    </div>
+    <div class="container d-flex justify-content-center my-4">
         <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
     </div>
 </div>

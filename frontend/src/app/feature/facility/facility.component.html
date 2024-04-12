@@ -9,14 +9,14 @@
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
             </div>
-            <app-facility-category></app-facility-category>
+            <!-- <app-facility-category [listCategory]="tableCategory" [errorMsg]="errorListCategory"></app-facility-category> -->
         </div>
         <div class="facility-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST BOOKING" labelType="subtitle"></app-label>
                 <app-button buttonLabel="All History" (onClickEvent)="onHistoryClick()"></app-button>
             </div>
-            <app-facility-list></app-facility-list>
+            <!-- <app-facility-list [listRequest]="tableRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-facility-list> -->
         </div>
     </ng-container>
 
@@ -32,10 +32,10 @@
                 <app-button buttonLabel="Add Category" data-bs-toggle="modal" data-bs-target="#modalAddCategory"></app-button>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="table" [columns]="colCategory" headerAlignment="center" 
-                iconStart="bi-eye" label="View" type="primary" actionToggle="modal" 
-                actionTarget="modalAddCategory" (onClickActionEvent)="onListItemClick($event)" 
-                [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-table>
+                <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" 
+                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
         <div class="facility-request-list mt-5">
@@ -44,10 +44,10 @@
                 <app-button buttonLabel="All Request" (onClickEvent)="onAllRequest()"></app-button>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="table" [columns]="colRequest" headerAlignment="center" 
-                    iconStart="bi-eye" label="View" type="primary" actionToggle="modal" 
-                    actionTarget="modalAddCategory" (onClickActionEvent)="onListItemClick($event)" 
-                    [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-table>
+                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                    actionTarget="modalAddCategory" (onClickActionEvent)="onListItemClick('request', $event)" 
+                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-facility-add-category (onSubmitEvent)="onSubmitAddCategory()"></app-facility-add-category>
+                <app-facility-add-category (onSubmitEvent)="onCloseModal()"></app-facility-add-category>
             </div>
         </ng-template>
     </ng-container>

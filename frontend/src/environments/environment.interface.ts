@@ -15,12 +15,16 @@ export interface EnvironmentInterface {
 }
 
 export interface FeatureEnvironment {
+  announcement: string,
   maintenance: string,
-  request: string,
+  facility: string,
   apartment: string,
   resident: string,
 }
 
 export interface GeneralEnvironment {
   dashboard: string,
+  request: string,
+  update: string,
+  detail: string,
 }

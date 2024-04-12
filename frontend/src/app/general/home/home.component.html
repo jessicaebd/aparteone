@@ -7,8 +7,8 @@
 
 <!-- LOG IN -->
 <div class="container">
-    <app-announcement></app-announcement>     
-    <ng-container *ngIf="isResident">
+    <app-announcement [role]="role"></app-announcement>     
+    <ng-container *ngIf="role=='resident'">
         <div class="mt-5">
             <app-label labelInput="YOUR INFORMATION" labelType="title"></app-label>
         </div>
@@ -67,7 +67,7 @@
     </ng-container>
 
     <!-- Management -->
-    <ng-container *ngIf="isManagement">
+    <ng-container *ngIf="role=='management'">
         
     </ng-container>
 </div>

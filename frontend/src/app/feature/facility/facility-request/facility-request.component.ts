@@ -16,14 +16,14 @@ export class FacilityRequestComponent {
   typeFacility: listItems[] = [];
   
   data: FacilityRequest = {};
-  mandatorySet: FacilityRequest = {'Facility Type': true, 'Book Date': true, 'Book Time': true};
+  mandatorySet: FacilityRequest = {'Facility Category': true, 'Book Date': true, 'Book Time': true};
 
   constructor(private facilityService: FacilityService){}
 
   async initRequestFacility(categoryID: any){
     this.data = {};
     // await this.getFacilityCategory();
-    this.setDropdown(categoryID, this.facilityCategory);
+    // this.setDropdown(categoryID, this.facilityCategory);
   }
 
   // getFacilityCategory(): Promise<any>{
@@ -41,26 +41,26 @@ export class FacilityRequestComponent {
   //     }))
   // }
 
-  setDropdown(id: any, data: any){
-    console.log('CategoryID:', id);
-    for(let i=0; i<data.length; i++){
-      if(data[i].id==id){
-        this.typeFacility.push({
-          'code': data[i].category,
-          'value': data[i].category,
-          'selected': true
-        });
-        this.data['Facility Type'] = data[i].category;
-      }
-      else{
-        this.typeFacility.push({
-          'code': data[i].category,
-          'value': data[i].category,
-          'selected': false
-        });
-      }
-    }
-  }
+  // setDropdown(id: any, data: any){
+  //   console.log('CategoryID:', id);
+  //   for(let i=0; i<data.length; i++){
+  //     if(data[i].id==id){
+  //       this.typeFacility.push({
+  //         'code': data[i].category,
+  //         'value': data[i].category,
+  //         'selected': true
+  //       });
+  //       this.data['Facility Cat'] = data[i].category;
+  //     }
+  //     else{
+  //       this.typeFacility.push({
+  //         'code': data[i].category,
+  //         'value': data[i].category,
+  //         'selected': false
+  //       });
+  //     }
+  //   }
+  // }
 
   setBookTime(e:any){
     this.data['Book Time'] = e;
@@ -70,7 +70,7 @@ export class FacilityRequestComponent {
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Facility Type']=="" || this.data['Facility Type']=="Select a value" || this.data['Facility Type']==undefined){
+    if(this.data['Facility Category']=="" || this.data['Facility Category']=="Select a value" || this.data['Facility Category']==undefined){
       errorMsg = "Please choose Facility Type";
     }
     else if(this.data['Book Date']=="" || this.data['Book Date']=="Select a value" || this.data['Book Date']==undefined){

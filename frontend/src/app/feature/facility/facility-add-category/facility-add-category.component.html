@@ -1,31 +1,35 @@
-<div class="container">
-    <div class="container form-request w-100 pt-3">
-        <app-label labelInput="ADD FACILITY CATEGORY" labelType="subtitle"></app-label>
-        <div class="mt-2">
-            <app-label labelType="label"  labelFor="categoryName" labelInput="Category Name" [isMandatory]="mandatorySet['Category Name']"></app-label>
-            <app-textbox inputID="categoryName" (onChangeEvent)="data['Category Name']=$event"></app-textbox>
+<div class="container form-request w-100">
+    <!-- <app-label labelInput="ADD FACILITY CATEGORY" labelType="subtitle"></app-label> -->
+    <div class="mt-0">
+        <app-label labelType="label"  labelFor="categoryName" labelInput="Category Name" [isMandatory]="mandatorySet['Category Name']"></app-label>
+        <app-textbox inputID="categoryName" (onChangeEvent)="data['Category Name']=$event"></app-textbox>
+    </div>
+    <div class="mt-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <app-label labelType="label"  labelFor="categoryTime" labelInput="Category Image" [isMandatory]="true"></app-label>
+            <app-button buttonLabel="Add Time" (onClickEvent)="onAddTime()"></app-button>
         </div>
-        <div class="mt-2">
-            <div class="d-flex justify-content-between align-items-center">
-                <app-label labelType="label"  labelFor="categoryTime" labelInput="Category Image" [isMandatory]="true"></app-label>
-                <app-button buttonLabel="Add Time" (onClickEvent)="onAddTime()"></app-button>
+        <div class="d-flex row mx-2">
+            <app-label class="col-5 me-2" labelType="label"  labelFor="startTime" labelInput="Start Time"></app-label>
+            <app-label class="col-5" labelType="label"  labelFor="endTime" labelInput="End Time"></app-label>
+        </div>
+        <ng-container *ngFor="let item of dataTime">
+            <div class="d-flex align-items-center row mx-2 mb-2">
+                <div class="col-5 me-2">
+                    <app-textbox inputID="startTime" (onChangeEvent)="(dataTime[item.id] == item.id)? dataTime[item.id].startTime=$event : ''"></app-textbox>
+                </div>
+                <div class="col-5 me-2">
+                    <app-textbox inputID="endTime" (onChangeEvent)="(dataTime[item.id] == item.id)? dataTime[item.id].endTime=$event : ''"></app-textbox>
+                </div>
+                <button type="button" class="btn-close col-1" (click)="onDeleteItem(item.id)"></button>
             </div>
-            <div class="d-flex row mx-2">
-                <app-label class="col-5" labelType="label"  labelFor="startTime" labelInput="Start Time"></app-label>
-                <app-label class="col-5" labelType="label"  labelFor="endTime" labelInput="End Time"></app-label>
-            </div>
-            <div class="d-flex align-items-center row mx-2 mb-2" *ngFor="let item of dataTime">
-                <app-textbox class="col-5" inputID="startTime" (onChangeEvent)="(dataTime[item.id] == item.id)? dataTime[item.id].startTime=$event : ''"></app-textbox>
-                <app-textbox class="col-5" inputID="endTime" (onChangeEvent)="(dataTime[item.id] == item.id)? dataTime[item.id].endTime=$event : ''"></app-textbox>
-                <button type="button" class="btn-close col-2" (click)="onDeleteItem(item.id)"></button>
-            </div>
-        </div>
-        <div class="mt-2">
-            <app-label labelType="label"  labelFor="categoryImage" labelInput="Category Image" [isMandatory]="true"></app-label>
-            <app-attachment-image attachmentID="categoryImage" previewWidth="20vw"></app-attachment-image>
-        </div>
-        <div class="container d-flex justify-content-center mt-4">
-            <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
-        </div>
+        </ng-container>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="categoryImage" labelInput="Category Image" [isMandatory]="true"></app-label>
+        <app-attachment-image attachmentID="categoryImage" previewWidth="20vw"></app-attachment-image>
+    </div>
+    <div class="container d-flex justify-content-center mt-4">
+        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
     </div>
 </div>

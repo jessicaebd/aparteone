@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Announcement } from '../announcement.interface';
+import { AnnouncementService } from '../service/announcement.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-announcement-add',
@@ -8,20 +10,32 @@ import { Announcement } from '../announcement.interface';
   styleUrls: ['./announcement-add.component.css']
 })
 export class AnnouncementAddComponent {
-
   flagValidasi?: boolean = false;
-
   data: Announcement = {};
+  description!: any;
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(){}
+  constructor(private announcementService: AnnouncementService, private apps: AppComponent){}
 
   onButtonSubmit(){
+    this.description = document.getElementById("description")!.innerHTML;
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Announcement Title']=="" || this.data['Announcement Title']=="Select a value" || this.data['Announcement Title']==undefined){
-      errorMsg = "Please fill Announcement Title";
+    if(this.data['image']=="" || this.data['image']==undefined){
+      errorMsg = "Please Upload Announcement Image";
+    }
+    else if(this.data['title']=="" || this.data['title']=="Select a value" || this.data['title']==undefined){
+      errorMsg = "Please Fill Announcement Title";
+    }
+    else if(this.description=="" || this.description==null || this.description==undefined){
+      errorMsg = "Please Fill Announcement Detail";
+    }
+    else if(this.data['startDate']=="" || this.data['startDate']=="dd/mm/yyyy" || this.data['startDate']==undefined){
+      errorMsg = "Please Choose Start Date";
+    }
+    else if(this.data['endDate']=="" || this.data['endDate']=="dd/mm/yyyy" || this.data['endDate']==undefined){
+      errorMsg = "Please Choose End Date";
     }
     else{
       this.flagValidasi = true
@@ -41,8 +55,8 @@ export class AnnouncementAddComponent {
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
-          let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-          this.submitRequest(now, this.data);
+          this.apps.loadingPage(true);
+          this.submitRequest();
         }
       });
     }
@@ -56,18 +70,56 @@ export class AnnouncementAddComponent {
     }
   }
   
-  submitRequest(now: any, data:any){
-    data['Request Date'] = now;
-    console.log('Request Date', data['Request Date'])
-    alert('SUBMIT ON : ' + now);
+  async submitRequest(){
+    let body = await this.setBodyInsertAnnouncement();
+    let result = await this.insertMaintenanceCategory(body);
+    this.apps.loadingPage(false);
 
-    Swal.fire({
-      title: 'Success',
-      html: 'Added Successfuly',
-      icon: 'success',
-      confirmButtonColor: '#5025FA'
-    });
-
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Inserted Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else{
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Insert Announcement',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    this.data = {};
     this.onSubmitEvent.emit();
+  }
+
+  setBodyInsertAnnouncement(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'apartmentId': 1,
+        'image': this.data['image'],
+        'title': this.data['title'],
+        'description': this.description,
+        'startDate': this.data['startDate'],
+        'endDate': this.data['endDate'],
+      }
+      resolve(body);
+    });
+  }
+
+  insertMaintenanceCategory(body:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.announcementService.insertAnnouncement(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
   }
 }

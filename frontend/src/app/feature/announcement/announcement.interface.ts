@@ -1,5 +1,9 @@
 export interface Announcement {
-    'Announcement Image'?:any,
-    'Announcement Title'?:any,
-    'Announcement Detail'?:any
+    "apartmentId"?: any,
+    "image"?: any,
+    "title"?: any,
+    "description"?: any,
+    "startDate"?: any,
+    "endDate"?: any
+    "status"?: any
   }

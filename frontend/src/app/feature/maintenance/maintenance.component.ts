@@ -12,7 +12,7 @@ import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface
 })
 export class MaintenanceComponent implements OnInit{
   isResident: boolean = true;
-  isManagement: boolean = false;
+  isManagement: boolean = true;
 
   errorListCategory: string = "";
   errorListRequest: string = "";
@@ -33,7 +33,6 @@ export class MaintenanceComponent implements OnInit{
   dataRequest: MaintenanceRequest = {};
   
   @ViewChild('closeModal') modalClose: any;
-  @ViewChild(MaintenanceDetailRequestComponent) detailMaintenance !: MaintenanceDetailRequestComponent;
 
   constructor(private location: Location, private maintenanceService: MaintenanceService){}
   
@@ -173,7 +172,7 @@ export class MaintenanceComponent implements OnInit{
 
   async onSortData(type:any, e:any){
     console.log("OnSort: ", e);
-    let arr = await this.onSplitSortEvent(e);
+    let arr = await this.onSplitSortEvent(type, e);
     console.log(arr);
     if(type=='category'){
       this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
@@ -183,11 +182,17 @@ export class MaintenanceComponent implements OnInit{
     }
   }
 
-  onSplitSortEvent(e:any): Promise<any>{
+  onSplitSortEvent(type:any, e:any): Promise<any>{
     return new Promise<any> (resolve => {
       let arr = e.split(";", 2); 
-      this.sortReqCol = arr[0];
-      this.sortReqDir = arr[1];
+      if(type=='category'){
+        this.sortCatCol = arr[0];
+        this.sortCatDir = arr[1];
+      }
+      else if(type=='request'){
+        this.sortReqCol = arr[0];
+        this.sortReqDir = arr[1];
+      }
       resolve(arr);
     });
   }

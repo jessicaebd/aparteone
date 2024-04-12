@@ -56,8 +56,8 @@ const routes: Routes = [
   { path: 'report', component: ReportComponent },
   { path: 'notification', component: NotificationComponent },
 
-  // ANNOUCEMENT
-  { path: 'annoucement/:id', component: AnnouncementDetailComponent},
+  // ANNOUNCEMENT
+  { path: 'announcement/:id', component: AnnouncementDetailComponent},
   
   // MAINTENANCE
   { path: 'maintenance/history', component: MaintenanceHistoryComponent  },
