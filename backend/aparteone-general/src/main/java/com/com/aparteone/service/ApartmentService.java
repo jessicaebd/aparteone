@@ -7,6 +7,5 @@ import com.com.aparteone.entity.ApartmentUnit;
 
 public interface ApartmentService {
     public List<Apartment> getAllApartments();
-
     public List<ApartmentUnit> getApartmentUnitList(Integer apartmentId);
 }
