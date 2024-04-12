@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,7 @@ import com.com.aparteone.repository.AnnouncementRepo;
 import com.com.aparteone.specification.AnnouncementSpecification;
 
 @Service
+@Transactional
 public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Autowired

@@ -4,24 +4,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.general.PageDTO;
 import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.dto.request.MaintenanceReserveRequest;
+import com.com.aparteone.dto.response.MaintenanceCategoryResponse;
 import com.com.aparteone.dto.response.MaintenanceRequestResponse;
 import com.com.aparteone.entity.Maintenance;
 import com.com.aparteone.entity.MaintenanceRequest;
 import com.com.aparteone.repository.MaintenanceRepo;
 import com.com.aparteone.repository.MaintenanceRequestRepo;
+import com.com.aparteone.specification.MaintenanceRequestSpecification;
 
 @Service
+@Transactional
 public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
@@ -30,17 +36,39 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Autowired
     private MaintenanceRequestRepo maintenanceRequestRepo;
 
+    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
+        Pageable pageable = null;
+        if(sortBy != null && sortDir != null) {
+            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+        return pageable;
+    }
+
     @Override
-    public PageDTO<Maintenance> getMaintenanceListByApartmentId(int page, int size, Integer apartmentId) {
+    public PageDTO<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, Integer apartmentId) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Maintenance> maintenances = maintenanceRepo.findByApartmentId(apartmentId, pageable);
 
-        PageDTO<Maintenance> response = new PageDTO<>(
+        List<MaintenanceCategoryResponse> data = new ArrayList<>();
+        maintenances.forEach(maintenance -> {
+            data.add(new MaintenanceCategoryResponse(
+                maintenance.getId(),
+                maintenance.getApartmentId(),
+                maintenance.getImage(),
+                maintenance.getCategory(),
+                maintenance.getDescription(),
+                maintenance.getIsActive()
+            ));
+        });
+
+        PageDTO<MaintenanceCategoryResponse> response = new PageDTO<>(
             maintenances.getTotalElements(),
             maintenances.getTotalPages(),
             maintenances.getNumber(),
             maintenances.getSize(),
-            maintenances.getContent()
+            data
         );
         return response;
     }
@@ -59,22 +87,19 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageDTO<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, Integer residentId) {
-        Pageable pageable = null;
-        if(sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
+    public PageDTO<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+        Specification<MaintenanceRequest> spec = Specification.where(MaintenanceRequestSpecification.hasResidentId(residentId));
+        if(status != null) {
+            spec = spec.and(MaintenanceRequestSpecification.hasStatus(status));
         }
-        Page<MaintenanceRequest> maintenanceRequests = maintenanceRequestRepo.findByResidentId(residentId, pageable);
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<MaintenanceRequest> maintenanceRequests = maintenanceRequestRepo.findAll(spec, pageable);
         
         List<MaintenanceRequestResponse> data = new ArrayList<>();
-        if(maintenanceRequests.getContent().size() > 0) {
-            Maintenance maintenance = maintenanceRepo.findById(maintenanceRequests.getContent().get(0).getMaintenanceId()).orElseThrow(() -> new RuntimeException("Maintenance not found"));
-            for (MaintenanceRequest request : maintenanceRequests.getContent()) {
-                data.add(new MaintenanceRequestResponse(request, maintenance));
-            }
-        }
+        maintenanceRequests.forEach(request -> {
+            Maintenance maintenance = maintenanceRepo.findById(request.getMaintenanceId()).get();
+            data.add(new MaintenanceRequestResponse(request, maintenance));
+        });
 
         PageDTO<MaintenanceRequestResponse> response = new PageDTO<>(
             maintenanceRequests.getTotalElements(),
@@ -87,22 +112,20 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageDTO<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, Integer apartmentId) {
-        Pageable pageable = null;
-        if(sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+    public PageDTO<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<MaintenanceRequest> maintenanceRequests = null;
+        if(status == null) {
+            maintenanceRequests = maintenanceRequestRepo.findByApartmentId(apartmentId, pageable);
         } else {
-            pageable = PageRequest.of(page, size);
+            maintenanceRequests = maintenanceRequestRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
         }
-        Page<MaintenanceRequest> maintenanceRequests = maintenanceRequestRepo.findByApartmentId(apartmentId, pageable);
 
         List<MaintenanceRequestResponse> data = new ArrayList<>();
-        if(maintenanceRequests.getContent().size() > 0) {
-            Maintenance maintenance = maintenanceRepo.findById(maintenanceRequests.getContent().get(0).getMaintenanceId()).orElseThrow(() -> new RuntimeException("Maintenance not found"));
-            for (MaintenanceRequest request : maintenanceRequests.getContent()) {
-                data.add(new MaintenanceRequestResponse(request, maintenance));
-            }
-        }
+        maintenanceRequests.forEach(request -> {
+            Maintenance maintenance = maintenanceRepo.findById(request.getMaintenanceId()).get();
+            data.add(new MaintenanceRequestResponse(request, maintenance));
+        });
         
         PageDTO<MaintenanceRequestResponse> response = new PageDTO<>(
             maintenanceRequests.getTotalElements(),

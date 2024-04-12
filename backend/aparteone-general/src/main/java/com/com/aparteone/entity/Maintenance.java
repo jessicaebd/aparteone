@@ -23,9 +23,10 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Maintenance extends AuditEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer apartmentId;
+    @Lob
     private String image;
     private String category;
     private String description;

@@ -29,6 +29,7 @@ public class MaintenanceRequest extends AuditEntity {
     private Integer id;
     private Integer maintenanceId;
     private Integer residentId;
+    private String description;
     private String status;
     // private Date requestedDate; -> createdDate
     private String assignedTo;
@@ -39,6 +40,7 @@ public class MaintenanceRequest extends AuditEntity {
     public MaintenanceRequest(MaintenanceReserveRequest maintenanceReserveRequest) {
         this.maintenanceId = maintenanceReserveRequest.getMaintenanceId();
         this.residentId = maintenanceReserveRequest.getResidentId();
+        this.description = maintenanceReserveRequest.getDescription();
         this.status = AparteoneConstant.STATUS_REQUESTED;
     }
 }
