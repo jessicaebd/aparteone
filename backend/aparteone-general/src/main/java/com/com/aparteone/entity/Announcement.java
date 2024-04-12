@@ -28,6 +28,7 @@ public class Announcement extends AuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer apartmentId;
+    @Lob
     private String image;
     private String title;
     @Lob
