@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.com.aparteone.dto.request.AnnouncementRequest;
@@ -29,6 +30,7 @@ public class Announcement extends AuditEntity {
     private Integer apartmentId;
     private String image;
     private String title;
+    @Lob
     private String description;
     private Date startDate;
     private Date endDate;
