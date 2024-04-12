@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.request.AnnouncementRequest;
+import com.com.aparteone.dto.response.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 import com.com.aparteone.service.AnnouncementService;
 
@@ -24,36 +26,37 @@ public class AnnouncementController {
     private AnnouncementService announcementService;
 
     @GetMapping("")
-    public ResponseEntity<PageDTO<Announcement>> getAnnouncementListByApartmentId(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
+    public ResponseEntity<PageDTO<AnnouncementResponse>> getAnnouncementListByApartmentId(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir,
+            @RequestParam(value = "criteria", required = false) String criteria,
             @RequestParam Integer apartmentId) {
-        log.info("[Facility] Get Facility List By Apartment Id: {}", apartmentId);
-        PageDTO<Announcement> response = announcementService.getAnnouncementListByApartmentId(page, size, sortBy, sortDir, apartmentId);
+        log.info("[Announcement] Get Announcement List By Apartment Id: {}", apartmentId);
+        PageDTO<AnnouncementResponse> response = announcementService.getAnnouncementListByApartmentId(page, size, sortBy, sortDir, criteria, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<Announcement> getAnnouncementDetail(@RequestParam Integer announcementId) {
-        log.info("[Facility] Get Facility Detail: {}", announcementId);
-        Announcement response = announcementService.getAnnouncementById(announcementId);
+    public ResponseEntity<AnnouncementResponse> getAnnouncementDetail(@RequestParam Integer announcementId) {
+        log.info("[Announcement] Get Announcement Detail: {}", announcementId);
+        AnnouncementResponse response = announcementService.getAnnouncementById(announcementId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("")
-    public ResponseEntity<Announcement> insertAnnouncement(@RequestBody Announcement announcement) {
-        log.info("[Facility] Insert Facility: " + announcement.toString());
+    public ResponseEntity<Announcement> insertAnnouncement(@RequestBody AnnouncementRequest announcement) {
+        log.info("[Announcement] Insert Announcement: " + announcement.toString());
         Announcement newAnnouncement = announcementService.insertAnnouncement(announcement);
         return ResponseEntity.ok(newAnnouncement);
     }
 
-    @PutMapping("")
-    public ResponseEntity<Announcement> updateAnnouncement(@RequestParam Integer announcementId, @RequestBody Announcement announcement) {
-        log.info("[Facility] Update Facility: " + announcement.toString());
+    @PostMapping("/update")
+    public ResponseEntity<Announcement> updateAnnouncement(@RequestParam Integer announcementId, @RequestBody AnnouncementRequest announcement) {
+        log.info("[Announcement] Update Announcement: " + announcement.toString());
         Announcement updatedAnnouncement = announcementService.updateAnnouncement(announcementId, announcement);
         return ResponseEntity.ok(updatedAnnouncement);
     }
-    
+
 }
