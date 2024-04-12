@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.com.aparteone.dto.request.AnnouncementRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -26,9 +27,18 @@ public class Announcement extends AuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer apartmentId;
-    private Integer imageId;
+    private String image;
     private String title;
     private String description;
     private Date startDate;
     private Date endDate;
+
+    public Announcement(AnnouncementRequest announcementRequest) {
+        this.apartmentId = announcementRequest.getApartmentId();
+        this.image = announcementRequest.getImage();
+        this.title = announcementRequest.getTitle();
+        this.description = announcementRequest.getDescription();
+        this.startDate = announcementRequest.getStartDate();
+        this.endDate = announcementRequest.getEndDate();
+    }
 }
