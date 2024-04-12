@@ -2,6 +2,8 @@ package com.com.aparteone.dto.response;
 
 import java.util.Date;
 
+import javax.persistence.Lob;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -17,8 +19,10 @@ import lombok.NoArgsConstructor;
 public class AnnouncementResponse {
     Integer id;
     Integer apartmentId;
+    @Lob
     String image;
     String title;
+    @Lob
     String description;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy HH:mm:ss", timezone = "Asia/Bangkok")
     Date startDate;
