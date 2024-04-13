@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.entity.Apartment;
-import com.com.aparteone.entity.ApartmentUnit;
+import com.com.aparteone.entity.general.Apartment;
+import com.com.aparteone.entity.general.ApartmentUnit;
 import com.com.aparteone.service.ApartmentService;
 
 @RestController

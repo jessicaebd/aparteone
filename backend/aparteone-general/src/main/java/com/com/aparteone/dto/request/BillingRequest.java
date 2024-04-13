@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class PaymentRequest {
-    private Integer id;
-    private String paymentProofImage;
+@AllArgsConstructor
+public class BillingRequest {
+    private Integer apartmentId;
+    private String category;
+    private Boolean isActive;
 }

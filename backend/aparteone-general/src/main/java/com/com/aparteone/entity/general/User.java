@@ -1,4 +1,4 @@
-package com.com.aparteone.entity;
+package com.com.aparteone.entity.general;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.com.aparteone.dto.request.MailboxRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -18,19 +17,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "mailboxes")
+@Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
-public class Mailbox extends AuditEntity {
+public class User extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer apartmentId;
-    private String category;
-    private Boolean isActive;
-
-    public Mailbox(MailboxRequest request) {
-        this.apartmentId = request.getApartmentId();
-        this.category = request.getCategory();
-        this.isActive = request.getIsActive();
-    }
+    private Integer roleId;
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
 }

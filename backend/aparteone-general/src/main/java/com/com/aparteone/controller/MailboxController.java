@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.general.PageDTO;
-import com.com.aparteone.dto.request.MailboxCategoryRequest;
+import com.com.aparteone.dto.request.MailboxRequest;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.response.MailboxDetailResponse;
 import com.com.aparteone.entity.Mailbox;
@@ -38,7 +38,7 @@ public class MailboxController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Mailbox> insertMailbox(@RequestBody MailboxCategoryRequest request) {
+    public ResponseEntity<Mailbox> insertMailbox(@RequestBody MailboxRequest request) {
         log.info("[Mailbox] Insert Mailbox: " + request.toString());
         Mailbox mailbox = mailboxService.insertMailbox(request);
         return ResponseEntity.ok(mailbox);

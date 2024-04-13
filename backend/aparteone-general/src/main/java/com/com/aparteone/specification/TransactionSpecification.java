@@ -2,7 +2,7 @@ package com.com.aparteone.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.com.aparteone.entity.transaction.Transaction;
+import com.com.aparteone.entity.Transaction;
 
 public class TransactionSpecification {
     public static Specification<Transaction> hasStatus(String status) {

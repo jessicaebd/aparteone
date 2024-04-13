@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.general.PageDTO;
 import com.com.aparteone.dto.request.ProductRequest;
-import com.com.aparteone.dto.response.merchant.MerchantResponse;
-import com.com.aparteone.dto.response.merchant.ProductResponse;
-import com.com.aparteone.entity.merchant.Product;
+import com.com.aparteone.dto.response.MerchantResponse;
+import com.com.aparteone.dto.response.ProductResponse;
+import com.com.aparteone.entity.Product;
 import com.com.aparteone.service.MerchantService;
 
 import lombok.extern.slf4j.Slf4j;

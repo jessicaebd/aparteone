@@ -6,9 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.com.aparteone.dto.request.MailboxRequest;
-import com.com.aparteone.entity.audit.AuditEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,19 +15,21 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "mailboxes")
+@Table(name = "transaction_details")
 @EqualsAndHashCode(callSuper = false)
-public class Mailbox extends AuditEntity {
+public class TransactionDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer apartmentId;
-    private String category;
-    private Boolean isActive;
+    private Integer transactionId;
+    private Integer productId;
+    private Integer quantity;
+    private String notes;
 
-    public Mailbox(MailboxRequest request) {
-        this.apartmentId = request.getApartmentId();
-        this.category = request.getCategory();
-        this.isActive = request.getIsActive();
+    public TransactionDetail(Integer transactionId, Cart cart) {
+        this.transactionId = transactionId;
+        this.productId = cart.getProductId();
+        this.quantity = cart.getQuantity();
+        this.notes = cart.getNotes();
     }
 }
