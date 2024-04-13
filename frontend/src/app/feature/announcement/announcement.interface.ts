@@ -1,4 +1,5 @@
 export interface Announcement {
+    "id"?: any,
     "apartmentId"?: any,
     "image"?: any,
     "title"?: any,

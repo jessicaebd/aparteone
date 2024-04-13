@@ -28,7 +28,6 @@ export class AnnouncementDetailComponent implements OnInit{
     await this.getDetailAnnouncement(this.id);
     document.querySelectorAll('.paragraf')[0].innerHTML = this.announcement.description;
     this.apps.loadingPage(false);
-    console.log(this.announcement)
   }
 
   getDetailAnnouncement(announcementId:any): Promise<any>{
@@ -47,15 +46,21 @@ export class AnnouncementDetailComponent implements OnInit{
       }))
   }
 
-  initViewUpdate(){
-    this.updateAnnouncement.onInitView();
+  initViewUpdate(data:any){
+    this.updateAnnouncement.onInitView(data);
   }
 
   backButton(){
-    window.location.replace('/');
+    if(this.role == 'management'){
+      window.location.replace('announcement');
+    }
+    else{
+      window.location.replace('/');
+    }
   }
 
   onCloseModal(){
     this.modalClose.nativeElement.click();
+    this.ngOnInit();
   }
 }

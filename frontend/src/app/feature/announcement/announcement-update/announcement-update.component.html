@@ -9,16 +9,16 @@
     </div>
     <div class="mt-2 w-100">
         <app-label labelType="label"  labelFor="announcementDetail" labelInput="Announcement Detail" [isMandatory]="true"></app-label>
-        <div id="description" class="container content mb-3 w-100" contenteditable="true" style="font-size: 1rem;"></div>
+        <div id="description" class="container content mb-3 w-100 description" contenteditable="true" style="font-size: 1rem;"></div>
         <!-- <app-textarea inputID="announcementDetail" [value]="data['description']" (onChangeEvent)="data['description']=$event"></app-textarea> -->
     </div>
     <div class="mt-2 w-100">
         <app-label labelType="label"  labelFor="startDate" labelInput="Start Date" [isMandatory]="true"></app-label>
-        <app-datepicker inputID="startDate" [value]="startDate" (onChangeEvent)="data['startDate']=$event"></app-datepicker>
+        <app-datepicker inputID="startDate" [value]="data['startDate']" (onChangeEvent)="data['startDate']=$event"></app-datepicker>
     </div>
     <div class="mt-2 w-100">
         <app-label labelType="label"  labelFor="endDate" labelInput="End Date" [isMandatory]="true"></app-label>
-        <app-datepicker inputID="endDate" [value]="endDate" (onChangeEvent)="data['endDate']=$event"></app-datepicker>
+        <app-datepicker inputID="endDate" [value]="data['endDate']" (onChangeEvent)="data['endDate']=$event"></app-datepicker>
     </div>
     <div class="container d-flex justify-content-center my-4">
         <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>

@@ -40,6 +40,7 @@ import { MerchantStoreComponent } from './feature/merchant/merchant-store/mercha
 // REPORT
 import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
+import { AnnouncementComponent } from './feature/announcement/announcement.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -47,34 +48,39 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'library', component: LibraryPageComponent  },
   { path: 'chart', component: ChartPageComponent  },
-  { path: 'maintenance', component: MaintenanceComponent },
-  { path: 'facility', component: FacilityComponent },
-  { path: 'mailbox', component: MailboxComponent },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'merchant', component: MerchantComponent },
-  { path: 'chat', component: ChatComponent },
   { path: 'report', component: ReportComponent },
   { path: 'notification', component: NotificationComponent },
-
+  
   // ANNOUNCEMENT
-  { path: 'announcement/:id', component: AnnouncementDetailComponent},
+  { path: 'announcement', component: AnnouncementComponent},
+  { path: 'announcement/detail/:id', component: AnnouncementDetailComponent},
+  
+  // PAYMENT
+  { path: 'payment', component: PaymentComponent },
   
   // MAINTENANCE
+  { path: 'maintenance', component: MaintenanceComponent },
   { path: 'maintenance/history', component: MaintenanceHistoryComponent  },
   { path: 'maintenance/list', component: MaintenanceAllRequestComponent  },
   { path: 'maintenance/detail', component: MaintenanceDetailRequestComponent  },
   
   // FACILITY
+  { path: 'facility', component: FacilityComponent },
   { path: 'facility/request', component: FacilityRequestComponent  },
   { path: 'facility/history', component: FacilityHistoryComponent  },
   { path: 'facility/add', component: FacilityAddCategoryComponent  },
   { path: 'facility/list', component: FacilityAllRequestComponent  },
+  
+  // MAILBOX
+  { path: 'mailbox', component: MailboxComponent },
 
   // MERCHANT
+  { path: 'merchant', component: MerchantComponent },
   { path: 'merchant/store/:id', component: MerchantStoreComponent  },
   { path: 'merchant/history', component: MerchantHistoryComponent  },
-
+  
   // MERCHANT
+  { path: 'chat', component: ChatComponent },
   { path: 'chat/:id', component: ChatComponent  },
 ];
 

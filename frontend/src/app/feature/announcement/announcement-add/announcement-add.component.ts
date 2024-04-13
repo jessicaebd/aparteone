@@ -72,7 +72,7 @@ export class AnnouncementAddComponent {
   
   async submitRequest(){
     let body = await this.setBodyInsertAnnouncement();
-    let result = await this.insertMaintenanceCategory(body);
+    let result = await this.insertAnnouncement(body);
     this.apps.loadingPage(false);
 
     if(result==true){
@@ -109,7 +109,7 @@ export class AnnouncementAddComponent {
     });
   }
 
-  insertMaintenanceCategory(body:any): Promise<any>{
+  insertAnnouncement(body:any): Promise<any>{
     return new Promise<any>(resolve => 
       this.announcementService.insertAnnouncement(body).subscribe({
         next: async (response: any) => {

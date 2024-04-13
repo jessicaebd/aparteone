@@ -15,7 +15,7 @@
             <ng-container *ngFor="let item2 of listAnnouncement; let y = index">
                 <ng-container *ngIf="y==0; else defaultImg">
                     <div class="carousel-item active">
-                        <a [href]="'announcement/' + item2.id">
+                        <a [href]="'announcement/detail/' + item2.id">
                             <img [src]="item2.image" class="d-block w-100" alt="announcement">
                         </a>
                     </div>  
@@ -23,7 +23,7 @@
                 <ng-template #defaultImg>
                     <div class="carousel-inner">
                         <div class="carousel-item">
-                            <a [href]="'announcement/' + item2.id">
+                            <a [href]="'announcement/detail/' + item2.id">
                                 <img [src]="item2.image" class="d-block w-100" alt="announcement">
                             </a>
                         </div>
@@ -49,15 +49,17 @@
 </ng-container>
 
 <ng-container *ngIf="role=='management'">
-    <div class="facility-list">
-        <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-            <app-label labelInput="Announcement" labelType="subtitle"></app-label>
-            <app-button buttonLabel="Add Announcement" buttonClass="primary" data-bs-toggle="modal" data-bs-target="#modalAddAnnouncement"></app-button>
-        </div>
-        <div class="py-2">
-            <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center" 
-            iconStart="bi bi-eye-fill" label="View" type="primary" (onClickActionEvent)="onListItemClick('announcement', $event)" [length]="allDataAnnouncement" 
-            (onPageIndexEvent)="onLoadData('announcement', $event)" (onSortEvent)="onSortData('announcement', $event)" [errorMsg]="errorMsglist"></app-table>
+    <div class="container">
+        <div class="announcement-list">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="Announcement" labelType="subtitle"></app-label>
+                <app-button buttonLabel="Add Announcement" buttonClass="primary" data-bs-toggle="modal" data-bs-target="#modalAddAnnouncement"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center" 
+                iconStart="bi bi-eye-fill" label="View" type="primary" (onClickActionEvent)="onListItemClick('announcement', $event)" [length]="allDataAnnouncement" 
+                (onPageIndexEvent)="onLoadData('announcement', $event)" (onSortEvent)="onSortData('announcement', $event)" [errorMsg]="errorMsglist"></app-table>
+            </div>
         </div>
     </div>
 

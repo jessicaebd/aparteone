@@ -69,8 +69,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     let currentPath = window.location.href;
 
-    if(currentPath.includes('dashboard')){
-      this.activeNav = 'dashboard'
+    if(currentPath.includes('')){
+      this.activeNav = 'home'
     }
     else if(currentPath.includes('payment')){
       this.activeNav = 'payment'
@@ -83,6 +83,12 @@ export class AppComponent implements OnInit {
     }
     else if(currentPath.includes('mailbox')){
       this.activeNav = 'mailbox'
+    }
+    else if(currentPath.includes('report')){
+      this.activeNav = 'report'
+    }
+    else if(currentPath.includes('announcement')){
+      this.activeNav = 'announcement'
     }
   }
 

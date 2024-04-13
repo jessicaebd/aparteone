@@ -14,20 +14,59 @@ export class AnnouncementUpdateComponent {
   @Output() onSubmitEvent = new EventEmitter<any>;
 
   flagValidasi?: boolean = false;
-  startDate!: Date;
-  endDate!: Date;
+  description!: any;
+  range!: any;
+  sel!: any;
 
   constructor(private announcementService: AnnouncementService, private apps: AppComponent){}
 
-  onInitView(){
-    console.log('INIT!');
-    console.log(this.data);
-    document.querySelectorAll('.paragraf')[0].innerHTML = this.data.description;
-    this.startDate = new Date(this.data['startDate']);
-    this.endDate = new Date(this.data['endDate']);
+  async onInitView(data: any){
+    this.apps.loadingPage(true);
+    this.data = await this.setData(data);
+    await this.setSelection();
+    setTimeout(()=>{
+      document.execCommand('insertHTML', false, this.data.description);
+      this.apps.loadingPage(false);
+    }, 1000);
+  }
+  
+  setSelection(): Promise<any>{
+    return new Promise<any> (resolve => {
+      let desc = document.querySelectorAll(".description");
+      this.range = document.createRange();
+      this.range.setStart(desc[0], 0);
+      this.sel = document.getSelection();
+      this.sel.removeAllRanges();
+      this.sel.addRange(this.range);
+      resolve(true);
+    })
+  }
+
+  setData(data:any): Promise<any>{
+    return new Promise<any> (resolve => {
+      let result: Announcement = {
+        'id': data.id,
+        'apartmentId': data.apartment_id,
+        'image': data.image,
+        'title': data.title,
+        'description': data.description,
+        'startDate': this.formatISODate(new Date(data.start_date)),
+        'endDate': this.formatISODate(new Date(data.end_date)),
+        'status': data.status
+      }
+      resolve(result);
+    })
+  }
+
+  formatISODate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   onButtonSubmit(){
+    this.description = document.getElementById("description")!.innerHTML;
     this.flagValidasi = false;
     let errorMsg = "";
 
@@ -37,7 +76,7 @@ export class AnnouncementUpdateComponent {
     else if(this.data['title']=="" || this.data['title']=="Select a value" || this.data['title']==undefined){
       errorMsg = "Please Fill Announcement Title";
     }
-    else if(this.data['description']=="" || this.data['description']=="Select a value" || this.data['description']==undefined){
+    else if(this.description=="" || this.description==null || this.description==undefined){
       errorMsg = "Please Fill Announcement Detail";
     }
     else if(this.data['startDate']=="" || this.data['startDate']=="dd/mm/yyyy" || this.data['startDate']==undefined){
@@ -49,8 +88,6 @@ export class AnnouncementUpdateComponent {
     else{
       this.flagValidasi = true
     }
-    
-    console.log(this.data);
 
     if(this.flagValidasi){
       //SUBMIT REQUEST
@@ -64,6 +101,7 @@ export class AnnouncementUpdateComponent {
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
+          this.apps.loadingPage(true);
           this.submitRequest();
         }
       });
@@ -79,8 +117,8 @@ export class AnnouncementUpdateComponent {
   }
   
   async submitRequest(){
-    let body = await this.setBodyInsertAnnouncement();
-    let result = await this.insertMaintenanceCategory(body);
+    let body = await this.setBodyUpdateAnnouncement();
+    let result = await this.updateAnnouncement(body);
     this.apps.loadingPage(false);
 
     if(result==true){
@@ -103,13 +141,12 @@ export class AnnouncementUpdateComponent {
     this.onSubmitEvent.emit();
   }
 
-  setBodyInsertAnnouncement(): Promise<any>{
+  setBodyUpdateAnnouncement(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': 1,
         'image': this.data['image'],
         'title': this.data['title'],
-        'description': this.data['description'],
+        'description': this.description,
         'startDate': this.data['startDate'],
         'endDate': this.data['endDate'],
       }
@@ -117,9 +154,9 @@ export class AnnouncementUpdateComponent {
     });
   }
 
-  insertMaintenanceCategory(body:any): Promise<any>{
+  updateAnnouncement(body:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.announcementService.insertAnnouncement(body).subscribe({
+      this.announcementService.updateAnnouncement(this.data.id, body).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           resolve(true);
@@ -130,4 +167,16 @@ export class AnnouncementUpdateComponent {
         }
       }))
   }
+
+  // getMonth(monthStr: string){
+  //   return new Date(monthStr+'-1-01').getMonth();
+  // }
+
+  // toDate(dateStr: string) {
+  //   let parts: string[] = dateStr.split("-", 3);
+  //   let year = parts[2].split(' ', 2);
+  //   let mon = this.getMonth(parts[1]);
+  //   return new Date(Number(year[0]), mon, Number(parts[0]))
+  // }
 }
+

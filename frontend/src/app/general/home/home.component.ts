@@ -9,6 +9,7 @@ import { AppComponent } from 'src/app/app.component';
 export class HomeComponent implements OnInit{
   role!: string;
   html = '';
+  isGuest = false;
 
   flagPayment: boolean = true;
   flagMailbox: boolean = false;

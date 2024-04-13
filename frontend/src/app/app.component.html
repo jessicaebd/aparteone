@@ -70,79 +70,143 @@
     <ng-container *ngIf="role=='resident'">
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'dashboard' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/" data-bs-dismiss="offcanvas" (click)="onNavbarActive('dashboard')">
-          <img *ngIf="activeNav == 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard-active.svg">
-          <img *ngIf="activeNav != 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard.svg">
+          <i *ngIf="activeNav == 'dashboard'" class="navbar-icon bi bi-house-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'dashboard'" class="navbar-icon bi bi-house" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard-active.svg">
+          <img *ngIf="activeNav != 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard.svg"> -->
           <label class="navbar-name ms-2">Dashboard</label>
         </a>
       </div>
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'payment' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/payment" data-bs-dismiss="offcanvas" (click)="onNavbarActive('payment')">
-          <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
-          <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg">
+          <i *ngIf="activeNav == 'payment'" class="navbar-icon bi bi-cash-coin" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'payment'" class="navbar-icon bi bi-receipt-cutoff" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
+          <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
           <label class="navbar-name ms-2">Payment</label>
         </a>
       </div>
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'facility' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/facility" data-bs-dismiss="offcanvas" (click)="onNavbarActive('facility')">
-          <img *ngIf="activeNav == 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility-active.svg">
-          <img *ngIf="activeNav != 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility.svg">
+          <i *ngIf="activeNav == 'facility'" class="navbar-icon bi bi-calendar-check-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'facility'" class="navbar-icon bi bi-calendar-check" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility-active.svg">
+          <img *ngIf="activeNav != 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility.svg"> -->
           <label class="navbar-name ms-2">Facility</label>
         </a>
       </div>
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'maintenance' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/maintenance" data-bs-dismiss="offcanvas" (click)="onNavbarActive('maintenance')">
-          <img *ngIf="activeNav == 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance-active.svg">
-          <img *ngIf="activeNav != 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance.svg">
+          <i *ngIf="activeNav == 'maintenance'" class="navbar-icon bi bi-gear-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'maintenance'" class="navbar-icon bi bi-gear" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance-active.svg">
+          <img *ngIf="activeNav != 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance.svg"> -->
           <label class="navbar-name ms-2">Maintenance</label>
         </a>
       </div>
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'mailbox' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/mailbox" data-bs-dismiss="offcanvas" (click)="onNavbarActive('mailbox')">
-          <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
-          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg">
+          <i *ngIf="activeNav == 'mailbox'" class="navbar-icon bi bi-envelope-open-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'mailbox'" class="navbar-icon bi bi-envelope" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
+          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
           <label class="navbar-name ms-2">Mail Box</label>
         </a>
       </div>
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'merchant' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/merchant" data-bs-dismiss="offcanvas" (click)="onNavbarActive('merchant')">
-          <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
-          <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg">
+          <i *ngIf="activeNav == 'merchant'" class="navbar-icon bi bi-shop-window" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'merchant'" class="navbar-icon bi bi-shop" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
+          <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
           <label class="navbar-name ms-2">Merchant</label>
         </a>
       </div>
       <div class="d-flex row align-items-center">
         <a [ngClass]="activeNav == 'report' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/report" data-bs-dismiss="offcanvas" (click)="onNavbarActive('report')">
-          <img *ngIf="activeNav == 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report-active.svg">
-          <img *ngIf="activeNav != 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report.svg">
+          <i *ngIf="activeNav == 'report'" class="navbar-icon bi bi-question-circle-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'report'" class="navbar-icon bi bi-question-circle" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report-active.svg">
+          <img *ngIf="activeNav != 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report.svg"> -->
           <label class="navbar-name ms-2">Report</label>
         </a>
       </div>
     </ng-container>
     
-    <!-- <ng-template #adminSidebar>
-      <div class="d-flex row">
-        <a class="navbar-item py-3" routerLink="/pengajuan" data-bs-dismiss="offcanvas">Pengajuan</a>
-      </div>
-      <div class="d-flex row">
-        <a class="navbar-item py-3" routerLink="/inquiry" data-bs-dismiss="offcanvas">Inquiry</a>
-      </div>
-      <div class="d-flex row">
-        <a class="navbar-item py-3" routerLink="/tasklist" data-bs-dismiss="offcanvas">Tasklist</a>
-      </div>
-      <div class="d-flex row">
-        <a class="navbar-item py-3" routerLink="/laporan" data-bs-dismiss="offcanvas">Report</a>
-      </div>
-
-      <app-label class="mt-3" labelType="subtitle" labelInput="Development"></app-label>
-      <div class="d-flex row">
-        <a class="py-3" routerLink="/library">
-          <app-text-button type="primary" label="Library" weight="bold" data-bs-dismiss="offcanvas"></app-text-button>
-        </a>
-        <a class="pb-3" routerLink="/chart">
-          <app-text-button type="primary" label="Chart" weight="bold" data-bs-dismiss="offcanvas"></app-text-button>
+    <ng-container *ngIf="role=='management'">
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'home' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/" data-bs-dismiss="offcanvas" (click)="onNavbarActive('home')">
+          <i *ngIf="activeNav == 'home'" class="navbar-icon bi bi-house-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'home'" class="navbar-icon bi bi-house" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard-active.svg">
+          <img *ngIf="activeNav != 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard.svg"> -->
+          <label class="navbar-name ms-2">Home</label>
         </a>
       </div>
-    </ng-template> -->
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'announcement' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/announcement" data-bs-dismiss="offcanvas" (click)="onNavbarActive('announcement')">
+          <i *ngIf="activeNav == 'announcement'" class="navbar-icon bi bi-megaphone-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'announcement'" class="navbar-icon bi bi-megaphone" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'announcement'" class="navbar-icon" height="25" alt="announcement-icon" src="assets/general/announcement-active.svg">
+          <img *ngIf="activeNav != 'announcement'" class="navbar-icon" height="25" alt="announcement-icon" src="assets/general/announcement.svg"> -->
+          <label class="navbar-name ms-2">Announcement</label>
+        </a>
+      </div>
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'payment' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/payment" data-bs-dismiss="offcanvas" (click)="onNavbarActive('payment')">
+          <i *ngIf="activeNav == 'payment'" class="navbar-icon bi bi-cash-coin" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'payment'" class="navbar-icon bi bi-receipt-cutoff" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
+          <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
+          <label class="navbar-name ms-2">Payment</label>
+        </a>
+      </div>
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'facility' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/facility" data-bs-dismiss="offcanvas" (click)="onNavbarActive('facility')">
+          <i *ngIf="activeNav == 'facility'" class="navbar-icon bi bi-calendar-check-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'facility'" class="navbar-icon bi bi-calendar-check" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility-active.svg">
+          <img *ngIf="activeNav != 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility.svg"> -->
+          <label class="navbar-name ms-2">Facility</label>
+        </a>
+      </div>
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'maintenance' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/maintenance" data-bs-dismiss="offcanvas" (click)="onNavbarActive('maintenance')">
+          <i *ngIf="activeNav == 'maintenance'" class="navbar-icon bi bi-gear-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'maintenance'" class="navbar-icon bi bi-gear" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance-active.svg">
+          <img *ngIf="activeNav != 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance.svg"> -->
+          <label class="navbar-name ms-2">Maintenance</label>
+        </a>
+      </div>
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'mailbox' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/mailbox" data-bs-dismiss="offcanvas" (click)="onNavbarActive('mailbox')">
+          <i *ngIf="activeNav == 'mailbox'" class="navbar-icon bi bi-envelope-open-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'mailbox'" class="navbar-icon bi bi-envelope" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
+          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
+          <label class="navbar-name ms-2">Mail Box</label>
+        </a>
+      </div>
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'merchant' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/merchant" data-bs-dismiss="offcanvas" (click)="onNavbarActive('merchant')">
+          <i *ngIf="activeNav == 'merchant'" class="navbar-icon bi bi-shop-window" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'merchant'" class="navbar-icon bi bi-shop" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
+          <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
+          <label class="navbar-name ms-2">Merchant</label>
+        </a>
+      </div>
+      <div class="d-flex row align-items-center">
+        <a [ngClass]="activeNav == 'report' ? 'navbar-item py-3 active' : 'navbar-item py-3'" routerLink="/report" data-bs-dismiss="offcanvas" (click)="onNavbarActive('report')">
+          <i *ngIf="activeNav == 'report'" class="navbar-icon bi bi-question-circle-fill" style="color: var(--primary-purple);"></i>
+          <i *ngIf="activeNav != 'report'" class="navbar-icon bi bi-question-circle" style="color: var(--black);"></i>
+          <!-- <img *ngIf="activeNav == 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report-active.svg">
+          <img *ngIf="activeNav != 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report.svg"> -->
+          <label class="navbar-name ms-2">Report</label>
+        </a>
+      </div>
+    </ng-container>
   </div>
 </div>
 

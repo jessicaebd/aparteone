@@ -25,6 +25,11 @@ export class AnnouncementComponent implements OnInit{
 
   async ngOnInit() {
     this.apps.loadingPage(true);
+    let currentPath = window.location.href;
+    if(currentPath.includes('announcement')){
+      this.role = 'management'
+    }
+
     if(this.role=='resident'){
       await this.getListAnnouncement(1, 1000, 0, 'id', 'ASC', 'Active');
     }
@@ -62,7 +67,7 @@ export class AnnouncementComponent implements OnInit{
   }
 
   async onListItemClick(type: string, e:any){
-    window.location.replace('/announcement/' + e.id);
+    window.location.replace('/announcement/detail/' + e.id);
   }
 
   onLoadData(type:any, e:any){
@@ -88,5 +93,6 @@ export class AnnouncementComponent implements OnInit{
 
   onCloseModal(){
     this.modalClose.nativeElement.click();
+    this.ngOnInit();
   }
 }
