@@ -1,9 +1,9 @@
 package com.com.aparteone.dto;
 
-import com.com.aparteone.entity.Apartment;
-import com.com.aparteone.entity.ApartmentUnit;
-import com.com.aparteone.entity.Resident;
-import com.com.aparteone.entity.User;
+import com.com.aparteone.entity.general.Apartment;
+import com.com.aparteone.entity.general.ApartmentUnit;
+import com.com.aparteone.entity.general.Resident;
+import com.com.aparteone.entity.general.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.request.CartRequest;
-import com.com.aparteone.dto.response.merchant.CartResponse;
-import com.com.aparteone.entity.merchant.Cart;
+import com.com.aparteone.dto.response.CartResponse;
+import com.com.aparteone.entity.Cart;
 import com.com.aparteone.service.CartService;
 
 import lombok.extern.slf4j.Slf4j;

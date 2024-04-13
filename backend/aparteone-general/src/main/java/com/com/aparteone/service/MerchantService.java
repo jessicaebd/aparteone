@@ -2,9 +2,9 @@ package com.com.aparteone.service;
 
 import com.com.aparteone.dto.general.PageDTO;
 import com.com.aparteone.dto.request.ProductRequest;
-import com.com.aparteone.dto.response.merchant.MerchantResponse;
-import com.com.aparteone.dto.response.merchant.ProductResponse;
-import com.com.aparteone.entity.merchant.Product;
+import com.com.aparteone.dto.response.MerchantResponse;
+import com.com.aparteone.dto.response.ProductResponse;
+import com.com.aparteone.entity.Product;
 
 public interface MerchantService {
     public PageDTO<MerchantResponse> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search);

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.com.aparteone.dto.general.PageDTO;
 import com.com.aparteone.dto.request.PaymentRequest;
 import com.com.aparteone.dto.request.TransactionRequest;
-import com.com.aparteone.dto.response.transaction.TransactionMerchantResponse;
-import com.com.aparteone.dto.response.transaction.TransactionResidentResponse;
-import com.com.aparteone.entity.transaction.Transaction;
+import com.com.aparteone.dto.response.TransactionMerchantResponse;
+import com.com.aparteone.dto.response.TransactionResidentResponse;
+import com.com.aparteone.entity.Transaction;
 import com.com.aparteone.service.TransactionService;
 
 import lombok.extern.slf4j.Slf4j;

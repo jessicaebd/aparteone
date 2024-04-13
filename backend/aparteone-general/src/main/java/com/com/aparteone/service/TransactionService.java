@@ -3,9 +3,9 @@ package com.com.aparteone.service;
 import com.com.aparteone.dto.general.PageDTO;
 import com.com.aparteone.dto.request.PaymentRequest;
 import com.com.aparteone.dto.request.TransactionRequest;
-import com.com.aparteone.dto.response.transaction.TransactionMerchantResponse;
-import com.com.aparteone.dto.response.transaction.TransactionResidentResponse;
-import com.com.aparteone.entity.transaction.Transaction;
+import com.com.aparteone.dto.response.TransactionMerchantResponse;
+import com.com.aparteone.dto.response.TransactionResidentResponse;
+import com.com.aparteone.entity.Transaction;
 
 public interface TransactionService {
     // Resident
