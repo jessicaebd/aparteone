@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +30,12 @@ public class MailboxDetail extends AuditEntity {
     private Integer residentId;
     private String description;
     private String status;
-    private String location;
-    private Date arrivedDate;
+    private Date receivedDate;
     private Date completedDate;
+
+    public MailboxDetail(MailboxDetailRequest request) {
+        this.mailboxId = request.getMailboxId();
+        this.residentId = request.getResidentId();
+        this.description = request.getDescription();
+    }
 }
