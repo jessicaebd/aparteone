@@ -4,17 +4,23 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.request.FacilityCategoryRequest;
+import com.com.aparteone.dto.request.FacilityReserveRequest;
+import com.com.aparteone.dto.request.FacilityTimeRequest;
 import com.com.aparteone.dto.response.FacilityCategoryResponse;
 import com.com.aparteone.dto.response.FacilityRequestResponse;
 import com.com.aparteone.entity.Facility;
@@ -23,8 +29,11 @@ import com.com.aparteone.entity.FacilityTime;
 import com.com.aparteone.repository.FacilityRepo;
 import com.com.aparteone.repository.FacilityRequestRepo;
 import com.com.aparteone.repository.FacilityTimeRepo;
+import com.com.aparteone.specification.FacilityRequestSpecification;
+import com.com.aparteone.specification.FacilitySpecification;
 
 @Service
+@Transactional
 public class FacilityServiceImpl implements FacilityService {
 
     @Autowired
@@ -36,16 +45,39 @@ public class FacilityServiceImpl implements FacilityService {
     @Autowired
     private FacilityRequestRepo facilityRequestRepo;
 
+    @Autowired
+    private ResidentService residentService;
+
+    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
+        Pageable pageable = null;
+        if (sortBy != null && sortDir != null) {
+            pageable = PageRequest.of(page, size,
+                    sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                            : Sort.by(sortBy).descending());
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+        return pageable;
+    }
+
     @Override
-    public PageDTO<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, Integer apartmentId) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Facility> facilities = facilityRepo.findByApartmentId(apartmentId, pageable);
+    public PageDTO<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, Boolean isActive, Integer apartmentId) {
+        Specification<Facility> spec = Specification.where(FacilitySpecification.hasApartmentId(apartmentId));
+        if (isActive != null) {
+            if (isActive) {
+                spec = spec.and(FacilitySpecification.isActive());
+            } else {
+                spec = spec.and(FacilitySpecification.isNotActive());
+            }
+        }
+        Pageable pageable = pagination(page, size, null, null);
+        Page<Facility> facilities = facilityRepo.findAll(spec, pageable);
 
         List<FacilityCategoryResponse> data = new ArrayList<>();
-        for (Facility facility : facilities.getContent()) {
+        facilities.getContent().forEach(facility -> {
             List<FacilityTime> facilityTimes = facilityTimeRepo.findByFacilityId(facility.getId());
             data.add(new FacilityCategoryResponse(facility, facilityTimes));
-        }
+        });
 
         PageDTO<FacilityCategoryResponse> response = new PageDTO<>(
                 facilities.getTotalElements(),
@@ -57,7 +89,17 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public Facility insertFacility(Facility facility) {
+    public Facility insertFacility(FacilityCategoryRequest request) {
+        Facility facility = new Facility(request);
+        facilityRepo.save(facility);
+
+        request.getFacilityTime().forEach(time -> {
+            FacilityTime facilityTime = new FacilityTime(
+                    facility.getId(),
+                    time.getStartTime(),
+                    time.getEndTime());
+            facilityTimeRepo.save(facilityTime);
+        });
         return facilityRepo.save(facility);
     }
 
@@ -69,25 +111,42 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public PageDTO<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy,
-            String sortDir, Integer residentId) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size,
-                    sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                            : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
+    public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest,
+            Boolean isActive) {
+        FacilityTime facilityTime = facilityTimeRepo.findById(facilityTimeId).get();
+        if (isActive != null) {
+            facilityTime.setIsActive(isActive);
         }
+        if (facilityTimeRequest.getStartTime() != null) {
+            facilityTime.setStartTime(LocalTime.parse(facilityTimeRequest.getStartTime()));
+        }
+        if (facilityTimeRequest.getEndTime() != null) {
+            facilityTime.setEndTime(LocalTime.parse(facilityTimeRequest.getEndTime()));
+        }
+        return facilityTimeRepo.save(facilityTime);
+    }
 
-        Page<FacilityRequest> facilityRequests = facilityRequestRepo.findByResidentId(residentId, pageable);
+    @Override
+    public PageDTO<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy,
+            String sortDir, String status, Integer residentId) {
+        Specification<FacilityRequest> spec = Specification
+                .where(FacilityRequestSpecification.hasResidentId(residentId));
+        if (status != null) {
+            if (status == AparteoneConstant.STATUS_REQUESTED) {
+                spec = spec.and(FacilityRequestSpecification.isRequested());
+            } else if (status == AparteoneConstant.STATUS_COMPLETED) {
+                spec = spec.and(FacilityRequestSpecification.isCompleted());
+            } else if (status == AparteoneConstant.STATUS_CANCELLED) {
+                spec = spec.and(FacilityRequestSpecification.isCancelled());
+            }
+        }
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<FacilityRequest> facilityRequests = facilityRequestRepo.findAll(spec, pageable);
 
         List<FacilityRequestResponse> data = new ArrayList<>();
-        for (FacilityRequest request : facilityRequests.getContent()) {
-            FacilityTime time = facilityTimeRepo.findById(request.getFacilityTimeId()).get();
-            Facility facility = facilityRepo.findById(time.getFacilityId()).get();
-            data.add(new FacilityRequestResponse(request, time, facility));
-        }
+        facilityRequests.forEach(request -> {
+            data.add(getFacilityRequestById(request.getId()));
+        });
 
         PageDTO<FacilityRequestResponse> response = new PageDTO<>(
                 facilityRequests.getTotalElements(),
@@ -100,24 +159,19 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public PageDTO<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy,
-            String sortDir, Integer apartmentId) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size,
-                    sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                            : Sort.by(sortBy).descending());
+            String sortDir, String status, Integer apartmentId) {
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<FacilityRequest> facilityRequests = null;
+        if (status == null) {
+            facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId, pageable);
         } else {
-            pageable = PageRequest.of(page, size);
+            facilityRequests = facilityRequestRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
         }
-
-        Page<FacilityRequest> facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId, pageable);
 
         List<FacilityRequestResponse> data = new ArrayList<>();
-        for (FacilityRequest request : facilityRequests.getContent()) {
-            FacilityTime time = facilityTimeRepo.findById(request.getFacilityTimeId()).get();
-            Facility facility = facilityRepo.findById(time.getFacilityId()).get();
-            data.add(new FacilityRequestResponse(request, time, facility));
-        }
+        facilityRequests.forEach(request -> {
+            data.add(getFacilityRequestById(request.getId()));
+        });
 
         PageDTO<FacilityRequestResponse> response = new PageDTO<>(
                 facilityRequests.getTotalElements(),
@@ -133,76 +187,27 @@ public class FacilityServiceImpl implements FacilityService {
         FacilityRequest request = facilityRequestRepo.findById(facilityRequestId).get();
         FacilityTime time = facilityTimeRepo.findById(request.getFacilityTimeId()).get();
         Facility category = facilityRepo.findById(time.getFacilityId()).get();
-        FacilityRequestResponse response = new FacilityRequestResponse(request, time, category);
+        ResidentDTO resident = residentService.getResidentById(request.getResidentId());
+        FacilityRequestResponse response = new FacilityRequestResponse(resident, request, time, category);
         return response;
     }
 
     @Override
-    public FacilityRequest insertFacilityRequest(FacilityRequest facilityRequest) {
+    public FacilityRequest insertFacilityRequest(FacilityReserveRequest request) {
+        FacilityRequest facilityRequest = new FacilityRequest(request);
         return facilityRequestRepo.save(facilityRequest);
     }
 
     @Override
-    public FacilityRequest updateFacilityRequestStatusById(Integer facilityRequestId, String status, String remarks) {
+    public FacilityRequest updateFacilityRequestStatusById(Integer facilityRequestId, String status) {
         FacilityRequest facilityRequest = facilityRequestRepo.findById(facilityRequestId).get();
         if (status.equals(AparteoneConstant.STATUS_COMPLETED)) {
-           facilityRequest.setStatus(status);
-           facilityRequest.setCompletedDate(new Date());
+            facilityRequest.setStatus(status);
+            facilityRequest.setCompletedDate(new Date());
         } else if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
-           facilityRequest.setStatus(status);
-           facilityRequest.setCancelledDate(new Date());
+            facilityRequest.setStatus(status);
+            facilityRequest.setCancelledDate(new Date());
         }
         return facilityRequestRepo.save(facilityRequest);
     }
-
-
-
-    
-    // For Testing
-    public void insertDummyData() {
-        List<Facility> dummyFacilities = generateDummyFacilities(20);
-        facilityRepo.saveAll(dummyFacilities);
-    }
-
-    private List<Facility> generateDummyFacilities(int count) {
-        List<Facility> facilities = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < count; i++) {
-            Facility facility = new Facility();
-            facility.setApartmentId(random.nextInt(100) + 1); // Assuming apartment IDs range from 1 to 100
-            facility.setImageId(random.nextInt(1000) + 1); // Assuming image IDs range from 1 to 1000
-            facility.setCategory("Category " + (i + 1));
-            facility.setDescription("Description for facility " + (i + 1));
-            facility.setIsActive(random.nextBoolean());
-            facilities.add(facility);
-        }
-        return facilities;
-    }
-
-    public void insertDummyData2(int facilityId, int count) {
-        List<FacilityTime> dummyFacilityTimes = generateDummyFacilityTimes(facilityId, count);
-        facilityTimeRepo.saveAll(dummyFacilityTimes);
-    }
-
-    private List<FacilityTime> generateDummyFacilityTimes(int facilityId, int count) {
-        List<FacilityTime> facilityTimes = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < count; i++) {
-            FacilityTime facilityTime = new FacilityTime();
-            facilityTime.setFacilityId(facilityId);
-            facilityTime.setStartTime(generateRandomTime());
-            facilityTime.setEndTime(generateRandomTime());
-            facilityTime.setIsActive(random.nextBoolean());
-            facilityTimes.add(facilityTime);
-        }
-        return facilityTimes;
-    }
-
-    public LocalTime generateRandomTime() {
-        Random random = new Random();
-        int hour = random.nextInt(24); // 0-23
-        int minute = random.nextInt(60); // 0-59
-        return LocalTime.of(hour, minute);
-    }
-
 }
