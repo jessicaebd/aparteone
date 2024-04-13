@@ -1,7 +1,7 @@
 package com.com.aparteone.service;
 
 import com.com.aparteone.dto.general.PageDTO;
-import com.com.aparteone.dto.request.MailboxCategoryRequest;
+import com.com.aparteone.dto.request.MailboxRequest;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.response.MailboxDetailResponse;
 import com.com.aparteone.entity.Mailbox;
@@ -10,7 +10,7 @@ import com.com.aparteone.entity.MailboxDetail;
 public interface MailboxService {
     // Mailbox
     public PageDTO<Mailbox> getMailboxListByApartmentId(int page, int size, Boolean isActive, Integer apartmentId); 
-    public Mailbox insertMailbox(MailboxCategoryRequest mailboxCategoryRequest);
+    public Mailbox insertMailbox(MailboxRequest mailboxCategoryRequest);
     public Mailbox updateMailboxIsActive(Integer mailboxId, Boolean isActive);
 
     // Mailbox Request

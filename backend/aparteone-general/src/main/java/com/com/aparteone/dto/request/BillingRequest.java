@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MailboxCategoryRequest {
+public class BillingRequest {
     private Integer apartmentId;
     private String category;
     private Boolean isActive;

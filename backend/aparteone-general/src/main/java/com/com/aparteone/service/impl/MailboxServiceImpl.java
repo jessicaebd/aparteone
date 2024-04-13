@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.general.PageDTO;
-import com.com.aparteone.dto.request.MailboxCategoryRequest;
+import com.com.aparteone.dto.request.MailboxRequest;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.response.MailboxDetailResponse;
 import com.com.aparteone.entity.Mailbox;
@@ -70,7 +70,7 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public Mailbox insertMailbox(MailboxCategoryRequest request) {
+    public Mailbox insertMailbox(MailboxRequest request) {
         Mailbox mailbox = new Mailbox(request);
         return mailboxRepo.save(mailbox);
     }

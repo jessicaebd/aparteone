@@ -260,18 +260,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction payment(PaymentRequest paymentRequest) {
-        Transaction transaction = transactionRepo.findById(paymentRequest.getTransactionId()).get();
+        Transaction transaction = transactionRepo.findById(paymentRequest.getId()).get();
         if (transaction != null) {
-            Payment payment = new Payment(
-                    paymentRequest.getTransactionId(),
-                    paymentRequest.getPaymentProofImage(),
-                    new Date());
+            Payment payment = new Payment(paymentRequest.getPaymentProofImage(), new Date());
             paymentRepo.save(payment);
 
             transaction.setPaymentId(payment.getId());
+            transaction.setStatus(AparteoneConstant.STATUS_WAITING_CONFIRMATION);
             transactionRepo.save(transaction);
         }
-
         return transaction;
     }
 
@@ -284,8 +281,7 @@ public class TransactionServiceImpl implements TransactionService {
             payment.setVerifiedDate(new Date());
             paymentRepo.save(payment);
 
-            transaction.setStatus(
-                    (isValid == true) ? AparteoneConstant.STATUS_CONFIRMED : AparteoneConstant.STATUS_CANCELLED);
+            transaction.setStatus((isValid == true) ? AparteoneConstant.STATUS_CONFIRMED : AparteoneConstant.STATUS_CANCELLED);
             transactionRepo.save(transaction);
         }
         return transaction;

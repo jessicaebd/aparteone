@@ -4,6 +4,8 @@ import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.ApartmentUnit;
 import com.com.aparteone.entity.general.Resident;
 import com.com.aparteone.entity.general.User;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ResidentDTO {
     Integer id;
     String name;

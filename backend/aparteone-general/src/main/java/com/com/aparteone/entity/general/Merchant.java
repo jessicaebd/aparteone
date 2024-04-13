@@ -2,6 +2,7 @@ package com.com.aparteone.entity.general;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.com.aparteone.entity.audit.AuditEntity;
@@ -21,6 +22,7 @@ public class Merchant extends AuditEntity {
     @Id
     private Integer id; // merchantId = userId
     private Integer apartmentId;
+    @Lob
     private String image;
     private String name;
     private String bankName;

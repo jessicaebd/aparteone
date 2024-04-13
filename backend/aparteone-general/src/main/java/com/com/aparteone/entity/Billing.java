@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.com.aparteone.dto.request.MailboxRequest;
+import com.com.aparteone.dto.request.BillingRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "mailboxes")
+@Table(name = "billings")
 @EqualsAndHashCode(callSuper = false)
-public class Mailbox extends AuditEntity {
+public class Billing extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -28,7 +28,7 @@ public class Mailbox extends AuditEntity {
     private String category;
     private Boolean isActive;
 
-    public Mailbox(MailboxRequest request) {
+    public Billing(BillingRequest request) {
         this.apartmentId = request.getApartmentId();
         this.category = request.getCategory();
         this.isActive = request.getIsActive();
