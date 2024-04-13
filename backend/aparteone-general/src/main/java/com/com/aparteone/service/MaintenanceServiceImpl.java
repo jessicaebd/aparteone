@@ -52,7 +52,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         Page<Maintenance> maintenances = maintenanceRepo.findByApartmentId(apartmentId, pageable);
 
         List<MaintenanceCategoryResponse> data = new ArrayList<>();
-        maintenances.forEach(maintenance -> {
+        maintenances.getContent().forEach(maintenance -> {
             data.add(new MaintenanceCategoryResponse(
                 maintenance.getId(),
                 maintenance.getApartmentId(),

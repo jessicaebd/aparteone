@@ -1,0 +1,37 @@
+package com.com.aparteone.specification;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.entity.Mailbox;
+import com.com.aparteone.entity.MailboxDetail;
+
+public class MailboxSpecification {
+    public static Specification<Mailbox> hasApartmentId(Integer apartmentId) {
+        return (root, query, builer) -> builer.equal(root.get("apartmentId"), apartmentId);
+    }
+
+    public static Specification<Mailbox> isActive() {
+        return (root, query, builer) -> builer.equal(root.get("isActive"), true);
+    }
+
+    public static Specification<Mailbox> isNotActive() {
+        return (root, query, builer) -> builer.equal(root.get("isActive"), false);
+    }
+
+    public static Specification<MailboxDetail> hasMailboxId(Integer mailboxId) {
+        return (root, query, builer) -> builer.equal(root.get("mailboxId"), mailboxId);
+    }
+
+    public static Specification<MailboxDetail> hasResidentId(Integer residentId) {
+        return (root, query, builer) -> builer.equal(root.get("residentId"), residentId);
+    }
+
+    public static Specification<MailboxDetail> isReceived() {
+        return (root, query, builer) -> builer.equal(root.get("status"), AparteoneConstant.STATUS_RECEIVED);
+    }
+
+    public static Specification<MailboxDetail> isCompleted() {
+        return (root, query, builer) -> builer.equal(root.get("status"), AparteoneConstant.STATUS_COMPLETED);
+    }
+}

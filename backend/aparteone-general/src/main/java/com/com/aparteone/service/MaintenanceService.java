@@ -11,7 +11,7 @@ import com.com.aparteone.entity.MaintenanceRequest;
 public interface MaintenanceService {
     // Maintenance
     public PageDTO<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, Integer apartmentId);
-    public Maintenance insertMaintenance(CategoryRequest request);
+    public Maintenance insertMaintenance(CategoryRequest categoryRequest);
     public Maintenance updateMaintenanceIsActive(Integer maintenanceId, Boolean isActive);
 
     // Maintenance Request

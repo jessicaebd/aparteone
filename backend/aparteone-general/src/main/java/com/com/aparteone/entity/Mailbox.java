@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.com.aparteone.dto.request.MailboxCategoryRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,11 @@ public class Mailbox extends AuditEntity {
     private Integer id;
     private Integer apartmentId;
     private String category;
-    private String description;
     private Boolean isActive;
+
+    public Mailbox(MailboxCategoryRequest request) {
+        this.apartmentId = request.getApartmentId();
+        this.category = request.getCategory();
+        this.isActive = request.getIsActive();
+    }
 }
