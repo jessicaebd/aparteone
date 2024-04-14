@@ -16,11 +16,11 @@ export class FacilityService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getFacilityAllCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getFacilityAllCategory(apartmentId: any, size:number, page: number, isActive: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isActive': isActive } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -35,7 +35,7 @@ export class FacilityService {
     const headers = new HttpHeaders({
     });
     // const params = new HttpParams({ });
-    const params = new HttpParams({ fromObject: { 'FacilityId': facilityId, 'isActive': isActive } });
+    const params = new HttpParams({ fromObject: { 'facilityId': facilityId, 'isActive': isActive } });
     // const body = { };
     const options = { headers, params };
     return this.httpClient.put<any>(apiUrl, options);

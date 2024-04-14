@@ -11,7 +11,6 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./maintenance-add-category.component.css']
 })
 export class MaintenanceAddCategoryComponent {
-
   flagValidasi?: boolean = false;
   data: MaintenanceCategory = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
@@ -22,14 +21,14 @@ export class MaintenanceAddCategoryComponent {
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Category Name']=="" || this.data['Category Name']=="Select a value" || this.data['Category Name']==undefined){
-      errorMsg = "Please fill Maintenance Category";
+    if(this.data['Category Image']=="" || this.data['Category Image']==undefined){
+      errorMsg = "Please upload Maintenance Image";
     }
+    else if(this.data['Category Name']=="" || this.data['Category Name']=="Select a value" || this.data['Category Name']==undefined){
+      errorMsg = "Please fill Maintenance Name";
+    } 
     else if(this.data['Category Desc']=="" || this.data['Category Desc']=="Select a value" || this.data['Category Desc']==undefined){
       errorMsg = "Please fill Maintenance Description";
-    }
-    else if(this.data['Category Image']=="" || this.data['Category Image']==undefined){
-      errorMsg = "Please upload Maintenance Image";
     }
     else{
       this.flagValidasi = true
@@ -50,7 +49,6 @@ export class MaintenanceAddCategoryComponent {
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
-          let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
           this.submitRequest();
         }
       });
@@ -67,27 +65,36 @@ export class MaintenanceAddCategoryComponent {
   
   async submitRequest(){
     let body = await this.setBodyInsertCategory();
-    await this.insertMaintenanceCategory(body);
+    let result = await this.insertMaintenanceCategory(body);
     this.apps.loadingPage(false);
-
-    Swal.fire({
-      title: 'Success',
-      html: 'Requested Successfuly',
-      icon: 'success',
-      confirmButtonColor: '#5025FA'
-    });
-
     this.onSubmitEvent.emit();
+
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Inserted Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Insert Category',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
   }
 
   setBodyInsertCategory(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartment_id': 1,
+        'apartmentId': 1,
         'image': this.data['Category Image'],
         'category': this.data['Category Name'],
         'description': this.data['Category Desc'],
-        'is_active': true
+        'isActive': true
       }
       resolve(body);
     });

@@ -15,18 +15,3 @@ div[contenteditable="true"]:focus {
     outline: none;
     border: solid 1px var(--primary-purple);
 }
-
-.content::-webkit-scrollbar{
-    width: 8px;
-}
-
-.contentbkit-scrollbar-track {
-    background-color: transparent;
-}
-
-.content::-webkit-scrollbar-thumb {
-    background-color: var(--cool-light);
-    border-radius: 20px;
-    border: 2.5px solid transparent;
-    background-clip: content-box;
-}

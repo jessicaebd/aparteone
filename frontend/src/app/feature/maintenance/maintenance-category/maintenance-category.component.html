@@ -7,7 +7,7 @@
 <ng-template #list>
     <div class="maintenance-category d-flex w-100 overflow-auto p-1">
         <ng-container *ngFor="let item of listCategory">
-            <ng-container *ngIf="item.isActive==true">
+            <ng-container *ngIf="item.is_active==true">
                 <div class="category-card me-3">
                     <button class="card justify-content-between" data-bs-toggle="modal" data-bs-target="#modalNewRequest" (click)="onCategoryClick(item)">
                         <img class="card-img-top" [src]="item.image" alt="...">

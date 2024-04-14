@@ -17,7 +17,10 @@ export interface EnvironmentInterface {
 export interface FeatureEnvironment {
   announcement: string,
   maintenance: string,
+  paymentProof: string,
   facility: string,
+  mailbox: string,
+  payment: string,
   apartment: string,
   resident: string,
 }
@@ -27,4 +30,5 @@ export interface GeneralEnvironment {
   request: string,
   update: string,
   detail: string,
+  add: string,
 }

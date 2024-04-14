@@ -19,9 +19,8 @@ export class AppComponent implements OnInit {
   idleState = 'Not started.';
   timedOut = false;
   lastPing?: Date;
-  activeNav: string = "dashboard"
-  role: string = 'management';
-  switchManagement!: boolean;
+  activeNav: string = "home"
+  role: string = 'resident';
 
   constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);

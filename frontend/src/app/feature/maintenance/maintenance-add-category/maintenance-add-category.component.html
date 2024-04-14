@@ -1,15 +1,15 @@
 <div class="container w-100">
     <div class="mt-0 pt-0">
-        <app-label labelType="label"  labelFor="categoryName" labelInput="Category Name" [isMandatory]="true"></app-label>
+        <app-label labelType="label"  labelFor="categoryImage" labelInput="Image" [isMandatory]="true"></app-label>
+        <app-attachment-image attachmentID="categoryImage" previewWidth="20vw" (onChangeEvent)="data['Category Image']=$event"></app-attachment-image>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="categoryName" labelInput="Name" [isMandatory]="true"></app-label>
         <app-textbox inputID="categoryName" (onChangeEvent)="data['Category Name']=$event"></app-textbox>
     </div>
     <div class="mt-2">
-        <app-label labelType="label"  labelFor="categoryDesc" labelInput="Category Description" [isMandatory]="true"></app-label>
+        <app-label labelType="label"  labelFor="categoryDesc" labelInput="Description" [isMandatory]="true"></app-label>
         <app-textbox inputID="categoryDesc" (onChangeEvent)="data['Category Desc']=$event"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="categoryImage" labelInput="Category Image" [isMandatory]="true"></app-label>
-        <app-attachment-image attachmentID="categoryImage" previewWidth="20vw" (onChangeEvent)="data['Category Image']=$event"></app-attachment-image>
     </div>
     <div class="container d-flex justify-content-center mt-4">
         <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>

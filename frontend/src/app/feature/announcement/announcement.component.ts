@@ -25,17 +25,18 @@ export class AnnouncementComponent implements OnInit{
 
   async ngOnInit() {
     this.apps.loadingPage(true);
-    let currentPath = window.location.href;
-    if(currentPath.includes('announcement')){
-      this.role = 'management'
-    }
+    this.role = this.apps.getUserRole();
+    // let currentPath = window.location.href;
+    // if(currentPath.includes('announcement')){
+    //   this.role = 'management'
+    // }
 
     if(this.role=='resident'){
-      await this.getListAnnouncement(1, 1000, 0, 'id', 'ASC', 'Active');
+      await this.getListAnnouncement(2, 1000, 0, 'id', 'ASC', 'Active');
     }
     else if(this.role=='management'){
       this.colAnnouncement = [{name: 'title', displayName: 'Title'}, {name: 'start_date', displayName: 'Start Date'}, {name: 'end_date', displayName: 'End Date'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      await this.getListAnnouncement(1, 10, 0, this.sortAnnCol, this.sortAnnDir, 'Active');
+      await this.getListAnnouncement(1, 10, 0, this.sortAnnCol, this.sortAnnDir, null);
     }
     this.apps.loadingPage(false);
   }

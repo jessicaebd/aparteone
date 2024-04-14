@@ -1,5 +1,5 @@
 <div class="container">
-    <ng-container *ngIf="isResident">
+    <ng-container *ngIf="role=='resident'">
         <div class="row mb-3">
             <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <app-label labelInput="FACILITY" labelType="title"></app-label>
@@ -20,7 +20,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="isManagement">
+    <ng-container *ngIf="role=='management'">
         <div class="row mb-3">
             <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <app-label labelInput="Facility" labelType="title"></app-label>

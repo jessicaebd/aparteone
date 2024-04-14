@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { FacilityCategory, FacilityCategoryTime, FacilityRequest } from './facility.interface';
 import { FacilityService } from './service/facility.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-facility',
@@ -10,9 +11,9 @@ import { FacilityService } from './service/facility.service';
   styleUrls: ['./facility.component.css']
 })
 export class FacilityComponent {
-  isResident: boolean = false;
-  isManagement: boolean = true;
-
+  role: string = 'resident';
+  listCategory!: any;
+  listRequest!: any;
   errorListCategory: string = "";
   errorListRequest: string = "";
 
@@ -33,32 +34,37 @@ export class FacilityComponent {
 
   @ViewChild('closeModal') modalClose: any;
 
-  constructor(private location: Location,private facilityService: FacilityService){}
+  constructor(private location: Location, private facilityService: FacilityService, private apps: AppComponent){}
   
   ngOnInit(): void {
-    
-    if(this.isManagement){
+    this.apps.loadingPage(true);
+    this.errorListCategory = '';
+    this.errorListRequest = '';
+    this.errorMsgCategory = '';
+    this.errorMsgRequest = '';
+    this.role = this.apps.getUserRole();
+    if(this.role == 'management'){
       this.colRequest = [{name: 'facility_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'Category Name', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'Status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-  
-      this.getFacilityAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
+      
+      this.getFacilityAllCategory(1, 10, 0, '');
       // this.getFacilityAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
     }
-    else if (this.isResident){
-      this.getFacilityAllCategory(1, 1000, 0, this.sortCatCol, this.sortCatDir);
+    else if (this.role == 'resident'){
+      this.getFacilityAllCategory(1, 1000, 0, true);
       // this.getFacilityResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir);
     }
+    this.apps.loadingPage(false);
   }
 
-  getFacilityAllCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getFacilityAllCategory(apartementId:any, size:any, page:any, isActive: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.facilityService.getFacilityAllCategory(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.facilityService.getFacilityAllCategory(apartementId, size, page, isActive).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
             let result = await this.setFacilityCategory(response.data);
             this.tableCategory = result;
-            console.log(result);
             this.allDataCategory = response.totalElements;
           }
           else{
@@ -121,6 +127,7 @@ export class FacilityComponent {
   }
 
   async onListItemClick(type: string, e:any){
+    console.log(e);
     if(type=='request'){
       let data = await this.setDataRequest(e);
       console.log('Data Request:', data);
@@ -152,7 +159,7 @@ export class FacilityComponent {
           'Apartment ID': x.facility.apartmentId,
           'Category Name' : x.facility.category,
           'Category Desc' : x.facility.description,
-          'Category Image' : x.facility.imageId,
+          'Category Image' : x.facility.image,
           'Created Date': x.facility.createdDate,
           'Modified Date': x.facility.modifiedDate,
           'Category Time' : arrTimes,
@@ -199,7 +206,7 @@ export class FacilityComponent {
   onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
     if(type=='category'){
-      this.getFacilityAllCategory(1, 10, e, this.sortCatCol, this.sortCatDir);
+      this.getFacilityAllCategory(1, 10, e, '');
     }
     else if(type=='request'){
       this.getFacilityAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
@@ -211,7 +218,7 @@ export class FacilityComponent {
     let arr = await this.onSplitSortEvent(e);
     console.log(arr);
     if(type=='category'){
-      this.getFacilityAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
+      // this.getFacilityAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       this.getFacilityAllRequest(1, 10, 0, this.sortReqCol, this.sortReqDir);

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MaintenanceCategory } from '../maintenance.interface';
 import Swal from 'sweetalert2';
 import { MaintenanceService } from '../service/maintenance.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-maintenance-update-category',
@@ -12,12 +13,7 @@ export class MaintenanceUpdateCategoryComponent{
   @Input() data: MaintenanceCategory = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private maintenanceService: MaintenanceService){}
-
-  onUpdateActive(e:any){
-    this.updateMaintenanceCategory(this.data['ID'], e);
-    this.onSubmitEvent.emit();
-  }
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
 
   updateMaintenanceCategory(id:any, isActive:any): Promise<any>{
     return new Promise<any>(resolve => 
@@ -33,7 +29,7 @@ export class MaintenanceUpdateCategoryComponent{
       }))
   }
 
-  onButtonSubmit(){
+  onButtonSubmit(isActive: boolean){
     //SUBMIT REQUEST
     Swal.fire({
       title: 'Are you sure?',
@@ -45,25 +41,34 @@ export class MaintenanceUpdateCategoryComponent{
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.value) {
-        let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-        this.submitRequest(now, this.data);
+        this.apps.loadingPage(true);
+        this.submitRequest(isActive);
       }
     });
   }
   
-  submitRequest(now: any, data:any){
-    data['Request Date'] = now;
-    console.log('Request Date', data['Request Date'])
-    alert('SUBMIT ON : ' + now);
-
-    Swal.fire({
-      title: 'Success',
-      html: 'Requested Successfuly',
-      icon: 'success',
-      confirmButtonColor: '#5025FA'
-    });
-
+  async submitRequest(isActive: boolean){
+    let result = await this.updateMaintenanceCategory(this.data['ID'], isActive);
+    this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
+
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Updated Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Update Category',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    
   }
 
   backButton(){

@@ -13,12 +13,14 @@
           <div class="d-flex justify-content-between">
             <p class="mb-0">{{col.displayName}}</p>
             <ng-container *ngIf="col.name != 'ActionCol'">
-              <ng-container *ngIf="flagSort; else sortUp">
-                <app-text-button iconStart="bi bi-sort-down" (onClickEvent)="onSortClick(col.name, 'asc')"></app-text-button>
+              <ng-container *ngIf="sort">
+                <ng-container *ngIf="flagSort; else sortUp">
+                  <app-text-button iconStart="bi bi-sort-down" (onClickEvent)="onSortClick(col.name, 'asc')"></app-text-button>
+                </ng-container>
+                <ng-template #sortUp>
+                  <app-text-button iconStart="bi bi-sort-up" (onClickEvent)="onSortClick(col.name, 'desc')"></app-text-button>
+                </ng-template>
               </ng-container>
-              <ng-template #sortUp>
-                <app-text-button iconStart="bi bi-sort-up" (onClickEvent)="onSortClick(col.name, 'desc')"></app-text-button>
-              </ng-template>
             </ng-container>
           </div>
         </mat-header-cell>
@@ -50,17 +52,19 @@
       <app-label [labelInput]="errorMsg" labelType="label"></app-label>
     </div>
 
-    <mat-paginator #paginator 
-      (page)="onClickPageIndex($event)"
-      [length]="length"
-      [pageSize]="pageSize"
-      [disabled]="disabled"
-      [showFirstLastButtons] = "false"
-      [hidePageSize]="hidePageSize"
-      [pageIndex]="pageIndex"
-      aria-label="Select page">
-      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-    </mat-paginator>
+    <ng-container *ngIf="pagination">
+      <mat-paginator #paginator 
+        (page)="onClickPageIndex($event)"
+        [length]="length"
+        [pageSize]="pageSize"
+        [disabled]="disabled"
+        [showFirstLastButtons] = "false"
+        [hidePageSize]="hidePageSize"
+        [pageIndex]="pageIndex"
+        aria-label="Select page">
+        [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+      </mat-paginator>
+    </ng-container>
   </div>
 </div>
 

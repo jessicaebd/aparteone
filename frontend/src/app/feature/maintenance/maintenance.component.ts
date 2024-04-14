@@ -4,6 +4,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
 import { MaintenanceService } from './service/maintenance.service';
 import { MaintenanceDetailRequestComponent } from './maintenance-detail-request/maintenance-detail-request.component';
 import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-maintenance',
@@ -11,48 +12,56 @@ import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface
   styleUrls: ['./maintenance.component.css']
 })
 export class MaintenanceComponent implements OnInit{
-  isResident: boolean = true;
-  isManagement: boolean = true;
-
+  role: string = 'resident';
+  listCategory!: any;
+  listRequest!: any;
   errorListCategory: string = "";
   errorListRequest: string = "";
-
   tableCategory: any;
   tableRequest: any;
   allDataCategory: any;
   allDataRequest: any;
   errorMsgCategory?: string;
   errorMsgRequest?: string;
-  sortReqCol?: string = 'status';
-  sortReqDir?: string = 'desc';
-  sortCatCol?: string = 'created_date';
-  sortCatDir?: string = 'desc';
+  sortReqCol?: string = 'id';
+  sortReqDir?: string = 'DESC';
+  sortCatCol?: string = 'id';
+  sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
   colRequest: Column[] = [];
   dataCategory: MaintenanceCategory = {};
   dataRequest: MaintenanceRequest = {};
   
-  @ViewChild('closeModal') modalClose: any;
+  @ViewChild('closeModalAdd') modalCloseAdd: any;
+  @ViewChild('closeModalUpdate') modalCloseUpdate: any;
+  @ViewChild('closeModalAssign') modalCloseAssign: any;
 
-  constructor(private location: Location, private maintenanceService: MaintenanceService){}
+  constructor(private location: Location, private maintenanceService: MaintenanceService, private apps: AppComponent){}
   
   ngOnInit() {
-    if(this.isManagement){
+    this.apps.loadingPage(true);
+    this.errorListCategory = '';
+    this.errorListRequest = '';
+    this.errorMsgCategory = '';
+    this.errorMsgRequest = '';
+    this.role = this.apps.getUserRole();
+    if(this.role=='management'){
       this.colRequest = [{name: 'maintenance_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-  
+      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'is_active', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      
       this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
       this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
     }
-    else if (this.isResident){
-      this.getMaintenanceAllCategory(1, 1000, 0, this.sortCatCol, this.sortCatDir);
-      this.getMaintenanceResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir);
+    else if (this.role=='resident'){
+      this.getMaintenanceResidentCategory(1, 1000, 0, this.sortCatCol, this.sortCatDir);
+      this.getMaintenanceResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir, '');
     }
+    this.apps.loadingPage(false);
   }
 
   getMaintenanceAllCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page, sortBy, sortDir, null).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -61,13 +70,32 @@ export class MaintenanceComponent implements OnInit{
           }
           else{
             this.errorMsgCategory = 'No Data Found!'
-            this.errorListCategory = 'No Data Found!'
           }
           resolve(true);
         },
         error: (error: any) => {
           console.log('#error', error);
           this.errorMsgCategory = 'No Data Found!'
+          resolve(error);
+        }
+      }))
+  }
+
+  getMaintenanceResidentCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page, sortBy, sortDir, 'Active').subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.listCategory = response.data;
+          }
+          else{
+            this.errorListCategory = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
           this.errorListCategory = 'No Data Found!'
           resolve(error);
         }
@@ -96,14 +124,13 @@ export class MaintenanceComponent implements OnInit{
       }))
   }
 
-  getMaintenanceResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any): Promise<any>{
+  getMaintenanceResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any, status: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, sortBy, sortReqDir).subscribe({
+      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, sortBy, sortReqDir, status).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
-            this.tableRequest = response.data;
-            this.allDataRequest = response.totalElements;
+            this.listRequest = response.data;
           }
           else{
             this.errorListRequest = 'No Data Found!'
@@ -119,6 +146,7 @@ export class MaintenanceComponent implements OnInit{
   }
 
   async onListItemClick(type: string, e:any){
+    console.log('OnList:', e);
     if(type=='request'){
       let data = await this.setDataRequest(e);
       console.log('Data Request:', data);
@@ -132,13 +160,11 @@ export class MaintenanceComponent implements OnInit{
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
       this.dataCategory['ID'] = response.id;
-      this.dataCategory['Apartment ID'] = response.apartmentId;
+      this.dataCategory['Apartment ID'] = response.apartment_id;
       this.dataCategory['Category Name'] = response.category;
       this.dataCategory['Category Desc'] = response.description;
       this.dataCategory['Category Image'] = response.image;
-      this.dataCategory['Status'] = response.isActive? 'Active': 'In-Active';
-      this.dataCategory['Created Date'] = response.createdDate;
-      this.dataCategory['Modified Date'] = response.modifiedDate;
+      this.dataCategory['Status'] = response.is_active==true? 'Active': 'In-Active';
       resolve(this.dataCategory);
     });
   }
@@ -201,8 +227,18 @@ export class MaintenanceComponent implements OnInit{
     this.location.back();
   }
   
-  onCloseModal(){
-    this.modalClose.nativeElement.click();
+  onCloseModal(type: string){
+    if(type=='add'){
+      this.modalCloseAdd.nativeElement.click();
+    }
+    else if(type=='update'){
+      this.modalCloseUpdate.nativeElement.click();
+    }
+    else if(type=='assign'){
+      this.modalCloseAssign.nativeElement.click();
+    }
+    
+    this.ngOnInit();
   }
 
   onHistoryClick(){

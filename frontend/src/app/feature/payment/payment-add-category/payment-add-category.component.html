@@ -1,0 +1,9 @@
+<div class="container w-100">
+    <div class="mt-0 pt-0">
+        <app-label labelType="label"  labelFor="categoryName" labelInput="Billing Category" [isMandatory]="true"></app-label>
+        <app-textbox inputID="categoryName" (onChangeEvent)="category=$event"></app-textbox>
+    </div>
+    <div class="container d-flex justify-content-center mt-4">
+        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+    </div>
+</div>

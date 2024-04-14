@@ -1,0 +1,13 @@
+:enabled:focus {
+    box-shadow: none;
+    border-color: var(--primary-purple);
+}
+
+::placeholder {
+    color: var(--cool-light-5);
+}
+
+:disabled {
+    color: var(--cool-dark);
+    background-color: var(--super-light-grey);
+}

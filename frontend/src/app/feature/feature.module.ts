@@ -12,6 +12,7 @@ import { MaintenanceHistoryComponent } from './maintenance/maintenance-history/m
 import { MaintenanceAddCategoryComponent } from './maintenance/maintenance-add-category/maintenance-add-category.component';
 import { MaintenanceAllRequestComponent } from './maintenance/maintenance-all-request/maintenance-all-request.component';
 import { MaintenanceDetailRequestComponent } from './maintenance/maintenance-detail-request/maintenance-detail-request.component';
+import { MaintenanceUpdateCategoryComponent } from './maintenance/maintenance-update-category/maintenance-update-category.component';
 // FACILITY
 import { FacilityComponent } from './facility/facility.component';
 import { FacilityListComponent } from './facility/facility-list/facility-list.component';
@@ -24,13 +25,17 @@ import { FacilityAllRequestComponent } from './facility/facility-all-request/fac
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementDetailComponent } from './announcement/announcement-detail/announcement-detail.component';
 import { AnnouncementAddComponent } from './announcement/announcement-add/announcement-add.component';
+import { AnnouncementUpdateComponent } from './announcement/announcement-update/announcement-update.component';
 // MAILBOX
 import { MailboxComponent } from './mailbox/mailbox.component';
 import { MailboxListComponent } from './mailbox/mailbox-list/mailbox-list.component';
+import { MailboxAddCategoryComponent } from './mailbox/mailbox-add-category/mailbox-add-category.component';
+import { MailboxUpdateCategoryComponent } from './mailbox/mailbox-update-category/mailbox-update-category.component';
 // PAYMENT
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentListComponent } from './payment/payment-list/payment-list.component';
-import { MaintenanceUpdateCategoryComponent } from './maintenance/maintenance-update-category/maintenance-update-category.component';
+import { PaymentAddCategoryComponent } from './payment/payment-add-category/payment-add-category.component';
+import { PaymentUpdateCategoryComponent } from './payment/payment-update-category/payment-update-category.component';
 // CHAT
 import { ChatComponent } from './chat/chat.component';
 // MERCHANT
@@ -42,7 +47,6 @@ import { MerchantProductComponent } from './merchant/merchant-product/merchant-p
 import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store.component';
 // REPORT
 import { ReportComponent } from './report/report.component';
-import { AnnouncementUpdateComponent } from './announcement/announcement-update/announcement-update.component';
 
 @NgModule({
   declarations: [
@@ -68,8 +72,12 @@ import { AnnouncementUpdateComponent } from './announcement/announcement-update/
     AnnouncementUpdateComponent,
     MailboxComponent,
     MailboxListComponent,
+    MailboxAddCategoryComponent,
+    MailboxUpdateCategoryComponent,
     PaymentComponent,
     PaymentListComponent,
+    PaymentAddCategoryComponent,
+    PaymentUpdateCategoryComponent,
     ChatComponent,
     MerchantComponent,
     MerchantAllComponent,
@@ -108,8 +116,12 @@ import { AnnouncementUpdateComponent } from './announcement/announcement-update/
     AnnouncementUpdateComponent,
     MailboxComponent,
     MailboxListComponent,
+    MailboxAddCategoryComponent,
+    MailboxUpdateCategoryComponent,
     PaymentComponent,
     PaymentListComponent,
+    PaymentAddCategoryComponent,
+    PaymentUpdateCategoryComponent,
     ChatComponent,
     MerchantComponent,
     MerchantAllComponent,

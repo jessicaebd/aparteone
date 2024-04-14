@@ -30,6 +30,7 @@ import { AccordionComponent } from './component/accordion/accordion.component';
 import { AttachmentImageComponent } from './component/attachment-image/attachment-image.component';
 import { BadgeComponent } from './component/badge/badge.component';
 import { AddItemComponent } from './component/add-item/add-item.component';
+import { TimepickerComponent } from './component/timepicker/timepicker.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AddItemComponent } from './component/add-item/add-item.component';
     AttachmentImageComponent,
     BadgeComponent,
     AddItemComponent,
+    TimepickerComponent,
   ],
   imports: [
     CommonModule,
@@ -95,6 +97,7 @@ import { AddItemComponent } from './component/add-item/add-item.component';
     AttachmentImageComponent,
     BadgeComponent,
     AddItemComponent,
+    TimepickerComponent,
   ],
   providers:[]
 })

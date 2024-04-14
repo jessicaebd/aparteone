@@ -28,6 +28,7 @@ export class TableComponent implements OnInit, AfterViewInit{
   @Input() tableToolbar: boolean = false;
   @Input() toolbar: Toolbar[] = [];
 
+  @Input() pagination: boolean = true;
   @Input() length!: number;
   @Input() pageSize: number = 10;
   @Input() pageIndex: number = 0;
@@ -44,6 +45,7 @@ export class TableComponent implements OnInit, AfterViewInit{
   @Input() isDisabled: boolean = false;
   @Input() actionTarget?: string;
   @Input() actionToggle?: string;
+  @Input() sort?: boolean = true;
   @Input() flagSort?: boolean = true;
   @Output() onClickActionEvent = new EventEmitter<any>;
   @Output() onPageIndexEvent = new EventEmitter<number>;

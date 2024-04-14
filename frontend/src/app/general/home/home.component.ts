@@ -7,7 +7,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  role!: string;
+  role: string = 'resident';
   html = '';
   isGuest = false;
 

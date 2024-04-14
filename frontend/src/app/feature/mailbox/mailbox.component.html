@@ -4,10 +4,81 @@
         <app-label labelInput="MAILBOX" labelType="title"></app-label>
         <app-label labelInput="Package Information" labelType="label"></app-label>
     </div>
-    <div class="d-flex mb-3">
-        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
-        <button [ngClass]="filter == 'received' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('received')">Received</button>
-        <button [ngClass]="filter == 'arrived' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('arrived')">Arrived</button>
-    </div>
-    <app-mailbox-list></app-mailbox-list>
+
+    <ng-container *ngIf="this.role=='resident'">
+        <div class="d-flex mb-3">
+            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
+            <button [ngClass]="filter == 'received' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('received')">Received</button>
+            <button [ngClass]="filter == 'arrived' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('arrived')">Arrived</button>
+        </div>
+        <app-mailbox-list></app-mailbox-list>
+    </ng-container>
+
+    <ng-container *ngIf="this.role=='management'">
+        <div class="mailbox-list">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="MAILBOX CATEGORY" labelType="subtitle"></app-label>
+                <app-button buttonLabel="Add Category" data-bs-toggle="modal" data-bs-target="#modalAddCategory"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" 
+                [pagination]="false" [sort]="false" [errorMsg]="errorMsgCategory"></app-table>
+            </div>
+        </div>
+        <div class="mailbox-request-list mt-5">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="LIST MAILBOX" labelType="subtitle"></app-label>
+                <app-button buttonLabel="All MAILBOX" (onClickEvent)="onAllRequest()"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" 
+                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <app-modal modalID="modalAddCategory" [width]="600" [modalContent]="modalAddCategory"></app-modal>
+
+        <ng-template #modalAddCategory>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Mailbox Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <app-mailbox-add-category (onSubmitEvent)="onCloseModal('add')"></app-mailbox-add-category>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalViewCategory" [width]="600" [modalContent]="modalViewCategory"></app-modal>
+
+        <ng-template #modalViewCategory>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Mailbox Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <app-mailbox-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-mailbox-update-category>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalRequestDetail"></app-modal>
+    
+        <ng-template #modalRequestDetail>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Mailbox Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalDetail></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <!-- <app-mailbox-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal('detail')"></app-mailbox-detail-request> -->
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
 </div>

@@ -3,6 +3,7 @@ import { listItems } from 'src/app/shared/component/dropdown/dropdown.component'
 import { MaintenanceCategory, MaintenanceRequest } from '../maintenance.interface';
 import { MaintenanceService } from '../service/maintenance.service';
 import Swal from 'sweetalert2';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-maintenance-request',
@@ -13,15 +14,14 @@ export class MaintenanceRequestComponent{
   @Input() dataCategory!: MaintenanceCategory
   @Output() onSubmitEvent = new EventEmitter<any>;
   
-  maintenanceCategory!: any;
+  residentId = 4;
   flagValidasi?: boolean = false;
   typeMaintenance: listItems[] = [];
   data: MaintenanceRequest = { };
 
-  constructor(private maintenanceService: MaintenanceService){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
 
   onButtonSubmit(){
-    console.log(this.dataCategory['Category Name']);
     this.flagValidasi = false;
     let errorMsg = "";
 
@@ -44,8 +44,7 @@ export class MaintenanceRequestComponent{
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
-          let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-          this.submitRequest(now, this.data);
+          this.submitRequest();
         }
       });
     }
@@ -59,43 +58,58 @@ export class MaintenanceRequestComponent{
     }
   }
 
-  submitRequest(now: any, data:any){
-    data['Request Date'] = now;
-    console.log('Request Date', data['Request Date']);
-    alert('SUBMIT ON : ' + now);
+  async submitRequest(){
+    let body = await this.setBodyInsertRequest();
+    let result = await this.insertMaintenanceRequest(body);
+    this.apps.loadingPage(false);
+    this.onSubmitEvent.emit();
+    this.data = {};
+    this.typeMaintenance = [];
 
-    Swal.fire({
-      title: 'Success',
-      html: 'Requested Successfuly',
-      icon: 'success',
-      confirmButtonColor: '#5025FA'
-    }).then((result) => {
-      if(result.value){
-        this.data = {};
-        console.log('CLEAR DATA:', this.data);
-        this.typeMaintenance = [];
-        this.onSubmitEvent.emit();
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Inserted Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Insert Category',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+  }
+
+  setBodyInsertRequest(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'residentId': this.residentId,
+        'maintenanceId': this.dataCategory['ID'],
+        'description': this.data['Maintenance Detail']
       }
+      resolve(body);
     });
+  }
 
+  insertMaintenanceRequest(body: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.insertMaintenanceRequest(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }));
   }
 
   //temp
-  // getMaintenanceCategory(): Promise<any>{
-  //   return new Promise<any>(resolve => 
-  //     this.maintenanceService.getMaintenanceAllCategory(1, 10, 0).subscribe({
-  //       next: async (response: any) => {
-  //         console.log('Response: ', response);
-  //         this.maintenanceCategory = response;
-  //         resolve(true);
-  //       },
-  //       error: (error: any) => {
-  //         console.log('#error', error);
-  //         resolve(error);
-  //       }
-  //     }))
-  // }
-
   // setDropdown(id: any, data: any){
   //   console.log('CategoryID:', id);
   //   for(let i=0; i<data.length; i++){

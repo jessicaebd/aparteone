@@ -1,5 +1,5 @@
 <div class="container">
-    <ng-container *ngIf="isResident">
+    <ng-container *ngIf="this.role=='resident'">
         <div class="row mb-3">
             <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <app-label labelInput="Maintenance" labelType="title"></app-label>
@@ -9,18 +9,18 @@
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
             </div>
-            <app-maintenance-category [listCategory]="tableCategory" [errorMsg]="errorListCategory"></app-maintenance-category>
+            <app-maintenance-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-maintenance-category>
         </div>
         <div class="maintenance-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST MAINTENANCE" labelType="subtitle"></app-label>
                 <app-button buttonLabel="All History" (onClickEvent)="onHistoryClick()"></app-button>
             </div>
-            <app-maintenance-list [listRequest]="tableRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-maintenance-list>
+            <app-maintenance-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-maintenance-list>
         </div>
     </ng-container>
 
-    <ng-container *ngIf="isManagement">
+    <ng-container *ngIf="this.role=='management'">
         <div class="row mb-3">
             <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <app-label labelInput="Maintenance" labelType="title"></app-label>
@@ -57,10 +57,10 @@
         <ng-template #modalAddCategory>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Maintenance Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-maintenance-add-category (onSubmitEvent)="onCloseModal()"></app-maintenance-add-category>
+                <app-maintenance-add-category (onSubmitEvent)="onCloseModal('add')"></app-maintenance-add-category>
             </div>
         </ng-template>
 
@@ -70,23 +70,24 @@
         <ng-template #modalViewCategory>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Maintenance Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-maintenance-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal()"></app-maintenance-update-category>
+                <app-maintenance-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-maintenance-update-category>
             </div>
         </ng-template>
 
+        <!-- Modal -->
         <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalRequestDetail"></app-modal>
     
         <ng-template #modalRequestDetail>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Maintenance Request Detail</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAssign></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-maintenance-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal()"></app-maintenance-detail-request>
+                    <app-maintenance-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal('assign')"></app-maintenance-detail-request>
                 </div>
             </div>
         </ng-template>

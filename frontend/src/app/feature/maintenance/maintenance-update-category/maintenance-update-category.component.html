@@ -17,15 +17,13 @@
 
     <ng-container *ngIf="data['Status']=='Active'; else setActive">
         <div class="container d-flex justify-content-center mt-4">
-            <app-button buttonClass="outline-primary" buttonLabel="Deactive" (onClickEvent)="onUpdateActive(false)"></app-button>
-            <!-- <app-button class="ms-3" buttonClass="primary" buttonLabel="Save" (onClickEvent)="onButtonSubmit()"></app-button> -->
+            <app-button class="ms-3" buttonClass="primary" buttonLabel="Deactivate" (onClickEvent)="onButtonSubmit(false)"></app-button>
         </div>
     </ng-container>
 
     <ng-template #setActive>
         <div class="container d-flex justify-content-center mt-4">
-            <app-button buttonClass="outline-primary" buttonLabel="Active" (onClickEvent)="onUpdateActive(true)"></app-button>
-            <!-- <app-button class="ms-3" buttonClass="primary" buttonLabel="Save" (onClickEvent)="onButtonSubmit()"></app-button> -->
+            <app-button class="ms-3" buttonClass="primary" buttonLabel="Activate" (onClickEvent)="onButtonSubmit(true)"></app-button>
         </div>
     </ng-template>
 </div>
