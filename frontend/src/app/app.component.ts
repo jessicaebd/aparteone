@@ -15,7 +15,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   providers: [AuthComponent]
 })
 export class AppComponent implements OnInit {
-  title = 'k2_frontend';
+  title = 'aparteone';
   idleState = 'Not started.';
   timedOut = false;
   lastPing?: Date;

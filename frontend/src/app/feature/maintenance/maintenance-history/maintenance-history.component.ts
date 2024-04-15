@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MaintenanceService } from '../service/maintenance.service';
-import { Column } from 'src/app/shared/component/table/table.component';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-maintenance-history',
@@ -10,22 +10,23 @@ import { Column } from 'src/app/shared/component/table/table.component';
 export class MaintenanceHistoryComponent {
   table: any;
   allDataCount: any;
-  filter: string = "";
-  errorMsg?: string;
-  sortCol?: string = 'created_date';
-  sortDir?: string = 'desc';
-  col: Column[] = [];
+  filter: string = '';
+  errorMsg: string = '';
+  sortCol?: string = 'id';
+  sortDir?: string = 'DESC';
 
-  constructor(private maintenanceService: MaintenanceService){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
 
-  ngOnInit(){
-    this.col = [{name: 'maintenance_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-    this.getMaintenanceAllRequest(1, 10, 0, this.sortCol, this.sortDir);
+  async ngOnInit(){
+    this.apps.loadingPage(true);
+    this.errorMsg = '';
+    await this.getMaintenanceResidentRequest(4, 10, 0, this.sortCol, this.sortDir, this.filter);
+    this.apps.loadingPage(false);
   }
 
-  getMaintenanceAllRequest(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getMaintenanceResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any, status: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllRequest(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, sortBy, sortReqDir, status).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -39,6 +40,7 @@ export class MaintenanceHistoryComponent {
         },
         error: (error: any) => {
           console.log('#error', error);
+          this.errorMsg = 'No Data Found!'
           resolve(error);
         }
       }))
@@ -46,12 +48,13 @@ export class MaintenanceHistoryComponent {
 
   onLoadData(e:any){
     console.log("Onload Page Index: ", e);
-    this.getMaintenanceAllRequest(1, 10, e, this.sortCol, this.sortDir);
+    this.getMaintenanceResidentRequest(1, 10, e, this.sortCol, this.sortDir, this.filter);
   }
 
   onFilterBy(e:any){
     this.filter = e;
     console.log('Filter :', this.filter);
+    this.ngOnInit();
   }
 
   backButton(){

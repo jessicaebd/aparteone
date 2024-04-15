@@ -31,6 +31,8 @@ import { MailboxComponent } from './mailbox/mailbox.component';
 import { MailboxListComponent } from './mailbox/mailbox-list/mailbox-list.component';
 import { MailboxAddCategoryComponent } from './mailbox/mailbox-add-category/mailbox-add-category.component';
 import { MailboxUpdateCategoryComponent } from './mailbox/mailbox-update-category/mailbox-update-category.component';
+import { MailboxAllComponent } from './mailbox/mailbox-all/mailbox-all.component';
+import { MailboxAddComponent } from './mailbox/mailbox-add/mailbox-add.component';
 // PAYMENT
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentListComponent } from './payment/payment-list/payment-list.component';
@@ -47,6 +49,7 @@ import { MerchantProductComponent } from './merchant/merchant-product/merchant-p
 import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store.component';
 // REPORT
 import { ReportComponent } from './report/report.component';
+import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +77,9 @@ import { ReportComponent } from './report/report.component';
     MailboxListComponent,
     MailboxAddCategoryComponent,
     MailboxUpdateCategoryComponent,
+    MailboxAllComponent,
+    MailboxAddComponent,
+    MailboxDetailComponent,
     PaymentComponent,
     PaymentListComponent,
     PaymentAddCategoryComponent,
@@ -118,6 +124,9 @@ import { ReportComponent } from './report/report.component';
     MailboxListComponent,
     MailboxAddCategoryComponent,
     MailboxUpdateCategoryComponent,
+    MailboxAllComponent,
+    MailboxAddComponent,
+    MailboxDetailComponent,
     PaymentComponent,
     PaymentListComponent,
     PaymentAddCategoryComponent,

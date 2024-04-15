@@ -8,6 +8,7 @@ import { authGuard } from './auth/components/auth.guard';
 import { RegisterComponent } from './general/register/register.component';
 
 // ANNOUNCEMENT
+import { AnnouncementComponent } from './feature/announcement/announcement.component';
 import { AnnouncementDetailComponent } from './feature/announcement/announcement-detail/announcement-detail.component';
 
 // PAYMENT
@@ -40,7 +41,7 @@ import { MerchantStoreComponent } from './feature/merchant/merchant-store/mercha
 // REPORT
 import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
-import { AnnouncementComponent } from './feature/announcement/announcement.component';
+import { MailboxAllComponent } from './feature/mailbox/mailbox-all/mailbox-all.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -73,6 +74,7 @@ const routes: Routes = [
   
   // MAILBOX
   { path: 'mailbox', component: MailboxComponent },
+  { path: 'mailbox/all', component: MailboxAllComponent },
 
   // MERCHANT
   { path: 'merchant', component: MerchantComponent },

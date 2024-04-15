@@ -15,10 +15,10 @@
             <ng-container *ngIf="col.name != 'ActionCol'">
               <ng-container *ngIf="sort">
                 <ng-container *ngIf="flagSort; else sortUp">
-                  <app-text-button iconStart="bi bi-sort-down" (onClickEvent)="onSortClick(col.name, 'asc')"></app-text-button>
+                  <app-text-button iconStart="bi bi-sort-down" (onClickEvent)="onSortClick(col.name, 'ASC')"></app-text-button>
                 </ng-container>
                 <ng-template #sortUp>
-                  <app-text-button iconStart="bi bi-sort-up" (onClickEvent)="onSortClick(col.name, 'desc')"></app-text-button>
+                  <app-text-button iconStart="bi bi-sort-up" (onClickEvent)="onSortClick(col.name, 'DESC')"></app-text-button>
                 </ng-template>
               </ng-container>
             </ng-container>

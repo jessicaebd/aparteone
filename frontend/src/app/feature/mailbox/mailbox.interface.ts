@@ -1,16 +1,14 @@
 export interface Mailbox{
     "ID"?: any,
+    "Resident ID"?: any,
     "Resident Name"?: any,
-    "Maintenance ID"?: any,
-    "Maintenance Category"?: any,
-    "Maintenance Detail"?: any,
+    "Resident Unit"?: any,
+    "Mailbox ID"?: any,
+    "Mailbox Category"?: any,
+    "Mailbox Desc"?: any,
     "Status"?: any,
-    "Request Date"?: any,
-    "Assigned Date"?: any,
-    "Assigned Name"?: any,
-    "Completed Date"?: any,
-    "Canceled Date"?: any,
-    // "Modified Date"?: any,
+    "Received Date"?: any,
+    "Completed Date"?: any
 }
 
 export interface MailboxCategory{

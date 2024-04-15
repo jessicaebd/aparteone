@@ -17,11 +17,17 @@ export class MailboxService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getMailboxCategory(apartmentId: any, page: any, size: any, isActive:any): any {
+  getMailboxCategory(apartmentId: any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'page': page, 'size': size, 'isActive': isActive } });
+    let params;
+    if(isActive!='' || isActive != null){
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -30,10 +36,48 @@ export class MailboxService {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
-
-  updateMailboxCategory(billingId:any, isActive:any): any {
+  
+  updateMailboxCategory(mailboxId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiUpdate}-status`;
-    const params = new HttpParams({ fromObject: { 'mailboxId': billingId, 'isActive': isActive } });
+    const params = new HttpParams({ fromObject: { 'mailboxId': mailboxId, 'isActive': isActive } });
+    const options = { params };
+    const body = { };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  // DETAIL
+  getMailboxDetailApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiApartment}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  getMailboxDetailResident(residentId: any, size:number, page: number, status: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiResident}`;
+    const headers = new HttpHeaders({
+    });
+    let params;
+    if(status!='' || status != null){
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
+    }
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  insertMailboxDetail(body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}`;
+    return this.httpClient.post<any>(apiUrl, body);
+  }
+
+  updateMailboxDetail(mailboxRequestId:any, status:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiUpdate}-status`;
+    const params = new HttpParams({ fromObject: { 'mailboxRequestId': mailboxRequestId, 'status': status } });
     const options = { params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);

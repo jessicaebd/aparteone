@@ -20,7 +20,7 @@
                                     <ng-container *ngIf="item.status=='Assigned'">
                                         <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
                                     </ng-container>
-                                    <ng-container *ngIf="item.status=='Canceled'">
+                                    <ng-container *ngIf="item.status=='Cancelled'">
                                         <app-badge [badgeText]="item.status" badgeType="danger"></app-badge>
                                     </ng-container>
                                     <ng-container *ngIf="item.status=='Completed'">
@@ -35,14 +35,22 @@
                     <div class="accordion-body pt-0">
                         <div class="row w-50">
                             <div class="col-3">
+                                <app-label labelInput="Description"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.description; else noData" [labelInput]="': ' + item.description"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
                                 <app-label labelInput="Requested Date"></app-label>
                             </div>
                             <div class="col">
-                                <app-label [labelInput]="': ' + item.request_date"></app-label>
+                                <app-label *ngIf="item.request_date else noData" [labelInput]="': ' + item.request_date"></app-label>
                             </div>
                         </div>
                         <ng-container *ngIf="item.status=='Requested'">
-                            <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel"></app-button>
+                            <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onCancelEvent(item.id)"></app-button>
                         </ng-container>
                         <ng-container *ngIf="item.status=='Assigned'">
                             <div class="row w-50">
@@ -50,7 +58,7 @@
                                     <app-label labelInput="Fixed Date"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label [labelInput]="': ' + item.assigned_date"></app-label>
+                                    <app-label *ngIf="item.assigned_date; else noData" [labelInput]="': ' + item.assigned_date"></app-label>
                                 </div>
                             </div>
                             <div class="row w-50">
@@ -58,7 +66,7 @@
                                     <app-label labelInput="Fixed By"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label [labelInput]="': ' + item.assigned_to"></app-label>
+                                    <app-label *ngIf="item.assigned_to; else noData" [labelInput]="': ' + item.assigned_to"></app-label>
                                 </div>
                             </div>
                         </ng-container>
@@ -68,7 +76,7 @@
                                     <app-label labelInput="Fixed Date"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label [labelInput]="': ' + item.assigned_date"></app-label>
+                                    <app-label *ngIf="item.assigned_date; else noData" [labelInput]="': ' + item.assigned_date"></app-label>
                                 </div>
                             </div>
                             <div class="row w-50">
@@ -76,7 +84,7 @@
                                     <app-label labelInput="Fixed By"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label [labelInput]="': ' + item.assigned_to"></app-label>
+                                    <app-label *ngIf="item.assigned_to; else noData" [labelInput]="': ' + item.assigned_to"></app-label>
                                 </div>
                             </div>
                             <div class="row w-50">
@@ -84,20 +92,24 @@
                                     <app-label labelInput="Completed Date"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label [labelInput]="': ' + item.completed_date"></app-label>
+                                    <app-label *ngIf="item.completed_date; else noData" [labelInput]="': ' + item.completed_date"></app-label>
                                 </div>
                             </div>
                         </ng-container>
-                        <ng-container *ngIf="item.status=='Canceled'">
+                        <ng-container *ngIf="item.status=='Cancelled'">
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Canceled Date"></app-label>
+                                    <app-label labelInput="Cancelled Date"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label [labelInput]="': ' + item.cancelled_date"></app-label>
+                                    <app-label *ngIf="item.cancelled_date; else noData" [labelInput]="': ' + item.cancelled_date"></app-label>
                                 </div>
                             </div>
                         </ng-container>
+
+                        <ng-template #noData>
+                            <app-label [labelInput]="': -'"></app-label>
+                        </ng-template>
                     </div>
                 </div>
             </div>

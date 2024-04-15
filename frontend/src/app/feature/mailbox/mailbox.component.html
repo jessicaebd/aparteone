@@ -8,10 +8,10 @@
     <ng-container *ngIf="this.role=='resident'">
         <div class="d-flex mb-3">
             <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
-            <button [ngClass]="filter == 'received' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('received')">Received</button>
-            <button [ngClass]="filter == 'arrived' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('arrived')">Arrived</button>
+            <button [ngClass]="filter == 'Received' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Received')">Received</button>
+            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
         </div>
-        <app-mailbox-list></app-mailbox-list>
+        <app-mailbox-list [listRequest]="listRequest" [length]="allListRequest" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="ngOnInit" [errorMsg]="errorListRequest"></app-mailbox-list>
     </ng-container>
 
     <ng-container *ngIf="this.role=='management'">
@@ -30,7 +30,10 @@
         <div class="mailbox-request-list mt-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST MAILBOX" labelType="subtitle"></app-label>
-                <app-button buttonLabel="All MAILBOX" (onClickEvent)="onAllRequest()"></app-button>
+                <div>
+                    <app-button class="me-2" buttonLabel="Add Mailbox" data-bs-toggle="modal" data-bs-target="#modalAddMailbox" (onClickEvent)="onAddMailbox()"></app-button>
+                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="onAllMailbox()"></app-button>
+                </div>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
@@ -67,7 +70,22 @@
         </ng-template>
 
         <!-- Modal -->
-        <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalRequestDetail"></app-modal>
+        <app-modal modalID="modalAddMailbox" [width]="600" [modalContent]="modalAddMailbox"></app-modal>
+    
+        <ng-template #modalAddMailbox>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Mailbox</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalNew></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <app-mailbox-add (onSubmitEvent)="onCloseModal('new')"></app-mailbox-add>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalRequestDetail" [width]="600" [modalContent]="modalRequestDetail"></app-modal>
     
         <ng-template #modalRequestDetail>
             <div class="modal-header">
@@ -76,7 +94,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <!-- <app-mailbox-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal('detail')"></app-mailbox-detail-request> -->
+                    <app-mailbox-detail [data]="dataRequest" (onSubmitEvent)="onCloseModal('detail')"></app-mailbox-detail>
                 </div>
             </div>
         </ng-template>

@@ -9,14 +9,14 @@
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
             </div>
-            <app-maintenance-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-maintenance-category>
+            <app-maintenance-category [listCategory]="listCategory" [errorMsg]="errorListCategory" (onSubmitEvent)="ngOnInit()"></app-maintenance-category>
         </div>
         <div class="maintenance-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST MAINTENANCE" labelType="subtitle"></app-label>
-                <app-button buttonLabel="All History" (onClickEvent)="onHistoryClick()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="onHistoryClick()"></app-button>
             </div>
-            <app-maintenance-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-maintenance-list>
+            <app-maintenance-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest" (onSubmitEvent)="ngOnInit()"></app-maintenance-list>
         </div>
     </ng-container>
 
@@ -41,7 +41,7 @@
         <div class="maintenance-request-list mt-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST MAINTENANCE REQUEST" labelType="subtitle"></app-label>
-                <app-button buttonLabel="All Request" (onClickEvent)="onAllRequest()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="onAllRequest()"></app-button>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 

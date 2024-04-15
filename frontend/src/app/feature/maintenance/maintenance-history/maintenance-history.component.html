@@ -5,11 +5,11 @@
         <app-label labelInput="Request History" labelType="label"></app-label>
     </div>
     <div class="d-flex mb-3">
-        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
-        <button [ngClass]="filter == 'requested' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('requested')">Requested</button>
-        <button [ngClass]="filter == 'assigned' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('assigned')">Assigned</button>
-        <button [ngClass]="filter == 'completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('completed')">Completed</button>
-        <button [ngClass]="filter == 'canceled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('canceled')">Canceled</button>
+        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+        <button [ngClass]="filter == 'Requested' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Requested')">Requested</button>
+        <button [ngClass]="filter == 'Assigned' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Assigned')">Assigned</button>
+        <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
+        <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Canceled</button>
     </div>
-    <app-maintenance-list [listRequest]="table" [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)"></app-maintenance-list>
+    <app-maintenance-list [listRequest]="table" [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)" (onSubmitEvent)="ngOnInit" [errorMsg]="errorMsg"></app-maintenance-list>
 </div>

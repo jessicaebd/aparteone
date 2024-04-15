@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MaintenanceCategory } from '../maintenance.interface';
 
 @Component({
@@ -10,6 +10,7 @@ export class MaintenanceCategoryComponent{
   @Input() listCategory!: any;
   @Input() errorMsg!: string;
   activeCategory: MaintenanceCategory = {};
+  @Output() onSubmitEvent = new EventEmitter<any>;
 
   @ViewChild('closeModal') modalClose: any;
 
@@ -31,6 +32,7 @@ export class MaintenanceCategoryComponent{
 
   onCloseModal(){
     this.modalClose.nativeElement.click();
+    this.onSubmitEvent.emit();
   }
   
   onCategoryClick(item: any){

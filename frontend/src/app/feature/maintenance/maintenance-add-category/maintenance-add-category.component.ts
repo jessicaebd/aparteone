@@ -33,8 +33,6 @@ export class MaintenanceAddCategoryComponent {
     else{
       this.flagValidasi = true
     }
-    
-    console.log(this.data);
 
     if(this.flagValidasi){
       //SUBMIT REQUEST
@@ -67,6 +65,7 @@ export class MaintenanceAddCategoryComponent {
     let body = await this.setBodyInsertCategory();
     let result = await this.insertMaintenanceCategory(body);
     this.apps.loadingPage(false);
+    this.data = { };
     this.onSubmitEvent.emit();
 
     if(result==true){

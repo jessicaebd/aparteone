@@ -5,6 +5,7 @@ import { MaintenanceService } from './service/maintenance.service';
 import { MaintenanceDetailRequestComponent } from './maintenance-detail-request/maintenance-detail-request.component';
 import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface';
 import { AppComponent } from 'src/app/app.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-maintenance',
