@@ -1,6 +1,5 @@
 package com.com.aparteone.entity;
 
-import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -30,12 +29,4 @@ public class Maintenance extends AuditEntity {
     private String category;
     private String description;
     private Boolean isActive;
-
-    public Maintenance (CategoryRequest maintenance) {
-        this.apartmentId = maintenance.getApartmentId();
-        this.image = maintenance.getImage();
-        this.category = maintenance.getCategory();
-        this.description = maintenance.getDescription();
-        this.isActive = maintenance.getIsActive();
-    }
 }

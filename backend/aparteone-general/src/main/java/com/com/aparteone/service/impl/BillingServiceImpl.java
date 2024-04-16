@@ -16,10 +16,11 @@ import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.BillingDetailRequest;
-import com.com.aparteone.dto.request.BillingRequest;
 import com.com.aparteone.dto.request.PaymentRequest;
+import com.com.aparteone.dto.request.category.BillingCategoryRequest;
 import com.com.aparteone.dto.response.BillingDetailResponse;
 import com.com.aparteone.dto.response.PaymentResponse;
+import com.com.aparteone.dto.response.category.BillingCategoryResponse;
 import com.com.aparteone.entity.Billing;
 import com.com.aparteone.entity.BillingDetail;
 import com.com.aparteone.entity.Payment;
@@ -48,6 +49,43 @@ public class BillingServiceImpl implements BillingService {
     @Autowired
     private ResidentService residentService;
 
+    @Override
+    public Billing addBilling(BillingCategoryRequest billingRequest) {
+        Billing billing = new Billing();
+        billing.setApartmentId(billingRequest.getApartmentId());
+        billing.setCategory(billingRequest.getCategory());
+        billing.setIsActive(true);
+        return billingRepo.save(billing);
+    }
+
+    @Override
+    public Billing updateBillingIsActive(Integer billingId, Boolean isActive) {
+        Billing billing = billingRepo.findById(billingId).get();
+        billing.setIsActive(isActive);
+        return billingRepo.save(billing);
+    }
+
+    @Override
+    public List<BillingCategoryResponse> getBillingListByApartmentId(Boolean isActive, Integer apartmentId) {
+        Specification<Billing> spec = Specification.where(BillingSpecification.billingHasApartmentId(apartmentId));
+        if (isActive != null) {
+            spec = spec.and(BillingSpecification.billingIsActive(isActive));
+        }
+
+        List<Billing> billing = billingRepo.findAll(spec);
+        List<BillingCategoryResponse> response = new ArrayList<>();
+        billing.forEach(request -> {
+            response.add(new BillingCategoryResponse(
+                    request.getId(),
+                    request.getApartmentId(),
+                    request.getCategory(),
+                    request.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
+                    request.getCreatedDate(),
+                    request.getModifiedDate()));
+        });
+        return response;
+    }
+
     public Pageable pagination(int page, int size, String sortBy, String sortDir) {
         Pageable pageable = null;
         if (sortBy != null && sortDir != null) {
@@ -58,28 +96,6 @@ public class BillingServiceImpl implements BillingService {
             pageable = PageRequest.of(page, size);
         }
         return pageable;
-    }
-
-    @Override
-    public List<Billing> getBillingListByApartmentId(Boolean isActive, Integer apartmentId) {
-        Specification<Billing> spec = Specification.where(BillingSpecification.billingHasApartmentId(apartmentId));
-        if (isActive != null) {
-            spec = spec.and(BillingSpecification.billingIsActive(isActive));
-        }
-        return billingRepo.findAll(spec);
-    }
-
-    @Override
-    public Billing insertBilling(BillingRequest billingRequest) {
-        Billing billing = new Billing(billingRequest);
-        return billingRepo.save(billing);
-    }
-
-    @Override
-    public Billing updateBillingIsActive(Integer billingId, Boolean isActive) {
-        Billing billing = billingRepo.findById(billingId).get();
-        billing.setIsActive(isActive);
-        return billingRepo.save(billing);
     }
 
     @Override

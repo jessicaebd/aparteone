@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.AnnouncementRequest;
-import com.com.aparteone.dto.response.AnnouncementResponse;
+import com.com.aparteone.dto.response.category.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 import com.com.aparteone.repository.AnnouncementRepo;
 import com.com.aparteone.service.AnnouncementService;

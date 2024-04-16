@@ -4,17 +4,18 @@ import java.util.List;
 
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.BillingDetailRequest;
-import com.com.aparteone.dto.request.BillingRequest;
 import com.com.aparteone.dto.request.PaymentRequest;
+import com.com.aparteone.dto.request.category.BillingCategoryRequest;
 import com.com.aparteone.dto.response.BillingDetailResponse;
+import com.com.aparteone.dto.response.category.BillingCategoryResponse;
 import com.com.aparteone.entity.Billing;
 import com.com.aparteone.entity.BillingDetail;
 
 public interface BillingService {
-    // Billing
-    public List<Billing> getBillingListByApartmentId(Boolean isActive, Integer apartmentId);
-    public Billing insertBilling(BillingRequest billingRequest);
+    // Billing - Category
+    public Billing addBilling(BillingCategoryRequest billingRequest);
     public Billing updateBillingIsActive(Integer billingId, Boolean isActive);
+    public List<BillingCategoryResponse> getBillingListByApartmentId(Boolean isActive, Integer apartmentId);
 
     // Billing Request
     public BillingDetailResponse getBillingDetailById(Integer billingDetailId);

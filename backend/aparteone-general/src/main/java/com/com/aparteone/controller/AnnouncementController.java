@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.AnnouncementRequest;
-import com.com.aparteone.dto.response.AnnouncementResponse;
+import com.com.aparteone.dto.response.category.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 import com.com.aparteone.service.AnnouncementService;
 

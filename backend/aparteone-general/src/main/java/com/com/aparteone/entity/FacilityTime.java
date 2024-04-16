@@ -31,11 +31,4 @@ public class FacilityTime extends AuditEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endTime;
     private Boolean isActive;
-
-    public FacilityTime(Integer facilityId, String startTime, String endTime) {
-        this.facilityId = facilityId;
-        this.startTime = LocalTime.parse(startTime);
-        this.endTime = LocalTime.parse(endTime);
-        this.isActive = true;
-    }
 }
