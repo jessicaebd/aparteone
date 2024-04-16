@@ -1,7 +1,6 @@
 package com.com.aparteone.dto.request;
 
-import javax.persistence.Lob;
-
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

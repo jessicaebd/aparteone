@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.ResidentDTO;
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.MailboxRequest;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.response.MailboxDetailResponse;
@@ -49,7 +49,7 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public PageDTO<Mailbox> getMailboxListByApartmentId(int page, int size, Boolean isActive, Integer apartmentId) {
+    public PageResponse<Mailbox> getMailboxListByApartmentId(int page, int size, Boolean isActive, Integer apartmentId) {
         Pageable pageable = pagination(page, size, null, null);
         Specification<Mailbox> spec = Specification.where(MailboxSpecification.hasApartmentId(apartmentId));
         if (isActive != null) {
@@ -60,7 +60,7 @@ public class MailboxServiceImpl implements MailboxService {
             }
         }
         Page<Mailbox> mailboxes = mailboxRepo.findAll(spec, pageable);
-        PageDTO<Mailbox> response = new PageDTO<>(
+        PageResponse<Mailbox> response = new PageResponse<>(
                 mailboxes.getTotalElements(),
                 mailboxes.getTotalPages(),
                 mailboxes.getNumber(),
@@ -83,7 +83,7 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public PageDTO<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+    public PageResponse<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
         Specification<MailboxDetail> spec = Specification.where(MailboxSpecification.hasResidentId(residentId));
         if (status != null) {
             if (status.equals(AparteoneConstant.STATUS_RECEIVED)) {
@@ -100,7 +100,7 @@ public class MailboxServiceImpl implements MailboxService {
             data.add(getMailboxDetailById(request.getId()));
         });
 
-        PageDTO<MailboxDetailResponse> response = new PageDTO<>(
+        PageResponse<MailboxDetailResponse> response = new PageResponse<>(
                 mailboxDetails.getTotalElements(),
                 mailboxDetails.getTotalPages(),
                 mailboxDetails.getNumber(),
@@ -110,7 +110,7 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public PageDTO<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
+    public PageResponse<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
         Pageable pageable = pagination(page, size, sortBy, sortDir);
         Page<MailboxDetail> mailboxDetails = null;
         if (status != null) {
@@ -124,7 +124,7 @@ public class MailboxServiceImpl implements MailboxService {
             data.add(getMailboxDetailById(request.getId()));
         });
 
-        PageDTO<MailboxDetailResponse> response = new PageDTO<>(
+        PageResponse<MailboxDetailResponse> response = new PageResponse<>(
                 mailboxDetails.getTotalElements(),
                 mailboxDetails.getTotalPages(),
                 mailboxDetails.getNumber(),

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.dto.response.MaintenanceCategoryResponse;
@@ -26,6 +24,8 @@ import com.com.aparteone.repository.MaintenanceRepo;
 import com.com.aparteone.repository.MaintenanceRequestRepo;
 import com.com.aparteone.service.MaintenanceService;
 import com.com.aparteone.specification.MaintenanceRequestSpecification;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -48,7 +48,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageDTO<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, Integer apartmentId) {
+    public PageResponse<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, Integer apartmentId) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Maintenance> maintenances = maintenanceRepo.findByApartmentId(apartmentId, pageable);
 
@@ -64,7 +64,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             ));
         });
 
-        PageDTO<MaintenanceCategoryResponse> response = new PageDTO<>(
+        PageResponse<MaintenanceCategoryResponse> response = new PageResponse<>(
             maintenances.getTotalElements(),
             maintenances.getTotalPages(),
             maintenances.getNumber(),
@@ -88,7 +88,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageDTO<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
         Specification<MaintenanceRequest> spec = Specification.where(MaintenanceRequestSpecification.hasResidentId(residentId));
         if(status != null) {
             spec = spec.and(MaintenanceRequestSpecification.hasStatus(status));
@@ -102,7 +102,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             data.add(new MaintenanceRequestResponse(request, maintenance));
         });
 
-        PageDTO<MaintenanceRequestResponse> response = new PageDTO<>(
+        PageResponse<MaintenanceRequestResponse> response = new PageResponse<>(
             maintenanceRequests.getTotalElements(),
             maintenanceRequests.getTotalPages(),
             maintenanceRequests.getNumber(),
@@ -113,7 +113,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageDTO<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
         Pageable pageable = pagination(page, size, sortBy, sortDir);
         Page<MaintenanceRequest> maintenanceRequests = null;
         if(status == null) {
@@ -128,7 +128,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             data.add(new MaintenanceRequestResponse(request, maintenance));
         });
         
-        PageDTO<MaintenanceRequestResponse> response = new PageDTO<>(
+        PageResponse<MaintenanceRequestResponse> response = new PageResponse<>(
             maintenanceRequests.getTotalElements(),
             maintenanceRequests.getTotalPages(),
             maintenanceRequests.getNumber(),

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.general.PageDTO;
 import com.com.aparteone.dto.request.MailboxRequest;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.response.MailboxDetailResponse;
 import com.com.aparteone.entity.Mailbox;
@@ -27,13 +27,13 @@ public class MailboxController {
     private MailboxService mailboxService;
 
     @GetMapping("")
-    public ResponseEntity<PageDTO<Mailbox>> getMailboxListByApartmentId(
+    public ResponseEntity<PageResponse<Mailbox>> getMailboxListByApartmentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "100") int size,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam Integer apartmentId) {
         log.info("[Mailbox] Get Mailbox List By Apartment Id: {}", apartmentId);
-        PageDTO<Mailbox> response = mailboxService.getMailboxListByApartmentId(page, size, isActive, apartmentId);
+        PageResponse<Mailbox> response = mailboxService.getMailboxListByApartmentId(page, size, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
 
@@ -54,7 +54,7 @@ public class MailboxController {
     }
 
     @GetMapping("/detail/resident")
-    public ResponseEntity<PageDTO<MailboxDetailResponse>> getMailboxDetailByResidentId(
+    public ResponseEntity<PageResponse<MailboxDetailResponse>> getMailboxDetailByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -62,12 +62,12 @@ public class MailboxController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer residentId) {
         log.info("[Mailbox] Get Mailbox Request List By Resident Id: {}", residentId);
-        PageDTO<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail/apartment")
-    public ResponseEntity<PageDTO<MailboxDetailResponse>> getMailboxDetailByApartmentId(
+    public ResponseEntity<PageResponse<MailboxDetailResponse>> getMailboxDetailByApartmentId(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
@@ -75,7 +75,7 @@ public class MailboxController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer apartmentId) {
         log.info("[Mailbox] Get Mailbox Request List By Apartment Id: {}", apartmentId);
-        PageDTO<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
         return ResponseEntity.ok(response);
     }
 

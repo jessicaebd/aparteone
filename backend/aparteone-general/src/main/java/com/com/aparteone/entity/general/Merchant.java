@@ -1,12 +1,11 @@
 package com.com.aparteone.entity.general;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-
 import com.com.aparteone.entity.audit.AuditEntity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,10 +24,9 @@ public class Merchant extends AuditEntity {
     @Lob
     private String image;
     private String name;
-    private String bankName;
+    private String bankAccount;
     private String accountNumber;
     private String accountName;
-    private String phoneNumber;
     private String category;
     private String address;
     private Boolean isActive;

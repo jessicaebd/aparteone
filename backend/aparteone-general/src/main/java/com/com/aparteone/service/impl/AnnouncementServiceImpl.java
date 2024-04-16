@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,13 +13,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.AnnouncementRequest;
 import com.com.aparteone.dto.response.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 import com.com.aparteone.repository.AnnouncementRepo;
 import com.com.aparteone.service.AnnouncementService;
 import com.com.aparteone.specification.AnnouncementSpecification;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -41,7 +41,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public PageDTO<AnnouncementResponse> getAnnouncementListByApartmentId(int page, int size, String sortBy, String sortDir, String criteria, Integer apartmentId) {
+    public PageResponse<AnnouncementResponse> getAnnouncementListByApartmentId(int page, int size, String sortBy, String sortDir, String criteria, Integer apartmentId) {
         Specification<Announcement> spec = Specification.where(AnnouncementSpecification.hasApartmentId(apartmentId));
         if (criteria != null) {
             if (criteria.equals(AparteoneConstant.STATUS_ACTIVE)) {
@@ -70,7 +70,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             data.add(response);
         });
 
-        PageDTO<AnnouncementResponse> response = new PageDTO<>(
+        PageResponse<AnnouncementResponse> response = new PageResponse<>(
                 announcements.getTotalElements(),
                 announcements.getTotalPages(),
                 announcements.getNumber(),

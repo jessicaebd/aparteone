@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.BillingDetailRequest;
 import com.com.aparteone.dto.request.BillingRequest;
 import com.com.aparteone.dto.request.PaymentRequest;
@@ -55,7 +55,7 @@ public class BillingController {
     }
 
     @GetMapping("/detail/resident")
-    public ResponseEntity<PageDTO<BillingDetailResponse>> getBillingDetailByResidentId(
+    public ResponseEntity<PageResponse<BillingDetailResponse>> getBillingDetailByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -63,12 +63,12 @@ public class BillingController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer residentId) {
         log.info("[Billing] Get Billing Request List By Resident Id: {}", residentId);
-        PageDTO<BillingDetailResponse> response = billingService.getBillingDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail/apartment")
-    public ResponseEntity<PageDTO<BillingDetailResponse>> getBillingDetailByApartmentId(
+    public ResponseEntity<PageResponse<BillingDetailResponse>> getBillingDetailByApartmentId(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
@@ -76,7 +76,7 @@ public class BillingController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer apartmentId) {
         log.info("[Billing] Get Billing Request List By Apartment Id: {}", apartmentId);
-        PageDTO<BillingDetailResponse> response = billingService.getBillingDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
         return ResponseEntity.ok(response);
     }
 

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.ResidentDTO;
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.PaymentRequest;
 import com.com.aparteone.dto.request.TransactionRequest;
 import com.com.aparteone.dto.response.PaymentResponse;
@@ -38,6 +36,8 @@ import com.com.aparteone.repository.general.MerchantRepo;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.service.TransactionService;
 import com.com.aparteone.specification.TransactionSpecification;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -134,7 +134,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public PageDTO<TransactionResidentResponse> getTransactionListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+    public PageResponse<TransactionResidentResponse> getTransactionListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
         Specification<Transaction> spec = Specification.where(TransactionSpecification.hasResidentId(residentId));
         if (status != null) {
             spec = spec.and(TransactionSpecification.hasStatus(status));
@@ -148,7 +148,7 @@ public class TransactionServiceImpl implements TransactionService {
             data.add(transactionResponse);
         });
 
-        PageDTO<TransactionResidentResponse> response = new PageDTO<>(
+        PageResponse<TransactionResidentResponse> response = new PageResponse<>(
                 transactions.getTotalElements(),
                 transactions.getTotalPages(),
                 transactions.getNumber(),
@@ -188,7 +188,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public PageDTO<TransactionMerchantResponse> getTransactionListByMerchantId(int page, int size, String sortBy, String sortDir, String status, Integer merchantId) {
+    public PageResponse<TransactionMerchantResponse> getTransactionListByMerchantId(int page, int size, String sortBy, String sortDir, String status, Integer merchantId) {
         Specification<Transaction> spec = Specification.where(TransactionSpecification.hasMerchantId(merchantId));
         if (status != null) {
             spec = spec.and(TransactionSpecification.hasStatus(status));
@@ -202,7 +202,7 @@ public class TransactionServiceImpl implements TransactionService {
             data.add(transactionResponse);
         });
 
-        PageDTO<TransactionMerchantResponse> response = new PageDTO<>(
+        PageResponse<TransactionMerchantResponse> response = new PageResponse<>(
                 transactions.getTotalElements(),
                 transactions.getTotalPages(),
                 transactions.getNumber(),

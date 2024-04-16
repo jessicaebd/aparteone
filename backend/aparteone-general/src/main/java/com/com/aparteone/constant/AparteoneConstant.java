@@ -20,4 +20,9 @@ public class AparteoneConstant {
 
     public static final String STATUS_VALID = "Valid";
     public static final String STATUS_INVALID = "Invalid";
+
+    public static final Integer ROLE_ID_ADMIN = 1;
+    public static final Integer ROLE_ID_MANAGEMENT = 2;
+    public static final Integer ROLE_ID_RESIDENT = 3;
+    public static final Integer ROLE_ID_MERCHANT = 4;
 }

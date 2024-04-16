@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.ProductRequest;
 import com.com.aparteone.dto.response.MerchantResponse;
 import com.com.aparteone.dto.response.ProductResponse;
@@ -47,7 +47,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageDTO<MerchantResponse> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
+    public PageResponse<MerchantResponse> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
         Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
         if (search != null) {
             spec = spec.and(MerchantSpecification.search(search));
@@ -61,7 +61,7 @@ public class MerchantServiceImpl implements MerchantService {
             data.add(new MerchantResponse(merchant, apartment));
         }
 
-        PageDTO<MerchantResponse> response = new PageDTO<>(
+        PageResponse<MerchantResponse> response = new PageResponse<>(
                 merchants.getTotalElements(),
                 merchants.getTotalPages(),
                 merchants.getNumber(),
@@ -71,7 +71,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageDTO<MerchantResponse> getMerchantListByApartmentId(int page, int size, String sortBy, String sortDir, String category, Integer apartmentId) {
+    public PageResponse<MerchantResponse> getMerchantListByApartmentId(int page, int size, String sortBy, String sortDir, String category, Integer apartmentId) {
         Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
         if (category != null) {
             spec = spec.and(MerchantSpecification.hasCategory(category));
@@ -85,7 +85,7 @@ public class MerchantServiceImpl implements MerchantService {
             data.add(new MerchantResponse(merchant, apartment));
         }
 
-        PageDTO<MerchantResponse> response = new PageDTO<>(
+        PageResponse<MerchantResponse> response = new PageResponse<>(
                 merchants.getTotalElements(),
                 merchants.getTotalPages(),
                 merchants.getNumber(),
@@ -95,7 +95,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageDTO<ProductResponse> getProductListByMerchantId(int page, int size, String sortBy, String sortDir, Integer merchantId) {
+    public PageResponse<ProductResponse> getProductListByMerchantId(int page, int size, String sortBy, String sortDir, Integer merchantId) {
         Pageable pageable = pagination(page, size, sortBy, sortDir);
         Page<Product> products = productRepo.findByMerchantId(merchantId, pageable);
 
@@ -105,7 +105,7 @@ public class MerchantServiceImpl implements MerchantService {
             data.add(new ProductResponse(product, merchant));
         }
 
-        PageDTO<ProductResponse> response = new PageDTO<>(
+        PageResponse<ProductResponse> response = new PageResponse<>(
                 products.getTotalElements(),
                 products.getTotalPages(),
                 products.getNumber(),

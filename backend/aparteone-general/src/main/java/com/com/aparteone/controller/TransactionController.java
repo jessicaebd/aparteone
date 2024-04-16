@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.PaymentRequest;
 import com.com.aparteone.dto.request.TransactionRequest;
 import com.com.aparteone.dto.response.TransactionMerchantResponse;
@@ -27,7 +27,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @GetMapping("/resident")
-    public ResponseEntity<PageDTO<TransactionResidentResponse>> getTransactionListByResidentId(
+    public ResponseEntity<PageResponse<TransactionResidentResponse>> getTransactionListByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -35,7 +35,7 @@ public class TransactionController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer residentId) {
         log.info("[Transaction][Resident] Get Transaction List By Resident Id: {}", residentId);
-        PageDTO<TransactionResidentResponse> response = transactionService.getTransactionListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<TransactionResidentResponse> response = transactionService.getTransactionListByResidentId(page, size, sortBy, sortDir, status, residentId);
         return ResponseEntity.ok(response);
     }
 
@@ -47,7 +47,7 @@ public class TransactionController {
     }
 
     @GetMapping("/merchant")
-    public ResponseEntity<PageDTO<TransactionMerchantResponse>> getTransactionListByMerchantId(
+    public ResponseEntity<PageResponse<TransactionMerchantResponse>> getTransactionListByMerchantId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -55,7 +55,7 @@ public class TransactionController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer merchantId) {
         log.info("[Transaction][Merchant] Get Transaction List By Merchant Id: {}", merchantId);
-        PageDTO<TransactionMerchantResponse> response = transactionService.getTransactionListByMerchantId(page, size, sortBy, sortDir, status, merchantId);
+        PageResponse<TransactionMerchantResponse> response = transactionService.getTransactionListByMerchantId(page, size, sortBy, sortDir, status, merchantId);
         return ResponseEntity.ok(response);
     }
 

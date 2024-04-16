@@ -2,7 +2,7 @@ package com.com.aparteone.service;
 
 import java.util.List;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.BillingDetailRequest;
 import com.com.aparteone.dto.request.BillingRequest;
 import com.com.aparteone.dto.request.PaymentRequest;
@@ -18,8 +18,8 @@ public interface BillingService {
 
     // Billing Request
     public BillingDetailResponse getBillingDetailById(Integer billingDetailId);
-    public PageDTO<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
-    public PageDTO<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
+    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
+    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
     public BillingDetail insertBillingDetail(BillingDetailRequest billingDetailRequest);
     public BillingDetail updateBillingDetailStatusById(Integer billingDetailId, String status);
     public BillingDetail payment(PaymentRequest paymentRequest);

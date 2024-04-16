@@ -2,15 +2,12 @@ package com.com.aparteone.dto.response;
 
 import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.Merchant;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @AllArgsConstructor
 public class MerchantResponse {
@@ -33,10 +30,12 @@ public class MerchantResponse {
         this.image = merchant.getImage();
         this.merchantId = merchant.getId();
         this.merchantName = merchant.getName();
-        this.phoneNumber = merchant.getPhoneNumber();
+        //this.phoneNumber = merchant.getPhoneNumber();
+        this.phoneNumber = null;
         this.category = merchant.getCategory();
         this.address = merchant.getAddress();
-        this.bankName = merchant.getBankName();
+        //this.bankName = merchant.getBankName();
+        this.bankName = null;
         this.accountName = merchant.getAccountName();
         this.accountNumber = merchant.getAccountNumber();
         this.isActive = merchant.getIsActive();

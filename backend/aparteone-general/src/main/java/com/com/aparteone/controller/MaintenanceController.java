@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.CategoryRequest;
 import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.dto.response.MaintenanceCategoryResponse;
@@ -29,12 +29,12 @@ public class MaintenanceController {
     private MaintenanceService maintenanceService;
 
     @GetMapping("")
-    public ResponseEntity<PageDTO<MaintenanceCategoryResponse>> getMaintenanceListByApartmentId(
+    public ResponseEntity<PageResponse<MaintenanceCategoryResponse>> getMaintenanceListByApartmentId(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size,
             @RequestParam Integer apartmentId) {
         log.info("[Maintenance] Get Maintenance List By Apartment Id: {}", apartmentId);
-        PageDTO<MaintenanceCategoryResponse> response = maintenanceService.getMaintenanceListByApartmentId(page, size, apartmentId);
+        PageResponse<MaintenanceCategoryResponse> response = maintenanceService.getMaintenanceListByApartmentId(page, size, apartmentId);
         return ResponseEntity.ok(response);
     }
 
@@ -55,7 +55,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/request/resident")
-    public ResponseEntity<PageDTO<MaintenanceRequestResponse>> getMaintenanceRequestByResidentId(
+    public ResponseEntity<PageResponse<MaintenanceRequestResponse>> getMaintenanceRequestByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -64,13 +64,13 @@ public class MaintenanceController {
             @RequestParam Integer residentId) {
         log.info("[Maintenance] Get Maintenance Request List By Resident Id: {}", residentId);
 
-        PageDTO<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByResidentId(page,
+        PageResponse<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByResidentId(page,
                 size, sortBy, sortDir, status, residentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/request/apartment")
-    public ResponseEntity<PageDTO<MaintenanceRequestResponse>> getMaintenanceRequestByApartmentId(
+    public ResponseEntity<PageResponse<MaintenanceRequestResponse>> getMaintenanceRequestByApartmentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -79,7 +79,7 @@ public class MaintenanceController {
             @RequestParam Integer apartmentId) {
         log.info("[Maintenance] Get Maintenance Request List By Apartment Id: {}", apartmentId);
 
-        PageDTO<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByApartmentId(page,
+        PageResponse<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByApartmentId(page,
                 size, sortBy, sortDir, status, apartmentId);
         return ResponseEntity.ok(response);
     }

@@ -1,4 +1,4 @@
-package com.com.aparteone.dto.general;
+package com.com.aparteone.dto.base;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageDTO<T> {
+public class PageResponse<T> {
     private long totalElements;
     private int totalPages;
     private int pageNumber;

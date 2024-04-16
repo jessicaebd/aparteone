@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.FacilityCategoryRequest;
 import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.dto.request.FacilityTimeRequest;
@@ -30,13 +30,13 @@ public class FacilityController {
     private FacilityService facilityService;
 
     @GetMapping("")
-    public ResponseEntity<PageDTO<FacilityCategoryResponse>> getFacilityListByApartmentId(
+    public ResponseEntity<PageResponse<FacilityCategoryResponse>> getFacilityListByApartmentId(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "40") int size,
         @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam Integer apartmentId) {
         log.info("[Facility] Get Facility List By Apartment Id: {}", apartmentId);
-        PageDTO<FacilityCategoryResponse> response = facilityService.getFacilityListByApartmentId(page, size, isActive, apartmentId);
+        PageResponse<FacilityCategoryResponse> response = facilityService.getFacilityListByApartmentId(page, size, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
 
@@ -67,7 +67,7 @@ public class FacilityController {
     }
 
     @GetMapping("/request/resident")
-    public ResponseEntity<PageDTO<FacilityRequestResponse>> getFacilityRequestByResidentId(
+    public ResponseEntity<PageResponse<FacilityRequestResponse>> getFacilityRequestByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -75,12 +75,12 @@ public class FacilityController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer residentId) {
         log.info("[Facility] Get Facility Request List By Resident Id: {}", residentId);
-        PageDTO<FacilityRequestResponse> response = facilityService.getFacilityRequestListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByResidentId(page, size, sortBy, sortDir, status, residentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/request/apartment")
-    public ResponseEntity<PageDTO<FacilityRequestResponse>> getFacilityRequestByApartmentId(
+    public ResponseEntity<PageResponse<FacilityRequestResponse>> getFacilityRequestByApartmentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "created_date") String sortBy,
@@ -88,7 +88,7 @@ public class FacilityController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer apartmentId) {
         log.info("[Facility] Get Facility Request List By Apartment Id: {}", apartmentId);
-        PageDTO<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
         return ResponseEntity.ok(response);
     }
 
