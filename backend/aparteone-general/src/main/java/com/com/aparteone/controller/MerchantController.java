@@ -1,3 +1,4 @@
+
 package com.com.aparteone.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.ProductRequest;
 import com.com.aparteone.dto.response.MerchantResponse;
 import com.com.aparteone.dto.response.ProductResponse;
@@ -26,7 +27,7 @@ public class MerchantController {
     private MerchantService merchantService;
 
     @GetMapping("/search")
-    public ResponseEntity<PageDTO<MerchantResponse>> searchMerchant(
+    public ResponseEntity<PageResponse<MerchantResponse>> searchMerchant(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -34,12 +35,12 @@ public class MerchantController {
             @RequestParam Integer apartmentId,
             @RequestParam(value = "search", required = false) String search) {
         log.info("[Merchant] Get Merchant List By Apartment Id: {}", apartmentId);
-        PageDTO<MerchantResponse> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, search);
+        PageResponse<MerchantResponse> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("")
-    public ResponseEntity<PageDTO<MerchantResponse>> getMerchantListByApartmentId(
+    public ResponseEntity<PageResponse<MerchantResponse>> getMerchantListByApartmentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
@@ -47,19 +48,19 @@ public class MerchantController {
             @RequestParam(value = "category", required = false) String category,
             @RequestParam Integer apartmentId) {
         log.info("[Merchant] Get Merchant List By Apartment Id: {}", apartmentId);
-        PageDTO<MerchantResponse> response = merchantService.getMerchantListByApartmentId(page, size, sortBy, sortDir, category, apartmentId);
+        PageResponse<MerchantResponse> response = merchantService.getMerchantListByApartmentId(page, size, sortBy, sortDir, category, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/product")
-    public ResponseEntity<PageDTO<ProductResponse>> getProductListByMerchantId(
+    public ResponseEntity<PageResponse<ProductResponse>> getProductListByMerchantId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir,
             @RequestParam Integer merchantId) {
         log.info("[Merchant] Get Product List By Mesrchant Id: {}", merchantId);
-        PageDTO<ProductResponse> response = merchantService.getProductListByMerchantId(page, size, sortBy, sortDir, merchantId);
+        PageResponse<ProductResponse> response = merchantService.getProductListByMerchantId(page, size, sortBy, sortDir, merchantId);
         return ResponseEntity.ok(response);
     }
 

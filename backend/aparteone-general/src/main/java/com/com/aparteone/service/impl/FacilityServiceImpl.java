@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.ResidentDTO;
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.FacilityCategoryRequest;
 import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.dto.request.FacilityTimeRequest;
@@ -33,6 +31,8 @@ import com.com.aparteone.service.FacilityService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.FacilityRequestSpecification;
 import com.com.aparteone.specification.FacilitySpecification;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -63,7 +63,7 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public PageDTO<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, Boolean isActive, Integer apartmentId) {
+    public PageResponse<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, Boolean isActive, Integer apartmentId) {
         Specification<Facility> spec = Specification.where(FacilitySpecification.hasApartmentId(apartmentId));
         if (isActive != null) {
             if (isActive) {
@@ -81,7 +81,7 @@ public class FacilityServiceImpl implements FacilityService {
             data.add(new FacilityCategoryResponse(facility, facilityTimes));
         });
 
-        PageDTO<FacilityCategoryResponse> response = new PageDTO<>(
+        PageResponse<FacilityCategoryResponse> response = new PageResponse<>(
                 facilities.getTotalElements(),
                 facilities.getTotalPages(),
                 facilities.getNumber(),
@@ -129,7 +129,7 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public PageDTO<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy,
+    public PageResponse<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy,
             String sortDir, String status, Integer residentId) {
         Specification<FacilityRequest> spec = Specification
                 .where(FacilityRequestSpecification.hasResidentId(residentId));
@@ -150,7 +150,7 @@ public class FacilityServiceImpl implements FacilityService {
             data.add(getFacilityRequestById(request.getId()));
         });
 
-        PageDTO<FacilityRequestResponse> response = new PageDTO<>(
+        PageResponse<FacilityRequestResponse> response = new PageResponse<>(
                 facilityRequests.getTotalElements(),
                 facilityRequests.getTotalPages(),
                 facilityRequests.getNumber(),
@@ -160,7 +160,7 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public PageDTO<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy,
+    public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy,
             String sortDir, String status, Integer apartmentId) {
         Pageable pageable = pagination(page, size, sortBy, sortDir);
         Page<FacilityRequest> facilityRequests = null;
@@ -175,7 +175,7 @@ public class FacilityServiceImpl implements FacilityService {
             data.add(getFacilityRequestById(request.getId()));
         });
 
-        PageDTO<FacilityRequestResponse> response = new PageDTO<>(
+        PageResponse<FacilityRequestResponse> response = new PageResponse<>(
                 facilityRequests.getTotalElements(),
                 facilityRequests.getTotalPages(),
                 facilityRequests.getNumber(),

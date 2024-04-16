@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.ResidentDTO;
-import com.com.aparteone.dto.general.PageDTO;
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.BillingDetailRequest;
 import com.com.aparteone.dto.request.BillingRequest;
 import com.com.aparteone.dto.request.PaymentRequest;
@@ -31,6 +29,8 @@ import com.com.aparteone.repository.PaymentRepo;
 import com.com.aparteone.service.BillingService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.BillingSpecification;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -116,7 +116,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageDTO<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy,
+    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy,
             String sortDir, String status, Integer residentId) {
         Specification<BillingDetail> spec = Specification
                 .where(BillingSpecification.billingDetailHasResidentId(residentId));
@@ -132,7 +132,7 @@ public class BillingServiceImpl implements BillingService {
             data.add(getBillingDetailById(request.getId()));
         });
 
-        PageDTO<BillingDetailResponse> response = new PageDTO<>(
+        PageResponse<BillingDetailResponse> response = new PageResponse<>(
                 billingDetail.getTotalElements(),
                 billingDetail.getTotalPages(),
                 billingDetail.getNumber(),
@@ -142,7 +142,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageDTO<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy,
+    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy,
             String sortDir, String status, Integer apartmentId) {
         Specification<BillingDetail> spec = Specification
                 .where(BillingSpecification.billingDetailHasApartmentId(apartmentId));
@@ -158,7 +158,7 @@ public class BillingServiceImpl implements BillingService {
             data.add(getBillingDetailById(request.getId()));
         });
 
-        PageDTO<BillingDetailResponse> response = new PageDTO<>(
+        PageResponse<BillingDetailResponse> response = new PageResponse<>(
                 billingDetail.getTotalElements(),
                 billingDetail.getTotalPages(),
                 billingDetail.getNumber(),
