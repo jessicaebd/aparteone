@@ -11,15 +11,26 @@ export class AnnouncementService {
   private apiAnnouncement = `${environment.modules.feature.announcement}`;
   private apiUpdate = `${environment.modules.general.update}`;
   private apiDetail = `${environment.modules.general.detail}`;
+  private apiAdd = `${environment.modules.general.add}`;
 
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // GET LIST
-  getListAnnouncement(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any, criteria: any): any {
+  getListAnnouncement(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir, 'criteria': criteria } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  // GET LIST
+  getListAnnouncementResident(apartmentId: any, criteria: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'criteria': criteria } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -36,7 +47,7 @@ export class AnnouncementService {
 
   // ADD
   insertAnnouncement(body: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}`;
+    const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 

@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+// import { MatPaginator } from '@angular/material/paginator';
 
 export interface Column{
   name: string;
@@ -18,7 +18,7 @@ export interface Toolbar{
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
 })
-export class TableComponent implements OnInit, AfterViewInit{
+export class TableComponent implements OnInit{
   @Input() dataTable?: any;
   @Input() columns: Column[] = [];
   @Input() headerAlignment: "left" | "center" | "right" = "left";
@@ -57,15 +57,15 @@ export class TableComponent implements OnInit, AfterViewInit{
   displayedColumns: string[] = [];
   clickedRows!: [any];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(){
     this.displayedColumns = this.columns.map((col) => col.name);
   }
 
-  ngAfterViewInit() {
-    this.dataTable.paginator = this.paginator;
-  }
+  // ngAfterViewInit() {
+  //   this.dataTable.paginator = this.paginator;
+  // }
 
   OnClickActionButton(e:any){
     this.onClickActionEvent.emit(e);
@@ -74,7 +74,7 @@ export class TableComponent implements OnInit, AfterViewInit{
   onClickPageIndex(e:any){
     // console.log("Index :", e.pageIndex);
     // console.log("Skip :", e.pageIndex * this.pageSize);
-    this.onPageIndexEvent.emit(e.pageIndex * this.pageSize);
+    this.onPageIndexEvent.emit(e.pageIndex);
   }
 
   onRowClicked(e:any){

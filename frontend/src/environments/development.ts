@@ -15,6 +15,8 @@ export const environment : EnvironmentInterface = {
             update: "update",
             detail: "detail",
             add: "add",
+            search: "search",
+            delete: "delete",
         },
         feature: {
             announcement: "announcement",
@@ -23,6 +25,9 @@ export const environment : EnvironmentInterface = {
             facility: "facility",
             mailbox: "mailbox",
             payment: "billing",
+            merchant: "merchant",
+            product: "product",
+            cart: "cart",
             apartment: "apartment",
             resident: "resident",
         },

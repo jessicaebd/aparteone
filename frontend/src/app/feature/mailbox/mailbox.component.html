@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pb-5">
     <div class="row mb-3">
         <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
         <app-label labelInput="MAILBOX" labelType="title"></app-label>
@@ -39,7 +39,7 @@
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
                     actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" 
-                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
+                    [length]="allDataRequest" [pageSize]="5" [pageIndex]="pageRequest" [sort]="false" [pagination]="false" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 

@@ -21,6 +21,9 @@ export interface FeatureEnvironment {
   facility: string,
   mailbox: string,
   payment: string,
+  merchant: string,
+  product: string,
+  cart: string,
   apartment: string,
   resident: string,
 }
@@ -31,4 +34,6 @@ export interface GeneralEnvironment {
   update: string,
   detail: string,
   add: string,
+  search: string,
+  delete: string,
 }

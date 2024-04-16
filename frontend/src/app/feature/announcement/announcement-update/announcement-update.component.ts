@@ -50,8 +50,8 @@ export class AnnouncementUpdateComponent {
         'image': data.image,
         'title': data.title,
         'description': data.description,
-        'startDate': this.formatISODate(new Date(data.start_date)),
-        'endDate': this.formatISODate(new Date(data.end_date)),
+        'startDate': this.formatISODate(new Date(data.startDate)),
+        'endDate': this.formatISODate(new Date(data.endDate)),
         'status': data.status
       }
       resolve(result);

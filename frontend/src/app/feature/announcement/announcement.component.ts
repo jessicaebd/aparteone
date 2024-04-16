@@ -9,12 +9,16 @@ import { Column } from 'src/app/shared/component/table/table.component';
   styleUrls: ['./announcement.component.css']
 })
 export class AnnouncementComponent implements OnInit{
-  @Input() role!: string;
+  role!: string;
+  apartmentId = 1;
 
   tableAnnouncement: any;
   allDataAnnouncement: any;
   sortAnnCol?: string = 'id';
   sortAnnDir?: string = 'DESC';
+  errorMsg: string = "";
+  page = 0;
+  size = 10;
   colAnnouncement: Column[] = [];
   listAnnouncement!: any;
   errorMsglist: string = "";
@@ -25,34 +29,49 @@ export class AnnouncementComponent implements OnInit{
 
   async ngOnInit() {
     this.apps.loadingPage(true);
+    this.errorMsg = "";
+    this.errorMsglist = "";
     this.role = this.apps.getUserRole();
-    // let currentPath = window.location.href;
-    // if(currentPath.includes('announcement')){
-    //   this.role = 'management'
-    // }
 
     if(this.role=='resident'){
-      await this.getListAnnouncement(2, 1000, 0, 'id', 'ASC', 'Active');
+      await this.getListAnnouncementResident(this.apartmentId, 'Active');
     }
     else if(this.role=='management'){
-      this.colAnnouncement = [{name: 'title', displayName: 'Title'}, {name: 'start_date', displayName: 'Start Date'}, {name: 'end_date', displayName: 'End Date'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      await this.getListAnnouncement(1, 10, 0, this.sortAnnCol, this.sortAnnDir, null);
+      this.colAnnouncement = [{name: 'title', displayName: 'Title'}, {name: 'startDate', displayName: 'Start Date'}, {name: 'endDate', displayName: 'End Date'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      await this.getListAnnouncement(this.apartmentId, this.size, this.page, this.sortAnnCol, this.sortAnnDir);
     }
     this.apps.loadingPage(false);
   }
 
-  getListAnnouncement(apartementId:any, size:any, page:any, sortBy: any, sortDir:any, criteria: any): Promise<any>{
+  getListAnnouncement(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.announcementService.getListAnnouncement(apartementId, size, page, sortBy, sortDir, criteria).subscribe({
+      this.announcementService.getListAnnouncement(apartementId, size, page, sortBy, sortDir).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
-            if(this.role=='resident'){
-              this.listAnnouncement = response.data;
-            }
-            else if(this.role=='management'){
               this.tableAnnouncement = response.data;
-            }
+              this.allDataAnnouncement = response.totalElements;
+          }
+          else{
+            this.errorMsg = 'No Announcement!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsg = 'No Announcement!'
+          resolve(error);
+        }
+      }))
+  }
+
+  getListAnnouncementResident(apartementId:any, criteria: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.announcementService.getListAnnouncementResident(apartementId, criteria).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.listAnnouncement = response.data;
           }
           else{
             this.errorMsglist = 'No Announcement!'
@@ -73,14 +92,17 @@ export class AnnouncementComponent implements OnInit{
 
   onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
-    this.getListAnnouncement(1, 10, e, this.sortAnnCol, this.sortAnnDir, null);
+    this.page = e;
+    this.ngOnInit();
+    // this.getListAnnouncement(this.apartmentId, 10, e, this.sortAnnCol, this.sortAnnDir);
   }
 
   async onSortData(type:any, e:any){
     console.log("OnSort: ", e);
-    let arr = await this.onSplitSortEvent(e);
-    console.log(arr);
-    this.getListAnnouncement(1, 10, 0, this.sortAnnCol, this.sortAnnDir, null);
+    await this.onSplitSortEvent(e);
+    this.page = 0;
+    this.ngOnInit();
+    // this.getListAnnouncement(this.apartmentId, 10, 0, this.sortAnnCol, this.sortAnnDir);
   }
 
   onSplitSortEvent(e:any): Promise<any>{
