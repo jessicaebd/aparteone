@@ -1,4 +1,4 @@
-package com.com.aparteone.dto.request;
+package com.com.aparteone.dto.request.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

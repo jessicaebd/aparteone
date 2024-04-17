@@ -47,9 +47,9 @@ public class AnnouncementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Announcement> insertAnnouncement(@RequestBody AnnouncementRequest announcement) {
+    public ResponseEntity<Announcement> addAnnouncement(@RequestBody AnnouncementRequest announcement) {
         log.info("[Announcement] Insert Announcement: " + announcement.toString());
-        Announcement newAnnouncement = announcementService.insertAnnouncement(announcement);
+        Announcement newAnnouncement = announcementService.addAnnouncement(announcement);
         return ResponseEntity.ok(newAnnouncement);
     }
 

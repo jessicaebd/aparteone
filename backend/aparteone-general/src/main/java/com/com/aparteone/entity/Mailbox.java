@@ -1,6 +1,5 @@
 package com.com.aparteone.entity;
 
-import com.com.aparteone.dto.request.MailboxRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -26,10 +25,4 @@ public class Mailbox extends AuditEntity {
     private Integer apartmentId;
     private String category;
     private Boolean isActive;
-
-    public Mailbox(MailboxRequest request) {
-        this.apartmentId = request.getApartmentId();
-        this.category = request.getCategory();
-        this.isActive = request.getIsActive();
-    }
 }

@@ -33,8 +33,8 @@ import com.com.aparteone.repository.ProductRepo;
 import com.com.aparteone.repository.TransactionDetailRepo;
 import com.com.aparteone.repository.TransactionRepo;
 import com.com.aparteone.repository.general.MerchantRepo;
-import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.service.TransactionService;
+import com.com.aparteone.service.general.ResidentService;
 import com.com.aparteone.specification.TransactionSpecification;
 
 import jakarta.transaction.Transactional;

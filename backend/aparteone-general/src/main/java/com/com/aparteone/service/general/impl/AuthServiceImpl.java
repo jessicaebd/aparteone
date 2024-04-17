@@ -1,4 +1,4 @@
-package com.com.aparteone.service.impl;
+package com.com.aparteone.service.general.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import com.com.aparteone.repository.general.ApartmentRepo;
 import com.com.aparteone.repository.general.MerchantRepo;
 import com.com.aparteone.repository.general.ResidentRepo;
 import com.com.aparteone.repository.general.UserRepo;
-import com.com.aparteone.service.AuthService;
+import com.com.aparteone.service.general.AuthService;
 
 @Service
 public class AuthServiceImpl implements AuthService {
