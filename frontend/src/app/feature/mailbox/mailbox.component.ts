@@ -12,29 +12,34 @@ import { MailboxAddComponent } from './mailbox-add/mailbox-add.component';
   styleUrls: ['./mailbox.component.css']
 })
 export class MailboxComponent {
-  role: string = 'resident';
   apartmentId = 1;
   residentId = 4;
-
+  role: string = 'resident';
   filter: string = '';
-  listRequest!: any;
-  allListRequest: any;
-  pageList = 0;
-  errorListRequest: string = "";
+
+  listCategory!: any;
+  errorListCategory: string = '';
   tableCategory: any;
-  tableRequest: any;
   allDataCategory: any;
-  allDataRequest: any;
-  pageRequest = 0;
-  errorMsgCategory?: string;
-  errorMsgRequest?: string;
-  sortReqCol?: string = 'id';
-  sortReqDir?: string = 'DESC';
+  errorMsgCategory: string = '';
+  pageCategory: number = 0;
+  sizeCategory: number = 5;
   sortCatCol?: string = 'id';
   sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
-  colRequest: Column[] = [];
   dataCategory: MailboxCategory = {};
+  
+  listRequest!: any;
+  errorListRequest: string = "";
+  allListRequest: any;
+  pageList = 0;
+  tableRequest: any;
+  allDataRequest: any;
+  errorMsgRequest: string = '';
+  pageRequest = 0;
+  sortReqCol?: string = 'id';
+  sortReqDir?: string = 'DESC';
+  colRequest: Column[] = [];
   dataRequest: Mailbox = {};
   
   @ViewChild('closeModalAdd') modalCloseAdd: any;
@@ -55,18 +60,18 @@ export class MailboxComponent {
       this.colRequest = [{name: 'mailbox_category', displayName: 'Category'}, {name: 'resident_unit', displayName: 'Unit'}, {name: 'resident_name', displayName:'Recipient'}, {name: 'received_date', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Mailbox Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getMailboxCategory(1, '');
-      this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqCol);
+      this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
+      // this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqCol);
     }
     else if (this.role=='resident'){
-      this.getMailboxDetailResident(this.residentId, 3, this.pageList, this.filter);
+      // this.getMailboxDetailResident(this.residentId, 3, this.pageList, this.filter);
     }
     this.apps.loadingPage(false);
   }
 
-  getMailboxCategory(apartementId:any, isActive:any): Promise<any>{
+  getMailboxCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.mailboxService.getMailboxCategory(apartementId, isActive).subscribe({
+      this.mailboxService.getMailboxCategory(apartementId, size, page, sortBy, sortDir).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -149,7 +154,7 @@ export class MailboxComponent {
       this.dataCategory['ID'] = response.id;
       this.dataCategory['Apartment ID'] = response.apartmentId;
       this.dataCategory['Category Name'] = response.category;
-      this.dataCategory['Status'] = response.isActive==true? 'Active': 'In-Active';
+      this.dataCategory['Status'] = response.isActive;
       resolve(this.dataCategory);
     });
   }
@@ -172,7 +177,11 @@ export class MailboxComponent {
 
   onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
-    if(type=='request'){
+    if(type=='category'){
+      this.pageCategory = e;
+      // this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
+    }
+    else if(type=='request'){
       this.pageRequest = e;
       this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqDir);
     }
@@ -180,6 +189,7 @@ export class MailboxComponent {
       this.pageList = 0;
       this.getMailboxDetailResident(this.residentId, 10, this.pageList, this.filter);
     }
+    this.ngOnInit();
   }
 
   async onSortData(type:any, e:any){
@@ -187,12 +197,14 @@ export class MailboxComponent {
     let arr = await this.onSplitSortEvent(type, e);
     console.log(arr);
     if(type=='category'){
-      // this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
+      this.pageCategory = 0;
+      // this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       this.pageRequest = 0;
       this.getMailboxDetailApartment(this.apartmentId, 10, this.pageRequest, this.sortReqCol, this.sortReqDir);
     }
+    this.ngOnInit();
   }
 
   onSplitSortEvent(type:any, e:any): Promise<any>{

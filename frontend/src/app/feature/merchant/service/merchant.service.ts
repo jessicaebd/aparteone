@@ -27,7 +27,7 @@ export class MerchantService {
     const headers = new HttpHeaders({
     });
     let params;
-    if(category!='' || category != null){
+    if(category!=''){
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'category': category } });
     }
     else{
@@ -51,7 +51,7 @@ export class MerchantService {
     const headers = new HttpHeaders({
     });
     let params;
-    if(search!='' || search != null){
+    if(search!=''){
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'search': search } });
     }
     else{

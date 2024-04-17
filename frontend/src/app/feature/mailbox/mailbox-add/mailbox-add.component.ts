@@ -22,7 +22,7 @@ export class MailboxAddComponent implements OnInit{
   async ngOnInit() {
     this.data = {};
     this.mailboxCategory = [];
-    let category = await this.getMailboxCategory(this.apartmentId, true);
+    let category = await this.getMailboxActiveCategory(this.apartmentId, true);
     this.setDropdown(category);
   }
 
@@ -133,9 +133,9 @@ export class MailboxAddComponent implements OnInit{
     }
   }
 
-  getMailboxCategory(apartementId:any, isActive:any): Promise<any>{
+  getMailboxActiveCategory(apartementId:any, isActive:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.mailboxService.getMailboxCategory(apartementId, isActive).subscribe({
+      this.mailboxService.getMailboxActiveCategory(apartementId, isActive).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           resolve(response.data);

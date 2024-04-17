@@ -23,8 +23,8 @@
             <div class="py-2">
                 <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" 
-                [pagination]="false" [sort]="false" [errorMsg]="errorMsgCategory"></app-table>
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" [pageIndex]="pageCategory" [pageSize]="sizeCategory"
+                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
         <div class="mailbox-request-list mt-5">

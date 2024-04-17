@@ -91,7 +91,7 @@ export class TableComponent implements OnInit{
   }
 
   onSortClick(column:any, sort:any){
-    if(sort=='ASC'){
+    if(sort=='DESC'){
       this.flagSort = false;
     }
     else{

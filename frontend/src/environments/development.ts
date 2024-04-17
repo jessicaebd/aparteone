@@ -17,6 +17,8 @@ export const environment : EnvironmentInterface = {
             add: "add",
             search: "search",
             delete: "delete",
+            addCategory: "add-category",
+            updateStatus: "update-status",
         },
         feature: {
             announcement: "announcement",

@@ -82,8 +82,7 @@ export class MailboxAddCategoryComponent {
     return new Promise<any>(resolve =>{
       let body = {
         'apartmentId': this.apartmentId,
-        'category': this.category,
-        'isActive': true
+        'category': this.category
       }
       resolve(body);
     });

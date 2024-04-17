@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MaintenanceService } from '../service/maintenance.service';
 import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
@@ -24,13 +23,8 @@ export class MaintenanceListComponent {
   @Output() onPageIndexEvent = new EventEmitter<number>;
   
   @Output() onSubmitEvent = new EventEmitter<number>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
-
-  ngAfterViewInit() {
-    this.listRequest.paginator = this.paginator;
-  }
 
   onClickPageIndex(e:any){
     this.onPageIndexEvent.emit(e.pageIndex * this.pageSize);

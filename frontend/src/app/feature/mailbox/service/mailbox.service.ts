@@ -10,6 +10,8 @@ export class MailboxService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiMailbox = `${environment.modules.feature.mailbox}`;
   private apiUpdate = `${environment.modules.general.update}`;
+  private apiAddCategory = `${environment.modules.general.addCategory}`;
+  private apiUpdateStatus = `${environment.modules.general.updateStatus}`;
   private apiDetail = `${environment.modules.general.detail}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
@@ -17,28 +19,37 @@ export class MailboxService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getMailboxCategory(apartmentId: any, isActive:any): any {
+  getMailboxCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  getMailboxActiveCategory(apartmentId: any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
     const headers = new HttpHeaders({
     });
     let params;
-    if(isActive!='' || isActive != null){
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
+    if(isActive=='' || isActive == null){
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
     }
     else{
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
     }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertMailboxCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiAddCategory}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
   
   updateMailboxCategory(mailboxId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiUpdate}-status`;
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiUpdateStatus}`;
     const params = new HttpParams({ fromObject: { 'mailboxId': mailboxId, 'isActive': isActive } });
     const options = { params };
     const body = { };

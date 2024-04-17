@@ -23,7 +23,7 @@ export class MaintenanceCategoryComponent{
       this.activeCategory['Category Name'] = response.category;
       this.activeCategory['Category Desc'] = response.description;
       this.activeCategory['Category Image'] = response.image;
-      this.activeCategory['Status'] = response.isActive? 'Active': 'In-Active';
+      this.activeCategory['Status'] = response.isActive;
       this.activeCategory['Created Date'] = response.createdDate;
       this.activeCategory['Modified Date'] = response.modifiedDate;
       resolve(this.activeCategory);

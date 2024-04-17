@@ -13,24 +13,30 @@ import Swal from 'sweetalert2';
   styleUrls: ['./maintenance.component.css']
 })
 export class MaintenanceComponent implements OnInit{
+  apartmentId = 1;
+  residentId = 4;
   role: string = 'resident';
+
   listCategory!: any;
-  listRequest!: any;
-  errorListCategory: string = "";
-  errorListRequest: string = "";
+  errorListCategory: string = '';
   tableCategory: any;
-  tableRequest: any;
   allDataCategory: any;
-  allDataRequest: any;
-  errorMsgCategory?: string;
-  errorMsgRequest?: string;
-  sortReqCol?: string = 'id';
-  sortReqDir?: string = 'DESC';
+  errorMsgCategory: string = '';
+  pageCategory: number = 0;
+  sizeCategory: number = 5;
   sortCatCol?: string = 'id';
   sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
-  colRequest: Column[] = [];
   dataCategory: MaintenanceCategory = {};
+  
+  listRequest!: any;
+  errorListRequest: string = "";
+  tableRequest: any;
+  allDataRequest: any;
+  errorMsgRequest: string = '';
+  sortReqCol?: string = 'id';
+  sortReqDir?: string = 'DESC';
+  colRequest: Column[] = [];
   dataRequest: MaintenanceRequest = {};
   
   @ViewChild('closeModalAdd') modalCloseAdd: any;
@@ -48,21 +54,21 @@ export class MaintenanceComponent implements OnInit{
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
       this.colRequest = [{name: 'maintenance_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'is_active', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
-      this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
+      this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
+      // this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
     }
     else if (this.role=='resident'){
-      this.getMaintenanceResidentCategory(1, 1000, 0, this.sortCatCol, this.sortCatDir);
-      this.getMaintenanceResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir, '');
+      this.getMaintenanceCategoryResident(this.apartmentId);
+      // this.getMaintenanceResidentRequest(this.residentId, 3, 0, this.sortReqCol, this.sortReqDir, '');
     }
     this.apps.loadingPage(false);
   }
 
-  getMaintenanceAllCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getMaintenanceCategoryApartment(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page, sortBy, sortDir, null).subscribe({
+      this.maintenanceService.getMaintenanceCategoryApartment(apartementId, size, page, sortBy, sortDir).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -82,9 +88,9 @@ export class MaintenanceComponent implements OnInit{
       }))
   }
 
-  getMaintenanceResidentCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getMaintenanceCategoryResident(apartementId:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllCategory(apartementId, size, page, sortBy, sortDir, 'Active').subscribe({
+      this.maintenanceService.getMaintenanceCategoryResident(apartementId, true).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -165,7 +171,7 @@ export class MaintenanceComponent implements OnInit{
       this.dataCategory['Category Name'] = response.category;
       this.dataCategory['Category Desc'] = response.description;
       this.dataCategory['Category Image'] = response.image;
-      this.dataCategory['Status'] = response.is_active==true? 'Active': 'In-Active';
+      this.dataCategory['Status'] = response.isActive;
       resolve(this.dataCategory);
     });
   }
@@ -190,11 +196,13 @@ export class MaintenanceComponent implements OnInit{
   onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
     if(type=='category'){
-      this.getMaintenanceAllCategory(1, 10, e, this.sortCatCol, this.sortCatDir);
+      this.pageCategory = e;
+      // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       this.getMaintenanceAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
     }
+    this.ngOnInit();
   }
 
   async onSortData(type:any, e:any){
@@ -202,11 +210,13 @@ export class MaintenanceComponent implements OnInit{
     let arr = await this.onSplitSortEvent(type, e);
     console.log(arr);
     if(type=='category'){
-      this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
+      this.pageCategory = 0;
+      // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqDir);
     }
+    this.ngOnInit();
   }
 
   onSplitSortEvent(type:any, e:any): Promise<any>{

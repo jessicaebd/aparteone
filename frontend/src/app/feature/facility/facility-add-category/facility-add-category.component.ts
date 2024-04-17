@@ -166,12 +166,13 @@ export class FacilityAddCategoryComponent implements OnInit{
   setBodyInsertCategory(): Promise<any>{
     return new Promise<any>(async resolve =>{
       let times = await this.setCategoryTime();
+      console.log(times);
+      alert('times');
       let body = {
         'apartmentId': this.apartmentId,
         'image': this.data['Category Image'],
         'category': this.data['Category Name'],
         'description': this.data['Category Desc'],
-        'isActive': true,
         'facilityTime': times
       }
       resolve(body);

@@ -34,7 +34,7 @@
             <div class="py-2">
                 <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" 
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" [pageIndex]="pageCategory" [pageSize]="sizeCategory"
                 [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>

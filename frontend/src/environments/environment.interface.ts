@@ -36,4 +36,6 @@ export interface GeneralEnvironment {
   add: string,
   search: string,
   delete: string,
+  addCategory: string,
+  updateStatus: string,
 }

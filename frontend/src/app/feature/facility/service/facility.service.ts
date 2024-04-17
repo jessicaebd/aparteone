@@ -10,28 +10,39 @@ export class FacilityService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiFacility = `${environment.modules.feature.facility}`;
   private apiRequest = `${environment.modules.general.request}`;
+  private apiAddCategory = `${environment.modules.general.addCategory}`;
+  private apiUpdateStatus = `${environment.modules.general.updateStatus}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
 
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getFacilityAllCategory(apartmentId: any, size:number, page: number, isActive: any): any {
+  getFacilityCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isActive': isActive } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  getFacilityActiveCategory(apartmentId: any, isActive: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertFacilityCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiAddCategory}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
   updateFacilityCategory(facilityId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiUpdateStatus}`;
     const headers = new HttpHeaders({
     });
     // const params = new HttpParams({ });

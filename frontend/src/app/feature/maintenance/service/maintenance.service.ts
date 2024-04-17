@@ -9,7 +9,8 @@ import { AppService } from 'src/app/app.service';
 export class MaintenanceService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiMaintenance = `${environment.modules.feature.maintenance}`;
-  private apiAdd = `${environment.modules.general.add}`;
+  private apiAddCategory = `${environment.modules.general.addCategory}`;
+  private apiUpdateStatus = `${environment.modules.general.updateStatus}`;
   private apiUpdate = `${environment.modules.general.update}`;
   private apiRequest = `${environment.modules.general.request}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
@@ -18,22 +19,31 @@ export class MaintenanceService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getMaintenanceAllCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any, criteria:any): any {
+  getMaintenanceCategoryApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMaintenance}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir, 'criteria': criteria } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  getMaintenanceCategoryResident(apartmentId: any, isActive:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertMaintenanceCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiAdd}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiAddCategory}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
   updateMaintenanceCategory(maintenanceId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiUpdate}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiUpdateStatus}`;
     const params = new HttpParams({ fromObject: { 'maintenanceId': maintenanceId, 'isActive': isActive } });
     const options = { params };
     const body = { };
