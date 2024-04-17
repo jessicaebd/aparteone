@@ -25,14 +25,14 @@ public class MaintenanceController {
     @Autowired
     private MaintenanceService maintenanceService;
 
-    @PostMapping("/add-category")
+    @PostMapping("/add")
     public ResponseEntity<Maintenance> insertMaintenance(@RequestBody MaintenanceCategoryRequest maintenance) {
         log.info("[Maintenance] Add Maintenance: {}", maintenance.toString());
         Maintenance newMaintenance = maintenanceService.addMaintenance(maintenance);
         return ResponseEntity.ok(newMaintenance);
     }
 
-    @PostMapping("/update-status")
+    @PostMapping("/update")
     public ResponseEntity<Maintenance> updateMaintenanceActiveStatus(
             @RequestParam Integer maintenanceId,
             @RequestParam Boolean isActive) {

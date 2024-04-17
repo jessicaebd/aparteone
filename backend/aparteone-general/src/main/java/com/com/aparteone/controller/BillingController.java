@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.category.BillingCategoryRequest;
 import com.com.aparteone.dto.response.category.BillingCategoryResponse;
 import com.com.aparteone.entity.Billing;
@@ -25,29 +26,33 @@ public class BillingController {
     @Autowired
     private BillingService billingService;
 
-    @PostMapping("/add-category")
+    @GetMapping("")
+    public ResponseEntity<PageResponse<BillingCategoryResponse>> getBillingCategoryList(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "isActive", required = false) Boolean isActive,
+            @RequestParam Integer apartmentId) {
+        log.info("[Billing] Get Billing Category List: apartmentId-{}", apartmentId);
+        PageResponse<BillingCategoryResponse> response = billingService.getBillingListByApartmentId(page,size, sortBy, sortDir, isActive, apartmentId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/add")
     public ResponseEntity<Billing> addBillingCategory(@RequestBody BillingCategoryRequest request) {
         log.info("[Billing] Add Billing: {}", request.toString());
         Billing billing = billingService.addBilling(request);
         return ResponseEntity.ok(billing);
     }
 
-    @PostMapping("/update-status")
+    @PostMapping("/update")
     public ResponseEntity<Billing> updateBillingActiveStatus(
             @RequestParam Integer billingId,
             @RequestParam Boolean isActive) {
         log.info("[Billing] Update Billing Status: billingId-{} | isActive-{}", billingId, isActive);
         Billing billing = billingService.updateBillingIsActive(billingId, isActive);
         return ResponseEntity.ok(billing);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<BillingCategoryResponse>> getBillingCategoryList(
-            @RequestParam(value = "isActive", required = false) Boolean isActive,
-            @RequestParam Integer apartmentId) {
-        log.info("[Billing] Get Billing Category List: apartmentId-{}", apartmentId);
-        List<BillingCategoryResponse> response = billingService.getBillingListByApartmentId(isActive, apartmentId);
-        return ResponseEntity.ok(response);
     }
 
     // Billing Detail

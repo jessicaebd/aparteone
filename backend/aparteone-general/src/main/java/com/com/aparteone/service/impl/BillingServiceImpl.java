@@ -52,7 +52,9 @@ public class BillingServiceImpl implements BillingService {
     public Pageable pagination(int page, int size, String sortBy, String sortDir) {
         Pageable pageable = null;
         if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+            pageable = PageRequest.of(page, size,
+                    sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                            : Sort.by(sortBy).descending());
         } else {
             pageable = PageRequest.of(page, size);
         }
@@ -76,16 +78,17 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public List<BillingCategoryResponse> getBillingListByApartmentId(Boolean isActive, Integer apartmentId) {
+    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
         Specification<Billing> spec = Specification.where(BillingSpecification.billingHasApartmentId(apartmentId));
         if (isActive != null) {
             spec = spec.and(BillingSpecification.billingIsActive(isActive));
         }
-        List<Billing> billing = billingRepo.findAll(spec);
-        
-        List<BillingCategoryResponse> response = new ArrayList<>();
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<Billing> billing = billingRepo.findAll(spec, pageable);
+
+        List<BillingCategoryResponse> data = new ArrayList<>();
         billing.forEach(request -> {
-            response.add(new BillingCategoryResponse(
+            data.add(new BillingCategoryResponse(
                     request.getId(),
                     request.getApartmentId(),
                     request.getCategory(),
@@ -93,13 +96,15 @@ public class BillingServiceImpl implements BillingService {
                     request.getCreatedDate(),
                     request.getModifiedDate()));
         });
+
+        PageResponse<BillingCategoryResponse> response = new PageResponse<>(
+                billing.getTotalElements(),
+                billing.getTotalPages(),
+                billing.getNumber(),
+                billing.getSize(),
+                data);
         return response;
     }
-
-
-
-
-
 
     // @Override
     // public BillingDetailResponse getBillingDetailById(Integer billingDetailId) {
