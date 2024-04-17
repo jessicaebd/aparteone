@@ -34,13 +34,4 @@ public class Announcement extends AuditEntity {
     private String description;
     private Date startDate;
     private Date endDate;
-
-    public Announcement(AnnouncementRequest announcementRequest) {
-        this.apartmentId = announcementRequest.getApartmentId();
-        this.image = announcementRequest.getImage();
-        this.title = announcementRequest.getTitle();
-        this.description = announcementRequest.getDescription();
-        this.startDate = announcementRequest.getStartDate();
-        this.endDate = announcementRequest.getEndDate();
-    }
 }

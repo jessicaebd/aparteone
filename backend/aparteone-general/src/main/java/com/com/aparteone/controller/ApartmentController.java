@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.ApartmentUnit;
-import com.com.aparteone.service.ApartmentService;
+import com.com.aparteone.service.general.ApartmentService;
 
 @RestController
 @RequestMapping("/api/apartment")

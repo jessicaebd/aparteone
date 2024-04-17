@@ -28,7 +28,7 @@ import com.com.aparteone.repository.FacilityRepo;
 import com.com.aparteone.repository.FacilityRequestRepo;
 import com.com.aparteone.repository.FacilityTimeRepo;
 import com.com.aparteone.service.FacilityService;
-import com.com.aparteone.service.ResidentService;
+import com.com.aparteone.service.general.ResidentService;
 import com.com.aparteone.specification.FacilityRequestSpecification;
 import com.com.aparteone.specification.FacilitySpecification;
 
@@ -61,16 +61,16 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public Facility addFacility(FacilityCategoryRequest request) {
+    public Facility addFacility(FacilityCategoryRequest facilityCategoryRequest) {
         Facility facility = new Facility();
-        facility.setApartmentId(request.getApartmentId());
-        facility.setImage(request.getImage());
-        facility.setCategory(request.getCategory());
-        facility.setDescription(request.getDescription());
+        facility.setApartmentId(facilityCategoryRequest.getApartmentId());
+        facility.setImage(facilityCategoryRequest.getImage());
+        facility.setCategory(facilityCategoryRequest.getCategory());
+        facility.setDescription(facilityCategoryRequest.getDescription());
         facility.setIsActive(true);
         facilityRepo.save(facility);
 
-        request.getFacilityTime().forEach(time -> {
+        facilityCategoryRequest.getFacilityTime().forEach(time -> {
             FacilityTime facilityTime = new FacilityTime();
             facilityTime.setFacilityId(facility.getId());
             facilityTime.setStartTime(LocalTime.parse(time.getStartTime()));
@@ -88,8 +88,7 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest,
-            Boolean isActive) {
+    public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest, Boolean isActive) {
         FacilityTime facilityTime = facilityTimeRepo.findById(facilityTimeId).get();
         if (isActive != null) {
             facilityTime.setIsActive(isActive);
@@ -121,8 +120,7 @@ public class FacilityServiceImpl implements FacilityService {
                         time.getStartTime(),
                         time.getEndTime(),
                         time.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
-                        null
-                ));
+                        null));
             });
             data.add(new FacilityCategoryResponse(
                     facility.getId(),
@@ -133,8 +131,7 @@ public class FacilityServiceImpl implements FacilityService {
                     facility.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
                     times,
                     facility.getCreatedDate(),
-                    facility.getModifiedDate()
-            ));
+                    facility.getModifiedDate()));
         });
 
         PageResponse<FacilityCategoryResponse> response = new PageResponse<>(
@@ -145,97 +142,104 @@ public class FacilityServiceImpl implements FacilityService {
                 data);
         return response;
     }
-    
-
-
-
-
- 
-
-
 
     // @Override
-    // public PageResponse<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy,
-    //         String sortDir, String status, Integer residentId) {
-    //     Specification<FacilityCategoryRequest> spec = Specification
-    //             .where(FacilityRequestSpecification.hasResidentId(residentId));
-    //     if (status != null) {
-    //         if (status == AparteoneConstant.STATUS_REQUESTED) {
-    //             spec = spec.and(FacilityRequestSpecification.isRequested());
-    //         } else if (status == AparteoneConstant.STATUS_COMPLETED) {
-    //             spec = spec.and(FacilityRequestSpecification.isCompleted());
-    //         } else if (status == AparteoneConstant.STATUS_CANCELLED) {
-    //             spec = spec.and(FacilityRequestSpecification.isCancelled());
-    //         }
-    //     }
-    //     Pageable pageable = pagination(page, size, sortBy, sortDir);
-    //     Page<FacilityCategoryRequest> facilityRequests = facilityRequestRepo.findAll(spec, pageable);
+    // public PageResponse<FacilityRequestResponse>
+    // getFacilityRequestListByResidentId(int page, int size, String sortBy,
+    // String sortDir, String status, Integer residentId) {
+    // Specification<FacilityCategoryRequest> spec = Specification
+    // .where(FacilityRequestSpecification.hasResidentId(residentId));
+    // if (status != null) {
+    // if (status == AparteoneConstant.STATUS_REQUESTED) {
+    // spec = spec.and(FacilityRequestSpecification.isRequested());
+    // } else if (status == AparteoneConstant.STATUS_COMPLETED) {
+    // spec = spec.and(FacilityRequestSpecification.isCompleted());
+    // } else if (status == AparteoneConstant.STATUS_CANCELLED) {
+    // spec = spec.and(FacilityRequestSpecification.isCancelled());
+    // }
+    // }
+    // Pageable pageable = pagination(page, size, sortBy, sortDir);
+    // Page<FacilityCategoryRequest> facilityRequests =
+    // facilityRequestRepo.findAll(spec, pageable);
 
-    //     List<FacilityRequestResponse> data = new ArrayList<>();
-    //     facilityRequests.forEach(request -> {
-    //         data.add(getFacilityRequestById(request.getId()));
-    //     });
+    // List<FacilityRequestResponse> data = new ArrayList<>();
+    // facilityRequests.forEach(request -> {
+    // data.add(getFacilityRequestById(request.getId()));
+    // });
 
-    //     PageResponse<FacilityRequestResponse> response = new PageResponse<>(
-    //             facilityRequests.getTotalElements(),
-    //             facilityRequests.getTotalPages(),
-    //             facilityRequests.getNumber(),
-    //             facilityRequests.getSize(),
-    //             data);
-    //     return response;
+    // PageResponse<FacilityRequestResponse> response = new PageResponse<>(
+    // facilityRequests.getTotalElements(),
+    // facilityRequests.getTotalPages(),
+    // facilityRequests.getNumber(),
+    // facilityRequests.getSize(),
+    // data);
+    // return response;
     // }
 
     // @Override
-    // public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy,
-    //         String sortDir, String status, Integer apartmentId) {
-    //     Pageable pageable = pagination(page, size, sortBy, sortDir);
-    //     Page<FacilityCategoryRequest> facilityRequests = null;
-    //     if (status == null) {
-    //         facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId, pageable);
-    //     } else {
-    //         facilityRequests = facilityRequestRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
-    //     }
+    // public PageResponse<FacilityRequestResponse>
+    // getFacilityRequestListByApartmentId(int page, int size, String sortBy,
+    // String sortDir, String status, Integer apartmentId) {
+    // Pageable pageable = pagination(page, size, sortBy, sortDir);
+    // Page<FacilityCategoryRequest> facilityRequests = null;
+    // if (status == null) {
+    // facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId,
+    // pageable);
+    // } else {
+    // facilityRequests =
+    // facilityRequestRepo.findByApartmentIdAndStatus(apartmentId, status,
+    // pageable);
+    // }
 
-    //     List<FacilityRequestResponse> data = new ArrayList<>();
-    //     facilityRequests.forEach(request -> {
-    //         data.add(getFacilityRequestById(request.getId()));
-    //     });
+    // List<FacilityRequestResponse> data = new ArrayList<>();
+    // facilityRequests.forEach(request -> {
+    // data.add(getFacilityRequestById(request.getId()));
+    // });
 
-    //     PageResponse<FacilityRequestResponse> response = new PageResponse<>(
-    //             facilityRequests.getTotalElements(),
-    //             facilityRequests.getTotalPages(),
-    //             facilityRequests.getNumber(),
-    //             facilityRequests.getSize(),
-    //             data);
-    //     return response;
+    // PageResponse<FacilityRequestResponse> response = new PageResponse<>(
+    // facilityRequests.getTotalElements(),
+    // facilityRequests.getTotalPages(),
+    // facilityRequests.getNumber(),
+    // facilityRequests.getSize(),
+    // data);
+    // return response;
     // }
 
     // @Override
-    // public FacilityRequestResponse getFacilityRequestById(Integer facilityRequestId) {
-    //     FacilityCategoryRequest request = facilityRequestRepo.findById(facilityRequestId).get();
-    //     FacilityTime time = facilityTimeRepo.findById(request.getFacilityTimeId()).get();
-    //     Facility category = facilityRepo.findById(time.getFacilityId()).get();
-    //     ResidentDTO resident = residentService.getResidentById(request.getResidentId());
-    //     FacilityRequestResponse response = new FacilityRequestResponse(resident, request, time, category);
-    //     return response;
+    // public FacilityRequestResponse getFacilityRequestById(Integer
+    // facilityRequestId) {
+    // FacilityCategoryRequest request =
+    // facilityRequestRepo.findById(facilityRequestId).get();
+    // FacilityTime time =
+    // facilityTimeRepo.findById(request.getFacilityTimeId()).get();
+    // Facility category = facilityRepo.findById(time.getFacilityId()).get();
+    // ResidentDTO resident =
+    // residentService.getResidentById(request.getResidentId());
+    // FacilityRequestResponse response = new FacilityRequestResponse(resident,
+    // request, time, category);
+    // return response;
     // }
 
     // @Override
-    // public FacilityCategoryRequest insertFacilityRequest(FacilityReserveRequest request) {
-    //     FacilityCategoryRequest facilityRequest = new FacilityCategoryRequest(request);
-    //     return facilityRequestRepo.save(facilityRequest);
+    // public FacilityCategoryRequest insertFacilityRequest(FacilityReserveRequest
+    // request) {
+    // FacilityCategoryRequest facilityRequest = new
+    // FacilityCategoryRequest(request);
+    // return facilityRequestRepo.save(facilityRequest);
     // }
 
     // @Override
-    // public FacilityCategoryRequest updateFacilityRequestStatusById(Integer facilityRequestId, String status) {
-    //     FacilityCategoryRequest facilityRequest = facilityRequestRepo.findById(facilityRequestId).get();
-    //     if (status.equals(AparteoneConstant.STATUS_COMPLETED)) {
-    //         facilityRequest.setStatus(status);
-    //         facilityRequest.setCompletedDate(new Date());
-    //     } else if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
-    //         facilityRequest.setStatus(status);
-    //         facilityRequest.setCancelledDate(new Date());
-    //     }
-    //     return facilityRequestRepo.save(facilityRequest);
+    // public FacilityCategoryRequest updateFacilityRequestStatusById(Integer
+    // facilityRequestId, String status) {
+    // FacilityCategoryRequest facilityRequest =
+    // facilityRequestRepo.findById(facilityRequestId).get();
+    // if (status.equals(AparteoneConstant.STATUS_COMPLETED)) {
+    // facilityRequest.setStatus(status);
+    // facilityRequest.setCompletedDate(new Date());
+    // } else if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
+    // facilityRequest.setStatus(status);
+    // facilityRequest.setCancelledDate(new Date());
+    // }
+    // return facilityRequestRepo.save(facilityRequest);
     // }
 }

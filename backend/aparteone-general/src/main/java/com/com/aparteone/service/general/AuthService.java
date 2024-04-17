@@ -1,4 +1,4 @@
-package com.com.aparteone.service;
+package com.com.aparteone.service.general;
 
 import com.com.aparteone.dto.request.auth.LoginRequest;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;

@@ -1,4 +1,4 @@
-package com.com.aparteone.dto.response.category;
+package com.com.aparteone.dto.response;
 
 import java.util.Date;
 

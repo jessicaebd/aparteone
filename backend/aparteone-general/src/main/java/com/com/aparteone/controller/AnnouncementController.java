@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.AnnouncementRequest;
-import com.com.aparteone.dto.response.category.AnnouncementResponse;
+import com.com.aparteone.dto.response.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 import com.com.aparteone.service.AnnouncementService;
 
@@ -45,9 +45,9 @@ public class AnnouncementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Announcement> insertAnnouncement(@RequestBody AnnouncementRequest announcement) {
+    public ResponseEntity<Announcement> addAnnouncement(@RequestBody AnnouncementRequest announcement) {
         log.info("[Announcement] Insert Announcement: " + announcement.toString());
-        Announcement newAnnouncement = announcementService.insertAnnouncement(announcement);
+        Announcement newAnnouncement = announcementService.addAnnouncement(announcement);
         return ResponseEntity.ok(newAnnouncement);
     }
 

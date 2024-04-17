@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.AnnouncementRequest;
-import com.com.aparteone.dto.response.category.AnnouncementResponse;
+import com.com.aparteone.dto.response.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 import com.com.aparteone.repository.AnnouncementRepo;
 import com.com.aparteone.service.AnnouncementService;
@@ -38,6 +38,60 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             pageable = PageRequest.of(page, size);
         }
         return pageable;
+    }
+
+    @Override
+    public Announcement addAnnouncement(AnnouncementRequest announcementRequest) {
+        Announcement announcement = new Announcement();
+        announcement.setApartmentId(announcementRequest.getApartmentId());
+        announcement.setImage(announcementRequest.getImage());
+        announcement.setTitle(announcementRequest.getTitle());
+        announcement.setDescription(announcementRequest.getDescription());
+        announcement.setStartDate(announcementRequest.getStartDate());
+        announcement.setEndDate(announcementRequest.getEndDate());
+        return announcementRepo.save(announcement);
+    }
+
+    @Override
+    public Announcement updateAnnouncement(Integer announcementId, AnnouncementRequest announcementRequest) {
+        Announcement announcement = announcementRepo.findById(announcementId).get();
+        if(announcementRequest.getImage() != null) {
+            announcement.setImage(announcementRequest.getImage());
+        }
+        if(announcementRequest.getTitle() != null) {
+            announcement.setTitle(announcementRequest.getTitle());
+        }
+        if(announcementRequest.getDescription() != null) {
+            announcement.setDescription(announcementRequest.getDescription());
+        }
+        if(announcementRequest.getStartDate() != null) {
+            announcement.setStartDate(announcementRequest.getStartDate());
+        }
+        if(announcementRequest.getEndDate() != null) {
+            announcement.setEndDate(announcementRequest.getEndDate());
+        }
+        return announcementRepo.save(announcement);
+    }
+
+    @Override
+    public AnnouncementResponse getAnnouncementById(Integer announcementId) {
+        Announcement announcement = announcementRepo.findById(announcementId).get();
+        AnnouncementResponse response = null;
+        if(announcement != null) {
+            String status = (announcement.getEndDate().before(new Date())) ? AparteoneConstant.STATUS_INACTIVE : AparteoneConstant.STATUS_ACTIVE;
+            response = new AnnouncementResponse(
+                    announcement.getId(),
+                    announcement.getApartmentId(),
+                    announcement.getImage(),
+                    announcement.getTitle(),
+                    announcement.getDescription(),
+                    announcement.getStartDate(),
+                    announcement.getEndDate(),
+                    status,
+                    announcement.getCreatedDate(),
+                    announcement.getModifiedDate());
+        }
+        return response;
     }
 
     @Override
@@ -77,53 +131,5 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcements.getSize(),
                 data);
         return response;
-    }
-
-    @Override
-    public AnnouncementResponse getAnnouncementById(Integer announcementId) {
-        Announcement announcement = announcementRepo.findById(announcementId).get();
-        AnnouncementResponse response = null;
-        if(announcement != null) {
-            String status = (announcement.getEndDate().before(new Date())) ? AparteoneConstant.STATUS_INACTIVE : AparteoneConstant.STATUS_ACTIVE;
-            response = new AnnouncementResponse(
-                    announcement.getId(),
-                    announcement.getApartmentId(),
-                    announcement.getImage(),
-                    announcement.getTitle(),
-                    announcement.getDescription(),
-                    announcement.getStartDate(),
-                    announcement.getEndDate(),
-                    status,
-                    announcement.getCreatedDate(),
-                    announcement.getModifiedDate());
-        }
-        return response;
-    }
-
-    @Override
-    public Announcement insertAnnouncement(AnnouncementRequest announcementRequest) {
-        Announcement announcement = new Announcement(announcementRequest);
-        return announcementRepo.save(announcement);
-    }
-
-    @Override
-    public Announcement updateAnnouncement(Integer announcementId, AnnouncementRequest announcementRequest) {
-        Announcement announcement = announcementRepo.findById(announcementId).get();
-        if(announcementRequest.getImage() != null) {
-            announcement.setImage(announcementRequest.getImage());
-        }
-        if(announcementRequest.getTitle() != null) {
-            announcement.setTitle(announcementRequest.getTitle());
-        }
-        if(announcementRequest.getDescription() != null) {
-            announcement.setDescription(announcementRequest.getDescription());
-        }
-        if(announcementRequest.getStartDate() != null) {
-            announcement.setStartDate(announcementRequest.getStartDate());
-        }
-        if(announcementRequest.getEndDate() != null) {
-            announcement.setEndDate(announcementRequest.getEndDate());
-        }
-        return announcementRepo.save(announcement);
     }
 }

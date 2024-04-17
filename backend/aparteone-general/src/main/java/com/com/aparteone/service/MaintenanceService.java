@@ -9,7 +9,7 @@ import com.com.aparteone.entity.Maintenance;
 
 public interface MaintenanceService {
     // Maintenance - Category
-    public Maintenance addMaintenance(MaintenanceCategoryRequest categoryRequest);
+    public Maintenance addMaintenance(MaintenanceCategoryRequest maintenanceCategoryRequest);
     public Maintenance updateMaintenanceIsActive(Integer maintenanceId, Boolean isActive);
     public PageResponse<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
     

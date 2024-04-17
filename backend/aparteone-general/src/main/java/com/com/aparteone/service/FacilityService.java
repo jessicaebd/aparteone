@@ -9,7 +9,7 @@ import com.com.aparteone.entity.FacilityTime;
 
 public interface FacilityService {
     // Facility - Category
-    public Facility addFacility(FacilityCategoryRequest facilityRequest);
+    public Facility addFacility(FacilityCategoryRequest facilityCategoryRequest);
     public Facility updateFacilityIsActive(Integer facilityId, Boolean isActive);
     public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest, Boolean isActive);
     public PageResponse<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
