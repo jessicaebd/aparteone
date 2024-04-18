@@ -11,18 +11,16 @@ import com.com.aparteone.entity.BillingDetail;
 
 public interface BillingService {
     // Billing - Category
+    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
     public Billing addBilling(BillingCategoryRequest billingCategoryRequest);
     public Billing updateBillingIsActive(Integer billingId, Boolean isActive);
-    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
 
     // Billing Detail
-    public BillingDetailResponse getBillingDetailById(Integer billingDetailId);
     public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
     public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
-
+    public BillingDetailResponse getBillingDetailById(Integer billingDetailId);
     public BillingDetail addBillingDetail(BillingDetailRequest billingDetailRequest);
     public BillingDetail updateBillingDetail(Integer billingDetailId, String status);
-    
     public BillingDetail payment(PaymentRequest paymentRequest);
     public BillingDetail verifyPayment(Integer billingDetailId, Boolean isValid);
 }
