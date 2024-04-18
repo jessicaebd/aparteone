@@ -78,7 +78,8 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
+    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy,
+            String sortDir, Boolean isActive, Integer apartmentId) {
         Specification<Billing> spec = Specification.where(BillingSpecification.billingHasApartmentId(apartmentId));
         if (isActive != null) {
             spec = spec.and(BillingSpecification.billingIsActive(isActive));
@@ -106,145 +107,137 @@ public class BillingServiceImpl implements BillingService {
         return response;
     }
 
-    // @Override
-    // public BillingDetailResponse getBillingDetailById(Integer billingDetailId) {
-    // BillingDetail billingDetail =
-    // billingDetailRepo.findById(billingDetailId).get();
-    // Billing billing = billingRepo.findById(billingDetail.getBillingId()).get();
-    // PaymentResponse paymentResponse = null;
-    // if (billingDetail.getPaymentId() != null) {
-    // Payment payment = paymentRepo.findById(billingDetail.getPaymentId()).get();
-    // paymentResponse = new PaymentResponse(
-    // payment.getId(),
-    // payment.getPaymentProofImage(),
-    // (payment.getIsValid() == true) ? AparteoneConstant.STATUS_VALID :
-    // AparteoneConstant.STATUS_INVALID,
-    // payment.getPaymentDate(),
-    // payment.getVerifiedDate());
-    // }
+    // Billing Detail
+    @Override
+    public BillingDetailResponse getBillingDetailById(Integer billingDetailId) {
+        BillingDetail billingDetail = billingDetailRepo.findById(billingDetailId).get();
+        Billing billing = billingRepo.findById(billingDetail.getBillingId()).get();
+        PaymentResponse paymentResponse = null;
+        if (billingDetail.getPaymentId() != null) {
+            Payment payment = paymentRepo.findById(billingDetail.getPaymentId()).get();
+            paymentResponse = new PaymentResponse(
+                    payment.getId(),
+                    payment.getPaymentProofImage(),
+                    (payment.getIsValid() == true) ? AparteoneConstant.STATUS_VALID : AparteoneConstant.STATUS_INVALID,
+                    payment.getPaymentDate(),
+                    payment.getVerifiedDate());
+        }
 
-    // ResidentDTO resident =
-    // residentService.getResidentById(billingDetail.getResidentId());
-    // BillingDetailResponse response = new BillingDetailResponse(
-    // billingDetail.getId(),
-    // billingDetail.getResidentId(),
-    // resident.getName(),
-    // resident.getUnitNumber(),
-    // billing.getId(),
-    // billing.getCategory(),
-    // billingDetail.getStatus(),
-    // billingDetail.getAmount(),
-    // billingDetail.getCreatedDate(),
-    // billingDetail.getDueDate(),
-    // billingDetail.getCompletedDate(),
-    // billingDetail.getCancelledDate(),
-    // paymentResponse);
-    // return response;
-    // }
+        ResidentDTO resident = residentService.getResidentById(billingDetail.getResidentId());
+        BillingDetailResponse response = new BillingDetailResponse(
+                billingDetail.getId(),
+                billingDetail.getResidentId(),
+                resident.getName(),
+                resident.getUnitNumber(),
+                billing.getId(),
+                billing.getCategory(),
+                billingDetail.getStatus(),
+                billingDetail.getAmount(),
+                billingDetail.getCreatedDate(),
+                billingDetail.getDueDate(),
+                billingDetail.getCompletedDate(),
+                billingDetail.getCancelledDate(),
+                paymentResponse);
+        return response;
+    }
 
-    // @Override
-    // public PageResponse<BillingDetailResponse>
-    // getBillingDetailListByResidentId(int page, int size, String sortBy,
-    // String sortDir, String status, Integer residentId) {
-    // Specification<BillingDetail> spec = Specification
-    // .where(BillingSpecification.billingDetailHasResidentId(residentId));
-    // if (status != null) {
-    // spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
-    // }
-    // Pageable pageable = pagination(page, size, sortBy, sortDir);
+    @Override
+    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy,
+            String sortDir, String status, Integer residentId) {
+        Specification<BillingDetail> spec = Specification
+                .where(BillingSpecification.billingDetailHasResidentId(residentId));
+        if (status != null) {
+            spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
+        }
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
 
-    // Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec,
-    // pageable);
+        Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec,
+                pageable);
 
-    // List<BillingDetailResponse> data = new ArrayList<>();
-    // billingDetail.getContent().forEach(request -> {
-    // data.add(getBillingDetailById(request.getId()));
-    // });
+        List<BillingDetailResponse> data = new ArrayList<>();
+        billingDetail.getContent().forEach(request -> {
+            data.add(getBillingDetailById(request.getId()));
+        });
 
-    // PageResponse<BillingDetailResponse> response = new PageResponse<>(
-    // billingDetail.getTotalElements(),
-    // billingDetail.getTotalPages(),
-    // billingDetail.getNumber(),
-    // billingDetail.getSize(),
-    // data);
-    // return response;
-    // }
+        PageResponse<BillingDetailResponse> response = new PageResponse<>(
+                billingDetail.getTotalElements(),
+                billingDetail.getTotalPages(),
+                billingDetail.getNumber(),
+                billingDetail.getSize(),
+                data);
+        return response;
+    }
 
-    // @Override
-    // public PageResponse<BillingDetailResponse>
-    // getBillingDetailListByApartmentId(int page, int size, String sortBy,
-    // String sortDir, String status, Integer apartmentId) {
-    // Specification<BillingDetail> spec = Specification
-    // .where(BillingSpecification.billingDetailHasApartmentId(apartmentId));
-    // if (status != null) {
-    // spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
-    // }
-    // Pageable pageable = pagination(page, size, sortBy, sortDir);
+    @Override
+    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy,
+            String sortDir, String status, Integer apartmentId) {
+        Specification<BillingDetail> spec = Specification
+                .where(BillingSpecification.billingDetailHasApartmentId(apartmentId));
+        if (status != null) {
+            spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
+        }
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
 
-    // Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec,
-    // pageable);
+        Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec,
+                pageable);
 
-    // List<BillingDetailResponse> data = new ArrayList<>();
-    // billingDetail.getContent().forEach(request -> {
-    // data.add(getBillingDetailById(request.getId()));
-    // });
+        List<BillingDetailResponse> data = new ArrayList<>();
+        billingDetail.getContent().forEach(request -> {
+            data.add(getBillingDetailById(request.getId()));
+        });
 
-    // PageResponse<BillingDetailResponse> response = new PageResponse<>(
-    // billingDetail.getTotalElements(),
-    // billingDetail.getTotalPages(),
-    // billingDetail.getNumber(),
-    // billingDetail.getSize(),
-    // data);
-    // return response;
-    // }
+        PageResponse<BillingDetailResponse> response = new PageResponse<>(
+                billingDetail.getTotalElements(),
+                billingDetail.getTotalPages(),
+                billingDetail.getNumber(),
+                billingDetail.getSize(),
+                data);
+        return response;
+    }
 
-    // @Override
-    // public BillingDetail insertBillingDetail(BillingDetailRequest
-    // billingDetailRequest) {
-    // BillingDetail billingDetail = new BillingDetail(billingDetailRequest);
-    // billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_PAYMENT);
-    // return billingDetailRepo.save(billingDetail);
-    // }
+    @Override
+    public BillingDetail addBillingDetail(BillingDetailRequest billingDetailRequest) {
+        BillingDetail billingDetail = new BillingDetail();
+        billingDetail.setBillingId(billingDetailRequest.getBillingId());
+        billingDetail.setResidentId(billingDetailRequest.getResidentId());
+        billingDetail.setAmount(billingDetailRequest.getAmount());
+        billingDetail.setDueDate(billingDetailRequest.getDueDate());
+        billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_PAYMENT);
+        return billingDetailRepo.save(billingDetail);
+    }
 
-    // @Override
-    // public BillingDetail updateBillingDetailStatusById(Integer billingDetailId,
-    // String status) {
-    // BillingDetail billingDetail =
-    // billingDetailRepo.findById(billingDetailId).get();
-    // if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
-    // billingDetail.setStatus(AparteoneConstant.STATUS_CANCELLED);
-    // billingDetail.setCancelledDate(new Date());
-    // }
-    // return billingDetailRepo.save(billingDetail);
-    // }
+    @Override
+    public BillingDetail updateBillingDetail(Integer billingDetailId, String status) {
+        BillingDetail billingDetail = billingDetailRepo.findById(billingDetailId).get();
+        if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
+            billingDetail.setStatus(AparteoneConstant.STATUS_CANCELLED);
+            billingDetail.setCancelledDate(new Date());
+        }
+        return billingDetailRepo.save(billingDetail);
+    }
 
-    // @Override
-    // public BillingDetail payment(PaymentRequest paymentRequest) {
-    // BillingDetail billingDetail =
-    // billingDetailRepo.findById(paymentRequest.getId()).get();
+    @Override
+    public BillingDetail payment(PaymentRequest paymentRequest) {
+        BillingDetail billingDetail = billingDetailRepo.findById(paymentRequest.getId()).get();
 
-    // Payment payment = new Payment(paymentRequest.getPaymentProofImage(), new
-    // Date());
-    // payment = paymentRepo.save(payment);
+        Payment payment = new Payment(paymentRequest.getPaymentProofImage(), new Date());
+        payment = paymentRepo.save(payment);
 
-    // billingDetail.setPaymentId(payment.getId());
-    // billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_CONFIRMATION);
-    // return billingDetailRepo.save(billingDetail);
-    // }
+        billingDetail.setPaymentId(payment.getId());
+        billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_CONFIRMATION);
+        return billingDetailRepo.save(billingDetail);
+    }
 
-    // @Override
-    // public BillingDetail verifyPayment(Integer billingDetailId, Boolean isValid)
-    // {
-    // BillingDetail billingDetail =
-    // billingDetailRepo.findById(billingDetailId).get();
+    @Override
+    public BillingDetail verifyPayment(Integer billingDetailId, Boolean isValid) {
+        BillingDetail billingDetail = billingDetailRepo.findById(billingDetailId).get();
 
-    // Payment payment = paymentRepo.findById(billingDetail.getPaymentId()).get();
-    // payment.setIsValid(isValid);
-    // payment.setVerifiedDate(new Date());
+        Payment payment = paymentRepo.findById(billingDetail.getPaymentId()).get();
+        payment.setIsValid(isValid);
+        payment.setVerifiedDate(new Date());
 
-    // billingDetail.setStatus((payment.getIsValid() == true) ?
-    // AparteoneConstant.STATUS_COMPLETED
-    // : AparteoneConstant.STATUS_CANCELLED);
-    // return billingDetailRepo.save(billingDetail);
-    // }
+        billingDetail.setStatus((payment.getIsValid() == true) ? AparteoneConstant.STATUS_COMPLETED
+                : AparteoneConstant.STATUS_CANCELLED);
+        return billingDetailRepo.save(billingDetail);
+    }
 }
