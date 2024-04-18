@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/announcement")
 public class AnnouncementController {
+    
     @Autowired
     private AnnouncementService announcementService;
 

@@ -2,7 +2,6 @@ package com.com.aparteone.service.impl;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.dto.request.category.FacilityCategoryRequest;
 import com.com.aparteone.dto.request.category.FacilityTimeRequest;
-import com.com.aparteone.dto.response.FacilityRequestResponse;
 import com.com.aparteone.dto.response.category.FacilityCategoryResponse;
 import com.com.aparteone.dto.response.category.FacilityTimeResponse;
 import com.com.aparteone.entity.Facility;
@@ -29,7 +25,6 @@ import com.com.aparteone.repository.FacilityRequestRepo;
 import com.com.aparteone.repository.FacilityTimeRepo;
 import com.com.aparteone.service.FacilityService;
 import com.com.aparteone.service.general.ResidentService;
-import com.com.aparteone.specification.FacilityRequestSpecification;
 import com.com.aparteone.specification.FacilitySpecification;
 
 import jakarta.transaction.Transactional;
