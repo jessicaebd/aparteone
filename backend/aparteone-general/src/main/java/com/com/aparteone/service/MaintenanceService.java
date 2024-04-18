@@ -12,17 +12,14 @@ import com.com.aparteone.entity.MaintenanceRequest;
 
 public interface MaintenanceService {
     // Maintenance - Category
+    public PageResponse<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
     public Maintenance addMaintenance(MaintenanceCategoryRequest maintenanceCategoryRequest);
     public Maintenance updateMaintenanceIsActive(Integer maintenanceId, Boolean isActive);
-    
-    public PageResponse<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
-    
 
     // Maintenance Request
-    public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId);
-    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
     public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
-
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
+    public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId);
     public MaintenanceRequest addMaintenanceRequest(MaintenanceReserveRequest request);
     public MaintenanceRequest updateMaintenanceRequestStatus(Integer maintenanceRequestId, String status, String remarks);
 }

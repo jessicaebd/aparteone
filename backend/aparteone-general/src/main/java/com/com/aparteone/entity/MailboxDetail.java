@@ -2,7 +2,6 @@ package com.com.aparteone.entity;
 
 import java.util.Date;
 
-import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -31,10 +30,4 @@ public class MailboxDetail extends AuditEntity {
     private String status;
     private Date receivedDate;
     private Date completedDate;
-
-    public MailboxDetail(MailboxDetailRequest request) {
-        this.mailboxId = request.getMailboxId();
-        this.residentId = request.getResidentId();
-        this.description = request.getDescription();
-    }
 }

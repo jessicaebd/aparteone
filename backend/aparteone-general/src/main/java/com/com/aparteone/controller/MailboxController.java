@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.request.category.MailboxCategoryRequest;
+import com.com.aparteone.dto.response.MailboxDetailResponse;
 import com.com.aparteone.dto.response.category.MailboxCategoryResponse;
 import com.com.aparteone.entity.Mailbox;
+import com.com.aparteone.entity.MailboxDetail;
 import com.com.aparteone.service.MailboxService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,88 +31,77 @@ public class MailboxController {
     public ResponseEntity<PageResponse<MailboxCategoryResponse>> getMailboxCategoryList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "category") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam Integer apartmentId) {
-        log.info("[Mailbox] Get Mailbox List By Apartment Id: {}", apartmentId);
+        log.info("[Mailbox] Get Mailbox Category List: apartmentId-{}", apartmentId);
         PageResponse<MailboxCategoryResponse> response = mailboxService.getMailboxListByApartmentId(page, size, sortBy, sortDir, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Mailbox> addMailboxCategory(@RequestBody MailboxCategoryRequest request) {
-        log.info("[Mailbox] Insert Mailbox: " + request.toString());
-        Mailbox mailbox = mailboxService.addMailbox(request);
+    public ResponseEntity<Mailbox> addMailboxCategory(@RequestBody MailboxCategoryRequest mailboxCategoryRequest) {
+        log.info("[Mailbox] Add Mailbox Category: {}", mailboxCategoryRequest.toString());
+        Mailbox mailbox = mailboxService.addMailbox(mailboxCategoryRequest);
         return ResponseEntity.ok(mailbox);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Mailbox> updateMailboxActiveStatus(
+    public ResponseEntity<Mailbox> updateMailboxCategoryStatus(
             @RequestParam Integer mailboxId,
             @RequestParam Boolean isActive) {
-        log.info("[Mailbox] Update Mailbox Status: mailboxId-{} | isActive-{}", mailboxId, isActive);
+        log.info("[Mailbox] Update Mailbox Category Status: mailboxId-{} | isActive-{}", mailboxId, isActive);
         Mailbox mailbox = mailboxService.updateMailboxIsActive(mailboxId, isActive);
         return ResponseEntity.ok(mailbox);
     }
 
+    @GetMapping("/detail/apartment")
+    public ResponseEntity<PageResponse<MailboxDetailResponse>> getApartmentMailboxDetailList(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam Integer apartmentId) {
+        log.info("[Mailbox] Get Mailbox Detail - Apartment: apartmentId-{}", apartmentId);
+        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        return ResponseEntity.ok(response);
+    }
 
+    @GetMapping("/detail/resident")
+    public ResponseEntity<PageResponse<MailboxDetailResponse>> getResidentMailboxDetailList(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam Integer residentId) {
+        log.info("[Mailbox] Get Mailbox Detail - Resident: residentId-{}", residentId);
+        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        return ResponseEntity.ok(response);
+    }
 
-    // @GetMapping("/detail/resident")
-    // public ResponseEntity<PageResponse<MailboxDetailResponse>>
-    // getMailboxDetailByResidentId(
-    // @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-    // @RequestParam(value = "size", required = false, defaultValue = "40") int
-    // size,
-    // @RequestParam(value = "sortBy", required = false, defaultValue =
-    // "createdDate") String sortBy,
-    // @RequestParam(value = "sortDir", required = false, defaultValue = "desc")
-    // String sortDir,
-    // @RequestParam(value = "status", required = false) String status,
-    // @RequestParam Integer residentId) {
-    // log.info("[Mailbox] Get Mailbox Request List By Resident Id: {}",
-    // residentId);
-    // PageResponse<MailboxDetailResponse> response =
-    // mailboxService.getMailboxDetailListByResidentId(page, size, sortBy, sortDir,
-    // status, residentId);
-    // return ResponseEntity.ok(response);
-    // }
+    @GetMapping("/detail")
+    public ResponseEntity<MailboxDetailResponse> getMailboxDetail(@RequestParam Integer mailboxDetailId) {
+        log.info("[Mailbox] Get Mailbox Detail: mailboxDetailId-{}", mailboxDetailId);
+        MailboxDetailResponse response = mailboxService.getMailboxDetailById(mailboxDetailId);
+        return ResponseEntity.ok(response);
+    }
 
-    // @GetMapping("/detail/apartment")
-    // public ResponseEntity<PageResponse<MailboxDetailResponse>>
-    // getMailboxDetailByApartmentId(
-    // @RequestParam(value = "page", defaultValue = "0") int page,
-    // @RequestParam(value = "size", defaultValue = "10") int size,
-    // @RequestParam(value = "sortBy", defaultValue = "created_date") String sortBy,
-    // @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
-    // @RequestParam(value = "status", required = false) String status,
-    // @RequestParam Integer apartmentId) {
-    // log.info("[Mailbox] Get Mailbox Request List By Apartment Id: {}",
-    // apartmentId);
-    // PageResponse<MailboxDetailResponse> response =
-    // mailboxService.getMailboxDetailListByApartmentId(page, size, sortBy, sortDir,
-    // status, apartmentId);
-    // return ResponseEntity.ok(response);
-    // }
+    @PostMapping("/detail/add")
+    public ResponseEntity<MailboxDetail> addMailboxDetail(@RequestBody MailboxDetailRequest mailboxDetailRequest) {
+        log.info("[Mailbox] Add Mailbox Detail: {}", mailboxDetailRequest.toString());
+        MailboxDetail mailboxDetail = mailboxService.addMailboxDetail(mailboxDetailRequest);
+        return ResponseEntity.ok(mailboxDetail);
+    }
 
-    // @PostMapping("/detail")
-    // public ResponseEntity<MailboxDetail> insertMailboxDetail(@RequestBody
-    // MailboxDetailRequest request) {
-    // log.info("[Mailbox] Insert Mailbox Request: " + request.toString());
-    // MailboxDetail mailboxDetail = mailboxService.insertMailboxDetail(request);
-    // return ResponseEntity.ok(mailboxDetail);
-    // }
-
-    // @PostMapping("/detail/update-status")
-    // public ResponseEntity<MailboxDetail> updateMailboxDetailStatus(
-    // @RequestParam Integer mailboxRequestId,
-    // @RequestParam String status,
-    // @RequestParam(required = false) String remarks) {
-    // log.info("[Mailbox] Update Mailbox Request Status: mailboxRequestId-{} |
-    // status-{} | remarks-{}", mailboxRequestId, status, remarks);
-    // MailboxDetail mailboxRequest =
-    // mailboxService.updateMailboxDetailStatusById(mailboxRequestId, status,
-    // remarks);
-    // return ResponseEntity.ok(mailboxRequest);
-    // }
+    @PostMapping("/detail/update")
+    public ResponseEntity<MailboxDetail> updateMailboxDetailStatus(
+            @RequestParam Integer mailboxRequestId,
+            @RequestParam String status) {
+        log.info("[Mailbox] Update Mailbox Detail Status: mailboxRequestId-{} | status-{}", mailboxRequestId, status);
+        MailboxDetail mailboxRequest = mailboxService.updateMailboxDetailStatus(mailboxRequestId, status);
+        return ResponseEntity.ok(mailboxRequest);
+    }
 }

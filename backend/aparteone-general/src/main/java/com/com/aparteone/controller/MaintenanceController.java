@@ -42,22 +42,21 @@ public class MaintenanceController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Maintenance> addMaintenance(@RequestBody MaintenanceCategoryRequest maintenanceCategoryRequest) {
-        log.info("[Maintenance] Add Maintenance: {}", maintenanceCategoryRequest.toString());
+    public ResponseEntity<Maintenance> addMaintenanceCategory(@RequestBody MaintenanceCategoryRequest maintenanceCategoryRequest) {
+        log.info("[Maintenance] Add Maintenance Category: {}", maintenanceCategoryRequest.toString());
         Maintenance maintenance = maintenanceService.addMaintenance(maintenanceCategoryRequest);
         return ResponseEntity.ok(maintenance);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Maintenance> updateMaintenanceActiveStatus(
+    public ResponseEntity<Maintenance> updateMaintenanceCategoryStatus(
             @RequestParam Integer maintenanceId,
             @RequestParam Boolean isActive) {
-        log.info("[Maintenance] Update Maintenance Status: maintenanceId-{} | isActive-{}", maintenanceId, isActive);
+        log.info("[Maintenance] Update Maintenance Category Status: maintenanceId-{} | isActive-{}", maintenanceId, isActive);
         Maintenance maintenance = maintenanceService.updateMaintenanceIsActive(maintenanceId, isActive);
         return ResponseEntity.ok(maintenance);
     }
 
-    
     @GetMapping("/request/apartment")
     public ResponseEntity<PageResponse<MaintenanceRequestResponse>> getApartmentMaintenanceRequest(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
@@ -87,8 +86,8 @@ public class MaintenanceController {
     @GetMapping("/request/detail")
     public ResponseEntity<MaintenanceRequestResponse> getMaintenanceRequestDetail(@RequestParam Integer maintenanceRequestId) {
         log.info("[Maintenance] Get Maintenance Request Detail: maintenanceRequestId-{}", maintenanceRequestId);
-        MaintenanceRequestResponse maintenanceRequest = maintenanceService.getMaintenanceRequestById(maintenanceRequestId);
-        return ResponseEntity.ok(maintenanceRequest);
+        MaintenanceRequestResponse response = maintenanceService.getMaintenanceRequestById(maintenanceRequestId);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/request/add")

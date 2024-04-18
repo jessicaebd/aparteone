@@ -103,29 +103,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId) {
-        MaintenanceRequest maintenanceRequest = maintenanceRequestRepo.findById(maintenanceRequestId).get();
-        Maintenance maintenance = maintenanceRepo.findById(maintenanceRequest.getMaintenanceId()).get();
-        ResidentDTO resident = residentService.getResidentById(maintenanceRequest.getResidentId());
-
-        MaintenanceRequestResponse response = new MaintenanceRequestResponse();
-        response.setId(maintenanceRequest.getId());
-        response.setResidentId(maintenanceRequest.getResidentId());
-        response.setResidentName(resident.getName());
-        response.setResidentUnit(resident.getUnitNumber());
-        response.setMaintenanceId(maintenanceRequest.getMaintenanceId());
-        response.setMaintenanceCategory(maintenance.getCategory());
-        response.setDescription(maintenanceRequest.getDescription());
-        response.setStatus(maintenanceRequest.getStatus());
-        response.setRequestDate(maintenanceRequest.getCreatedDate());
-        response.setAssignedTo(maintenanceRequest.getAssignedTo());
-        response.setAssignedDate(maintenanceRequest.getAssignedDate());
-        response.setCompletedDate(maintenanceRequest.getCompletedDate());
-        response.setCancelledDate(maintenanceRequest.getCancelledDate());
-        return response;
-    }
-
-    @Override
     public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
         Specification<MaintenanceRequest> spec = Specification.where(MaintenanceRequestSpecification.hasResidentId(residentId));
         if (status != null) {
@@ -169,6 +146,29 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 maintenanceRequests.getNumber(),
                 maintenanceRequests.getSize(),
                 data);
+        return response;
+    }
+    
+    @Override
+    public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId) {
+        MaintenanceRequest maintenanceRequest = maintenanceRequestRepo.findById(maintenanceRequestId).get();
+        Maintenance maintenance = maintenanceRepo.findById(maintenanceRequest.getMaintenanceId()).get();
+        ResidentDTO resident = residentService.getResidentById(maintenanceRequest.getResidentId());
+
+        MaintenanceRequestResponse response = new MaintenanceRequestResponse();
+        response.setId(maintenanceRequest.getId());
+        response.setResidentId(maintenanceRequest.getResidentId());
+        response.setResidentName(resident.getName());
+        response.setResidentUnit(resident.getUnitNumber());
+        response.setMaintenanceId(maintenanceRequest.getMaintenanceId());
+        response.setMaintenanceCategory(maintenance.getCategory());
+        response.setDescription(maintenanceRequest.getDescription());
+        response.setStatus(maintenanceRequest.getStatus());
+        response.setRequestDate(maintenanceRequest.getCreatedDate());
+        response.setAssignedTo(maintenanceRequest.getAssignedTo());
+        response.setAssignedDate(maintenanceRequest.getAssignedDate());
+        response.setCompletedDate(maintenanceRequest.getCompletedDate());
+        response.setCancelledDate(maintenanceRequest.getCancelledDate());
         return response;
     }
 
