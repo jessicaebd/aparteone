@@ -2,7 +2,6 @@ package com.com.aparteone.entity;
 
 import java.util.Date;
 
-import com.com.aparteone.dto.request.BillingDetailRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -33,11 +32,4 @@ public class BillingDetail extends AuditEntity {
     private Date dueDate;
     private Date completedDate;
     private Date cancelledDate;
-
-    public BillingDetail(BillingDetailRequest request) {
-        this.billingId = request.getBillingId();
-        this.residentId = request.getResidentId();
-        this.amount = request.getAmount();
-        this.dueDate = request.getDueDate();
-    }
 }

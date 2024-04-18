@@ -75,6 +75,7 @@ public class FacilityServiceImpl implements FacilityService {
             facilityTime.setFacilityId(facility.getId());
             facilityTime.setStartTime(LocalTime.parse(time.getStartTime()));
             facilityTime.setEndTime(LocalTime.parse(time.getEndTime()));
+            facilityTime.setIsActive(true);
             facilityTimeRepo.save(facilityTime);
         });
         return facilityRepo.save(facility);
@@ -85,21 +86,6 @@ public class FacilityServiceImpl implements FacilityService {
         Facility facility = facilityRepo.findById(facilityId).get();
         facility.setIsActive(isActive);
         return facilityRepo.save(facility);
-    }
-
-    @Override
-    public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest, Boolean isActive) {
-        FacilityTime facilityTime = facilityTimeRepo.findById(facilityTimeId).get();
-        if (isActive != null) {
-            facilityTime.setIsActive(isActive);
-        }
-        if (facilityTimeRequest.getStartTime() != null) {
-            facilityTime.setStartTime(LocalTime.parse(facilityTimeRequest.getStartTime()));
-        }
-        if (facilityTimeRequest.getEndTime() != null) {
-            facilityTime.setEndTime(LocalTime.parse(facilityTimeRequest.getEndTime()));
-        }
-        return facilityTimeRepo.save(facilityTime);
     }
 
     @Override
@@ -141,6 +127,45 @@ public class FacilityServiceImpl implements FacilityService {
                 facilities.getSize(),
                 data);
         return response;
+    }
+
+    @Override
+    public FacilityTime addFacilityTime(Integer facilityId, FacilityTimeRequest facilityTimeRequest) {
+        FacilityTime facilityTime = new FacilityTime();
+        facilityTime.setFacilityId(facilityId);
+        facilityTime.setStartTime(LocalTime.parse(facilityTimeRequest.getStartTime()));
+        facilityTime.setEndTime(LocalTime.parse(facilityTimeRequest.getEndTime()));
+        facilityTime.setIsActive(true);
+        return facilityTimeRepo.save(facilityTime);
+    }
+
+    @Override
+    public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest, Boolean isActive) {
+        FacilityTime facilityTime = facilityTimeRepo.findById(facilityTimeId).get();
+        if (isActive != null) {
+            facilityTime.setIsActive(isActive);
+        }
+        if (facilityTimeRequest.getStartTime() != null) {
+            facilityTime.setStartTime(LocalTime.parse(facilityTimeRequest.getStartTime()));
+        }
+        if (facilityTimeRequest.getEndTime() != null) {
+            facilityTime.setEndTime(LocalTime.parse(facilityTimeRequest.getEndTime()));
+        }
+        return facilityTimeRepo.save(facilityTime);
+    }
+
+    @Override
+    public List<FacilityTimeResponse> getAvailableFacilityTimeListByFacilityId(Integer facilityId) {
+        List<FacilityTime> facilityTimes = facilityTimeRepo.findByFacilityId(facilityId);
+        List<FacilityTimeResponse> data = new ArrayList<>();
+        facilityTimes.forEach(time -> {
+            data.add(new FacilityTimeResponse(
+                    time.getStartTime(),
+                    time.getEndTime(),
+                    time.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
+                    null));
+        });
+        return data;
     }
 
     // @Override

@@ -24,22 +24,6 @@ public class MailboxController {
     @Autowired
     private MailboxService mailboxService;
 
-    @PostMapping("/add-category")
-    public ResponseEntity<Mailbox> addMailboxCategory(@RequestBody MailboxCategoryRequest request) {
-        log.info("[Mailbox] Insert Mailbox: " + request.toString());
-        Mailbox mailbox = mailboxService.addMailbox(request);
-        return ResponseEntity.ok(mailbox);
-    }
-
-    @PostMapping("/update-status")
-    public ResponseEntity<Mailbox> updateMailboxActiveStatus(
-            @RequestParam Integer mailboxId,
-            @RequestParam Boolean isActive) {
-        log.info("[Mailbox] Update Mailbox Status: mailboxId-{} | isActive-{}", mailboxId, isActive);
-        Mailbox mailbox = mailboxService.updateMailboxIsActive(mailboxId, isActive);
-        return ResponseEntity.ok(mailbox);
-    }
-
     @GetMapping("")
     public ResponseEntity<PageResponse<MailboxCategoryResponse>> getMailboxCategoryList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
@@ -52,6 +36,24 @@ public class MailboxController {
         PageResponse<MailboxCategoryResponse> response = mailboxService.getMailboxListByApartmentId(page, size, sortBy, sortDir, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Mailbox> addMailboxCategory(@RequestBody MailboxCategoryRequest request) {
+        log.info("[Mailbox] Insert Mailbox: " + request.toString());
+        Mailbox mailbox = mailboxService.addMailbox(request);
+        return ResponseEntity.ok(mailbox);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Mailbox> updateMailboxActiveStatus(
+            @RequestParam Integer mailboxId,
+            @RequestParam Boolean isActive) {
+        log.info("[Mailbox] Update Mailbox Status: mailboxId-{} | isActive-{}", mailboxId, isActive);
+        Mailbox mailbox = mailboxService.updateMailboxIsActive(mailboxId, isActive);
+        return ResponseEntity.ok(mailbox);
+    }
+
+
 
     // @GetMapping("/detail/resident")
     // public ResponseEntity<PageResponse<MailboxDetailResponse>>
