@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-mailbox-list',
@@ -19,15 +18,9 @@ export class MailboxListComponent {
   @Input() disabled?: any = false;
   @Input() hidePageSize?: boolean = true;
   @Output() onPageIndexEvent = new EventEmitter<number>;
-  
   @Output() onSubmitEvent = new EventEmitter<number>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngAfterViewInit() {
-    this.listRequest.paginator = this.paginator;
-  }
 
   onClickPageIndex(e:any){
-    this.onPageIndexEvent.emit(e.pageIndex * this.pageSize);
+    this.onPageIndexEvent.emit(e.pageIndex);
   }
 }

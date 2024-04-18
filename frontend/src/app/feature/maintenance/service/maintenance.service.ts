@@ -9,21 +9,22 @@ import { AppService } from 'src/app/app.service';
 export class MaintenanceService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiMaintenance = `${environment.modules.feature.maintenance}`;
-  private apiAddCategory = `${environment.modules.general.addCategory}`;
-  private apiUpdateStatus = `${environment.modules.general.updateStatus}`;
+  private apiAdd = `${environment.modules.general.add}`;
   private apiUpdate = `${environment.modules.general.update}`;
   private apiRequest = `${environment.modules.general.request}`;
+  private apiDetail = `${environment.modules.general.detail}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
 
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getMaintenanceCategoryApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getMaintenanceCategoryApartment(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiMaintenance}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
+    // const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -38,12 +39,12 @@ export class MaintenanceService {
   }
 
   insertMaintenanceCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiAddCategory}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
   updateMaintenanceCategory(maintenanceId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiUpdateStatus}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiUpdate}`;
     const params = new HttpParams({ fromObject: { 'maintenanceId': maintenanceId, 'isActive': isActive } });
     const options = { params };
     const body = { };
@@ -51,34 +52,40 @@ export class MaintenanceService {
   }
 
   // REQUEST
-  getMaintenanceAllRequest(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getMaintenanceAllRequest(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiApartment}`;
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  getMaintenanceResidentRequest(residentId: any, size:number, page: number, sortBy: any, sortDir: any, status: any): any {
+  getMaintenanceResidentRequest(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiResident}`;
     let params;
     if(status=='' || status==null){
-      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page} });
     }
     else{
-      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir, 'status': status } });
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertMaintenanceRequest(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
-  updateMaintenanceRequest(status: any, remarks: any, maintenanceRequestId: any): any {
+  updateMaintenanceRequest(maintenanceRequestId: any, status: any, remarks: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiUpdate}`;
-    const params = new HttpParams({ fromObject: { 'status': status, 'remarks': remarks, 'maintenanceRequestId': maintenanceRequestId } });
+    let params;
+    if(remarks=='' || remarks == null || remarks == undefined){
+      params = new HttpParams({ fromObject: { 'status': status, 'maintenanceRequestId': maintenanceRequestId } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'status': status, 'remarks': remarks, 'maintenanceRequestId': maintenanceRequestId } });
+    }
     const options = { params }
     const body = { }
     return this.httpClient.post<any>(apiUrl, body, options);

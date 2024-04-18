@@ -9,7 +9,7 @@ export interface MaintenanceRequest{
     "Assigned Date"?: any,
     "Assigned Name"?: any,
     "Completed Date"?: any,
-    "Canceled Date"?: any,
+    "Cancelled Date"?: any,
     // "Modified Date"?: any,
 }
 

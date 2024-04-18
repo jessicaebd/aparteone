@@ -52,9 +52,22 @@
         </div>
 
         <!-- Modal -->
-        <app-modal modalID="modalAddCategory" [width]="600" [modalContent]="modalContent"></app-modal>
+        <app-modal modalID="modalAddCategory" [width]="600" [modalContent]="modalAddCategory"></app-modal>
 
-        <ng-template #modalContent>
+        <ng-template #modalAddCategory>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Facility Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <app-facility-add-category (onSubmitEvent)="onCloseModal()"></app-facility-add-category>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalViewCategory" [width]="600" [modalContent]="modalViewCategory"></app-modal>
+
+        <ng-template #modalViewCategory>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Facility Category</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>

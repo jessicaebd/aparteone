@@ -32,8 +32,8 @@ export interface FacilityCategory{
 }
 
 export interface FacilityCategoryTime{
-    "ID": any,
-    "Start Time": any,
-    "End Time": any,
-    "Is Active": any,
+    "id": any,
+    "startTime": any,
+    "endTime": any,
+    "isActive"?: any,
 }

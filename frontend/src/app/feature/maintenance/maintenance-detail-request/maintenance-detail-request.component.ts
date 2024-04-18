@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { MaintenanceRequest } from '../maintenance.interface';
+import { MaintenanceService } from '../service/maintenance.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-maintenance-detail-request',
@@ -12,7 +14,23 @@ export class MaintenanceDetailRequestComponent{
   flagAssign: boolean = false;
   flagCompleted: boolean = false;
   @Input() data!: MaintenanceRequest;
-  @Output() onUpdateRequest = new EventEmitter<any>;
+  @Output() onSubmitEvent = new EventEmitter<any>;
+
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
+
+  updateMaintenanceRequest(id:any, status:any, remarks:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.updateMaintenanceRequest(id, status, remarks).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
 
   onButtonAssign(type: any){
     this.flagValidasi = false;
@@ -37,8 +55,8 @@ export class MaintenanceDetailRequestComponent{
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
-          let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-          this.submitRequest(type, now, this.data);
+          this.apps.loadingPage(true);
+          this.submitRequest(type);
         }
       });
     }
@@ -63,25 +81,32 @@ export class MaintenanceDetailRequestComponent{
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.value) {
-        let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-        this.submitRequest(type, now, this.data);
+        this.apps.loadingPage(true);
+        this.submitRequest(type);
       }
     });
   }
 
-  submitRequest(type:any, now: any, data:any){
-    data['Request Date'] = now;
-    console.log('Request Type', type);
-    console.log('Request Data', data);
-    alert('SUBMIT ON : ' + now);
+  async submitRequest(type:any){
+    let result = await this.updateMaintenanceRequest(this.data['ID'], type, this.data['Assigned Name']);
+    this.apps.loadingPage(false);
+    this.onSubmitEvent.emit();
 
-    Swal.fire({
-      title: 'Success',
-      html: 'Requested Successfuly',
-      icon: 'success',
-      confirmButtonColor: '#5025FA'
-    });
-
-    this.onUpdateRequest.emit();
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Updated Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Update Category',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
   }
 }

@@ -24,8 +24,6 @@ export class MailboxComponent {
   errorMsgCategory: string = '';
   pageCategory: number = 0;
   sizeCategory: number = 5;
-  sortCatCol?: string = 'id';
-  sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
   dataCategory: MailboxCategory = {};
   
@@ -33,12 +31,11 @@ export class MailboxComponent {
   errorListRequest: string = "";
   allListRequest: any;
   pageList = 0;
+  sizeRequest = 5;
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest: string = '';
   pageRequest = 0;
-  sortReqCol?: string = 'id';
-  sortReqDir?: string = 'DESC';
   colRequest: Column[] = [];
   dataRequest: Mailbox = {};
   
@@ -57,21 +54,21 @@ export class MailboxComponent {
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'mailbox_category', displayName: 'Category'}, {name: 'resident_unit', displayName: 'Unit'}, {name: 'resident_name', displayName:'Recipient'}, {name: 'received_date', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Mailbox Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-      // this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqCol);
+      this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
+      this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest);
     }
     else if (this.role=='resident'){
-      // this.getMailboxDetailResident(this.residentId, 3, this.pageList, this.filter);
+      this.getMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
     }
     this.apps.loadingPage(false);
   }
 
-  getMailboxCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getMailboxCategory(apartementId:any, size:any, page:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.mailboxService.getMailboxCategory(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.mailboxService.getMailboxCategory(apartementId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -92,9 +89,9 @@ export class MailboxComponent {
       }))
   }
 
-  getMailboxDetailApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): Promise<any>{
+  getMailboxDetailApartment(apartmentId: any, size:number, page: number): Promise<any>{
     return new Promise<any>(resolve => 
-      this.mailboxService.getMailboxDetailApartment(apartmentId, size, page, sortBy, sortDir).subscribe({
+      this.mailboxService.getMailboxDetailApartment(apartmentId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -162,15 +159,15 @@ export class MailboxComponent {
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
       this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident Name'] = response.resident_name;
-      this.dataRequest['Resident ID'] = response.resident_id;
-      this.dataRequest['Resident Unit'] = response.resident_unit;
-      this.dataRequest['Mailbox ID'] = response.mailbox_id;
-      this.dataRequest['Mailbox Category'] = response.mailbox_category;
+      this.dataRequest['Resident Name'] = response.residentName;
+      this.dataRequest['Resident ID'] = response.residentId;
+      this.dataRequest['Resident Unit'] = response.residentUnit;
+      this.dataRequest['Mailbox ID'] = response.mailboxId;
+      this.dataRequest['Mailbox Category'] = response.mailboxCategory;
       this.dataRequest['Mailbox Desc'] = response.description;
       this.dataRequest['Status'] = response.status;
-      this.dataRequest['Received Date'] = response.received_date;
-      this.dataRequest['Completed Date'] = response.completed_date;
+      this.dataRequest['Received Date'] = response.receivedDate;
+      this.dataRequest['Completed Date'] = response.completedDate;
       resolve(this.dataRequest);
     });
   }
@@ -183,44 +180,43 @@ export class MailboxComponent {
     }
     else if(type=='request'){
       this.pageRequest = e;
-      this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqDir);
+      // this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqDir);
     }
     else if(type=='listRequest'){
-      this.pageList = 0;
-      this.getMailboxDetailResident(this.residentId, 10, this.pageList, this.filter);
+      this.pageList = e;
+      // this.getMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
     }
     this.ngOnInit();
   }
 
-  async onSortData(type:any, e:any){
-    console.log("OnSort: ", e);
-    let arr = await this.onSplitSortEvent(type, e);
-    console.log(arr);
-    if(type=='category'){
-      this.pageCategory = 0;
-      // this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-    }
-    else if(type=='request'){
-      this.pageRequest = 0;
-      this.getMailboxDetailApartment(this.apartmentId, 10, this.pageRequest, this.sortReqCol, this.sortReqDir);
-    }
-    this.ngOnInit();
-  }
+  // async onSortData(type:any, e:any){
+  //   console.log("OnSort: ", e);
+  //   let arr = await this.onSplitSortEvent(type, e);
+  //   console.log(arr);
+  //   if(type=='category'){
+  //     this.pageCategory = 0;
+  //   }
+  //   else if(type=='request'){
+  //     this.pageRequest = 0;
+  //     // this.getMailboxDetailApartment(this.apartmentId, 10, this.pageRequest, this.sortReqCol, this.sortReqDir);
+  //   }
+  //   this.ngOnInit();
+  // }
 
-  onSplitSortEvent(type:any, e:any): Promise<any>{
-    return new Promise<any> (resolve => {
-      let arr = e.split(";", 2); 
-      if(type=='category'){
-        this.sortCatCol = arr[0];
-        this.sortCatDir = arr[1];
-      }
-      else if(type=='request'){
-        this.sortReqCol = arr[0];
-        this.sortReqDir = arr[1];
-      }
-      resolve(arr);
-    });
-  }
+  // onSplitSortEvent(type:any, e:any): Promise<any>{
+  //   return new Promise<any> (resolve => {
+  //     let arr = e.split(";", 2); 
+  //     if(type=='category'){
+  //       this.sortCatCol = arr[0];
+  //       this.sortCatDir = arr[1];
+  //     }
+  //     else if(type=='request'){
+  //       this.sortReqCol = arr[0];
+  //       this.sortReqDir = arr[1];
+  //     }
+  //     resolve(arr);
+  //   });
+  // }
 
   onFilterBy(e:any){
     this.filter = e;

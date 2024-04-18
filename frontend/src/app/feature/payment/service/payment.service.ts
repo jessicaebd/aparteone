@@ -10,6 +10,7 @@ export class PaymentService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiPayment = `${environment.modules.feature.payment}`;
   private apiPaymentProof = `${environment.modules.feature.paymentProof}`;
+  private apiAdd = `${environment.modules.general.add}`;
   private apiUpdate = `${environment.modules.general.update}`;
   private apiDetail = `${environment.modules.general.detail}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
@@ -18,22 +19,37 @@ export class PaymentService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getPaymentCategory(apartmentId: any, isActive:any): any {
+  getPaymentCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiPayment}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  getPaymentActiveCategory(apartmentId: any, isActive:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}`;
+    const headers = new HttpHeaders({
+    });
+    let params;
+    if(isActive=='' || isActive == null){
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertPaymentCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiPayment}`;
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
   updatePaymentCategory(billingId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiUpdate}-status`;
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiUpdate}`;
     const params = new HttpParams({ fromObject: { 'billingId': billingId, 'isActive': isActive } });
     const options = { params };
     const body = { };

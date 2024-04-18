@@ -26,12 +26,12 @@
             <app-label class="col" [labelInput]="data['Completed Date']? (': ' + data['Completed Date']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Canceled Date"></app-label>
-            <app-label class="col" [labelInput]="data['Canceled Date']? (': ' + data['Canceled Date']) : ': -'"></app-label>
+            <app-label class="col-2" labelInput="Cancelled Date"></app-label>
+            <app-label class="col" [labelInput]="data['Cancelled Date']? (': ' + data['Cancelled Date']) : ': -'"></app-label>
         </div>
     </div>
 
-    <ng-container *ngIf="data['Status']=='Requested'; else completed">
+    <ng-container *ngIf="data['Status']=='Requested'">
         <div class="border-top w-100 mt-3 pt-2">
             <app-label labelType="subtitle" labelInput="Assign"></app-label>
             <div class="mt-1">
@@ -39,17 +39,17 @@
                 <app-textbox inputID="assignedName" (onChangeEvent)="data['Assigned Name']=$event"></app-textbox>
             </div>
             <div class="container d-flex justify-content-center mt-4">
-                <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('cancel')"></app-button>
-                <app-button class="ms-3" buttonClass="primary" buttonLabel="Assign" (onClickEvent)="onButtonAssign('assign')"></app-button>
+                <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('Cancelled')"></app-button>
+                <app-button class="ms-3" buttonClass="primary" buttonLabel="Assign" (onClickEvent)="onButtonAssign('Assigned')"></app-button>
             </div>
         </div>
     </ng-container>
 
-    <ng-template #completed>
+    <ng-container *ngIf="data['Status']=='Assigned'">
         <div class="border-top w-100 mt-3 pt-2">
             <div class="container d-flex justify-content-center mt-2">
-                <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonClick('completed')"></app-button>
+                <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonClick('Completed')"></app-button>
             </div>
         </div>
-    </ng-template>
+    </ng-container>
 </div>

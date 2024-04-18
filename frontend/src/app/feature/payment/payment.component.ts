@@ -11,36 +11,45 @@ import { PaymentCategory } from './payment.interface';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit{
+  apartmentId = 1;
+  residentId = 4;
   role: string = 'resident';
-  filter: any = "";
+  filter: string = '';
+
   listCategory!: any;
-  listRequest!: any;
-  errorListCategory: string = "";
-  errorListRequest: string = "";
+  errorListCategory: string = '';
   tableCategory: any;
-  tableRequest: any;
   allDataCategory: any;
-  allDataRequest: any;
-  errorMsgCategory?: string;
-  errorMsgRequest?: string;
-  sortReqCol?: string = 'created_date';
-  sortReqDir?: string = 'DESC';
+  errorMsgCategory: string = '';
+  pageCategory: number = 0;
+  sizeCategory: number = 5;
   sortCatCol?: string = 'id';
   sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
-  colRequest: Column[] = [];
   dataCategory: PaymentCategory = {};
-  // dataRequest: MaintenanceRequest = {};
+  
+  listRequest!: any;
+  errorListRequest: string = "";
+  allListRequest: any;
+  pageList = 0;
+  tableRequest: any;
+  allDataRequest: any;
+  errorMsgRequest: string = '';
+  pageRequest = 0;
+  sortReqCol?: string = 'id';
+  sortReqDir?: string = 'DESC';
+  colRequest: Column[] = [];
+  // dataRequest: Payment = {};
   
   @ViewChild('closeModalAdd') modalCloseAdd: any;
   @ViewChild('closeModalUpdate') modalCloseUpdate: any;
-  @ViewChild('closeModalAssign') modalCloseAssign: any;
+  @ViewChild('closeModalNew') modalCloseNew: any;
+  @ViewChild('closeModalDetail') modalCloseDetail: any;
 
   constructor(private location: Location, private paymentService: PaymentService, private apps: AppComponent){}
 
   ngOnInit() {
     this.apps.loadingPage(true);
-    this.errorListCategory = '';
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';
@@ -49,7 +58,7 @@ export class PaymentComponent implements OnInit{
       this.colRequest = [{name: 'payment_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Billing Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getPaymentCategory(1, '');
+      this.getPaymentCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
       // this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
     }
     else if (this.role=='resident'){
@@ -59,13 +68,13 @@ export class PaymentComponent implements OnInit{
     this.apps.loadingPage(false);
   }
 
-  getPaymentCategory(apartementId:any, isActive:any): Promise<any>{
+  getPaymentCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.paymentService.getPaymentCategory(apartementId, isActive).subscribe({
+      this.paymentService.getPaymentCategory(apartementId, size, page, sortBy, sortDir).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
-          if(response.length > 0){
-            this.tableCategory = response;
+          if(response.data.length > 0){
+            this.tableCategory = response.data;
             this.allDataCategory = response.totalElements;
           }
           else{
@@ -96,9 +105,9 @@ export class PaymentComponent implements OnInit{
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
       this.dataCategory['ID'] = response.id;
-      this.dataCategory['Apartment ID'] = response.apartment_id;
+      this.dataCategory['Apartment ID'] = response.apartmentId;
       this.dataCategory['Category Name'] = response.category;
-      this.dataCategory['Status'] = response.isActive==true? 'Active': 'In-Active';
+      this.dataCategory['Status'] = response.isActive;
       resolve(this.dataCategory);
     });
   }
@@ -123,11 +132,13 @@ export class PaymentComponent implements OnInit{
   onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
     if(type=='category'){
+      this.pageCategory = e;
       // this.getMaintenanceAllCategory(1, 10, e, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       // this.getMaintenanceAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
     }
+    this.ngOnInit();
   }
 
   async onSortData(type:any, e:any){
@@ -135,11 +146,13 @@ export class PaymentComponent implements OnInit{
     let arr = await this.onSplitSortEvent(type, e);
     console.log(arr);
     if(type=='category'){
+      this.pageCategory = 0;
       // this.getMaintenanceAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       // this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqDir);
     }
+    this.ngOnInit();
   }
 
   onSplitSortEvent(type:any, e:any): Promise<any>{
@@ -163,7 +176,8 @@ export class PaymentComponent implements OnInit{
 
   onFilterBy(e:any){
     this.filter = e;
-    console.log('Filter :', this.filter);
+    this.pageList = 0;
+    this.ngOnInit();
   }
   
   onCloseModal(type: string){
@@ -173,8 +187,11 @@ export class PaymentComponent implements OnInit{
     else if(type=='update'){
       this.modalCloseUpdate.nativeElement.click();
     }
-    else if(type=='assign'){
-      this.modalCloseAssign.nativeElement.click();
+    else if(type=='detail'){
+      this.modalCloseDetail.nativeElement.click();
+    }
+    else if(type=='new'){
+      this.modalCloseNew.nativeElement.click();
     }
     
     this.ngOnInit();

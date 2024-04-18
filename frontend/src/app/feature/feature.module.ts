@@ -50,6 +50,7 @@ import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store
 // REPORT
 import { ReportComponent } from './report/report.component';
 import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.component';
+import { FacilityUpdateCategoryComponent } from './facility/facility-update-category/facility-update-category.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.
     MerchantProductComponent,
     MerchantStoreComponent,
     ReportComponent,
+    FacilityUpdateCategoryComponent,
   ],
   imports: [
     CommonModule,

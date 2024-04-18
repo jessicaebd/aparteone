@@ -17,8 +17,6 @@ export class MailboxAllComponent {
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest?: string;
-  sortReqCol?: string = 'id';
-  sortReqDir?: string = 'DESC';
   page = 0;
   colRequest: Column[] = [];
   dataRequest: Mailbox = {};
@@ -34,8 +32,8 @@ export class MailboxAllComponent {
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'mailbox_category', displayName: 'Category'}, {name: 'resident_unit', displayName: 'Unit'}, {name: 'resident_name', displayName:'Recipient'}, {name: 'received_date', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.getMailboxDetailApartment(this.apartmentId, 10, this.page, this.sortReqCol, this.sortReqCol);
+      this.colRequest = [{name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
     }
     else if (this.role=='resident'){
       window.location.replace('');
@@ -43,9 +41,9 @@ export class MailboxAllComponent {
     this.apps.loadingPage(false);
   }
 
-  getMailboxDetailApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): Promise<any>{
+  getMailboxDetailApartment(apartmentId: any, size:number, page: number): Promise<any>{
     return new Promise<any>(resolve => 
-      this.mailboxService.getMailboxDetailApartment(apartmentId, size, page, sortBy, sortDir).subscribe({
+      this.mailboxService.getMailboxDetailApartment(apartmentId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -75,15 +73,15 @@ export class MailboxAllComponent {
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
       this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident Name'] = response.resident_name;
-      this.dataRequest['Resident ID'] = response.resident_id;
-      this.dataRequest['Resident Unit'] = response.resident_unit;
-      this.dataRequest['Mailbox ID'] = response.mailbox_id;
-      this.dataRequest['Mailbox Category'] = response.mailbox_category;
+      this.dataRequest['Resident Name'] = response.residentName;
+      this.dataRequest['Resident ID'] = response.residentId;
+      this.dataRequest['Resident Unit'] = response.residentUnit;
+      this.dataRequest['Mailbox ID'] = response.mailboxId;
+      this.dataRequest['Mailbox Category'] = response.mailboxCategory;
       this.dataRequest['Mailbox Desc'] = response.description;
       this.dataRequest['Status'] = response.status;
-      this.dataRequest['Received Date'] = response.received_date;
-      this.dataRequest['Completed Date'] = response.completed_date;
+      this.dataRequest['Received Date'] = response.receivedDate;
+      this.dataRequest['Completed Date'] = response.completedDate;
       resolve(this.dataRequest);
     });
   }
@@ -91,25 +89,25 @@ export class MailboxAllComponent {
   onLoadData(e:any){
     console.log("Onload Page Index: ", e);
     this.page = e;
-    this.getMailboxDetailApartment(this.apartmentId, 10, this.page, this.sortReqCol, this.sortReqDir);
+    this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
   }
 
-  async onSortData(e:any){
-    console.log("OnSort: ", e);
-    this.page = 0;
-    let arr = await this.onSplitSortEvent(e);
-    console.log(arr);
-    this.getMailboxDetailApartment(this.apartmentId, 10, this.page, this.sortReqCol, this.sortReqDir);
-  }
+  // async onSortData(e:any){
+  //   console.log("OnSort: ", e);
+  //   this.page = 0;
+  //   let arr = await this.onSplitSortEvent(e);
+  //   console.log(arr);
+  //   this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
+  // }
 
-  onSplitSortEvent(e:any): Promise<any>{
-    return new Promise<any> (resolve => {
-      let arr = e.split(";", 2); 
-      this.sortReqCol = arr[0];
-      this.sortReqDir = arr[1];
-      resolve(arr);
-    });
-  }
+  // onSplitSortEvent(e:any): Promise<any>{
+  //   return new Promise<any> (resolve => {
+  //     let arr = e.split(";", 2); 
+  //     this.sortReqCol = arr[0];
+  //     this.sortReqDir = arr[1];
+  //     resolve(arr);
+  //   });
+  // }
   
   onCloseModal(type: string){
     if(type=='detail'){

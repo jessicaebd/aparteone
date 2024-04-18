@@ -8,8 +8,12 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./maintenance-history.component.css']
 })
 export class MaintenanceHistoryComponent {
+  residentId = 4;
+  
   table: any;
   allDataCount: any;
+  size = 5;
+  page = 0;
   filter: string = '';
   errorMsg: string = '';
   sortCol?: string = 'id';
@@ -20,13 +24,13 @@ export class MaintenanceHistoryComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    await this.getMaintenanceResidentRequest(4, 10, 0, this.sortCol, this.sortDir, this.filter);
+    await this.getMaintenanceResidentRequest(this.residentId, this.size, this.page, this.filter);
     this.apps.loadingPage(false);
   }
 
-  getMaintenanceResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any, status: any): Promise<any>{
+  getMaintenanceResidentRequest(residentId:any, size:any, page:any, status: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, sortBy, sortReqDir, status).subscribe({
+      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, status).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -48,11 +52,13 @@ export class MaintenanceHistoryComponent {
 
   onLoadData(e:any){
     console.log("Onload Page Index: ", e);
-    this.getMaintenanceResidentRequest(1, 10, e, this.sortCol, this.sortDir, this.filter);
+    this.page = e;
+    this.ngOnInit();
   }
 
   onFilterBy(e:any){
     this.filter = e;
+    this.page = 0;
     console.log('Filter :', this.filter);
     this.ngOnInit();
   }

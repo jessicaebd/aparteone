@@ -24,8 +24,6 @@ export class MaintenanceComponent implements OnInit{
   errorMsgCategory: string = '';
   pageCategory: number = 0;
   sizeCategory: number = 5;
-  sortCatCol?: string = 'id';
-  sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
   dataCategory: MaintenanceCategory = {};
   
@@ -34,8 +32,6 @@ export class MaintenanceComponent implements OnInit{
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest: string = '';
-  sortReqCol?: string = 'id';
-  sortReqDir?: string = 'DESC';
   colRequest: Column[] = [];
   dataRequest: MaintenanceRequest = {};
   
@@ -53,22 +49,22 @@ export class MaintenanceComponent implements OnInit{
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'maintenance_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'maintenanceCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentName', displayName:'Requested By'}, {name: 'assignedTo', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-      // this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
+      this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory);
+      this.getMaintenanceAllRequest(this.apartmentId, 5, 0);
     }
     else if (this.role=='resident'){
       this.getMaintenanceCategoryResident(this.apartmentId);
-      // this.getMaintenanceResidentRequest(this.residentId, 3, 0, this.sortReqCol, this.sortReqDir, '');
+      this.getMaintenanceResidentRequest(this.residentId, 3, 0, '');
     }
     this.apps.loadingPage(false);
   }
 
-  getMaintenanceCategoryApartment(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getMaintenanceCategoryApartment(apartementId:any, size:any, page:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceCategoryApartment(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.maintenanceService.getMaintenanceCategoryApartment(apartementId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -109,9 +105,9 @@ export class MaintenanceComponent implements OnInit{
       }))
   }
 
-  getMaintenanceAllRequest(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getMaintenanceAllRequest(apartementId:any, size:any, page:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceAllRequest(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.maintenanceService.getMaintenanceAllRequest(apartementId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -131,9 +127,9 @@ export class MaintenanceComponent implements OnInit{
       }))
   }
 
-  getMaintenanceResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any, status: any): Promise<any>{
+  getMaintenanceResidentRequest(residentId:any, size:any, page:any, status: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, sortBy, sortReqDir, status).subscribe({
+      this.maintenanceService.getMaintenanceResidentRequest(residentId, size, page, status).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -180,15 +176,15 @@ export class MaintenanceComponent implements OnInit{
     return new Promise<any> (resolve => {
       this.dataRequest['ID'] = response.id;
       this.dataRequest['Resident Name'] = response.resident;
-      this.dataRequest['Maintenance ID'] = response.maintenance_id;
-      this.dataRequest['Maintenance Category'] = response.maintenance_category;
+      this.dataRequest['Maintenance ID'] = response.maintenanceId;
+      this.dataRequest['Maintenance Category'] = response.maintenanceCategory;
       this.dataRequest['Maintenance Detail'] = response.maintenanceDetail;
       this.dataRequest['Status'] = response.status;
-      this.dataRequest['Request Date'] = response.request_date;
-      this.dataRequest['Assigned Name'] = response.assigned_to;
-      this.dataRequest['Assigned Date'] = response.assigned_date;
-      this.dataRequest['Completed Date'] = response.completed_date;
-      this.dataRequest['Canceled Date'] = response.cancelled_date;
+      this.dataRequest['Request Date'] = response.requestDate;
+      this.dataRequest['Assigned Name'] = response.assignedTo;
+      this.dataRequest['Assigned Date'] = response.assignedDate;
+      this.dataRequest['Completed Date'] = response.completedDate;
+      this.dataRequest['Cancelled Date'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
   }
@@ -200,39 +196,39 @@ export class MaintenanceComponent implements OnInit{
       // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
-      this.getMaintenanceAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
+      // this.getMaintenanceAllRequest(1, 10, e);
     }
     this.ngOnInit();
   }
 
-  async onSortData(type:any, e:any){
-    console.log("OnSort: ", e);
-    let arr = await this.onSplitSortEvent(type, e);
-    console.log(arr);
-    if(type=='category'){
-      this.pageCategory = 0;
-      // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-    }
-    else if(type=='request'){
-      this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqDir);
-    }
-    this.ngOnInit();
-  }
+  // async onSortData(type:any, e:any){
+  //   console.log("OnSort: ", e);
+  //   let arr = await this.onSplitSortEvent(type, e);
+  //   console.log(arr);
+  //   if(type=='category'){
+  //     this.pageCategory = 0;
+  //     // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
+  //   }
+  //   else if(type=='request'){
+  //     // this.getMaintenanceAllRequest(1, 10, 0);
+  //   }
+  //   this.ngOnInit();
+  // }
 
-  onSplitSortEvent(type:any, e:any): Promise<any>{
-    return new Promise<any> (resolve => {
-      let arr = e.split(";", 2); 
-      if(type=='category'){
-        this.sortCatCol = arr[0];
-        this.sortCatDir = arr[1];
-      }
-      else if(type=='request'){
-        this.sortReqCol = arr[0];
-        this.sortReqDir = arr[1];
-      }
-      resolve(arr);
-    });
-  }
+  // onSplitSortEvent(type:any, e:any): Promise<any>{
+  //   return new Promise<any> (resolve => {
+  //     let arr = e.split(";", 2); 
+  //     if(type=='category'){
+  //       this.sortCatCol = arr[0];
+  //       this.sortCatDir = arr[1];
+  //     }
+  //     else if(type=='request'){
+  //       this.sortReqCol = arr[0];
+  //       this.sortReqDir = arr[1];
+  //     }
+  //     resolve(arr);
+  //   });
+  // }
 
   backButton(){
     this.location.back();

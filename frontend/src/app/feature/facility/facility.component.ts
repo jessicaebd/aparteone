@@ -157,8 +157,8 @@ export class FacilityComponent {
       console.log('Data Request:', data);
     }
     else if(type=='category'){
-      let data = await this.setDetailCategory(e);
-      console.log('Category:', data);
+      // let data = await this.setDetailCategory(e);
+      console.log('Category:', e);
     }
   }
 

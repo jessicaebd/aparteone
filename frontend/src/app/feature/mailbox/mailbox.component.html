@@ -7,11 +7,11 @@
 
     <ng-container *ngIf="this.role=='resident'">
         <div class="d-flex mb-3">
-            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
+            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
             <button [ngClass]="filter == 'Received' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Received')">Received</button>
             <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
         </div>
-        <app-mailbox-list [listRequest]="listRequest" [length]="allListRequest" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="ngOnInit" [errorMsg]="errorListRequest"></app-mailbox-list>
+        <app-mailbox-list [listRequest]="listRequest" [length]="allListRequest" [pageSize]="sizeRequest" [pageIndex]="pageList" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="ngOnInit" [errorMsg]="errorListRequest"></app-mailbox-list>
     </ng-container>
 
     <ng-container *ngIf="this.role=='management'">
@@ -24,7 +24,7 @@
                 <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
                 actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" [pageIndex]="pageCategory" [pageSize]="sizeCategory"
-                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
+                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
         <div class="mailbox-request-list mt-5">
@@ -39,7 +39,7 @@
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
                     actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" 
-                    [length]="allDataRequest" [pageSize]="5" [pageIndex]="pageRequest" [sort]="false" [pagination]="false" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
+                    [length]="allDataRequest" [pageSize]="5" [pageIndex]="pageRequest" [pagination]="false" (onPageIndexEvent)="onLoadData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 

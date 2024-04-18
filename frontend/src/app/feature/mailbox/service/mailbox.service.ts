@@ -9,9 +9,8 @@ import { AppService } from 'src/app/app.service';
 export class MailboxService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiMailbox = `${environment.modules.feature.mailbox}`;
+  private apiAdd = `${environment.modules.general.add}`;
   private apiUpdate = `${environment.modules.general.update}`;
-  private apiAddCategory = `${environment.modules.general.addCategory}`;
-  private apiUpdateStatus = `${environment.modules.general.updateStatus}`;
   private apiDetail = `${environment.modules.general.detail}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
@@ -19,11 +18,11 @@ export class MailboxService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getMailboxCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getMailboxCategory(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -44,12 +43,12 @@ export class MailboxService {
   }
 
   insertMailboxCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiAddCategory}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
   
   updateMailboxCategory(mailboxId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiUpdateStatus}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiUpdate}`;
     const params = new HttpParams({ fromObject: { 'mailboxId': mailboxId, 'isActive': isActive } });
     const options = { params };
     const body = { };
@@ -57,11 +56,11 @@ export class MailboxService {
   }
 
   // DETAIL
-  getMailboxDetailApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getMailboxDetailApartment(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiApartment}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -71,23 +70,23 @@ export class MailboxService {
     const headers = new HttpHeaders({
     });
     let params;
-    if(status!='' || status != null){
-      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
+    if(status=='' || status == null){
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
     }
     else{
-      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertMailboxDetail(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}`;
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
   updateMailboxDetail(mailboxRequestId:any, status:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiUpdate}-status`;
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiUpdate}`;
     const params = new HttpParams({ fromObject: { 'mailboxRequestId': mailboxRequestId, 'status': status } });
     const options = { params };
     const body = { };

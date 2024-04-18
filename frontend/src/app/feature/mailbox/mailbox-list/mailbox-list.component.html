@@ -13,7 +13,7 @@
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
                         <div class="header-button w-100">
                             <div class="row">
-                                <h6 class="col mb-0">{{item.mailbox_category}}</h6>
+                                <h6 class="col mb-0">{{item.mailboxCategory}}</h6>
                                 <div class="col-2 d-flex justify-content-end">
                                     <ng-container *ngIf="item.status=='Received'">
                                         <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
@@ -23,7 +23,7 @@
                                     </ng-container>
                                 </div>
                             </div>
-                            <app-label *ngIf="item.received_date" [labelInput]="item.received_date"></app-label>
+                            <app-label *ngIf="item.receivedDate" [labelInput]="item.receivedDate"></app-label>
                         </div>
                     </button>
                 </h2>
@@ -34,7 +34,7 @@
                                 <app-label labelInput="Unit"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.resident_unit; else noData" [labelInput]="': ' + item.resident_unit"></app-label>
+                                <app-label *ngIf="item.residentUnit; else noData" [labelInput]="': ' + item.residentUnit"></app-label>
                             </div>
                         </div>
                         <div class="row w-50">
@@ -42,7 +42,7 @@
                                 <app-label labelInput="Recipient"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.resident_name; else noData" [labelInput]="': ' + item.resident_name"></app-label>
+                                <app-label *ngIf="item.residentName; else noData" [labelInput]="': ' + item.residentName"></app-label>
                             </div>
                         </div>
                         <div class="row w-50">
@@ -66,7 +66,7 @@
                                 <app-label labelInput="Received Date"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.received_date; else noData" [labelInput]="': ' + item.received_date"></app-label>
+                                <app-label *ngIf="item.receivedDate; else noData" [labelInput]="': ' + item.receivedDate"></app-label>
                             </div>
                         </div>
                         <div class="row w-50">
@@ -74,7 +74,7 @@
                                 <app-label labelInput="Completed Date"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.completed_date; else noData" [labelInput]="': ' + item.completed_date"></app-label>
+                                <app-label *ngIf="item.completedDate; else noData" [labelInput]="': ' + item.completedDate"></app-label>
                             </div>
                         </div>
                         <ng-template #noData>

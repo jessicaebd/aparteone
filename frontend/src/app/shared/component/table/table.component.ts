@@ -45,7 +45,7 @@ export class TableComponent implements OnInit{
   @Input() isDisabled: boolean = false;
   @Input() actionTarget?: string;
   @Input() actionToggle?: string;
-  @Input() sort?: boolean = true;
+  @Input() sort?: boolean = false;
   @Input() flagSort?: boolean = true;
   @Output() onClickActionEvent = new EventEmitter<any>;
   @Output() onPageIndexEvent = new EventEmitter<number>;

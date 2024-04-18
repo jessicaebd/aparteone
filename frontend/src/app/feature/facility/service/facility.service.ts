@@ -10,8 +10,8 @@ export class FacilityService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiFacility = `${environment.modules.feature.facility}`;
   private apiRequest = `${environment.modules.general.request}`;
-  private apiAddCategory = `${environment.modules.general.addCategory}`;
-  private apiUpdateStatus = `${environment.modules.general.updateStatus}`;
+  private apiAdd = `${environment.modules.general.add}`;
+  private apiUpdate = `${environment.modules.general.update}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
 
@@ -37,12 +37,12 @@ export class FacilityService {
   }
 
   insertFacilityCategory(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiAddCategory}`;
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
   updateFacilityCategory(facilityId:any, isActive:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiUpdateStatus}`;
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiUpdate}`;
     const headers = new HttpHeaders({
     });
     // const params = new HttpParams({ });

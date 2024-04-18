@@ -1,0 +1,38 @@
+<div class="container form-category w-100">
+    <div class="mt-0">
+        <app-label labelType="label"  labelFor="categoryImage" labelInput="Image" [isMandatory]="true"></app-label>
+        <app-attachment-image attachmentID="categoryImage" previewWidth="20vw" (onChangeEvent)="data['Category Image']=$event"></app-attachment-image>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="categoryName" labelInput="Name" [isMandatory]="true"></app-label>
+        <app-textbox inputID="categoryName" (onChangeEvent)="data['Category Name']=$event"></app-textbox>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="categoryDesc" labelInput="Description" [isMandatory]="true"></app-label>
+        <app-textbox inputID="categoryDesc" (onChangeEvent)="data['Category Desc']=$event"></app-textbox>
+    </div>
+    <div class="mt-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <app-label labelType="label"  labelFor="categoryTime" labelInput="Time" [isMandatory]="true"></app-label>
+            <app-button buttonLabel="Add Time" (onClickEvent)="onAddTime()"></app-button>
+        </div>
+        <div class="d-flex row mx-2">
+            <app-label class="col-5 me-2" labelType="label"  labelFor="startTime" labelInput="Start Time"></app-label>
+            <app-label class="col-5" labelType="label"  labelFor="endTime" labelInput="End Time"></app-label>
+        </div>
+        <ng-container *ngFor="let item of dataTime">
+            <div class="d-flex align-items-center row mx-2 mb-2">
+                <div class="col-5 me-2">
+                    <app-timepicker inputID="startTime" (onChangeEvent)="item.startTime=$event"></app-timepicker>
+                </div>
+                <div class="col-5 me-2">
+                    <app-timepicker inputID="endTime" (onChangeEvent)="item.endTime=$event"></app-timepicker>
+                </div>
+                <button type="button" class="btn-close col-1" (click)="onDeleteItem(item.id)"></button>
+            </div>
+        </ng-container>
+    </div>
+    <div class="container d-flex justify-content-center py-4">
+        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+    </div>
+</div>
