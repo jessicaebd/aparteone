@@ -185,7 +185,7 @@ public class MailboxServiceImpl implements MailboxService {
     public MailboxDetail updateMailboxDetailStatus(Integer mailboxDetailId,
             String status) {
         MailboxDetail mailboxDetail = mailboxDetailRepo.findById(mailboxDetailId).get();
-        if (status == AparteoneConstant.STATUS_COMPLETED) {
+        if (status.equalsIgnoreCase(AparteoneConstant.STATUS_COMPLETED)) {
             mailboxDetail.setStatus(status);
             mailboxDetail.setCompletedDate(new Date());
         }
