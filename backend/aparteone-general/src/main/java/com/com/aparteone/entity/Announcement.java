@@ -2,7 +2,6 @@ package com.com.aparteone.entity;
 
 import java.util.Date;
 
-import com.com.aparteone.dto.request.AnnouncementRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;

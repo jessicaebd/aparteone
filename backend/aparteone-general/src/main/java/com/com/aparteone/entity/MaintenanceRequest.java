@@ -2,8 +2,6 @@ package com.com.aparteone.entity;
 
 import java.util.Date;
 
-import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -35,11 +33,4 @@ public class MaintenanceRequest extends AuditEntity {
     private Date assignedDate;
     private Date completedDate;
     private Date cancelledDate;
-
-    public MaintenanceRequest(MaintenanceReserveRequest maintenanceReserveRequest) {
-        this.maintenanceId = maintenanceReserveRequest.getMaintenanceId();
-        this.residentId = maintenanceReserveRequest.getResidentId();
-        this.description = maintenanceReserveRequest.getDescription();
-        this.status = AparteoneConstant.STATUS_REQUESTED;
-    }
 }

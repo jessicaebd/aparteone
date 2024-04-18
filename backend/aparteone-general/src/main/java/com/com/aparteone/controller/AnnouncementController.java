@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/announcement")
 public class AnnouncementController {
+    
     @Autowired
     private AnnouncementService announcementService;
 

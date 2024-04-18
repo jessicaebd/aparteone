@@ -25,4 +25,6 @@ public class AparteoneConstant {
     public static final Integer ROLE_ID_MANAGEMENT = 2;
     public static final Integer ROLE_ID_RESIDENT = 3;
     public static final Integer ROLE_ID_MERCHANT = 4;
+
+    public static final String FORMAT_DATE_TIME = "dd MMM yyyy HH:mm";
 }

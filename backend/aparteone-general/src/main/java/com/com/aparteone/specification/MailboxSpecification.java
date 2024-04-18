@@ -2,7 +2,6 @@ package com.com.aparteone.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.entity.Mailbox;
 import com.com.aparteone.entity.MailboxDetail;
 
@@ -23,11 +22,7 @@ public class MailboxSpecification {
         return (root, query, builer) -> builer.equal(root.get("residentId"), residentId);
     }
 
-    public static Specification<MailboxDetail> isReceived() {
-        return (root, query, builer) -> builer.equal(root.get("status"), AparteoneConstant.STATUS_RECEIVED);
-    }
-
-    public static Specification<MailboxDetail> isCompleted() {
-        return (root, query, builer) -> builer.equal(root.get("status"), AparteoneConstant.STATUS_COMPLETED);
+    public static Specification<MailboxDetail> hasStatus(String status) {
+        return (root, query, builer) -> builer.equal(root.get("status"), status);
     }
 }
