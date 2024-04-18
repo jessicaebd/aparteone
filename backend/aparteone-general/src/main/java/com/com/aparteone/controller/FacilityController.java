@@ -1,5 +1,6 @@
 package com.com.aparteone.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.dto.request.category.FacilityCategoryRequest;
 import com.com.aparteone.dto.request.category.FacilityTimeRequest;
+import com.com.aparteone.dto.response.FacilityRequestResponse;
 import com.com.aparteone.dto.response.category.FacilityCategoryResponse;
 import com.com.aparteone.dto.response.category.FacilityTimeResponse;
 import com.com.aparteone.entity.Facility;
+import com.com.aparteone.entity.FacilityRequest;
 import com.com.aparteone.entity.FacilityTime;
 import com.com.aparteone.service.FacilityService;
 
@@ -33,45 +37,45 @@ public class FacilityController {
     public ResponseEntity<PageResponse<FacilityCategoryResponse>> getFacilityCategoryList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "category") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam Integer apartmentId) {
-        log.info("[Facility] Get Facility Category List: apartmentId-{}", apartmentId);
-        PageResponse<FacilityCategoryResponse> response = facilityService.getFacilityListByApartmentId(page, size,
-                sortBy, sortDir, isActive, apartmentId);
+        log.info("[Facility] Get Facility Category List: apartmentId-{} | isActive-{}", apartmentId, isActive);
+        PageResponse<FacilityCategoryResponse> response = facilityService.getFacilityListByApartmentId(page, size, sortBy, sortDir, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Facility> addFacilityCategory(@RequestBody FacilityCategoryRequest facility) {
-        log.info("[Facility] Add Facility: {}", facility.toString());
-        Facility newFacility = facilityService.addFacility(facility);
-        return ResponseEntity.ok(newFacility);
+    public ResponseEntity<Facility> addFacilityCategory(@RequestBody FacilityCategoryRequest facilityCategoryRequest) {
+        log.info("[Facility] Add Facility Category: {}", facilityCategoryRequest.toString());
+        Facility facility = facilityService.addFacility(facilityCategoryRequest);
+        return ResponseEntity.ok(facility);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Facility> updateFacilityActiveStatus(
+    public ResponseEntity<Facility> updateFacilityCategoryStatus(
             @RequestParam Integer facilityId,
             @RequestParam Boolean isActive) {
-        log.info("[Facility] Update Facility Status: facilityId-{} | isActive-{}", facilityId, isActive);
+        log.info("[Facility] Update Facility Category Status: facilityId-{} | isActive-{}", facilityId, isActive);
         Facility facility = facilityService.updateFacilityIsActive(facilityId, isActive);
         return ResponseEntity.ok(facility);
     }
 
-    @GetMapping("/time/available")
-    public ResponseEntity<List<FacilityTimeResponse>> getAvailableFacilityTime(@RequestParam Integer facilityId) {
-        log.info("[Facility] Get Available Facility Time: facilityId-{}", facilityId);
-        List<FacilityTimeResponse> facilityTimeResponse = facilityService
-                .getAvailableFacilityTimeListByFacilityId(facilityId);
-        return ResponseEntity.ok(facilityTimeResponse);
+    @GetMapping("/time")
+    public ResponseEntity<List<FacilityTimeResponse>> getFacilityTimeList(
+            @RequestParam Integer facilityId,
+            @RequestParam String date) throws ParseException {
+        log.info("[Facility] Get Facility Time List: facilityId-{} | date-{}", facilityId, date);
+        List<FacilityTimeResponse> response = facilityService.getFacilityTimeByFacilityId(facilityId, date);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/time/add")
-    public ResponseEntity<FacilityTime> addFacilityTime(@RequestParam Integer facilityId,
+    public ResponseEntity<FacilityTime> addFacilityTime(
+            @RequestParam Integer facilityId,
             @RequestBody FacilityTimeRequest facilityTimeRequest) {
-        log.info("[Facility] Add Facility Time: facilityId-{} | facilityTimeRequest-{}", facilityId,
-                facilityTimeRequest.toString());
+        log.info("[Facility] Add Facility Time: facilityId-{} | facilityTimeRequest-{}", facilityId, facilityTimeRequest.toString());
         FacilityTime facilityTime = facilityService.addFacilityTime(facilityId, facilityTimeRequest);
         return ResponseEntity.ok(facilityTime);
     }
@@ -86,78 +90,52 @@ public class FacilityController {
         return ResponseEntity.ok(facilityTime);
     }
 
-    // @PostMapping("/update-time")
-    // public ResponseEntity<FacilityTime> updateFacilityTime(
-    // @RequestParam Integer facilityTimeId,
-    // @RequestParam(required = false) Boolean isActive,
-    // @RequestBody(required = false) FacilityTimeRequest facilityTimeRequest) {
-    // log.info("[Facility] Update Facility Time: facilityTimeId-{} | isActive-{} |
-    // facilityTimeRequest-{}", facilityTimeId, isActive,
-    // facilityTimeRequest.toString());
-    // FacilityTime facilityTime =
-    // facilityService.updateFacilityTime(facilityTimeId, facilityTimeRequest,
-    // isActive);
-    // return ResponseEntity.ok(facilityTime);
-    // }
+    @GetMapping("/request")
+    public ResponseEntity<FacilityRequestResponse> getFacilityRequestDetail(@RequestParam Integer facilityRequestId) {
+        log.info("[Facility] Get Facility Request Detail: facilityRequestId-{}",facilityRequestId);
+        FacilityRequestResponse response = facilityService.getFacilityRequestById(facilityRequestId);
+        return ResponseEntity.ok(response);
+    }
 
-    // @GetMapping("/request/resident")
-    // public ResponseEntity<PageResponse<FacilityRequestResponse>>
-    // getFacilityRequestByResidentId(
-    // @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-    // @RequestParam(value = "size", required = false, defaultValue = "40") int
-    // size,
-    // @RequestParam(value = "sortBy", required = false, defaultValue =
-    // "createdDate") String sortBy,
-    // @RequestParam(value = "sortDir", required = false, defaultValue = "desc")
-    // String sortDir,
-    // @RequestParam(value = "status", required = false) String status,
-    // @RequestParam Integer residentId) {
-    // log.info("[Facility] Get Facility Request List By Resident Id: {}",
-    // residentId);
-    // PageResponse<FacilityRequestResponse> response =
-    // facilityService.getFacilityRequestListByResidentId(page, size, sortBy,
-    // sortDir, status, residentId);
-    // return ResponseEntity.ok(response);
-    // }
+    @GetMapping("/request/resident")
+    public ResponseEntity<PageResponse<FacilityRequestResponse>> getResidentFacilityRequestList(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam Integer residentId) {
+        log.info("[Facility] Get Facility Request List - Resident: residentId-{} | status-{}", residentId, status);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        return ResponseEntity.ok(response);
+    }
 
-    // @GetMapping("/request/apartment")
-    // public ResponseEntity<PageResponse<FacilityRequestResponse>>
-    // getFacilityRequestByApartmentId(
-    // @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-    // @RequestParam(value = "size", required = false, defaultValue = "40") int
-    // size,
-    // @RequestParam(value = "sortBy", required = false, defaultValue =
-    // "created_date") String sortBy,
-    // @RequestParam(value = "sortDir", required = false, defaultValue = "desc")
-    // String sortDir,
-    // @RequestParam(value = "status", required = false) String status,
-    // @RequestParam Integer apartmentId) {
-    // log.info("[Facility] Get Facility Request List By Apartment Id: {}",
-    // apartmentId);
-    // PageResponse<FacilityRequestResponse> response =
-    // facilityService.getFacilityRequestListByApartmentId(page, size, sortBy,
-    // sortDir, status, apartmentId);
-    // return ResponseEntity.ok(response);
-    // }
+    @GetMapping("/request/apartment")
+    public ResponseEntity<PageResponse<FacilityRequestResponse>> getFacilityRequestByApartmentId(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "created_date") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam Integer apartmentId) {
+        log.info("[Facility] Get Facility Request List - Apartment: apartmentId-{} | status-{}", apartmentId, status);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        return ResponseEntity.ok(response);
+    }
 
-    // @PostMapping("/request")
-    // public ResponseEntity<FacilityCategoryRequest>
-    // insertFacilityRequest(@RequestBody FacilityReserveRequest facilityRequest) {
-    // log.info("[Facility] Insert Facility Request: " +
-    // facilityRequest.toString());
-    // FacilityCategoryRequest newFacilityRequest =
-    // facilityService.insertFacilityRequest(facilityRequest);
-    // return ResponseEntity.ok(newFacilityRequest);
-    // }
+    @PostMapping("/request/add")
+    public ResponseEntity<FacilityRequest> addFacilityRequest(@RequestBody FacilityReserveRequest facilityReserveRequest) {
+        log.info("[Facility] Add Facility Request: {}", facilityReserveRequest.toString());
+        FacilityRequest facilityRequest = facilityService.addFacilityRequest(facilityReserveRequest);
+        return ResponseEntity.ok(facilityRequest);
+    }
 
-    // @PostMapping("/request/update")
-    // public ResponseEntity<FacilityCategoryRequest> updateFacilityRequestStatus(
-    // @RequestParam Integer facilityRequestId,
-    // @RequestParam String status) {
-    // log.info("[Facility] Update Facility Request Status: facilityRequestId-{} |
-    // status-{}", facilityRequestId, status);
-    // FacilityCategoryRequest facilityRequest =
-    // facilityService.updateFacilityRequestStatusById(facilityRequestId, status);
-    // return ResponseEntity.ok(facilityRequest);
-    // }
+    @PostMapping("/request/update")
+    public ResponseEntity<FacilityRequest> updateFacilityRequestStatus(
+            @RequestParam Integer facilityRequestId,
+            @RequestParam String status) {
+        log.info("[Facility] Update Facility Request Status: facilityRequestId-{} | status-{}", facilityRequestId, status);
+        FacilityRequest facilityRequest = facilityService.updateFacilityRequestStatus(facilityRequestId, status);
+        return ResponseEntity.ok(facilityRequest);
+    }
 }

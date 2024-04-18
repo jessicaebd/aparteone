@@ -1,7 +1,6 @@
 package com.com.aparteone.dto.response.category;
 
 import java.util.Date;
-import java.util.List;
 
 import com.com.aparteone.constant.AparteoneConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,7 +21,6 @@ public class FacilityCategoryResponse {
     String category;
     String description;
     String isActive;
-    List<FacilityTimeResponse> facilityTimes;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AparteoneConstant.FORMAT_DATE_TIME, timezone = "Asia/Bangkok")
     Date createdDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AparteoneConstant.FORMAT_DATE_TIME, timezone = "Asia/Bangkok")

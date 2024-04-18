@@ -31,4 +31,5 @@ public class FacilityTime extends AuditEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endTime;
     private Boolean isActive;
+    private String isAvailable;
 }

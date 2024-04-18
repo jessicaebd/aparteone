@@ -2,8 +2,6 @@ package com.com.aparteone.entity;
 
 import java.util.Date;
 
-import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -32,10 +30,4 @@ public class FacilityRequest extends AuditEntity {
     // private Date requestedDate; -> createdDate
     private Date completedDate;
     private Date cancelledDate;
-
-    public FacilityRequest(FacilityReserveRequest request) {
-        this.facilityTimeId = request.getFacilityTimeId();
-        this.residentId = request.getResidentId();
-        this.status = AparteoneConstant.STATUS_REQUESTED;
-    }
 }
