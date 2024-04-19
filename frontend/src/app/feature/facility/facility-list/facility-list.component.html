@@ -1,70 +1,121 @@
-<div class="w-100">
-    <div class="accordion" id="facilityParent">
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">Basketball Court</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <app-badge badgeText="Requested" badgeType="secondary"></app-badge>
-                            </div>
-                        </div>
-                        <span>Monday, 01 April 2024</span><br>
-                        <span>08.00 - 10.00</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#facilityParent">
-                <div class="accordion-body">
-                    <span class="">Request Date: Thursday, 14 March 2024</span>
-                    <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel"></app-button>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">Basketball Court</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <app-badge badgeText="Canceled" badgeType="danger"></app-badge>
-                            </div>
-                        </div>
-                        <span>Sunday, 31 March 2024</span><br>
-                        <span>16.00 - 18.00</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#facilityParent">
-                <div class="accordion-body">
-                    <span class="">Request Date: Thursday, 14 March 2024</span><br>
-                    <span class="">Canceled Date: Friday, 15 March 2024</span>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">Swimming Pool</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <app-badge badgeText="Completed" badgeType="success"></app-badge>
-                            </div>
-                        </div>
-                        <span>Monday, 18 March 2024</span><br>
-                        <span>08.00 - 10.00</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#facilityParent">
-                <div class="accordion-body">
-                    <span class="">Request Date: Thursday, 14 March 2024</span><br>
-                    <span class="">Complete Date: Monday, 18 March 2024</span>
-                </div>
-            </div>
-        </div>
+<ng-container *ngIf="errorMsg!=''; else list">
+    <div class="d-flex justify-content-center align-items-center" style="height: 10rem;">
+        <p class="mb-0">{{ errorMsg }}</p>
     </div>
-</div>
+</ng-container>
+
+<ng-template #list>
+    <div class="accordion" id="facilityParent">
+        <ng-container *ngFor="let item of listRequest">
+            <div class="accordion-item mb-3">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
+                        <div class="header-button w-100">
+                            <div class="row">
+                                <h6 class="col mb-0">{{item.facilityCategory}}</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <ng-container *ngIf="item.facilityRequeststatus=='Requested'">
+                                        <app-badge [badgeText]="item.facilityRequeststatus" badgeType="secondary"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.facilityRequeststatus=='Cancelled'">
+                                        <app-badge [badgeText]="item.facilityRequeststatus" badgeType="danger"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.facilityRequeststatus=='Completed'">
+                                        <app-badge [badgeText]="item.facilityRequeststatus" badgeType="success"></app-badge>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <app-label labelType="span" labelInput="Book Date :"></app-label>
+                            <app-label labelType="span" [labelInput]="item.bookDate"></app-label>
+                        </div>
+                    </button>
+                </h2>
+                <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#maintenanceParent">
+                    <div class="accordion-body pt-0">
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Resident"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.residentName; else noData" [labelInput]="': ' + item.residentName"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Book Date"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.bookDate; else noData" [labelInput]="': ' + item.bookDate"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Book Time"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.facilityTimeId; else noData" [labelInput]="': ' + item.startTime + ' - ' + item.endTime"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Status"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.facilityRequeststatus; else noData" [labelInput]="': ' + item.facilityRequeststatus"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Requested Date"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.requestDate else noData" [labelInput]="': ' + item.requestDate"></app-label>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="item.facilityRequeststatus=='Requested'">
+                            <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onCancelEvent(item.id)"></app-button>
+                        </ng-container>
+                        <ng-container *ngIf="item.facilityRequeststatus=='Completed'">
+                            <div class="row w-50">
+                                <div class="col-3">
+                                    <app-label labelInput="Completed Date"></app-label>
+                                </div>
+                                <div class="col">
+                                    <app-label *ngIf="item.completedDate; else noData" [labelInput]="': ' + item.completedDate"></app-label>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.facilityRequeststatus=='Cancelled'">
+                            <div class="row w-50">
+                                <div class="col-3">
+                                    <app-label labelInput="Cancelled Date"></app-label>
+                                </div>
+                                <div class="col">
+                                    <app-label *ngIf="item.cancelledDate; else noData" [labelInput]="': ' + item.cancelledDate"></app-label>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #noData>
+                            <app-label [labelInput]="': -'"></app-label>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Pagination -->
+    <ng-container *ngIf="pagination">
+        <mat-paginator #paginator 
+          (page)="onClickPageIndex($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons] = "false"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page">
+        </mat-paginator>
+    </ng-container>
+</ng-template>

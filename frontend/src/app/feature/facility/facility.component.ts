@@ -4,6 +4,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
 import { FacilityCategory, FacilityCategoryTime, FacilityRequest } from './facility.interface';
 import { FacilityService } from './service/facility.service';
 import { AppComponent } from 'src/app/app.component';
+import { FacilityUpdateCategoryComponent } from './facility-update-category/facility-update-category.component';
 
 @Component({
   selector: 'app-facility',
@@ -22,8 +23,6 @@ export class FacilityComponent {
   errorMsgCategory: string = '';
   pageCategory: number = 0;
   sizeCategory: number = 5;
-  sortCatCol?: string = 'id';
-  sortCatDir?: string = 'ASC';
   colCategory: Column[] = [];
   dataCategory: FacilityCategory = {};
   
@@ -32,12 +31,15 @@ export class FacilityComponent {
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest: string = '';
-  sortReqCol?: string = 'id';
-  sortReqDir?: string = 'DESC';
+  pageRequest: number = 0;
+  sizeRequest: number = 5;
   colRequest: Column[] = [];
   dataRequest: FacilityRequest = {};  
 
-  @ViewChild('closeModal') modalClose: any;
+  @ViewChild('closeModalAdd') modalCloseAdd: any;
+  @ViewChild('closeModalUpdate') modalCloseUpdate: any;
+  @ViewChild('closeModalRequest') modalCloseRequest: any;
+  @ViewChild(FacilityUpdateCategoryComponent) facilityUpdateCategory!: FacilityUpdateCategoryComponent;
 
   constructor(private location: Location, private facilityService: FacilityService, private apps: AppComponent){}
   
@@ -49,22 +51,22 @@ export class FacilityComponent {
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role == 'management'){
-      this.colRequest = [{name: 'facility_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'facilityCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-      // this.getFacilityAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
+      this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
+      this.getFacilityApartmentRequest(this.apartmentId, 5, 0);
     }
     else if (this.role == 'resident'){
       this.getFacilityActiveCategory(this.apartmentId);
-      // this.getFacilityResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir);
+      this.getFacilityResidentRequest(this.residentId, 3, 0, '');
     }
     this.apps.loadingPage(false);
   }
 
-  getFacilityCategory(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getFacilityCategory(apartementId:any, size:any, page:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.facilityService.getFacilityCategory(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.facilityService.getFacilityCategory(apartementId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -106,9 +108,9 @@ export class FacilityComponent {
       }))
   }
 
-  getFacilityAllRequest(apartementId:any, size:any, page:any, sortBy: any, sortDir:any): Promise<any>{
+  getFacilityApartmentRequest(apartementId:any, size:any, page:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.facilityService.getFacilityAllRequest(apartementId, size, page, sortBy, sortDir).subscribe({
+      this.facilityService.getFacilityApartmentRequest(apartementId, size, page).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -128,14 +130,13 @@ export class FacilityComponent {
       }))
   }
 
-  getFacilityResidentRequest(residentId:any, size:any, page:any, sortBy: any, sortReqDir:any): Promise<any>{
+  getFacilityResidentRequest(residentId:any, size:any, page:any, status: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.facilityService.getFacilityResidentRequest(residentId, size, page, sortBy, sortReqDir).subscribe({
+      this.facilityService.getFacilityResidentRequest(residentId, size, page, status).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
-            this.tableRequest = response.data;
-            this.allDataRequest = response.totalElements;
+            this.listRequest = response.data;
           }
           else{
             this.errorListRequest = 'No Data Found!'
@@ -151,45 +152,47 @@ export class FacilityComponent {
   }
 
   async onListItemClick(type: string, e:any){
-    console.log(e);
     if(type=='request'){
       let data = await this.setDataRequest(e);
       console.log('Data Request:', data);
     }
     else if(type=='category'){
-      // let data = await this.setDetailCategory(e);
-      console.log('Category:', e);
+      let data = await this.setDetailCategory(e);
+      await this.facilityUpdateCategory.getFacilityTime(e.id);
+      console.log('Category:', data);
     }
   }
 
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      // this.dataCategory['ID'] = response.id;
-      // this.dataCategory['Apartment ID'] = response.apartmentId;
-      // this.dataCategory['Category Name'] = response.category;
-      // this.dataCategory['Category Desc'] = response.description;
-      // this.dataCategory['Category Image'] = response.image;
-      // this.dataCategory['Status'] = response.isActive? 'Active': 'In-Active';
-      // this.dataCategory['Created Date'] = response.createdDate;
-      // this.dataCategory['Modified Date'] = response.modifiedDate;
+      this.dataCategory['ID'] = response.id;
+      this.dataCategory['Apartment ID'] = response.apartmentId;
+      this.dataCategory['Category Name'] = response.category;
+      this.dataCategory['Category Desc'] = response.description;
+      this.dataCategory['Category Image'] = response.image;
+      this.dataCategory['Status'] = response.isActive;
+      this.dataCategory['Created Date'] = response.createdDate;
+      this.dataCategory['Modified Date'] = response.modifiedDate;
       resolve(this.dataCategory);
     });
   }
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      // this.dataRequest['ID'] = response.id;
-      // this.dataRequest['Resident Name'] = response.resident;
-      // this.dataRequest['Facility ID'] = response.Facility_id;
-      // this.dataRequest['Facility Category'] = response.Facility_category;
+      this.dataRequest['ID'] = response.id;
+      this.dataRequest['Resident ID'] = response.residentId;
+      this.dataRequest['Resident Name'] = response.residentName;
+      this.dataRequest['Resident Unit'] = response.residentUnit;
+      this.dataRequest['Facility ID'] = response.facilityId;
+      this.dataRequest['Facility Category'] = response.facilityCategory;
+      this.dataRequest['Facility Time ID'] = response.facilityTimeId;
       // this.dataRequest['Book Date'] = response.FacilityDetail;
-      // this.dataRequest['Book Time'] = response.FacilityDetail;
-      // this.dataRequest['Status'] = response.status;
-      // this.dataRequest['Request Date'] = response.request_date;
-      // this.dataRequest['Assigned Name'] = response.assigned_to;
-      // this.dataRequest['Assigned Date'] = response.assigned_date;
-      // this.dataRequest['Completed Date'] = response.completed_date;
-      // this.dataRequest['Canceled Date'] = response.cancelled_date;
+      this.dataRequest['Start Time'] = response.startTime;
+      this.dataRequest['End Time'] = response.endTime;
+      this.dataRequest['Status'] = response.facilityRequeststatus;
+      this.dataRequest['Request Date'] = response.requestDate;
+      this.dataRequest['Completed Date'] = response.completedDate;
+      this.dataRequest['Cancelled Date'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
   }
@@ -201,40 +204,26 @@ export class FacilityComponent {
       // this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
-      this.getFacilityAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
+      // this.pageRequest = e;
     }
     this.ngOnInit();
-  }
-
-  async onSortData(type:any, e:any){
-    console.log("OnSort: ", e);
-    let arr = await this.onSplitSortEvent(e);
-    console.log(arr);
-    if(type=='category'){
-      this.pageCategory = 0;
-      // this.getFacilityAllCategory(1, 10, 0, this.sortCatCol, this.sortCatDir);
-    }
-    else if(type=='request'){
-      this.getFacilityAllRequest(1, 10, 0, this.sortReqCol, this.sortReqDir);
-    }
-    this.ngOnInit();
-  }
-
-  onSplitSortEvent(e:any): Promise<any>{
-    return new Promise<any> (resolve => {
-      let arr = e.split(";", 2); 
-      this.sortReqCol = arr[0];
-      this.sortReqDir = arr[1];
-      resolve(arr);
-    });
   }
   
   backButton(){
     this.location.back();
   }
   
-  onCloseModal(){
-    this.modalClose.nativeElement.click();
+  onCloseModal(type: string){
+    if(type=='add'){
+      this.modalCloseAdd.nativeElement.click();
+    }
+    else if(type=='update'){
+      this.modalCloseUpdate.nativeElement.click();
+    }
+    else if(type=='request'){
+      this.modalCloseRequest.nativeElement.click();
+    }
+    this.ngOnInit();
   }
 
   onHistoryClick(){
@@ -242,7 +231,7 @@ export class FacilityComponent {
   }
 
   onAllRequest(){
-    window.location.replace('/facility/list');
+    window.location.replace('/facility/all');
   }
 
   

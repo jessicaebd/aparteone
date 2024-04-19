@@ -2,6 +2,10 @@
     margin-bottom: 0;
 }
 
+.span{
+    font-size: 0.8rem;
+}
+
 .label{
     font-size: 0.95rem;
     /* padding-left: 0.5vw; */

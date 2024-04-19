@@ -253,6 +253,6 @@ export class MaintenanceComponent implements OnInit{
   }
 
   onAllRequest(){
-    window.location.replace('/maintenance/list');
+    window.location.replace('/maintenance/all');
   }
 }

@@ -51,6 +51,10 @@ import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store
 import { ReportComponent } from './report/report.component';
 import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.component';
 import { FacilityUpdateCategoryComponent } from './facility/facility-update-category/facility-update-category.component';
+import { PaymentAddComponent } from './payment/payment-add/payment-add.component';
+import { PaymentAllComponent } from './payment/payment-all/payment-all.component';
+import { PaymentPayComponent } from './payment/payment-pay/payment-pay.component';
+import { FacilityDetailRequestComponent } from './facility/facility-detail-request/facility-detail-request.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +98,10 @@ import { FacilityUpdateCategoryComponent } from './facility/facility-update-cate
     MerchantStoreComponent,
     ReportComponent,
     FacilityUpdateCategoryComponent,
+    PaymentAddComponent,
+    PaymentAllComponent,
+    PaymentPayComponent,
+    FacilityDetailRequestComponent,
   ],
   imports: [
     CommonModule,

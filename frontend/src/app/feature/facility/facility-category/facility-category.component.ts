@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FacilityCategory } from '../facility.interface';
 import { FacilityRequestComponent } from '../facility-request/facility-request.component';
-import { FacilityService } from '../service/facility.service';
 
 @Component({
   selector: 'app-facility-category',
@@ -9,38 +9,37 @@ import { FacilityService } from '../service/facility.service';
 })
 export class FacilityCategoryComponent {
 
-  facilityCategory!: any;
-  activeCategory!: any;
+  @Input() listCategory!: any;
+  @Input() errorMsg!: string;
+  activeCategory: FacilityCategory = {};
+  @Output() onSubmitEvent = new EventEmitter<any>;
 
   @ViewChild('closeModal') modalClose: any;
-  @ViewChild(FacilityRequestComponent) maintenanceRequest!: FacilityRequestComponent;
+  @ViewChild(FacilityRequestComponent) facilityRequest!: FacilityRequestComponent;
 
-  constructor(private facilityService: FacilityService){}
+  constructor(){}
 
-  ngOnInit(): void {
-    // this.getMaintenanceCategory();
+  setDetailCategory (response: any): Promise<any>{
+    return new Promise<any> (resolve => {
+      this.activeCategory['ID'] = response.id;
+      this.activeCategory['Apartment ID'] = response.apartmentId;
+      this.activeCategory['Category Name'] = response.category;
+      this.activeCategory['Category Desc'] = response.description;
+      this.activeCategory['Category Image'] = response.image;
+      this.activeCategory['Status'] = response.isActive;
+      this.activeCategory['Created Date'] = response.createdDate;
+      this.activeCategory['Modified Date'] = response.modifiedDate;
+      resolve(this.activeCategory);
+    });
   }
-
-  // getMaintenanceCategory(): Promise<any>{
-  //   return new Promise<any>(resolve => 
-  //     this.facilityService.getMaintenanceAllCategory(1).subscribe({
-  //       next: async (response: any) => {
-  //         console.log('Response: ', response);
-  //         this.facilityCategory = response;
-  //       },
-  //       error: (error: any) => {
-  //         console.log('#error', error);
-  //         resolve(error);
-  //       }
-  //     }))
-  // }
 
   onCloseModal(){
     this.modalClose.nativeElement.click();
+    this.onSubmitEvent.emit();
   }
 
-  onCategoryClick(id: any){
-    this.activeCategory = id;
-    // this.facilityRequest.initRequestMaintenance(this.activeCategory);
+  onCategoryClick(response: any){
+    this.setDetailCategory(response);
+    this.facilityRequest.getFacilityTime(response.id, '9999-99-99');
   }
 }

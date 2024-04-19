@@ -1,3 +1,9 @@
 :host(app-facility-update-category){
     width: 100%;
 }
+
+img{
+    object-fit: contain;
+    min-height: 15rem;
+    max-height: 15rem;
+}

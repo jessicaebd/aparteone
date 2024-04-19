@@ -1,19 +1,19 @@
 <div class="container form-category w-100">
     <div class="mt-0">
-        <app-label labelType="label"  labelFor="categoryImage" labelInput="Image" [isMandatory]="true"></app-label>
-        <app-attachment-image attachmentID="categoryImage" previewWidth="20vw" (onChangeEvent)="data['Category Image']=$event"></app-attachment-image>
+        <app-label labelType="label"  labelFor="categoryImage" labelInput="Image"></app-label>
+        <img class="w-100 rounded" [src]="data['Category Image']">
     </div>
     <div class="mt-2">
-        <app-label labelType="label"  labelFor="categoryName" labelInput="Name" [isMandatory]="true"></app-label>
-        <app-textbox inputID="categoryName" (onChangeEvent)="data['Category Name']=$event"></app-textbox>
+        <app-label labelType="label"  labelFor="categoryName" labelInput="Name"></app-label>
+        <app-textbox inputID="categoryName" [value]="data['Category Name']" (onChangeEvent)="data['Category Name']=$event" [isReadOnly]="true"></app-textbox>
     </div>
     <div class="mt-2">
-        <app-label labelType="label"  labelFor="categoryDesc" labelInput="Description" [isMandatory]="true"></app-label>
-        <app-textbox inputID="categoryDesc" (onChangeEvent)="data['Category Desc']=$event"></app-textbox>
+        <app-label labelType="label"  labelFor="categoryDesc" labelInput="Description"></app-label>
+        <app-textbox inputID="categoryDesc" [value]="data['Category Desc']" (onChangeEvent)="data['Category Desc']=$event" [isReadOnly]="true"></app-textbox>
     </div>
     <div class="mt-2">
         <div class="d-flex justify-content-between align-items-center">
-            <app-label labelType="label"  labelFor="categoryTime" labelInput="Time" [isMandatory]="true"></app-label>
+            <app-label labelType="label"  labelFor="categoryTime" labelInput="Time"></app-label>
             <app-button buttonLabel="Add Time" (onClickEvent)="onAddTime()"></app-button>
         </div>
         <div class="d-flex row mx-2">
@@ -21,6 +21,17 @@
             <app-label class="col-5" labelType="label"  labelFor="endTime" labelInput="End Time"></app-label>
         </div>
         <ng-container *ngFor="let item of dataTime">
+            <div class="d-flex align-items-center row mx-2 mb-2">
+                <div class="col-5 me-2">
+                    <app-timepicker inputID="startTime" [value]="item.startTime" (onChangeEvent)="item.startTime=$event" [isReadOnly]="true"></app-timepicker>
+                </div>
+                <div class="col-5 me-2">
+                    <app-timepicker inputID="endTime" [value]="item.endTime" (onChangeEvent)="item.endTime=$event" [isReadOnly]="true"></app-timepicker>
+                </div>
+                <button type="button" class="btn-close col-1" (click)="onDeleteTime(data['ID'], item.id)"></button>
+            </div>
+        </ng-container>
+        <ng-container *ngFor="let item of dataTimeAdd">
             <div class="d-flex align-items-center row mx-2 mb-2">
                 <div class="col-5 me-2">
                     <app-timepicker inputID="startTime" (onChangeEvent)="item.startTime=$event"></app-timepicker>
@@ -33,6 +44,12 @@
         </ng-container>
     </div>
     <div class="container d-flex justify-content-center py-4">
-        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+        <ng-container *ngIf="data['Status']=='Active'; else inActive">
+            <app-button buttonClass="outline-primary" buttonLabel="Deactive" (onClickEvent)="onUpdateCategory(false)"></app-button>
+        </ng-container>
+        <ng-template #inActive>
+            <app-button buttonClass="outline-primary" buttonLabel="Activate" (onClickEvent)="onUpdateCategory(true)"></app-button>
+        </ng-template>
+        <app-button class="ms-2" buttonClass="primary" buttonLabel="Save" (onClickEvent)="onButtonSubmit()"></app-button>
     </div>
 </div>

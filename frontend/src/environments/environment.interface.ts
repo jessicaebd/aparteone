@@ -19,6 +19,7 @@ export interface FeatureEnvironment {
   maintenance: string,
   paymentProof: string,
   facility: string,
+  time: string,
   mailbox: string,
   payment: string,
   merchant: string,
@@ -36,6 +37,7 @@ export interface GeneralEnvironment {
   add: string,
   search: string,
   delete: string,
+  verify: string,
   addCategory: string,
   updateStatus: string,
 }

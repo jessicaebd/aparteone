@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   timedOut = false;
   lastPing?: Date;
   activeNav: string = "home"
-  role: string = 'management';
+  role: string = 'resident';
 
   constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);
@@ -68,10 +68,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     let currentPath = window.location.href;
 
-    if(currentPath.includes('')){
-      this.activeNav = 'home'
-    }
-    else if(currentPath.includes('payment')){
+    if(currentPath.includes('payment')){
       this.activeNav = 'payment'
     }
     else if(currentPath.includes('facility')){
@@ -88,6 +85,9 @@ export class AppComponent implements OnInit {
     }
     else if(currentPath.includes('announcement')){
       this.activeNav = 'announcement'
+    }
+    else{
+      this.activeNav = 'home'
     }
   }
 

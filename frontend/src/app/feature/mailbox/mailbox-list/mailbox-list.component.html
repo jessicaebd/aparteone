@@ -5,7 +5,6 @@
 </ng-container>
 
 <ng-template #list>
-
     <div class="accordion" id="mailboxParent">
         <ng-container *ngFor="let item of listRequest">
             <div class="accordion-item mb-3">
@@ -23,7 +22,7 @@
                                     </ng-container>
                                 </div>
                             </div>
-                            <app-label *ngIf="item.receivedDate" [labelInput]="item.receivedDate"></app-label>
+                            <app-label labelType="span" *ngIf="item.receivedDate" [labelInput]="item.receivedDate"></app-label>
                         </div>
                     </button>
                 </h2>

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
 import Swal from 'sweetalert2';
-import { FacilityRequest } from '../facility.interface';
+import { FacilityCategory, FacilityCategoryTime, FacilityRequest } from '../facility.interface';
 import { FacilityService } from '../service/facility.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-facility-request',
@@ -10,80 +11,80 @@ import { FacilityService } from '../service/facility.service';
   styleUrls: ['./facility-request.component.css']
 })
 export class FacilityRequestComponent {
-
-  facilityCategory?: string;
+  @Input() dataCategory: FacilityCategory = {}
+  @Output() onSubmitEvent = new EventEmitter<any>;
+  
+  residentId = 4;
   flagValidasi?: boolean = false;
   typeFacility: listItems[] = [];
-  
-  data: FacilityRequest = {};
-  mandatorySet: FacilityRequest = {'Facility Category': true, 'Book Date': true, 'Book Time': true};
+  data: FacilityRequest = { };
+  dataTime: FacilityCategoryTime[] = [];
 
-  constructor(private facilityService: FacilityService){}
+  constructor(private facilityService: FacilityService, private apps: AppComponent){}
 
-  async initRequestFacility(categoryID: any){
-    this.data = {};
-    // await this.getFacilityCategory();
-    // this.setDropdown(categoryID, this.facilityCategory);
+  setTimelist(response:any): Promise<any>{
+    return new Promise<any> (resolve => {
+      this.dataTime = response.map((data:any) => ({
+        id: data.id,
+        startTime : data.startTime,
+        endTime : data.endTime,
+        isActive: data.isActive,
+        isAvailable: data.isAvailable,
+      }));
+      resolve(true);
+    })
   }
 
-  // getFacilityCategory(): Promise<any>{
-  //   return new Promise<any>(resolve => 
-  //     this.facilityService.getMaintenanceAllCategory(1).subscribe({
-  //       next: async (response: any) => {
-  //         console.log('Response: ', response);
-  //         this.facilityCategory = response;
-  //         resolve(true);
-  //       },
-  //       error: (error: any) => {
-  //         console.log('#error', error);
-  //         resolve(error);
-  //       }
-  //     }))
-  // }
+  getFacilityTime(facilityId:any, date: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.facilityService.getFacilityTime(facilityId, date).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          await this.setTimelist(response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }
+    ))
+  }
 
-  // setDropdown(id: any, data: any){
-  //   console.log('CategoryID:', id);
-  //   for(let i=0; i<data.length; i++){
-  //     if(data[i].id==id){
-  //       this.typeFacility.push({
-  //         'code': data[i].category,
-  //         'value': data[i].category,
-  //         'selected': true
-  //       });
-  //       this.data['Facility Cat'] = data[i].category;
-  //     }
-  //     else{
-  //       this.typeFacility.push({
-  //         'code': data[i].category,
-  //         'value': data[i].category,
-  //         'selected': false
-  //       });
-  //     }
-  //   }
-  // }
+  async onChangeDate(id:any, date:any){
+    this.apps.loadingPage(true);
+    this.data['Book Date'] = date;
+    await this.getFacilityTime(id, date);
+    this.apps.loadingPage(false);
+  }
 
-  setBookTime(e:any){
-    this.data['Book Time'] = e;
+  onTimeClick(id:any){
+    if(this.data['Book Date']=="" || this.data['Book Date']=="dd/mm/yyyy" || this.data['Book Date']==undefined){
+      Swal.fire({
+        title: 'Validasi',
+        text: 'Please choose Book Date',
+        icon: 'warning',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      this.data['Facility Time ID']=id
+    }
   }
 
   onButtonSubmit(){
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Facility Category']=="" || this.data['Facility Category']=="Select a value" || this.data['Facility Category']==undefined){
-      errorMsg = "Please choose Facility Type";
+    if(this.data['Book Date']=="" || this.data['Book Date']=="dd/mm/yyyy" || this.data['Book Date']==undefined){
+      errorMsg = "Please choose Book Date";
     }
-    else if(this.data['Book Date']=="" || this.data['Book Date']=="Select a value" || this.data['Book Date']==undefined){
-      errorMsg = "Please fill Book Date";
-    }
-    else if(this.data['Book Time']=="" || this.data['Book Time']=="Select a value" || this.data['Book Time']==undefined){
+    else if(this.data['Facility Time ID']=="" || this.data['Facility Time ID']==undefined){
       errorMsg = "Please choose Book Time";
     }
     else{
       this.flagValidasi = true
     }
-    
-    console.log(this.data);
 
     if(this.flagValidasi){
       //SUBMIT REQUEST
@@ -97,8 +98,7 @@ export class FacilityRequestComponent {
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.value) {
-          let now = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
-          this.submitRequest(now, this.data);
+          this.submitRequest();
         }
       });
     }
@@ -112,17 +112,54 @@ export class FacilityRequestComponent {
     }
   }
 
-  submitRequest(now: any, data:any){
-    data['Request Date'] = now;
-    console.log('Request Date', data['Request Date'])
-    alert('SUBMIT ON : ' + now);
+  async submitRequest(){
+    let body = await this.setBodyInsertRequest();
+    let result = await this.insertFacilityRequest(body);
+    this.apps.loadingPage(false);
+    this.onSubmitEvent.emit();
+    this.data = {};
 
-    Swal.fire({
-      title: 'Success',
-      html: 'Requested Successfuly',
-      icon: 'success',
-      confirmButtonColor: '#5025FA'
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Inserted Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Insert Category',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+  }
+
+  setBodyInsertRequest(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'residentId': this.residentId,
+        'facilityTimeId': this.data['Facility Time ID'],
+        // 'bookDate': this.data['Book Date']
+      }
+      resolve(body);
     });
+  }
+
+  insertFacilityRequest(body: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.facilityService.insertFacilityRequest(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }));
   }
 
   backButton(){

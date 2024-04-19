@@ -1,328 +1,130 @@
-<div class="w-100">
+<ng-container *ngIf="errorMsg!=''; else list">
+    <div class="d-flex justify-content-center align-items-center" style="height: 10rem;">
+        <p class="mb-0">{{ errorMsg }}</p>
+    </div>
+</ng-container>
+
+<ng-template #list>
     <div class="accordion" id="paymentParent">
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">TAGIHAN APRIL 2024</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <app-badge badgeText="Waiting for Payment" badgeType="warning"></app-badge>
+        <ng-container *ngFor="let item of listRequest">
+            <div class="accordion-item mb-3">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
+                        <div class="header-button w-100">
+                            <div class="row">
+                                <h6 class="col mb-0">{{item.billingCategory}}</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <ng-container *ngIf="item.status=='Waiting for Payment'">
+                                        <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Waiting for Confirmation'">
+                                        <app-badge [badgeText]="item.status" badgeType="secondary"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Completed'">
+                                        <app-badge [badgeText]="item.status" badgeType="success"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Cancelled'">
+                                        <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <app-label labelType="span" labelInput="Due Date :"></app-label>
+                            <app-label labelType="span" *ngIf="item.dueDate; else noData" [labelInput]="item.dueDate"></app-label>
+                        </div>
+                    </button>
+                </h2>
+                <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#paymentParent">
+                    <div class="accordion-body pt-0">
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Unit"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.residentUnit; else noData" [labelInput]="': ' + item.residentUnit"></app-label>
                             </div>
                         </div>
-                        <span>Periode 16 Februari - 15 Maret</span>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Recipient"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.residentName; else noData" [labelInput]="': ' + item.residentName"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Amount"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.amount; else noData" [labelInput]="': ' + item.amount"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Status"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.status; else noData" [labelInput]="': ' + item.status"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Billing Date"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.billingDate; else noData" [labelInput]="': ' + item.billingDate"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Completed Date"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.completedDate; else noData" [labelInput]="': ' + item.completedDate"></app-label>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="item.status=='Waiting for Payment'">
+                            <div class="d-flex justify-content-center">
+                                <app-button buttonLabel="Pay" data-bs-toggle="modal" data-bs-target="#modalPayBilling" (onClickEvent)="onPayClick(item)"></app-button>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #noData>
+                            <app-label [labelInput]="': -'"></app-label>
+                        </ng-template>
                     </div>
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#paymentParent">
-                <div class="accordion-body">
-                    <div class="data-unit ms-3">
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Unit :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Azalea/07/AK</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Nama :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Chester Turner</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Tanggal :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">01 April 2024</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="data-maintenance ms-3 pt-2">
-                        <app-label labelInput="TOTAL TAGIHAN MAINTENANCE" labelType="subtitle"></app-label>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 391.000</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Denda Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 0</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="fw-semibold">Total Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="fw-semibold">Rp. 391.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="data-maintenance ms-3 pt-2">
-                        <app-label labelInput="TOTAL TAGIHAN LISTRIK & AIR" labelType="subtitle"></app-label>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Tagihan Listrik</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 191.090</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Tagihan Air</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 109.001</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="fw-semibold">Total Tagihan Listrik & Air</span>
-                            </div>
-                            <div class="col">
-                                <span class="fw-semibold">Rp. 300.091</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ms-2 pt-2 mb-5">
-                        <div class="col-10">
-                            <app-label labelInput="TOTAL TAGIHAN LISTRIK & AIR" labelType="subtitle"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label labelInput="Rp. 691.091" labelType="subtitle"></app-label>
-                        </div>
-                    </div>
-                    <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Pay" (onClickEvent)="onPayClick('id')"></app-button>
                 </div>
             </div>
-        </div>
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">TAGIHAN MARET 2024</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <app-badge badgeText="Overdue" badgeType="danger"></app-badge>
-                            </div>
-                        </div>
-                        <span>Periode 16 Januari - 15 Februari</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#paymentParent">
-                <div class="accordion-body">
-                    <div class="data-unit ms-3">
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Unit :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Azalea/07/AK</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Nama :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Chester Turner</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Tanggal :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">01 Maret 2024</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="data-maintenance ms-3 pt-2">
-                        <app-label labelInput="TOTAL TAGIHAN MAINTENANCE" labelType="subtitle"></app-label>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 391.000</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Denda Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 0</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="fw-semibold">Total Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="fw-semibold">Rp. 391.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="data-maintenance ms-3 pt-2">
-                        <app-label labelInput="TOTAL TAGIHAN LISTRIK & AIR" labelType="subtitle"></app-label>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Tagihan Listrik</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 191.090</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Tagihan Air</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 109.001</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="fw-semibold">Total Tagihan Listrik & Air</span>
-                            </div>
-                            <div class="col">
-                                <span class="fw-semibold">Rp. 300.091</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ms-2 pt-2 mb-5">
-                        <div class="col-10">
-                            <app-label labelInput="TOTAL TAGIHAN LISTRIK & AIR" labelType="subtitle"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label labelInput="Rp. 691.091" labelType="subtitle"></app-label>
-                        </div>
-                    </div>
-                    <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Pay" (onClickEvent)="onPayClick('id')"></app-button>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">TAGIHAN FEBRUARI 2024</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <app-badge badgeText="Paid" badgeType="success"></app-badge>
-                            </div>
-                        </div>
-                        <span>Periode 16 Desember - 15 Januari</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#paymentParent">
-                <div class="accordion-body">
-                    <div class="data-unit ms-3">
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Unit :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Azalea/07/AK</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Nama :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Chester Turner</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-1">
-                                <span class="">Tanggal :</span>
-                            </div>
-                            <div class="col">
-                                <span class="">01 Februari 2024</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="data-maintenance ms-3 pt-2">
-                        <app-label labelInput="TOTAL TAGIHAN MAINTENANCE" labelType="subtitle"></app-label>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 391.000</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Denda Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 0</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="fw-semibold">Total Biaya Maintenance</span>
-                            </div>
-                            <div class="col">
-                                <span class="fw-semibold">Rp. 391.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="data-maintenance ms-3 pt-2">
-                        <app-label labelInput="TOTAL TAGIHAN LISTRIK & AIR" labelType="subtitle"></app-label>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Tagihan Listrik</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 191.090</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="">Tagihan Air</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Rp. 109.001</span>
-                            </div>
-                        </div>
-                        <div class="row ms-3 mb-2 mt-2">
-                            <div class="col-10">
-                                <span class="fw-semibold">Total Tagihan Listrik & Air</span>
-                            </div>
-                            <div class="col">
-                                <span class="fw-semibold">Rp. 300.091</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ms-2 pt-2 mb-5">
-                        <div class="col-10">
-                            <app-label labelInput="TOTAL TAGIHAN LISTRIK & AIR" labelType="subtitle"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label labelInput="Rp. 691.091" labelType="subtitle"></app-label>
-                        </div>
-                    </div>
-                    <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Download PDF" (onClickEvent)="onDownloadPDF('id')"></app-button>
-                </div>
-            </div>
+        </ng-container>
+    </div>
+
+    <!-- Pagination -->
+    <ng-container *ngIf="pagination">
+        <mat-paginator #paginator 
+          (page)="onClickPageIndex($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons] = "false"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page">
+        </mat-paginator>
+    </ng-container>
+</ng-template>
+
+<!-- Modal -->
+<app-modal modalID="modalPayBilling" [width]="600" [modalContent]="modalPayBilling"></app-modal>
+    
+<ng-template #modalPayBilling>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Pay Billing</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container">
+            <app-payment-pay [data]="data" (onSubmitEvent)="onCloseModal()"></app-payment-pay>
         </div>
     </div>
-</div>
+</ng-template>

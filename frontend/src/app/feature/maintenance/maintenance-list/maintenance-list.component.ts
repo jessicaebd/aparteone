@@ -27,7 +27,7 @@ export class MaintenanceListComponent {
   constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
 
   onClickPageIndex(e:any){
-    this.onPageIndexEvent.emit(e.pageIndex * this.pageSize);
+    this.onPageIndexEvent.emit(e.pageIndex);
   }
 
   onCancelEvent(id:any){

@@ -31,6 +31,7 @@ import { AttachmentImageComponent } from './component/attachment-image/attachmen
 import { BadgeComponent } from './component/badge/badge.component';
 import { AddItemComponent } from './component/add-item/add-item.component';
 import { TimepickerComponent } from './component/timepicker/timepicker.component';
+import { NumberComponent } from './component/number/number.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { TimepickerComponent } from './component/timepicker/timepicker.component
     BadgeComponent,
     AddItemComponent,
     TimepickerComponent,
+    NumberComponent,
   ],
   imports: [
     CommonModule,
@@ -98,6 +100,7 @@ import { TimepickerComponent } from './component/timepicker/timepicker.component
     BadgeComponent,
     AddItemComponent,
     TimepickerComponent,
+    NumberComponent,
   ],
   providers:[]
 })

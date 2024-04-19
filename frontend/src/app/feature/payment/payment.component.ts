@@ -3,7 +3,8 @@ import { Column } from 'src/app/shared/component/table/table.component';
 import { PaymentService } from './service/payment.service';
 import { AppComponent } from 'src/app/app.component';
 import { Location } from '@angular/common';
-import { PaymentCategory } from './payment.interface';
+import { Payment, PaymentCategory } from './payment.interface';
+import { PaymentAddComponent } from './payment-add/payment-add.component';
 
 @Component({
   selector: 'app-payment',
@@ -32,6 +33,7 @@ export class PaymentComponent implements OnInit{
   errorListRequest: string = "";
   allListRequest: any;
   pageList = 0;
+  sizeRequest = 5;
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest: string = '';
@@ -39,12 +41,13 @@ export class PaymentComponent implements OnInit{
   sortReqCol?: string = 'id';
   sortReqDir?: string = 'DESC';
   colRequest: Column[] = [];
-  // dataRequest: Payment = {};
+  dataRequest: Payment = {};
   
   @ViewChild('closeModalAdd') modalCloseAdd: any;
   @ViewChild('closeModalUpdate') modalCloseUpdate: any;
   @ViewChild('closeModalNew') modalCloseNew: any;
   @ViewChild('closeModalDetail') modalCloseDetail: any;
+  @ViewChild(PaymentAddComponent) mailboxAdd!: PaymentAddComponent;
 
   constructor(private location: Location, private paymentService: PaymentService, private apps: AppComponent){}
 
@@ -55,15 +58,14 @@ export class PaymentComponent implements OnInit{
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'payment_category', displayName: 'Category'}, {name: 'request_date', displayName: 'Request Date'}, {name: 'residentId', displayName:'Requested By'}, {name: 'assigned_to', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'paymentCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Billing Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getPaymentCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-      // this.getMaintenanceAllRequest(1, 10, 0, this.sortReqCol, this.sortReqCol);
+      this.getMailboxDetailApartment(this.apartmentId, 3, 0);
     }
     else if (this.role=='resident'){
-      // this.getPaymentCategory(1, 1000, 0, this.sortCatCol, this.sortCatDir);
-      // this.getMaintenanceResidentRequest(4, 3, 0, this.sortReqCol, this.sortReqDir, null);
+      this.getPaymentDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
     }
     this.apps.loadingPage(false);
   }
@@ -90,6 +92,52 @@ export class PaymentComponent implements OnInit{
       }))
   }
 
+  getMailboxDetailApartment(apartmentId: any, size:number, page: number): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.paymentService.getPaymentDetailApartment(apartmentId, size, page).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.tableRequest = response.data;
+            this.allDataRequest = response.totalElements;
+          }
+          else{
+            this.errorMsgRequest = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsgRequest = 'No Data Found!'
+          this.tableRequest = null;
+          resolve(error);
+        }
+      }))
+  }
+
+  getPaymentDetailResident(apartmentId: any, size:number, page: number, status: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.paymentService.getPaymentDetailResident(apartmentId, size, page, status).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.listRequest = response.data;
+            this.allListRequest = response.totalElements;
+          }
+          else{
+            this.errorListRequest = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorListRequest = 'No Data Found!'
+          this.listRequest = null;
+          resolve(error);
+        }
+      }))
+  }
+
   async onListItemClick(type: string, e:any){
     console.log('OnList:', e);
     if(type=='request'){
@@ -100,6 +148,10 @@ export class PaymentComponent implements OnInit{
       let data = await this.setDetailCategory(e);
       console.log('Category:', data);
     }
+  }
+
+  onAddPayment(){
+    this.mailboxAdd.ngOnInit();
   }
 
   setDetailCategory (response: any): Promise<any>{
@@ -137,6 +189,9 @@ export class PaymentComponent implements OnInit{
     }
     else if(type=='request'){
       // this.getMaintenanceAllRequest(1, 10, e, this.sortReqCol, this.sortReqDir);
+    }
+    else if(type=='listRequest'){
+      this.pageList = e;
     }
     this.ngOnInit();
   }
@@ -202,6 +257,6 @@ export class PaymentComponent implements OnInit{
   }
 
   onAllRequest(){
-    window.location.replace('/payment/list');
+    window.location.replace('/payment/all');
   }
 }

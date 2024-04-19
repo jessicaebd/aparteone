@@ -1,16 +1,18 @@
 export interface FacilityRequest{
     "ID"?: any,
+    "Resident ID"?: any,
+    "Resident Unit"?: any,
     "Resident Name"?: any,
     "Facility ID"?: any,
     "Facility Category"?: any,
+    "Facility Time ID"?: any,
     "Book Date"?: any,
-    "Book Time"?: any,
+    "Start Time"?: any,
+    "End Time"?: any,
     "Status"?: any,
     "Request Date"?: any,
-    "Assigned Date"?: any,
-    "Assigned Name"?: any,
     "Completed Date"?: any,
-    "Canceled Date"?: any,
+    "Cancelled Date"?: any,
   }
 
 export interface Facility {
@@ -36,4 +38,5 @@ export interface FacilityCategoryTime{
     "startTime": any,
     "endTime": any,
     "isActive"?: any,
+    "isAvailable"?: any,
 }

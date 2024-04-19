@@ -1,0 +1,9 @@
+<div class="container w-100 overflow-hidden">
+    <div class="mt-0 pt-0">
+        <app-label labelType="label"  labelFor="uploadImage" labelInput="Payment Proof" [isMandatory]="true"></app-label>
+        <app-attachment-image attachmentID="uploadImage" previewWidth="20vw" (onChangeEvent)="image=$event"></app-attachment-image>
+    </div>
+    <div class="container d-flex justify-content-center py-4">
+        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+    </div>
+</div>

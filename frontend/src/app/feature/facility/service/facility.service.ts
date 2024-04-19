@@ -9,6 +9,7 @@ import { AppService } from 'src/app/app.service';
 export class FacilityService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiFacility = `${environment.modules.feature.facility}`;
+  private apiTime = `${environment.modules.feature.time}`;
   private apiRequest = `${environment.modules.general.request}`;
   private apiAdd = `${environment.modules.general.add}`;
   private apiUpdate = `${environment.modules.general.update}`;
@@ -18,11 +19,11 @@ export class FacilityService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // CATEGORY
-  getFacilityCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getFacilityCategory(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
     const headers = new HttpHeaders({
     });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -43,27 +44,68 @@ export class FacilityService {
 
   updateFacilityCategory(facilityId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'facilityId': facilityId, 'isActive': isActive } });
+    const options = { params };
+    const body = {};
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+  
+  // TIME
+  getFacilityTime(facilityId: any, date: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiTime}`;
     const headers = new HttpHeaders({
     });
-    // const params = new HttpParams({ });
-    const params = new HttpParams({ fromObject: { 'facilityId': facilityId, 'isActive': isActive } });
-    // const body = { };
+    const params = new HttpParams({ fromObject: { 'facilityId': facilityId, 'date': date } });
     const options = { headers, params };
-    return this.httpClient.put<any>(apiUrl, options);
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  insertFacilityTime(facilityId: any, body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiTime}/${this.apiAdd}`;
+    const params = new HttpParams({ fromObject: { 'facilityId': facilityId } });
+    const options = { params };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  updateFacilityTime(facilityTimeId:any, isActive:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiTime}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'facilityTimeId': facilityTimeId, 'isActive': isActive } });
+    const options = { params };
+    const body = {};
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   // REQUEST
-  getFacilityAllRequest(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getFacilityApartmentRequest(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiApartment}`;
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page} });
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  getFacilityResidentRequest(residentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getFacilityResidentRequest(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiResident}`;
-    const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    let params;
+    if(status == '' || status == null){
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
+    }
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  insertFacilityRequest(body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiAdd}`;
+    return this.httpClient.post<any>(apiUrl, body);
+  }
+
+  updateFacilityRequest(facilityRequestId:any, status:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'facilityRequestId': facilityRequestId, 'status': status } });
+    const options = { params };
+    const body = {};
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 }

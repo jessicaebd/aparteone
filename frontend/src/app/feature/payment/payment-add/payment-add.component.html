@@ -1,0 +1,21 @@
+<div class="container w-100">
+    <div class="mt-0 pt-0">
+        <app-label labelType="label"  labelFor="resident" labelInput="Resident" [isMandatory]="true"></app-label>
+        <app-textbox inputID="resident" [value]="data['residentId']" (onChangeEvent)="data['residentId']=$event"></app-textbox>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="type" labelInput="Type" [isMandatory]="true"></app-label>
+        <app-dropdown [itemDropDown]="paymentCategory" (onDropdownEvent)="data['billingId']=$event"></app-dropdown>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="amount" labelInput="Amount" [isMandatory]="true"></app-label>
+        <app-number inputID="amount" [value]="data['amount']" (onChangeEvent)="data['amount']=$event"></app-number>
+    </div>
+    <div class="mt-2 w-100">
+        <app-label labelType="label"  labelFor="dueDate" labelInput="Due Date" [isMandatory]="true"></app-label>
+        <app-datepicker inputID="dueDate" (onChangeEvent)="data['dueDate']=$event"></app-datepicker>
+    </div>
+    <div class="container d-flex justify-content-center py-4">
+        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+    </div>
+</div>

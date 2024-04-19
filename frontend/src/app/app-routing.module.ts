@@ -13,6 +13,7 @@ import { AnnouncementDetailComponent } from './feature/announcement/announcement
 
 // PAYMENT
 import { PaymentComponent } from './feature/payment/payment.component';
+import { PaymentAllComponent } from './feature/payment/payment-all/payment-all.component';
 
 // MAINTENANCE
 import { MaintenanceComponent } from './feature/maintenance/maintenance.component';
@@ -29,6 +30,7 @@ import { FacilityAllRequestComponent } from './feature/facility/facility-all-req
 
 // MAILBOX
 import { MailboxComponent } from './feature/mailbox/mailbox.component';
+import { MailboxAllComponent } from './feature/mailbox/mailbox-all/mailbox-all.component';
 
 // CHAT
 import { ChatComponent } from './feature/chat/chat.component';
@@ -41,7 +43,6 @@ import { MerchantStoreComponent } from './feature/merchant/merchant-store/mercha
 // REPORT
 import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
-import { MailboxAllComponent } from './feature/mailbox/mailbox-all/mailbox-all.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -58,19 +59,17 @@ const routes: Routes = [
   
   // PAYMENT
   { path: 'payment', component: PaymentComponent },
+  { path: 'payment/all', component: PaymentAllComponent},
   
   // MAINTENANCE
   { path: 'maintenance', component: MaintenanceComponent },
   { path: 'maintenance/history', component: MaintenanceHistoryComponent  },
-  { path: 'maintenance/list', component: MaintenanceAllRequestComponent  },
-  { path: 'maintenance/detail', component: MaintenanceDetailRequestComponent  },
+  { path: 'maintenance/all', component: MaintenanceAllRequestComponent  },
   
   // FACILITY
   { path: 'facility', component: FacilityComponent },
-  { path: 'facility/request', component: FacilityRequestComponent  },
   { path: 'facility/history', component: FacilityHistoryComponent  },
-  { path: 'facility/add', component: FacilityAddCategoryComponent  },
-  { path: 'facility/list', component: FacilityAllRequestComponent  },
+  { path: 'facility/all', component: FacilityAllRequestComponent  },
   
   // MAILBOX
   { path: 'mailbox', component: MailboxComponent },

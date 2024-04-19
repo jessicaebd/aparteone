@@ -126,6 +126,7 @@ export class FacilityAddCategoryComponent implements OnInit{
     let result = await this.insertFacilityCategory(body);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
+    this.clearData();
 
     if(result==true){
       Swal.fire({
@@ -191,5 +192,11 @@ export class FacilityAddCategoryComponent implements OnInit{
           resolve(error);
         }
       }))
+  }
+
+  clearData(){
+    this.index = 0;
+    this.data = {};
+    this.dataTime = [];
   }
 }

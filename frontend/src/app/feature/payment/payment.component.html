@@ -6,12 +6,12 @@
     </div>
     <ng-container *ngIf="this.role=='resident'">
         <div class="d-flex mb-3">
-            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All Request</button>
-            <button [ngClass]="filter == 'paid' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('paid')">Paid</button>
-            <button [ngClass]="filter == 'waiting' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('waiting')">Waiting for Payment</button>
-            <button [ngClass]="filter == 'overdue' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('overdue')">Overdue</button>
+            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+            <button [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
+            <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
         </div>
-        <app-payment-list></app-payment-list>
+        <app-payment-list [listRequest]="listRequest" [length]="allListRequest" [pageSize]="sizeRequest" [pageIndex]="pageList" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="ngOnInit()" [errorMsg]="errorListRequest"></app-payment-list>
     </ng-container>
 
     <ng-container *ngIf="this.role=='management'">
@@ -30,13 +30,15 @@
         <div class="billing-request-list mt-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST BILLING" labelType="subtitle"></app-label>
-                <app-button buttonLabel="All Billing" (onClickEvent)="onAllRequest()"></app-button>
+                <div>
+                    <app-button class="me-2" buttonLabel="Add Payment" data-bs-toggle="modal" data-bs-target="#modalAddPayment" (onClickEvent)="onAddPayment()"></app-button>
+                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="onAllRequest()"></app-button>
+                </div>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" 
-                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
+                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" [pagination]="false" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 
@@ -77,6 +79,21 @@
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
                     <!-- <app-payment-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal('assign')"></app-payment-detail-request> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalAddPayment" [width]="800" [modalContent]="modalAddPayment"></app-modal>
+    
+        <ng-template #modalAddPayment>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Billing</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalNew></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <app-payment-add (onSubmitEvent)="onCloseModal('new')"></app-payment-add>
                 </div>
             </div>
         </ng-template>

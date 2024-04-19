@@ -13,6 +13,7 @@ export class PaymentService {
   private apiAdd = `${environment.modules.general.add}`;
   private apiUpdate = `${environment.modules.general.update}`;
   private apiDetail = `${environment.modules.general.detail}`;
+  private apiVerify = `${environment.modules.general.verify}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
 
@@ -57,16 +58,22 @@ export class PaymentService {
   }
 
   // REQUEST
-  getPaymentDetailApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any, status: any): any {
+  getPaymentDetailApartment(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiApartment}`;
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir, 'status': status } });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page} });
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  getPaymentDetailResident(residentId: any, size:number, page: number, sortBy: any, sortDir: any, status: any): any {
+  getPaymentDetailResident(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiResident}`;
-    const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir, 'status': status } });
+    let params;
+    if(status=='' || status == null){
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
+    }
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -78,26 +85,26 @@ export class PaymentService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  insertPayment(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}`;
+  insertPaymentDetail(body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
-  updatePayment(status: any, remarks: any, billingDetailId: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiUpdate}-status`;
-    const params = new HttpParams({ fromObject: { 'status': status, 'remarks': remarks, 'billingDetailId': billingDetailId } });
+  updatePaymentDetail(billingDetailId: any, status: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'billingDetailId': billingDetailId, 'status': status } });
     const options = { params }
     const body = { }
     return this.httpClient.post<any>(apiUrl, body, options);
   }
   
   insertPaymentProof(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiPaymentProof}`;
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiPaymentProof}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
 
-  verifyPayment(isValid: any, billingDetailId: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiUpdate}-status`;
+  verifyPayment(billingDetailId: any, isValid: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiPaymentProof}/${this.apiVerify}`;
     const params = new HttpParams({ fromObject: { 'isValid': isValid, 'billingDetailId': billingDetailId } });
     const options = { params }
     const body = { }

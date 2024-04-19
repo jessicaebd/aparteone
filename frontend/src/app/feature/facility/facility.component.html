@@ -9,14 +9,14 @@
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
             </div>
-            <!-- <app-facility-category [listCategory]="tableCategory" [errorMsg]="errorListCategory"></app-facility-category> -->
+            <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-facility-category>
         </div>
         <div class="facility-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST BOOKING" labelType="subtitle"></app-label>
-                <app-button buttonLabel="All History" (onClickEvent)="onHistoryClick()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="onHistoryClick()"></app-button>
             </div>
-            <!-- <app-facility-list [listRequest]="tableRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-facility-list> -->
+            <app-facility-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-facility-list>
         </div>
     </ng-container>
 
@@ -35,19 +35,18 @@
                 <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
                 actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" [pageIndex]="pageCategory" [pageSize]="sizeCategory"
-                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
+                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
         <div class="facility-request-list mt-5">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LIST FACILITY REQUEST" labelType="subtitle"></app-label>
-                <app-button buttonLabel="All Request" (onClickEvent)="onAllRequest()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="onAllRequest()"></app-button>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-                    actionTarget="modalAddCategory" (onClickActionEvent)="onListItemClick('request', $event)" 
-                    [length]="allDataRequest" (onPageIndexEvent)="onLoadData('request', $event)" (onSortEvent)="onSortData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
+                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" iconStart="bi bi-eye-fill" label="View" type="primary" 
+                    actionToggle="modal"  actionTarget="modalViewRequest" [pagination]="false" (onClickActionEvent)="onListItemClick('request', $event)" 
+                    (onPageIndexEvent)="onLoadData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 
@@ -57,10 +56,10 @@
         <ng-template #modalAddCategory>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Facility Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-facility-add-category (onSubmitEvent)="onCloseModal()"></app-facility-add-category>
+                <app-facility-add-category (onSubmitEvent)="onCloseModal('add')"></app-facility-add-category>
             </div>
         </ng-template>
 
@@ -69,11 +68,24 @@
 
         <ng-template #modalViewCategory>
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Facility Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Facility Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-facility-add-category (onSubmitEvent)="onCloseModal()"></app-facility-add-category>
+                <app-facility-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-facility-update-category>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalViewRequest" [width]="600" [modalContent]="modalViewRequest"></app-modal>
+
+        <ng-template #modalViewRequest>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Book Facility</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalRequest></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="onCloseModal('request')"></app-facility-detail-request>
             </div>
         </ng-template>
     </ng-container>

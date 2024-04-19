@@ -7,7 +7,7 @@
         <app-label labelType="label"  labelFor="maintenanceDetail" labelInput="Maintenance Detail" [isMandatory]="true"></app-label>
         <app-textarea inputID="maintenanceDetail" [value]="data['Maintenance Detail']" (onChangeEvent)="data['Maintenance Detail']=$event"></app-textarea>
     </div>
-    <div class="container d-flex justify-content-center mt-4">
+    <div class="container d-flex justify-content-center py-4">
         <app-button class="me-3" buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
     </div>
 </div>
