@@ -21,11 +21,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String paymentProofImage;
-    private Boolean isValid;
     private Date paymentDate;
+    private Boolean isValid;
     private Date verifiedDate;
-
-    public Payment(String paymentProofImage, Date paymentDate) {
-        this.paymentProofImage = paymentProofImage;
-    }
 }

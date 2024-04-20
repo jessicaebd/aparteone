@@ -52,9 +52,7 @@ public class BillingServiceImpl implements BillingService {
     public Pageable pagination(int page, int size, String sortBy, String sortDir) {
         Pageable pageable = null;
         if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size,
-                    sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                            : Sort.by(sortBy).descending());
+            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         } else {
             pageable = PageRequest.of(page, size);
         }
@@ -78,8 +76,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy,
-            String sortDir, Boolean isActive, Integer apartmentId) {
+    public PageResponse<BillingCategoryResponse> getBillingListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
         Specification<Billing> spec = Specification.where(BillingSpecification.billingHasApartmentId(apartmentId));
         if (isActive != null) {
             spec = spec.and(BillingSpecification.billingIsActive(isActive));
@@ -107,7 +104,6 @@ public class BillingServiceImpl implements BillingService {
         return response;
     }
 
-    // Billing Detail
     @Override
     public BillingDetailResponse getBillingDetailById(Integer billingDetailId) {
         BillingDetail billingDetail = billingDetailRepo.findById(billingDetailId).get();
@@ -142,10 +138,8 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy,
-            String sortDir, String status, Integer residentId) {
-        Specification<BillingDetail> spec = Specification
-                .where(BillingSpecification.billingDetailHasResidentId(residentId));
+    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
+        Specification<BillingDetail> spec = Specification.where(BillingSpecification.billingDetailHasApartmentId(apartmentId));
         if (status != null) {
             spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
         }
@@ -169,10 +163,8 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy,
-            String sortDir, String status, Integer apartmentId) {
-        Specification<BillingDetail> spec = Specification
-                .where(BillingSpecification.billingDetailHasApartmentId(apartmentId));
+    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+        Specification<BillingDetail> spec = Specification.where(BillingSpecification.billingDetailHasResidentId(residentId));
         if (status != null) {
             spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
         }
@@ -220,7 +212,10 @@ public class BillingServiceImpl implements BillingService {
     public BillingDetail payment(PaymentRequest paymentRequest) {
         BillingDetail billingDetail = billingDetailRepo.findById(paymentRequest.getId()).get();
 
-        Payment payment = new Payment(paymentRequest.getPaymentProofImage(), new Date());
+        Payment payment = new Payment();
+        payment.setPaymentProofImage(paymentRequest.getPaymentProofImage());
+        payment.setPaymentDate(new Date());
+        payment.setIsValid(false);
         payment = paymentRepo.save(payment);
 
         billingDetail.setPaymentId(payment.getId());
@@ -236,8 +231,7 @@ public class BillingServiceImpl implements BillingService {
         payment.setIsValid(isValid);
         payment.setVerifiedDate(new Date());
 
-        billingDetail.setStatus((payment.getIsValid() == true) ? AparteoneConstant.STATUS_COMPLETED
-                : AparteoneConstant.STATUS_CANCELLED);
+        billingDetail.setStatus((payment.getIsValid() == true) ? AparteoneConstant.STATUS_COMPLETED : AparteoneConstant.STATUS_CANCELLED);
         return billingDetailRepo.save(billingDetail);
     }
 }

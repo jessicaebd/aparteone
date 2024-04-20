@@ -11,7 +11,7 @@ import com.com.aparteone.entity.FacilityRequest;
 
 @Repository
 public interface FacilityRequestRepo extends JpaRepository<FacilityRequest, Integer>, JpaSpecificationExecutor<FacilityRequest> {
-    @Query(value = "select fr.id, fr.facility_time_id, fr.resident_id, fr.status, fr.created_date, fr.modified_date,fr.completed_date,fr.cancelled_date " +
+    @Query(value = "select fr.id,fr.facility_time_id,fr.resident_id,fr.status,fr.reserve_date,fr.completed_date,fr.cancelled_date,fr.created_date,fr.modified_date " +
             "from facility_requests fr join facility_times ft " +
             "on fr.facility_time_id = ft.id " +
             "join facilities f " +
@@ -19,7 +19,7 @@ public interface FacilityRequestRepo extends JpaRepository<FacilityRequest, Inte
             "where f.apartment_id=:apartmentId", nativeQuery = true)
     public Page<FacilityRequest> findByApartmentId(Integer apartmentId, Pageable pageable);
 
-    @Query(value = "select fr.id, fr.facility_time_id, fr.resident_id, fr.status, fr.created_date, fr.modified_date,fr.completed_date,fr.cancelled_date " +
+    @Query(value = "select fr.id,fr.facility_time_id,fr.resident_id,fr.status,fr.reserve_date,fr.completed_date,fr.cancelled_date,fr.created_date,fr.modified_date " +
             "from facility_requests fr join facility_times ft " +
             "on fr.facility_time_id = ft.id " +
             "join facilities f " +

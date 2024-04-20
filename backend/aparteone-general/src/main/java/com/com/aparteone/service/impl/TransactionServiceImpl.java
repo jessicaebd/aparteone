@@ -262,7 +262,9 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction payment(PaymentRequest paymentRequest) {
         Transaction transaction = transactionRepo.findById(paymentRequest.getId()).get();
         if (transaction != null) {
-            Payment payment = new Payment(paymentRequest.getPaymentProofImage(), new Date());
+            Payment payment = new Payment();
+            payment.setPaymentProofImage(paymentRequest.getPaymentProofImage());
+            payment.setPaymentDate(new Date());
             paymentRepo.save(payment);
 
             transaction.setPaymentId(payment.getId());
