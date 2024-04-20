@@ -5,13 +5,19 @@
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="bookDate" labelInput="Book Date" [isMandatory]="true"></app-label>
-        <app-datepicker inputID="bookDate" (onChangeEvent)="onChangeDate(dataCategory['ID'], $event)"></app-datepicker>
+        <app-datepicker inputID="bookDate" [value]="data['Book Date']" (onChangeEvent)="onChangeDate(dataCategory['ID'], $event)"></app-datepicker>
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="bookTime" labelInput="Book Time" [isMandatory]="true"></app-label>
         <div class="choose-time">
             <ng-container *ngFor="let item of dataTime">
-                <button [ngClass]="data['Facility Time ID'] == item.id ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="onTimeClick(item.id)">{{ item.startTime + ' - ' + item.endTime }}</button>
+                <ng-container *ngIf="item.isAvailable == 'Available'; else timeDisable">
+                    <button [ngClass]="data['Facility Time ID'] == item.id ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" (click)="onTimeClick(item.id)">{{ item.startTime + ' - ' + item.endTime }}</button>
+                </ng-container>
+                
+                <ng-template #timeDisable>
+                    <button [ngClass]="data['Facility Time ID'] == item.id ? 'btn time mx-2 my-1 active' : 'btn time mx-2 my-1'" [disabled]="true" (click)="onTimeClick(item.id)">{{ item.startTime + ' - ' + item.endTime }}</button>
+                </ng-template>
             </ng-container>
         </div>
     </div>

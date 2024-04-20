@@ -16,7 +16,7 @@
                 <app-label labelInput="LAST BOOKING" labelType="subtitle"></app-label>
                 <app-button buttonLabel="View All" (onClickEvent)="onHistoryClick()"></app-button>
             </div>
-            <app-facility-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest"></app-facility-list>
+            <app-facility-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest" (onSubmitEvent)="ngOnInit()"></app-facility-list>
         </div>
     </ng-container>
 

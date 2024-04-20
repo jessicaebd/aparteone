@@ -58,7 +58,7 @@ export class PaymentComponent implements OnInit{
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'paymentCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Billing Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getPaymentCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
@@ -166,19 +166,27 @@ export class PaymentComponent implements OnInit{
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      // this.dataRequest['ID'] = response.id;
-      // this.dataRequest['Resident Name'] = response.resident;
-      // this.dataRequest['Maintenance ID'] = response.maintenance_id;
-      // this.dataRequest['Maintenance Category'] = response.maintenance_category;
-      // this.dataRequest['Maintenance Detail'] = response.maintenanceDetail;
-      // this.dataRequest['Status'] = response.status;
-      // this.dataRequest['Request Date'] = response.request_date;
-      // this.dataRequest['Assigned Name'] = response.assigned_to;
-      // this.dataRequest['Assigned Date'] = response.assigned_date;
-      // this.dataRequest['Completed Date'] = response.completed_date;
-      // this.dataRequest['Canceled Date'] = response.cancelled_date;
-      // resolve(this.dataRequest);
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['billingId'] = response.billingId;
+      this.dataRequest['billingCategory'] = response.billingCategory;
+      this.dataRequest['status'] = response.status;
+      this.dataRequest['amount'] = response.amount;
+      this.dataRequest['billingDate'] = response.billingDate;
+      this.dataRequest['dueDate'] = response.dueDate;
+      this.dataRequest['completedDate'] = response.completedDate;
+      this.dataRequest['cancelledDate'] = response.cancelledDate;
+      this.dataRequest['payment'] = response.payment;
+      resolve(this.dataRequest);
     });
+  }
+
+  onListSubmitEvent(){
+    this.filter = '';
+    this.pageList = 0;
+    this.ngOnInit();
   }
 
   onLoadData(type:any, e:any){
@@ -236,6 +244,7 @@ export class PaymentComponent implements OnInit{
   }
   
   onCloseModal(type: string){
+    console.log(type);
     if(type=='add'){
       this.modalCloseAdd.nativeElement.click();
     }

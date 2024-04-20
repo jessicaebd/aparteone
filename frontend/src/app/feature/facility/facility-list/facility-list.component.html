@@ -26,11 +26,11 @@
                                 </div>
                             </div>
                             <app-label labelType="span" labelInput="Book Date :"></app-label>
-                            <app-label labelType="span" [labelInput]="item.bookDate"></app-label>
+                            <app-label labelType="span" [labelInput]="item.reserveDate"></app-label>
                         </div>
                     </button>
                 </h2>
-                <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#maintenanceParent">
+                <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#facilityParent">
                     <div class="accordion-body pt-0">
                         <div class="row w-50">
                             <div class="col-3">
@@ -45,7 +45,7 @@
                                 <app-label labelInput="Book Date"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.bookDate; else noData" [labelInput]="': ' + item.bookDate"></app-label>
+                                <app-label *ngIf="item.reserveDate; else noData" [labelInput]="': ' + item.reserveDate"></app-label>
                             </div>
                         </div>
                         <div class="row w-50">
@@ -64,14 +64,14 @@
                                 <app-label *ngIf="item.facilityRequeststatus; else noData" [labelInput]="': ' + item.facilityRequeststatus"></app-label>
                             </div>
                         </div>
-                        <div class="row w-50">
+                        <!-- <div class="row w-50">
                             <div class="col-3">
                                 <app-label labelInput="Requested Date"></app-label>
                             </div>
                             <div class="col">
                                 <app-label *ngIf="item.requestDate else noData" [labelInput]="': ' + item.requestDate"></app-label>
                             </div>
-                        </div>
+                        </div> -->
                         <ng-container *ngIf="item.facilityRequeststatus=='Requested'">
                             <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onCancelEvent(item.id)"></app-button>
                         </ng-container>

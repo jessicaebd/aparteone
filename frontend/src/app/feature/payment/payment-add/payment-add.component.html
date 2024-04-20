@@ -13,7 +13,7 @@
     </div>
     <div class="mt-2 w-100">
         <app-label labelType="label"  labelFor="dueDate" labelInput="Due Date" [isMandatory]="true"></app-label>
-        <app-datepicker inputID="dueDate" (onChangeEvent)="data['dueDate']=$event"></app-datepicker>
+        <app-datepicker inputID="dueDate" [value]="data['dueDate']" (onChangeEvent)="data['dueDate']=$event"></app-datepicker>
     </div>
     <div class="container d-flex justify-content-center py-4">
         <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>

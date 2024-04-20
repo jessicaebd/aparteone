@@ -21,10 +21,10 @@
             <app-label class="col-3" labelInput="Status"></app-label>
             <app-label class="col" [labelInput]="data['Status']? (': ' + data['Status']) : ': -'"></app-label>
         </div>
-        <div class="row mb-1">
+        <!-- <div class="row mb-1">
             <app-label class="col-3" labelInput="Request Date"></app-label>
             <app-label class="col" [labelInput]="data['Request Date']? (': ' + data['Request Date']) : ': -'"></app-label>
-        </div>
+        </div> -->
         <ng-container *ngIf="data['Status']=='Completed'">
             <div class="row mb-1">
                 <app-label class="col-3" labelInput="Completed Date"></app-label>

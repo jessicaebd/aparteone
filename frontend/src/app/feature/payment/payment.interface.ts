@@ -11,8 +11,7 @@ export interface Payment{
     "dueDate"?: any,
     "completedDate"?: any,
     "cancelledDate"?: any,
-    "payment"?: any,
-    // "Modified Date"?: any,
+    "payment"?: PaymentProof,
 }
 
 export interface PaymentCategory{
@@ -22,4 +21,12 @@ export interface PaymentCategory{
     "Status"?: any,
     "Created Date"?: any,
     "Modified Date"?: any
+}
+
+export interface PaymentProof{
+    id: any,
+    paymentProofImage?: any,
+    paymentStatus?: any,
+    paymentDate?: any,
+    verifiedDate?: any
 }

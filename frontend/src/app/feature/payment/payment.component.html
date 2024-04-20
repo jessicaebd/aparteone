@@ -9,9 +9,10 @@
             <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
             <button [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
             <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
             <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
         </div>
-        <app-payment-list [listRequest]="listRequest" [length]="allListRequest" [pageSize]="sizeRequest" [pageIndex]="pageList" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="ngOnInit()" [errorMsg]="errorListRequest"></app-payment-list>
+        <app-payment-list [listRequest]="listRequest" [length]="allListRequest" [pageSize]="sizeRequest" [pageIndex]="pageList" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="onListSubmitEvent()" [errorMsg]="errorListRequest"></app-payment-list>
     </ng-container>
 
     <ng-container *ngIf="this.role=='management'">
@@ -74,11 +75,11 @@
         <ng-template #modalRequestDetail>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Billing Detail</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAssign></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalDetail></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <!-- <app-payment-detail-request [data]="dataRequest" (onUpdateRequest)="onCloseModal('assign')"></app-payment-detail-request> -->
+                    <app-payment-detail [data]="dataRequest" (onSubmitEvent)="onCloseModal('detail')"></app-payment-detail>
                 </div>
             </div>
         </ng-template>

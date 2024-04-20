@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
-import Swal from 'sweetalert2';
 import { FacilityCategory, FacilityCategoryTime, FacilityRequest } from '../facility.interface';
 import { FacilityService } from '../service/facility.service';
 import { AppComponent } from 'src/app/app.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facility-request',
@@ -142,7 +142,7 @@ export class FacilityRequestComponent {
       let body = {
         'residentId': this.residentId,
         'facilityTimeId': this.data['Facility Time ID'],
-        // 'bookDate': this.data['Book Date']
+        'reserveDate': this.data['Book Date']
       }
       resolve(body);
     });

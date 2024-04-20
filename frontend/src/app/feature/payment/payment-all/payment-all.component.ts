@@ -32,7 +32,7 @@ export class PaymentAllComponent {
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.getPaymentDetailApartment(this.apartmentId, 10, this.page);
     }
     else if (this.role=='resident'){
@@ -72,16 +72,19 @@ export class PaymentAllComponent {
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      // this.dataRequest['ID'] = response.id;
-      // this.dataRequest['Resident Name'] = response.residentName;
-      // this.dataRequest['Resident ID'] = response.residentId;
-      // this.dataRequest['Resident Unit'] = response.residentUnit;
-      // this.dataRequest['Mailbox ID'] = response.mailboxId;
-      // this.dataRequest['Mailbox Category'] = response.mailboxCategory;
-      // this.dataRequest['Mailbox Desc'] = response.description;
-      // this.dataRequest['Status'] = response.status;
-      // this.dataRequest['Received Date'] = response.receivedDate;
-      // this.dataRequest['Completed Date'] = response.completedDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['billingId'] = response.billingId;
+      this.dataRequest['billingCategory'] = response.billingCategory;
+      this.dataRequest['status'] = response.status;
+      this.dataRequest['amount'] = response.amount;
+      this.dataRequest['billingDate'] = response.billingDate;
+      this.dataRequest['dueDate'] = response.dueDate;
+      this.dataRequest['completedDate'] = response.completedDate;
+      this.dataRequest['cancelledDate'] = response.cancelledDate;
+      this.dataRequest['payment'] = response.payment;
       resolve(this.dataRequest);
     });
   }

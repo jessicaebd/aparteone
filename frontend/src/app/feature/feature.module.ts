@@ -21,6 +21,8 @@ import { FacilityRequestComponent } from './facility/facility-request/facility-r
 import { FacilityHistoryComponent } from './facility/facility-history/facility-history.component';
 import { FacilityAddCategoryComponent } from './facility/facility-add-category/facility-add-category.component';
 import { FacilityAllRequestComponent } from './facility/facility-all-request/facility-all-request.component';
+import { FacilityUpdateCategoryComponent } from './facility/facility-update-category/facility-update-category.component';
+import { FacilityDetailRequestComponent } from './facility/facility-detail-request/facility-detail-request.component';
 // ANNOUNCEMENT
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementDetailComponent } from './announcement/announcement-detail/announcement-detail.component';
@@ -33,11 +35,16 @@ import { MailboxAddCategoryComponent } from './mailbox/mailbox-add-category/mail
 import { MailboxUpdateCategoryComponent } from './mailbox/mailbox-update-category/mailbox-update-category.component';
 import { MailboxAllComponent } from './mailbox/mailbox-all/mailbox-all.component';
 import { MailboxAddComponent } from './mailbox/mailbox-add/mailbox-add.component';
+import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.component';
 // PAYMENT
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentListComponent } from './payment/payment-list/payment-list.component';
 import { PaymentAddCategoryComponent } from './payment/payment-add-category/payment-add-category.component';
 import { PaymentUpdateCategoryComponent } from './payment/payment-update-category/payment-update-category.component';
+import { PaymentAddComponent } from './payment/payment-add/payment-add.component';
+import { PaymentAllComponent } from './payment/payment-all/payment-all.component';
+import { PaymentPayComponent } from './payment/payment-pay/payment-pay.component';
+import { PaymentDetailComponent } from './payment/payment-detail/payment-detail.component';
 // CHAT
 import { ChatComponent } from './chat/chat.component';
 // MERCHANT
@@ -49,12 +56,6 @@ import { MerchantProductComponent } from './merchant/merchant-product/merchant-p
 import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store.component';
 // REPORT
 import { ReportComponent } from './report/report.component';
-import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.component';
-import { FacilityUpdateCategoryComponent } from './facility/facility-update-category/facility-update-category.component';
-import { PaymentAddComponent } from './payment/payment-add/payment-add.component';
-import { PaymentAllComponent } from './payment/payment-all/payment-all.component';
-import { PaymentPayComponent } from './payment/payment-pay/payment-pay.component';
-import { FacilityDetailRequestComponent } from './facility/facility-detail-request/facility-detail-request.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,8 @@ import { FacilityDetailRequestComponent } from './facility/facility-detail-reque
     FacilityHistoryComponent,
     FacilityAddCategoryComponent,
     FacilityAllRequestComponent,
+    FacilityUpdateCategoryComponent,
+    FacilityDetailRequestComponent,
     AnnouncementComponent,
     AnnouncementDetailComponent,
     AnnouncementAddComponent,
@@ -89,6 +92,10 @@ import { FacilityDetailRequestComponent } from './facility/facility-detail-reque
     PaymentListComponent,
     PaymentAddCategoryComponent,
     PaymentUpdateCategoryComponent,
+    PaymentAddComponent,
+    PaymentAllComponent,
+    PaymentPayComponent,
+    PaymentDetailComponent,
     ChatComponent,
     MerchantComponent,
     MerchantAllComponent,
@@ -97,11 +104,6 @@ import { FacilityDetailRequestComponent } from './facility/facility-detail-reque
     MerchantProductComponent,
     MerchantStoreComponent,
     ReportComponent,
-    FacilityUpdateCategoryComponent,
-    PaymentAddComponent,
-    PaymentAllComponent,
-    PaymentPayComponent,
-    FacilityDetailRequestComponent,
   ],
   imports: [
     CommonModule,
@@ -126,6 +128,8 @@ import { FacilityDetailRequestComponent } from './facility/facility-detail-reque
     FacilityHistoryComponent,
     FacilityAddCategoryComponent,
     FacilityAllRequestComponent,
+    FacilityUpdateCategoryComponent,
+    FacilityDetailRequestComponent,
     AnnouncementComponent,
     AnnouncementDetailComponent,
     AnnouncementAddComponent,
@@ -141,6 +145,10 @@ import { FacilityDetailRequestComponent } from './facility/facility-detail-reque
     PaymentListComponent,
     PaymentAddCategoryComponent,
     PaymentUpdateCategoryComponent,
+    PaymentAddComponent,
+    PaymentAllComponent,
+    PaymentPayComponent,
+    PaymentDetailComponent,
     ChatComponent,
     MerchantComponent,
     MerchantAllComponent,

@@ -35,7 +35,7 @@ export class PaymentPayComponent {
   setBodyInsert(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'id': this.data['billingId'],
+        'id': this.data['id'],
         'paymentProofImage': this.image
       }
       resolve(body);

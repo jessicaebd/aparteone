@@ -26,7 +26,7 @@ export class FacilityAllRequestComponent {
   ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.col = [{name: 'facilityCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    this.col = [{name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
     this.getFacilityApartmentRequest(this.apartmentId, this.size, this.page);
     this.apps.loadingPage(false);
   }
@@ -62,7 +62,7 @@ export class FacilityAllRequestComponent {
       this.dataRequest['Facility ID'] = response.facilityId;
       this.dataRequest['Facility Category'] = response.facilityCategory;
       this.dataRequest['Facility Time ID'] = response.facilityTimeId;
-      // this.dataRequest['Book Date'] = response.FacilityDetail;
+      this.dataRequest['Book Date'] = response.reserveDate;
       this.dataRequest['Start Time'] = response.startTime;
       this.dataRequest['End Time'] = response.endTime;
       this.dataRequest['Status'] = response.facilityRequeststatus;

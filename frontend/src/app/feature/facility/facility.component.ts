@@ -51,7 +51,7 @@ export class FacilityComponent {
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role == 'management'){
-      this.colRequest = [{name: 'facilityCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
@@ -186,7 +186,7 @@ export class FacilityComponent {
       this.dataRequest['Facility ID'] = response.facilityId;
       this.dataRequest['Facility Category'] = response.facilityCategory;
       this.dataRequest['Facility Time ID'] = response.facilityTimeId;
-      // this.dataRequest['Book Date'] = response.FacilityDetail;
+      this.dataRequest['Book Date'] = response.reserveDate;
       this.dataRequest['Start Time'] = response.startTime;
       this.dataRequest['End Time'] = response.endTime;
       this.dataRequest['Status'] = response.facilityRequeststatus;
