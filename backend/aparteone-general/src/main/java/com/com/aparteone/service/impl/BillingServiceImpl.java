@@ -139,14 +139,13 @@ public class BillingServiceImpl implements BillingService {
 
     @Override
     public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
-        Specification<BillingDetail> spec = Specification.where(BillingSpecification.billingDetailHasApartmentId(apartmentId));
-        if (status != null) {
-            spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
-        }
         Pageable pageable = pagination(page, size, sortBy, sortDir);
-
-        Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec,
-                pageable);
+        Page<BillingDetail> billingDetail = null;
+        if (status == null) {
+            billingDetail = billingDetailRepo.findByApartmentId(apartmentId, pageable);
+        } else {
+            billingDetail = billingDetailRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
+        }
 
         List<BillingDetailResponse> data = new ArrayList<>();
         billingDetail.getContent().forEach(request -> {
