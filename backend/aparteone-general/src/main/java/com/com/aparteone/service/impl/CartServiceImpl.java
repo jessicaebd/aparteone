@@ -12,23 +12,26 @@ import com.com.aparteone.dto.response.ProductResponse;
 import com.com.aparteone.entity.Cart;
 import com.com.aparteone.repository.CartRepo;
 import com.com.aparteone.service.CartService;
-import com.com.aparteone.service.MerchantService;
+import com.com.aparteone.service.ProductService;
+
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class CartServiceImpl implements CartService {
-    
+
     @Autowired
     private CartRepo cartRepo;
 
     @Autowired
-    private MerchantService merchantService;
+    private ProductService productService;
 
     @Override
     public List<CartResponse> getCartListByResidentId(Integer residentId) {
         List<Cart> carts = cartRepo.findByResidentId(residentId);
         List<CartResponse> response = new ArrayList<>();
         carts.forEach(cart -> {
-            ProductResponse product = merchantService.getProductById(cart.getProductId());
+            ProductResponse product = productService.getProductById(cart.getProductId());
             response.add(new CartResponse(
                     cart.getId(),
                     cart.getResidentId(),
@@ -46,8 +49,35 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addToCart(CartRequest cartRequest) {
-        Cart cart = new Cart(cartRequest);
+    public List<CartResponse> getCartListByResidentIdAndMerchantId(Integer residentId, Integer merchantId) {
+        List<Cart> carts = cartRepo.findByResidentIdAndMerchantId(residentId, merchantId);
+        List<CartResponse> response = new ArrayList<>();
+        carts.forEach(cart -> {
+            ProductResponse product = productService.getProductById(cart.getProductId());
+            response.add(new CartResponse(
+                    cart.getId(),
+                    cart.getResidentId(),
+                    product.getMerchantId(),
+                    product.getMerchantName(),
+                    cart.getProductId(),
+                    product.getImage(),
+                    product.getName(),
+                    product.getPrice(),
+                    cart.getQuantity(),
+                    cart.getNotes(),
+                    product.getPrice() * cart.getQuantity()));
+        });
+        return response;
+    }
+
+    @Override
+    public Cart addCart(CartRequest cartRequest) {
+        Cart cart = new Cart();
+        cart.setResidentId(cartRequest.getResidentId());
+        cart.setMerchantId(cartRequest.getMerchantId());
+        cart.setProductId(cartRequest.getProductId());
+        cart.setQuantity(cartRequest.getQuantity());
+        cart.setNotes(cartRequest.getNotes());
         return cartRepo.save(cart);
     }
 
@@ -57,7 +87,6 @@ public class CartServiceImpl implements CartService {
         if (quantity != null) {
             cart.setQuantity(quantity);
         }
-
         if (notes != null) {
             cart.setNotes(notes);
         }

@@ -1,6 +1,7 @@
 
 package com.com.aparteone.dto.response;
 
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class CartResponse {
     Integer merchantId;
     String merchantName;
     Integer productId;
+    @Lob
     String productImage;
     String productName;
     Double productPrice;

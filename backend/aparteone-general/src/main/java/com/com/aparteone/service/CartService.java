@@ -8,7 +8,8 @@ import com.com.aparteone.entity.Cart;
 
 public interface CartService {
     public List<CartResponse> getCartListByResidentId(Integer residentId);
-    public Cart addToCart(CartRequest cartRequest);
+    public List<CartResponse> getCartListByResidentIdAndMerchantId(Integer residentId, Integer merchantId);
+    public Cart addCart(CartRequest cartRequest);
     public Cart updateCart(Integer cartId, Integer quantity, String notes);
     public Cart deleteCart(Integer cartId);
 }

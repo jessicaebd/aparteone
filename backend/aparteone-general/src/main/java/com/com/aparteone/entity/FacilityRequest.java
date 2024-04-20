@@ -27,7 +27,7 @@ public class FacilityRequest extends AuditEntity {
     private Integer facilityTimeId;
     private Integer residentId;
     private String status;
-    // private Date requestedDate; -> createdDate
+    private Date reserveDate;
     private Date completedDate;
     private Date cancelledDate;
 }

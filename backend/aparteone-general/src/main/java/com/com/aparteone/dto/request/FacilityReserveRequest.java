@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class FacilityReserveRequest {
     private Integer facilityTimeId;
     private Integer residentId;
+    private String reserveDate;
 }

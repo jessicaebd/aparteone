@@ -1,6 +1,7 @@
 package com.com.aparteone.service.impl;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -179,9 +180,11 @@ public class FacilityServiceImpl implements FacilityService {
                 time.getStartTime(),
                 time.getEndTime(),
                 request.getStatus(),
-                request.getCreatedDate(),
+                request.getReserveDate(),
                 request.getCompletedDate(),
-                request.getCancelledDate()
+                request.getCancelledDate(),
+                request.getCreatedDate(),
+                request.getModifiedDate()
         );
         return response;
     }
@@ -239,6 +242,12 @@ public class FacilityServiceImpl implements FacilityService {
         facilityRequest.setFacilityTimeId(request.getFacilityTimeId());
         facilityRequest.setResidentId(request.getResidentId());
         facilityRequest.setStatus(AparteoneConstant.STATUS_REQUESTED);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            facilityRequest.setReserveDate(sdf.parse(request.getReserveDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return facilityRequestRepo.save(facilityRequest);
     }
 

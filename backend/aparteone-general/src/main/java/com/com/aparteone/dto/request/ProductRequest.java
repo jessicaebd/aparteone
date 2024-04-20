@@ -13,5 +13,4 @@ public class ProductRequest {
     private String name;
     private Double price;
     private String description;
-    private Boolean isActive;
 }

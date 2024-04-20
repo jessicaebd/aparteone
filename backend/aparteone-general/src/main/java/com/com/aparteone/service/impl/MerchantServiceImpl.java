@@ -11,30 +11,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.dto.MerchantDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.dto.request.ProductRequest;
-import com.com.aparteone.dto.response.MerchantResponse;
-import com.com.aparteone.dto.response.ProductResponse;
-import com.com.aparteone.entity.Product;
-import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.Merchant;
-import com.com.aparteone.repository.ProductRepo;
-import com.com.aparteone.repository.general.ApartmentRepo;
 import com.com.aparteone.repository.general.MerchantRepo;
 import com.com.aparteone.service.MerchantService;
 import com.com.aparteone.specification.MerchantSpecification;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class MerchantServiceImpl implements MerchantService {
-
-    @Autowired
-    private ApartmentRepo apartmentRepo;
-
+    
     @Autowired
     private MerchantRepo merchantRepo;
-
-    @Autowired
-    private ProductRepo productRepo;
 
     public Pageable pagination(int page, int size, String sortBy, String sortDir) {
         Pageable pageable = null;
@@ -47,31 +39,31 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageResponse<MerchantResponse> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
-        Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
-        if (search != null) {
-            spec = spec.and(MerchantSpecification.search(search));
-        }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
-        Page<Merchant> merchants = merchantRepo.findAll(spec, pageable);
+    public PageResponse<MerchantDTO> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
+        // Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
+        // if (search != null) {
+        //     spec = spec.and(MerchantSpecification.search(search));
+        // }
+        // Pageable pageable = pagination(page, size, sortBy, sortDir);
+        // Page<Merchant> merchants = merchantRepo.findAll(spec, pageable
 
-        List<MerchantResponse> data = new ArrayList<>();
-        for (Merchant merchant : merchants.getContent()) {
-            Apartment apartment = apartmentRepo.findById(merchant.getApartmentId()).get();
-            data.add(new MerchantResponse(merchant, apartment));
-        }
+        // List<MerchantResponse> data = new ArrayList<>();
+        // for (Merchant merchant : merchants.getContent()) {
+        //     Apartment apartment = apartmentRepo.findById(merchant.getApartmentId()).get();
+        //     data.add(new MerchantResponse(merchant, apartment));
+        // }
 
-        PageResponse<MerchantResponse> response = new PageResponse<>(
-                merchants.getTotalElements(),
-                merchants.getTotalPages(),
-                merchants.getNumber(),
-                merchants.getSize(),
-                data);
-        return response;
+        // PageResponse<MerchantResponse> response = new PageResponse<>(
+        //         merchants.getTotalElements(),
+        //         merchants.getTotalPages(),
+        //         merchants.getNumber(),
+        //         merchants.getSize(),
+        //         data);
+        return null;
     }
 
     @Override
-    public PageResponse<MerchantResponse> getMerchantListByApartmentId(int page, int size, String sortBy, String sortDir, String category, Integer apartmentId) {
+    public PageResponse<MerchantDTO> getMerchantListByApartmentId(int page, int size, String sortBy, String sortDir, String category, Integer apartmentId) {
         Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
         if (category != null) {
             spec = spec.and(MerchantSpecification.hasCategory(category));
@@ -79,13 +71,12 @@ public class MerchantServiceImpl implements MerchantService {
         Pageable pageable = pagination(page, size, sortBy, sortDir);
         Page<Merchant> merchants = merchantRepo.findAll(spec, pageable);
 
-        List<MerchantResponse> data = new ArrayList<>();
-        for (Merchant merchant : merchants.getContent()) {
-            Apartment apartment = apartmentRepo.findById(merchant.getApartmentId()).get();
-            data.add(new MerchantResponse(merchant, apartment));
-        }
+        List<MerchantDTO> data = new ArrayList<>();
+        merchants.getContent().forEach(merchant -> {
+            data.add(getMerchantById(merchant.getId()));
+        });
 
-        PageResponse<MerchantResponse> response = new PageResponse<>(
+        PageResponse<MerchantDTO> response = new PageResponse<>(
                 merchants.getTotalElements(),
                 merchants.getTotalPages(),
                 merchants.getNumber(),
@@ -95,57 +86,19 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageResponse<ProductResponse> getProductListByMerchantId(int page, int size, String sortBy, String sortDir, Integer merchantId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
-        Page<Product> products = productRepo.findByMerchantId(merchantId, pageable);
-
-        List<ProductResponse> data = new ArrayList<>();
-        for (Product product : products.getContent()) {
-            Merchant merchant = merchantRepo.findById(product.getMerchantId()).get();
-            data.add(new ProductResponse(product, merchant));
-        }
-
-        PageResponse<ProductResponse> response = new PageResponse<>(
-                products.getTotalElements(),
-                products.getTotalPages(),
-                products.getNumber(),
-                products.getSize(),
-                data);
-        return response;
-    }
-
-    @Override
-    public ProductResponse getProductById(Integer productId) {
-        Product product = productRepo.findById(productId).get();
-        Merchant merchant = merchantRepo.findById(product.getMerchantId()).get();
-        return new ProductResponse(product, merchant);
-    }
-
-    @Override
-    public Product addProduct(ProductRequest productRequest) {
-        Product product = new Product(productRequest);
-        return product;
-    }
-
-    @Override
-    public Product updateProduct(Integer productId, ProductRequest productRequest) {
-        Product product = productRepo.findById(productId).get();
-        if (productRequest.getImage() != null) {
-            product.setImage(productRequest.getImage());
-        }
-        if (productRequest.getName() != null) {
-            product.setName(productRequest.getName());
-        }
-        if (productRequest.getPrice() != null) {
-            product.setPrice(productRequest.getPrice());
-        }
-        if (productRequest.getDescription() != null) {
-            product.setDescription(productRequest.getDescription());
-        }
-        if (productRequest.getIsActive() != null) {
-            product.setIsActive(productRequest.getIsActive());
-        }
-        return product;
+    public MerchantDTO getMerchantById(Integer merchantId) {
+        Merchant merchant = merchantRepo.findById(merchantId).get();
+        MerchantDTO merchantDTO = new MerchantDTO(
+                merchant.getId(),
+                merchant.getImage(),
+                merchant.getName(),
+                merchant.getBankAccount(),
+                merchant.getAccountNumber(),
+                merchant.getAccountName(),
+                merchant.getCategory(),
+                merchant.getAddress(),
+                merchant.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE);
+        return merchantDTO;
     }
 
 }
