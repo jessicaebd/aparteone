@@ -4,6 +4,7 @@ import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,8 @@ import lombok.NoArgsConstructor;
 public class Apartment extends AuditEntity {
     @Id
     private Integer id; // apartmentId = userId
+    @Lob
+    private String image;
     private String name;
     private String address;
     private String province;
@@ -27,4 +30,5 @@ public class Apartment extends AuditEntity {
     private String latitude;
     private String longitude;
     private Boolean isActive;
+    private Boolean isApproved;
 }

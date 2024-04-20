@@ -2,6 +2,7 @@ package com.com.aparteone.constant;
 
 public class AparteoneConstant {
     public static final String STATUS_ASSIGNED = "Assigned";
+    public static final String STATUS_APPROVED = "Approved";
     public static final String STATUS_BILLED = "Billed";
     public static final String STATUS_CANCELLED = "Cancelled";
     public static final String STATUS_COMPLETED = "Completed";
@@ -26,6 +27,11 @@ public class AparteoneConstant {
     public static final Integer ROLE_ID_MANAGEMENT = 2;
     public static final Integer ROLE_ID_RESIDENT = 3;
     public static final Integer ROLE_ID_MERCHANT = 4;
+
+    public static final String ROLE_ADMIN = "Admin";
+    public static final String ROLE_MANAGEMENT = "Management";
+    public static final String ROLE_RESIDENT = "Resident";
+    public static final String ROLE_MERCHANT = "Merchant";
 
     public static final String FORMAT_DATE_TIME = "dd MMM yyyy HH:mm";
 }

@@ -30,4 +30,5 @@ public class Merchant extends AuditEntity {
     private String category;
     private String address;
     private Boolean isActive;
+    private Boolean isApproved;
 }

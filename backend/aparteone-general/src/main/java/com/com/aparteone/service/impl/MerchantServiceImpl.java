@@ -24,7 +24,7 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class MerchantServiceImpl implements MerchantService {
-    
+
     @Autowired
     private MerchantRepo merchantRepo;
 
@@ -39,26 +39,29 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageResponse<MerchantDTO> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
-        // Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
+    public PageResponse<MerchantDTO> searchMerchant(int page, int size, String sortBy, String sortDir,
+            Integer apartmentId, String search) {
+        // Specification<Merchant> spec =
+        // Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
         // if (search != null) {
-        //     spec = spec.and(MerchantSpecification.search(search));
+        // spec = spec.and(MerchantSpecification.search(search));
         // }
         // Pageable pageable = pagination(page, size, sortBy, sortDir);
         // Page<Merchant> merchants = merchantRepo.findAll(spec, pageable
 
         // List<MerchantResponse> data = new ArrayList<>();
         // for (Merchant merchant : merchants.getContent()) {
-        //     Apartment apartment = apartmentRepo.findById(merchant.getApartmentId()).get();
-        //     data.add(new MerchantResponse(merchant, apartment));
+        // Apartment apartment =
+        // apartmentRepo.findById(merchant.getApartmentId()).get();
+        // data.add(new MerchantResponse(merchant, apartment));
         // }
 
         // PageResponse<MerchantResponse> response = new PageResponse<>(
-        //         merchants.getTotalElements(),
-        //         merchants.getTotalPages(),
-        //         merchants.getNumber(),
-        //         merchants.getSize(),
-        //         data);
+        // merchants.getTotalElements(),
+        // merchants.getTotalPages(),
+        // merchants.getNumber(),
+        // merchants.getSize(),
+        // data);
         return null;
     }
 
@@ -97,8 +100,50 @@ public class MerchantServiceImpl implements MerchantService {
                 merchant.getAccountName(),
                 merchant.getCategory(),
                 merchant.getAddress(),
-                merchant.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE);
+                merchant.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
+                merchant.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_PENDING);
         return merchantDTO;
     }
 
+    @Override
+    public PageResponse<MerchantDTO> getMerchantList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId) {
+        Specification<Merchant> spec = Specification.where(null);
+        if (isActive != null) {
+            spec = spec.and(MerchantSpecification.isActive(isActive));
+        }
+        if (isApproved != null) {
+            spec = spec.and(MerchantSpecification.isApproved(isApproved));
+        }
+        if (apartmentId != null) {
+            spec = spec.and(MerchantSpecification.hasApartmentId(apartmentId));
+        }
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<Merchant> merchants = merchantRepo.findAll(spec, pageable);
+
+        List<MerchantDTO> data = new ArrayList<>();
+        merchants.getContent().forEach(merchant -> {
+            data.add(getMerchantById(merchant.getId()));
+        });
+        PageResponse<MerchantDTO> response = new PageResponse<>(
+                merchants.getTotalElements(),
+                merchants.getTotalPages(),
+                merchants.getNumber(),
+                merchants.getSize(),
+                data);
+        return response;
+    }
+
+    @Override
+    public Merchant approveMerchant(Integer merchantId, Boolean isApproved) {
+        Merchant merchant = merchantRepo.findById(merchantId).get();
+        merchant.setIsApproved(isApproved);
+        return merchantRepo.save(merchant);
+    }
+
+    @Override
+    public Merchant updateMerchantStatus(Integer merchantId, Boolean isActive) {
+        Merchant merchant = merchantRepo.findById(merchantId).get();
+        merchant.setIsActive(isActive);
+        return merchantRepo.save(merchant);
+    }
 }
