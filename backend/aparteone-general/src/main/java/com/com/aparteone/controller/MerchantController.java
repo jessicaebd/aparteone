@@ -22,7 +22,7 @@ public class MerchantController {
     @Autowired
     private MerchantService merchantService;
 
-    @GetMapping("/merchant")
+    @GetMapping("")
     public ResponseEntity<PageResponse<MerchantDTO>> getMerchantList(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
@@ -36,14 +36,14 @@ public class MerchantController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/merchant/detail")
+    @GetMapping("/detail")
     public ResponseEntity<MerchantDTO> getMerchantDetail(@RequestParam Integer merchantId){
         log.info("[Admin][Merchant] Get Merchant Detail: merchantId-{}", merchantId);
         MerchantDTO response = merchantService.getMerchantById(merchantId);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/merchant/approve")
+    @PostMapping("/approve")
     public ResponseEntity<Merchant> approveMerchant(
         @RequestParam Integer merchantId,
         @RequestParam Boolean isApproved){

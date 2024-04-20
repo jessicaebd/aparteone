@@ -188,4 +188,27 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
         return apartmentRepo.save(apartment);
     }
+
+    @Override
+    public ApartmentUnit addApartmentUnit(ApartmentUnitDTO apartmentUnitDTO) {
+        ApartmentUnit apartmentUnit = new ApartmentUnit();
+        apartmentUnit.setApartmentId(apartmentUnitDTO.getApartmentId());
+        apartmentUnit.setUnitNumber(apartmentUnitDTO.getUnitNumber());
+        apartmentUnit.setType(apartmentUnitDTO.getType());
+        return apartmentUnitRepo.save(apartmentUnit);
+    }
+
+    @Override
+    public ApartmentUnit updateApartmentUnit(Integer apartmentUnitId, ApartmentUnitDTO apartmentUnitDTO) {
+        ApartmentUnit apartmentUnit = apartmentUnitRepo.findById(apartmentUnitId).get();
+        if(apartmentUnitDTO != null) {
+            if(apartmentUnitDTO.getUnitNumber() != null) {
+                apartmentUnit.setUnitNumber(apartmentUnitDTO.getUnitNumber());
+            }
+            if(apartmentUnitDTO.getType() != null) {
+                apartmentUnit.setType(apartmentUnitDTO.getType());
+            }
+        }
+        return apartmentUnitRepo.save(apartmentUnit);
+    }
 }
