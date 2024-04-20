@@ -12,16 +12,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionMerchantResponse {
+public class TransactionResponse {
     Integer id;
-    Integer merchantId;
     Integer residentId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "Asia/Bangkok")
-    Date transactionDate;
     String residentName;
     String residentUnit;
+    Integer merchantId;
+    String merchantName;
+    String merchantCategory;
     Double grandTotal;
     String status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "Asia/Bangkok")
+    Date transactionDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "Asia/Bangkok")
     Date deliveredDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "Asia/Bangkok")

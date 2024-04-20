@@ -7,6 +7,7 @@ public class AparteoneConstant {
     public static final String STATUS_COMPLETED = "Completed";
     public static final String STATUS_CONFIRMED = "Confirmed";
     public static final String STATUS_ON_DELIVERY = "On Delivery";
+    public static final String STATUS_ON_PROCESS = "On Process";
     public static final String STATUS_OVERDUE = "Overdue";
     public static final String STATUS_PAID = "Paid";
     public static final String STATUS_PENDING = "Pending";
