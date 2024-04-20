@@ -1,6 +1,5 @@
 package com.com.aparteone.entity;
 
-import com.com.aparteone.dto.request.CartRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -28,12 +27,4 @@ public class Cart extends AuditEntity {
     private Integer productId;
     private Integer quantity;
     private String notes;
-
-    public Cart (CartRequest cart) {
-        this.residentId = cart.getResidentId();
-        this.merchantId = cart.getMerchantId();
-        this.productId = cart.getProductId();
-        this.quantity = cart.getQuantity();
-        this.notes = cart.getNotes();
-    }
 }

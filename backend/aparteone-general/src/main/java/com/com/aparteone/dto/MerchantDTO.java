@@ -1,7 +1,5 @@
 package com.com.aparteone.dto;
 
-import com.com.aparteone.entity.general.Apartment;
-
 import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +13,10 @@ public class MerchantDTO {
     @Lob
     String image;
     String name;
-    String bankName;
+    String bankAccount;
     String accountNumber;
     String accountName;
-    String phoneNumber;
     String category;
     String address;
-    Boolean isActive;
-    Apartment apartment;
+    String isActive;
 }
