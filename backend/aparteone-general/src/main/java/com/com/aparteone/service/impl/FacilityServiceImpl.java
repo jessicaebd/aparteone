@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.dto.request.category.FacilityCategoryRequest;
@@ -168,7 +168,7 @@ public class FacilityServiceImpl implements FacilityService {
         FacilityRequest request = facilityRequestRepo.findById(facilityRequestId).get();
         FacilityTime time = facilityTimeRepo.findById(request.getFacilityTimeId()).get();
         Facility category = facilityRepo.findById(time.getFacilityId()).get();
-        ResidentDTO resident = residentService.getResidentById(request.getResidentId());
+        ResidentResponse resident = residentService.getResidentById(request.getResidentId());
         FacilityRequestResponse response = new FacilityRequestResponse(
                 request.getId(),
                 request.getResidentId(),

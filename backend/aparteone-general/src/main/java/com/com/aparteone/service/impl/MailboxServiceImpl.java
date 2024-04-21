@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.request.category.MailboxCategoryRequest;
@@ -154,7 +154,7 @@ public class MailboxServiceImpl implements MailboxService {
     public MailboxDetailResponse getMailboxDetailById(Integer mailboxDetailId) {
         MailboxDetail mailboxDetail = mailboxDetailRepo.findById(mailboxDetailId).get();
         Mailbox mailbox = mailboxRepo.findById(mailboxDetail.getMailboxId()).get();
-        ResidentDTO resident = residentService.getResidentById(mailboxDetail.getResidentId());
+        ResidentResponse resident = residentService.getResidentById(mailboxDetail.getResidentId());
 
         MailboxDetailResponse response = new MailboxDetailResponse(
                 mailboxDetail.getId(),

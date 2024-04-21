@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.BillingDetailRequest;
 import com.com.aparteone.dto.request.PaymentRequest;
@@ -119,7 +119,7 @@ public class BillingServiceImpl implements BillingService {
                     payment.getVerifiedDate());
         }
 
-        ResidentDTO resident = residentService.getResidentById(billingDetail.getResidentId());
+        ResidentResponse resident = residentService.getResidentById(billingDetail.getResidentId());
         BillingDetailResponse response = new BillingDetailResponse(
                 billingDetail.getId(),
                 billingDetail.getResidentId(),

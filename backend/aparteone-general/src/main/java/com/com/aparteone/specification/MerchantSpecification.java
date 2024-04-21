@@ -5,16 +5,12 @@ import org.springframework.data.jpa.domain.Specification;
 import com.com.aparteone.entity.Merchant;
 
 public class MerchantSpecification {
-    public static Specification<Merchant> hasCategory(String category) {
-        return (root, query, builer) -> builer.equal(root.get("category"), category);
-    }
-
     public static Specification<Merchant> hasApartmentId(Integer apartmentId) {
         return (root, query, builder) -> builder.equal(root.get("apartmentId"), apartmentId);
     }
 
     public static Specification<Merchant> hasName(String name) {
-        return (root, query, builder) -> builder.like(root.get("name"), "%" + name + "%");
+        return (root, query, builder) -> builder.like(builder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
     }
 
     public static Specification<Merchant> isActive(Boolean isActive) {

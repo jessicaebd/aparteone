@@ -11,17 +11,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.dto.ApartmentUnitDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
-import com.com.aparteone.entity.Apartment;
-import com.com.aparteone.entity.ApartmentUnit;
 import com.com.aparteone.entity.Resident;
-import com.com.aparteone.entity.User;
-import com.com.aparteone.repository.ApartmentRepo;
-import com.com.aparteone.repository.ApartmentUnitRepo;
 import com.com.aparteone.repository.ResidentRepo;
-import com.com.aparteone.repository.UserRepo;
+import com.com.aparteone.service.ApartmentService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.ResidentSpecification;
 
@@ -29,76 +26,32 @@ import com.com.aparteone.specification.ResidentSpecification;
 public class ResidentServiceImpl implements ResidentService {
 
     @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
     private ResidentRepo residentRepo;
 
     @Autowired
-    private ApartmentRepo apartmentRepo;
-
-    @Autowired
-    private ApartmentUnitRepo apartmentUnitRepo;
+    private ApartmentService apartmentService;
 
     @Override
-    public ResidentDTO getResidentById(Integer residentId) {
-        User user = userRepo.findById(residentId).get();
-        Resident resident = residentRepo.findById(residentId).get();
-        ApartmentUnit apartmentUnit = apartmentUnitRepo.findById(resident.getApartmentUnitId()).get();
-        Apartment apartment = apartmentRepo.findById(apartmentUnit.getApartmentId()).get();
-        return new ResidentDTO(user, resident, apartmentUnit, apartment);
-    }
-
-    @Override
-    public PageResponse<ResidentDTO> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
+    public PageResponse<ResidentResponse> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, Boolean isActive, String search) {
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Resident> spec = Specification.where(null);
-        Page<Resident> residents = null;
-        if(apartmentId != null) {
-            residents = residentRepo.findByApartmentIdAndName(apartmentId, search, pageable);
-        } else {
-            residents = residentRepo.findByName(search, pageable);
-        }
-
-        List<ResidentDTO> data = new ArrayList<>();
-        residents.getContent().forEach(resident -> {
-            data.add(getResidentById(resident.getId()));
-        });
-
-        PageResponse<ResidentDTO> response = new PageResponse<>(
-                residents.getTotalElements(),
-                residents.getTotalPages(),
-                residents.getNumber(),
-                residents.getSize(),
-                data);
-        return response;
-    }
-
-    @Override
-    public PageResponse<ResidentDTO> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
-        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        Specification<Resident> spec = Specification.where(null);
-
-        Page<Resident> residents = null;
         if (apartmentId != null) {
-            if(isActive != null) {
-                residents = residentRepo.findByApartmentIdAndIsActive(apartmentId, isActive, pageable);
-            } else {
-                residents = residentRepo.findByApartmentId(apartmentId, pageable);
-            }
-        } else {
-            if (isActive != null) {
-                spec = spec.and(ResidentSpecification.isActive(isActive));
-            }
-            residents = residentRepo.findAll(spec, pageable);
+            spec = spec.and(ResidentSpecification.hasApartmentId(apartmentId));
         }
+        if (isActive != null) {
+            spec = spec.and(ResidentSpecification.isActive(isActive));
+        }
+        if (search != null) {
+            spec = spec.and(ResidentSpecification.hasName(search));
+        }
+        Page<Resident> residents = residentRepo.findAll(spec, pageable);
 
-        List<ResidentDTO> data = new ArrayList<>();
+        List<ResidentResponse> data = new ArrayList<>();
         residents.getContent().forEach(resident -> {
             data.add(getResidentById(resident.getId()));
         });
 
-        PageResponse<ResidentDTO> response = new PageResponse<>(
+        PageResponse<ResidentResponse> response = new PageResponse<>(
                 residents.getTotalElements(),
                 residents.getTotalPages(),
                 residents.getNumber(),
@@ -108,10 +61,49 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident updateResidentStatus(Integer residentId, Boolean isActive) {
+    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        Specification<Resident> spec = Specification.where(null);
+        if (isActive != null) {
+            spec = spec.and(ResidentSpecification.isActive(isActive));
+        }
+        if (apartmentId != null) {
+            spec = spec.and(ResidentSpecification.hasApartmentId(apartmentId));
+        }
+        Page<Resident> residents = residentRepo.findAll(spec, pageable);
+
+        List<ResidentResponse> data = new ArrayList<>();
+        residents.getContent().forEach(resident -> {
+            data.add(getResidentById(resident.getId()));
+        });
+
+        PageResponse<ResidentResponse> response = new PageResponse<>(
+                residents.getTotalElements(),
+                residents.getTotalPages(),
+                residents.getNumber(),
+                residents.getSize(),
+                data);
+        return response;
+    }
+
+    @Override
+    public ResidentResponse getResidentById(Integer residentId) {
         Resident resident = residentRepo.findById(residentId).get();
-        resident.setIsActive(isActive);
-        return residentRepo.save(resident);
+        ApartmentUnitDTO apartmentUnit = apartmentService.getApartmentUnitById(resident.getApartmentUnitId());
+
+        ResidentResponse response = new ResidentResponse(
+                residentId,
+                apartmentUnit.getApartmentId(),
+                apartmentUnit.getId(),
+                resident.getImage(),
+                resident.getName(),
+                resident.getType(),
+                apartmentUnit.getApartmentName(),
+                apartmentUnit.getUnitNumber(),
+                apartmentUnit.getType(),
+                resident.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
+                resident.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_PENDING);
+        return response;
     }
 
     @Override
@@ -125,12 +117,21 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public Resident addResident(Integer userId, RegisterResidentRequest request) {
         Resident resident = new Resident(
-            userId,
-            request.getApartmentUnitId(),
-            request.getStatus(),
-            false,
-            false
-        );
+                userId,
+                request.getApartmentId(),
+                request.getApartmentUnitId(),
+                request.getImage(),
+                request.getName(),
+                request.getType(),
+                false,
+                false);
+        return residentRepo.save(resident);
+    }
+
+    @Override
+    public Resident updateResidentStatus(Integer residentId, Boolean isActive) {
+        Resident resident = residentRepo.findById(residentId).get();
+        resident.setIsActive(isActive);
         return residentRepo.save(resident);
     }
 }

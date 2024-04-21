@@ -8,16 +8,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MerchantDTO {
+public class ResidentResponse {
     Integer id;
+    Integer apartmentId;
+    Integer apartmentUnitId;
     @Lob
     String image;
     String name;
-    String bankAccount;
-    String accountNumber;
-    String accountName;
-    String category;
-    String address;
+    String type;
+    String apartmentName;
+    String unitNumber;
+    String unitType;
     String isActive;
     String isApproved;
 }

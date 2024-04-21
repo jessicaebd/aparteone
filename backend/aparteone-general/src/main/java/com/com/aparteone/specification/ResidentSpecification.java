@@ -14,6 +14,6 @@ public class ResidentSpecification {
     }
 
     public static Specification<Resident> hasName(String name) {
-        return (root, query, builder) -> builder.like(root.get("name"), "%" + name + "%");
+        return (root, query, builder) -> builder.like(builder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
     }
 }

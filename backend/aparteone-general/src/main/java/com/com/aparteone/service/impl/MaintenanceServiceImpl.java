@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.MaintenanceReserveRequest;
 import com.com.aparteone.dto.request.category.MaintenanceCategoryRequest;
@@ -153,7 +153,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId) {
         MaintenanceRequest maintenanceRequest = maintenanceRequestRepo.findById(maintenanceRequestId).get();
         Maintenance maintenance = maintenanceRepo.findById(maintenanceRequest.getMaintenanceId()).get();
-        ResidentDTO resident = residentService.getResidentById(maintenanceRequest.getResidentId());
+        ResidentResponse resident = residentService.getResidentById(maintenanceRequest.getResidentId());
 
         MaintenanceRequestResponse response = new MaintenanceRequestResponse();
         response.setId(maintenanceRequest.getId());

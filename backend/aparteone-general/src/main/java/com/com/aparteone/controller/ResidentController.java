@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.service.ResidentService;
@@ -23,35 +23,36 @@ public class ResidentController {
     private ResidentService residentService;
 
     @GetMapping("")
-    public ResponseEntity<PageResponse<ResidentDTO>> getResidentList(
+    public ResponseEntity<PageResponse<ResidentResponse>> getResidentList(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Boolean isActive,
         @RequestParam(required = false) Integer apartmentId){
-        log.info("[Admin][Resident] Get Resident List: apartmentId-{} | isActive-{}", isActive);
-        PageResponse<ResidentDTO> response = residentService.getResidentList(page, size, sortBy, sortDir, isActive, apartmentId);
+        log.info("[Resident] Get Resident List: apartmentId-{} | isActive-{}", isActive);
+        PageResponse<ResidentResponse> response = residentService.getResidentList(page, size, sortBy, sortDir, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<PageResponse<ResidentDTO>> searchResident(
+    public ResponseEntity<PageResponse<ResidentResponse>> searchResident(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Integer apartmentId,
-        @RequestParam(required = false) String search){
-        log.info("[Admin][Resident] Search Resident: apartmentId-{} | search-{}", apartmentId, search);
-        PageResponse<ResidentDTO> response = residentService.searchResident(page, size, sortBy, sortDir, apartmentId, search);
+        @RequestParam(required = false) Boolean isActive,
+        @RequestParam String search){
+        log.info("[Resident] Search Resident: apartmentId-{} | search-{}", apartmentId, search);
+        PageResponse<ResidentResponse> response = residentService.searchResident(page, size, sortBy, sortDir, apartmentId, isActive, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ResidentDTO> getResidentDetail(@RequestParam Integer residentId){
-        log.info("[Admin][Resident] Get Resident Detail: residentId-{}", residentId);
-        ResidentDTO response = residentService.getResidentById(residentId);
+    public ResponseEntity<ResidentResponse> getResidentDetail(@RequestParam Integer residentId){
+        log.info("[Resident] Get Resident Detail: residentId-{}", residentId);
+        ResidentResponse response = residentService.getResidentById(residentId);
         return ResponseEntity.ok(response);
     }
 
@@ -59,7 +60,7 @@ public class ResidentController {
     public ResponseEntity<Resident> approveResident(
         @RequestParam Integer residentId,
         @RequestParam Boolean isApproved){
-        log.info("[Admin][Merchant] Approve Merchant: residentId-{} | isApproved-{}", residentId, isApproved);
+        log.info("[Merchant] Approve Merchant: residentId-{} | isApproved-{}", residentId, isApproved);
         Resident response = residentService.approveResident(residentId, isApproved);
         return ResponseEntity.ok(response);
     }
