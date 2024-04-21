@@ -36,6 +36,19 @@ public class MerchantController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<MerchantDTO>> searchMerchant(
+        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+        @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+        @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+        @RequestParam(required = false) Integer apartmentId,
+        @RequestParam(required = false) String search){
+        log.info("[Admin][Merchant] Search Merchant: apartmentId-{} | search-{}", apartmentId, search);
+        PageResponse<MerchantDTO> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, search);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/detail")
     public ResponseEntity<MerchantDTO> getMerchantDetail(@RequestParam Integer merchantId){
         log.info("[Admin][Merchant] Get Merchant Detail: merchantId-{}", merchantId);

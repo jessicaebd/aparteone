@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,37 +40,13 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageResponse<MerchantDTO> searchMerchant(int page, int size, String sortBy, String sortDir,
-            Integer apartmentId, String search) {
-        // Specification<Merchant> spec =
-        // Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
-        // if (search != null) {
-        // spec = spec.and(MerchantSpecification.search(search));
-        // }
-        // Pageable pageable = pagination(page, size, sortBy, sortDir);
-        // Page<Merchant> merchants = merchantRepo.findAll(spec, pageable
-
-        // List<MerchantResponse> data = new ArrayList<>();
-        // for (Merchant merchant : merchants.getContent()) {
-        // Apartment apartment =
-        // apartmentRepo.findById(merchant.getApartmentId()).get();
-        // data.add(new MerchantResponse(merchant, apartment));
-        // }
-
-        // PageResponse<MerchantResponse> response = new PageResponse<>(
-        // merchants.getTotalElements(),
-        // merchants.getTotalPages(),
-        // merchants.getNumber(),
-        // merchants.getSize(),
-        // data);
-        return null;
-    }
-
-    @Override
-    public PageResponse<MerchantDTO> getMerchantListByApartmentId(int page, int size, String sortBy, String sortDir, String category, Integer apartmentId) {
-        Specification<Merchant> spec = Specification.where(MerchantSpecification.hasApartmentId(apartmentId));
-        if (category != null) {
-            spec = spec.and(MerchantSpecification.hasCategory(category));
+    public PageResponse<MerchantDTO> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
+        Specification<Merchant> spec = Specification.where(null);
+        if(apartmentId != null) {
+            spec = spec.and(MerchantSpecification.hasApartmentId(apartmentId));
+        }
+        if(search != null) {
+            spec = spec.and(MerchantSpecification.hasName(search));
         }
         Pageable pageable = pagination(page, size, sortBy, sortDir);
         Page<Merchant> merchants = merchantRepo.findAll(spec, pageable);

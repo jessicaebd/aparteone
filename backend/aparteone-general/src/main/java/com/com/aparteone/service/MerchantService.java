@@ -6,10 +6,8 @@ import com.com.aparteone.entity.general.Merchant;
 
 public interface MerchantService {
     public PageResponse<MerchantDTO> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search);
-    public PageResponse<MerchantDTO> getMerchantListByApartmentId(int page, int size, String sortBy, String sortDir, String category, Integer apartmentId);
-    public MerchantDTO getMerchantById(Integer merchantId);
-
     public PageResponse<MerchantDTO> getMerchantList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId);
+    public MerchantDTO getMerchantById(Integer merchantId);
     public Merchant approveMerchant(Integer merchantId, Boolean isApproved);
     public Merchant updateMerchantStatus(Integer merchantId, Boolean isActive);
 }
