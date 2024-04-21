@@ -6,10 +6,14 @@ import com.com.aparteone.entity.general.Resident;
 
 public class ResidentSpecification {
     public static Specification<Resident> isActive(Boolean isActive) {
-        return (root, query, builer) -> builer.equal(root.get("isActive"), isActive);
+        return (root, query, builder) -> builder.equal(root.get("isActive"), isActive);
     }
 
     public static Specification<Resident> hasApartmentId(Integer apartmentId) {
-        return (root, query, builer) -> builer.equal(root.get("apartmentId"), apartmentId);
+        return (root, query, builder) -> builder.equal(root.get("apartmentId"), apartmentId);
+    }
+
+    public static Specification<Resident> hasName(String name) {
+        return (root, query, builder) -> builder.like(root.get("name"), "%" + name + "%");
     }
 }

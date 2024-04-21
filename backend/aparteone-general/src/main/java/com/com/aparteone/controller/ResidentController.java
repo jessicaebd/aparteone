@@ -35,6 +35,19 @@ public class ResidentController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<ResidentDTO>> searchResident(
+        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+        @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+        @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+        @RequestParam(required = false) Integer apartmentId,
+        @RequestParam(required = false) String search){
+        log.info("[Admin][Resident] Search Resident: apartmentId-{} | search-{}", apartmentId, search);
+        PageResponse<ResidentDTO> response = residentService.searchResident(page, size, sortBy, sortDir, apartmentId, search);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/detail")
     public ResponseEntity<ResidentDTO> getResidentDetail(@RequestParam Integer residentId){
         log.info("[Admin][Resident] Get Resident Detail: residentId-{}", residentId);

@@ -49,6 +49,31 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
+    public PageResponse<ResidentDTO> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        Specification<Resident> spec = Specification.where(null);
+        Page<Resident> residents = null;
+        if(apartmentId != null) {
+            residents = residentRepo.findByApartmentIdAndName(apartmentId, search, pageable);
+        } else {
+            residents = residentRepo.findByName(search, pageable);
+        }
+
+        List<ResidentDTO> data = new ArrayList<>();
+        residents.getContent().forEach(resident -> {
+            data.add(getResidentById(resident.getId()));
+        });
+
+        PageResponse<ResidentDTO> response = new PageResponse<>(
+                residents.getTotalElements(),
+                residents.getTotalPages(),
+                residents.getNumber(),
+                residents.getSize(),
+                data);
+        return response;
+    }
+
+    @Override
     public PageResponse<ResidentDTO> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Resident> spec = Specification.where(null);
