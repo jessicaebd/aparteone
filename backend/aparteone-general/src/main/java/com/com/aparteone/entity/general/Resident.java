@@ -22,4 +22,5 @@ public class Resident extends AuditEntity {
     private Integer apartmentUnitId;
     private String status;
     private Boolean isActive;
+    private Boolean isApproved;
 }

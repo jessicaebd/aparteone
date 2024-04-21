@@ -8,69 +8,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.MerchantDTO;
+import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.entity.general.Merchant;
-import com.com.aparteone.service.MerchantService;
+import com.com.aparteone.entity.general.Resident;
+import com.com.aparteone.service.general.ResidentService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/merchant")
-public class MerchantController {
+@RequestMapping("/api/resident")
+public class ResidentController {
     @Autowired
-    private MerchantService merchantService;
+    private ResidentService residentService;
 
     @GetMapping("")
-    public ResponseEntity<PageResponse<MerchantDTO>> getMerchantList(
+    public ResponseEntity<PageResponse<ResidentDTO>> getResidentList(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Boolean isActive,
-        @RequestParam(required = false) Boolean isApproved,
         @RequestParam(required = false) Integer apartmentId){
-        log.info("[Admin][Merchant] Get Merchant List: apartmentId-{} | isActive-{} | isApproved-{}", apartmentId, isActive, isApproved);
-        PageResponse<MerchantDTO> response = merchantService.getMerchantList(page, size, sortBy, sortDir, isActive, isApproved, apartmentId);
+        log.info("[Admin][Resident] Get Resident List: apartmentId-{} | isActive-{}", isActive);
+        PageResponse<ResidentDTO> response = residentService.getResidentList(page, size, sortBy, sortDir, isActive, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<PageResponse<MerchantDTO>> searchMerchant(
+    public ResponseEntity<PageResponse<ResidentDTO>> searchResident(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Integer apartmentId,
         @RequestParam(required = false) String search){
-        log.info("[Admin][Merchant] Search Merchant: apartmentId-{} | search-{}", apartmentId, search);
-        PageResponse<MerchantDTO> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, search);
+        log.info("[Admin][Resident] Search Resident: apartmentId-{} | search-{}", apartmentId, search);
+        PageResponse<ResidentDTO> response = residentService.searchResident(page, size, sortBy, sortDir, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<MerchantDTO> getMerchantDetail(@RequestParam Integer merchantId){
-        log.info("[Admin][Merchant] Get Merchant Detail: merchantId-{}", merchantId);
-        MerchantDTO response = merchantService.getMerchantById(merchantId);
+    public ResponseEntity<ResidentDTO> getResidentDetail(@RequestParam Integer residentId){
+        log.info("[Admin][Resident] Get Resident Detail: residentId-{}", residentId);
+        ResidentDTO response = residentService.getResidentById(residentId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/approve")
-    public ResponseEntity<Merchant> approveMerchant(
-        @RequestParam Integer merchantId,
+    public ResponseEntity<Resident> approveResident(
+        @RequestParam Integer residentId,
         @RequestParam Boolean isApproved){
-        log.info("[Admin][Merchant] Approve Merchant: merchantId-{} | isApproved-{}", merchantId, isApproved);
-        Merchant response = merchantService.approveMerchant(merchantId, isApproved);
+        log.info("[Admin][Merchant] Approve Merchant: residentId-{} | isApproved-{}", residentId, isApproved);
+        Resident response = residentService.approveResident(residentId, isApproved);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/merchant/update")
-    public ResponseEntity<Merchant> updateMerchantStatus(
-        @RequestParam Integer merchantId,
+    @PostMapping("/update")
+    public ResponseEntity<Resident> updateResidentStatus(
+        @RequestParam Integer residentId,
         @RequestParam Boolean isActive){
-        log.info("[Admin][Merchant] Update Merchant Status: merchantId-{} | isActive-{}", merchantId, isActive);
-        Merchant response = merchantService.updateMerchantStatus(merchantId, isActive);
+        log.info("[Admin][Resident] Update Resident Status: residentId-{} | isActive-{}", residentId, isActive);
+        Resident response = residentService.updateResidentStatus(residentId, isActive);
         return ResponseEntity.ok(response);
     }
 }

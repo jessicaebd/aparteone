@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
@@ -19,6 +21,7 @@ import com.com.aparteone.entity.Product;
 import com.com.aparteone.repository.ProductRepo;
 import com.com.aparteone.service.MerchantService;
 import com.com.aparteone.service.ProductService;
+import com.com.aparteone.specification.ProductSpecification;
 
 import jakarta.transaction.Transactional;
 
@@ -43,9 +46,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageResponse<ProductResponse> searchProduct(int page, int size, String sortBy, String sortDir, String search) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchProduct'");
+    public PageResponse<ProductResponse> searchProduct(int page, int size, String sortBy, String sortDir, Integer merchantId, String search) {
+        Specification<Product> spec = Specification.where(ProductSpecification.hasMerchantId(merchantId)).and(ProductSpecification.hasName(search));
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<Product> products = productRepo.findAll(spec, pageable);
+
+        List<ProductResponse> data = new ArrayList<>();
+        products.forEach(product -> {
+            data.add(getProductById(product.getId()));
+        });
+
+        PageResponse<ProductResponse> response = new PageResponse<>(
+                products.getTotalElements(),
+                products.getTotalPages(),
+                products.getNumber(),
+                products.getSize(),
+                data);
+        return response;
     }
 
     @Override

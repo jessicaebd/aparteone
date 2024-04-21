@@ -37,6 +37,19 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/product/search")
+    public ResponseEntity<PageResponse<ProductResponse>> searchMerchantProduct(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "15") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
+            @RequestParam Integer merchantId,
+            @RequestParam String search) {
+        log.info("[Merchant] Search Merchant Product: merchantId-{} | search-{}", merchantId, search);
+        PageResponse<ProductResponse> response = productService.searchProduct(page, size, sortBy, sortDir, merchantId, search);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/product/detail")
     public ResponseEntity<ProductResponse> getProductDetail(@RequestParam Integer productId) {
         log.info("[Merchant] Get Product Detail: productId-{}", productId);

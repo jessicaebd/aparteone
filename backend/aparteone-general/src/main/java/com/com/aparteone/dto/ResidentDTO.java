@@ -19,9 +19,11 @@ public class ResidentDTO {
     String phone;
     String status;
     String isActive;
+    String isApproved;
     String apartmentName;
     String unitNumber;
     String unitType;
+
 
     public ResidentDTO(User user, Resident resident, ApartmentUnit apartmentUnit, Apartment apartment) {
         this.id = user.getId();

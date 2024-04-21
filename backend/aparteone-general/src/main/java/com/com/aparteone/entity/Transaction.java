@@ -2,7 +2,6 @@ package com.com.aparteone.entity;
 
 import java.util.Date;
 
-import com.com.aparteone.dto.request.TransactionRequest;
 import com.com.aparteone.entity.audit.AuditEntity;
 
 import jakarta.persistence.Entity;
@@ -33,9 +32,4 @@ public class Transaction extends AuditEntity {
     private Date deliveredDate;
     private Date completedDate;
     private Date cancelledDate;
-
-    public Transaction(TransactionRequest request) {
-        this.residentId = request.getResidentId();
-        this.merchantId = request.getMerchantId();
-    }
 }

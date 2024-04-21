@@ -12,26 +12,29 @@ import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.Merchant;
 import com.com.aparteone.entity.general.Resident;
 import com.com.aparteone.entity.general.User;
-import com.com.aparteone.repository.general.ApartmentRepo;
-import com.com.aparteone.repository.general.MerchantRepo;
-import com.com.aparteone.repository.general.ResidentRepo;
 import com.com.aparteone.repository.general.UserRepo;
+import com.com.aparteone.service.MerchantService;
+import com.com.aparteone.service.general.ApartmentService;
 import com.com.aparteone.service.general.AuthService;
+import com.com.aparteone.service.general.ResidentService;
+
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private UserRepo userRepo;
 
     @Autowired
-    private ApartmentRepo apartmentRepo;
+    private ApartmentService apartmentService;
 
     @Autowired
-    private ResidentRepo residentRepo;
+    private MerchantService merchantService;
 
     @Autowired
-    private MerchantRepo merchantRepo;
+    private ResidentService residentService;
 
     @Override
     public Apartment registerApartment(RegisterApartmentRequest request) throws Exception {
@@ -46,18 +49,8 @@ public class AuthServiceImpl implements AuthService {
                     request.getPassword());
             userRepo.save(user);
 
-            Apartment apartment = new Apartment(
-                    user.getId(),
-                    request.getName(),
-                    request.getAddress(),
-                    request.getProvince(),
-                    request.getCity(),
-                    request.getPostalCode(),
-                    request.getLatitude(),
-                    request.getLongitude(),
-                    false
-            );
-            return apartmentRepo.save(apartment);
+            Apartment apartment = apartmentService.addApartment(user.getId(), request);
+            return apartment;
         }
     }
 
@@ -74,13 +67,8 @@ public class AuthServiceImpl implements AuthService {
                     request.getPassword());
             userRepo.save(user);
 
-            Resident resident = new Resident(
-                    user.getId(),
-                    request.getApartmentUnitId(),
-                    request.getStatus(),
-                    false
-            );
-            return residentRepo.save(resident);
+            Resident resident = residentService.addResident(user.getId(), request);
+            return resident;
         }
     }
 
@@ -97,20 +85,8 @@ public class AuthServiceImpl implements AuthService {
                     request.getPassword());
             userRepo.save(user);
 
-            Merchant merchant = new Merchant(
-                    user.getId(),
-                    request.getApartmentId(),
-                    request.getImage(),
-                    request.getName(),
-                    request.getBankAccount(),
-                    request.getAccountNumber(),
-                    request.getAccountName(),
-                    request.getCategory(),
-                    request.getAddress(),
-                    false
-
-            );
-            return merchantRepo.save(merchant);
+            Merchant merchant = merchantService.addMerchant(user.getId(), request);
+            return merchant;
         }
     }
 

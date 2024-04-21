@@ -20,19 +20,19 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/register-apartment")
+    @PostMapping("/register/apartment")
     public ResponseEntity<Apartment> registerApartment(@RequestBody RegisterApartmentRequest request) throws Exception {
         log.info("[Auth] Register Apartment: {}", request.toString());
         return ResponseEntity.ok(authService.registerApartment(request));
     }
 
-    @PostMapping("/register-resident")
+    @PostMapping("/register/resident")
     public ResponseEntity<Apartment> registerResident(@RequestBody RegisterApartmentRequest request) throws Exception {
         log.info("[Auth] Register Resident: {}", request.toString());
         return ResponseEntity.ok(authService.registerApartment(request));
     }
 
-    @PostMapping("/register-merchant")
+    @PostMapping("/register/merchant")
     public ResponseEntity<Apartment> registerMerchant(@RequestBody RegisterApartmentRequest request) throws Exception {
         log.info("[Auth] Register Merchant: {}", request.toString());
         return ResponseEntity.ok(authService.registerApartment(request));
