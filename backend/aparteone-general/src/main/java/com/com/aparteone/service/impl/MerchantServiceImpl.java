@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.MerchantDTO;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterMerchantRequest;
 import com.com.aparteone.entity.general.Merchant;
 import com.com.aparteone.repository.general.MerchantRepo;
 import com.com.aparteone.service.MerchantService;
@@ -121,6 +121,24 @@ public class MerchantServiceImpl implements MerchantService {
     public Merchant updateMerchantStatus(Integer merchantId, Boolean isActive) {
         Merchant merchant = merchantRepo.findById(merchantId).get();
         merchant.setIsActive(isActive);
+        return merchantRepo.save(merchant);
+    }
+
+    @Override
+    public Merchant addMerchant(Integer userId, RegisterMerchantRequest request) {
+        Merchant merchant = new Merchant(
+                userId,
+                request.getApartmentId(),
+                request.getImage(),
+                request.getName(),
+                request.getBankAccount(),
+                request.getAccountNumber(),
+                request.getAccountName(),
+                request.getCategory(),
+                request.getAddress(),
+                false,
+                false
+        );
         return merchantRepo.save(merchant);
     }
 }

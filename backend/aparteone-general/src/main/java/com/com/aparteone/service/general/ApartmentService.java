@@ -3,6 +3,7 @@ package com.com.aparteone.service.general;
 import com.com.aparteone.dto.ApartmentDTO;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
 import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.ApartmentUnit;
 
@@ -11,7 +12,7 @@ public interface ApartmentService {
     public PageResponse<ApartmentDTO> getApartmentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved);
     public ApartmentDTO getApartmentById(Integer apartmentId);
     public Apartment approveApartment(Integer apartmentId, Boolean isApproved);
-    public Apartment registerApartment(ApartmentDTO apartmentDTO);
+    public Apartment addApartment(Integer userId, RegisterApartmentRequest reqisterApartmentRequest);
     public Apartment updateApartment(Integer apartmentId, Boolean isActive, ApartmentDTO apartmentDTO);
     public Integer getApartmentTotal(String criteria);
 

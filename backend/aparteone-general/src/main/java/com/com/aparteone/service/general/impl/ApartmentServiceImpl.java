@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.com.aparteone.dto.ApartmentDTO;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
 import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.ApartmentUnit;
 import com.com.aparteone.repository.general.ApartmentRepo;
@@ -22,7 +22,10 @@ import com.com.aparteone.repository.general.ApartmentUnitRepo;
 import com.com.aparteone.service.general.ApartmentService;
 import com.com.aparteone.specification.ApartmentSpecification;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ApartmentServiceImpl implements ApartmentService {
 
     @Autowired
@@ -170,24 +173,27 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public Apartment approveApartment(Integer apartmentId, Boolean isApproved) {
         Apartment apartment = apartmentRepo.findById(apartmentId).get();
+        apartment.setIsActive(isApproved);
         apartment.setIsApproved(isApproved);
         return apartmentRepo.save(apartment);
     }
 
     @Override
-    public Apartment registerApartment(ApartmentDTO apartmentDTO) {
-        Apartment apartment = new Apartment();
-        apartment.setImage(apartmentDTO.getImage());
-        apartment.setName(apartmentDTO.getName());
-        apartment.setAddress(apartmentDTO.getAddress());
-        apartment.setProvince(apartmentDTO.getProvince());
-        apartment.setCity(apartmentDTO.getCity());
-        apartment.setPostalCode(apartmentDTO.getPostalCode());
-        apartment.setLatitude(apartmentDTO.getLatitude());
-        apartment.setLongitude(apartmentDTO.getLongitude());
-        apartment.setIsActive(false);
-        apartment.setIsApproved(false);
-        return apartment;
+    public Apartment addApartment(Integer userId, RegisterApartmentRequest request) {
+        Apartment apartment = new Apartment(
+            userId,
+            request.getImage(),
+            request.getName(),
+            request.getAddress(),
+            request.getProvince(),
+            request.getCity(),
+            request.getPostalCode(),
+            request.getLatitude(),
+            request.getLongitude(),
+            false,
+            false
+        );
+        return apartmentRepo.save(apartment);
     }
 
     @Override

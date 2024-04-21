@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
 import com.com.aparteone.entity.general.Apartment;
 import com.com.aparteone.entity.general.ApartmentUnit;
 import com.com.aparteone.entity.general.Resident;
@@ -116,7 +117,20 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public Resident approveResident(Integer residentId, Boolean isApproved) {
         Resident resident = residentRepo.findById(residentId).get();
+        resident.setIsActive(isApproved);
         resident.setIsApproved(isApproved);
+        return residentRepo.save(resident);
+    }
+
+    @Override
+    public Resident addResident(Integer userId, RegisterResidentRequest request) {
+        Resident resident = new Resident(
+            userId,
+            request.getApartmentUnitId(),
+            request.getStatus(),
+            false,
+            false
+        );
         return residentRepo.save(resident);
     }
 }
