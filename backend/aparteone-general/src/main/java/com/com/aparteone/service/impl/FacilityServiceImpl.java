@@ -31,7 +31,7 @@ import com.com.aparteone.repository.FacilityRepo;
 import com.com.aparteone.repository.FacilityRequestRepo;
 import com.com.aparteone.repository.FacilityTimeRepo;
 import com.com.aparteone.service.FacilityService;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.FacilityRequestSpecification;
 import com.com.aparteone.specification.FacilitySpecification;
 

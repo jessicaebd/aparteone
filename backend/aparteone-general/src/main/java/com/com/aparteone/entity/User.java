@@ -1,4 +1,4 @@
-package com.com.aparteone.entity.general;
+package com.com.aparteone.entity;
 
 import com.com.aparteone.entity.audit.AuditEntity;
 
@@ -16,13 +16,23 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "apartment_units")
+@Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
-public class ApartmentUnit extends AuditEntity {
+public class User extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer apartmentId;
-    private String unitNumber;
-    private String type;
+    private Integer roleId;
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
+
+    public User(Integer roleId, String name, String email, String phone, String password) {
+        this.roleId = roleId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
 }

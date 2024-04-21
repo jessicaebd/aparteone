@@ -1,9 +1,9 @@
-package com.com.aparteone.service.general;
+package com.com.aparteone.service;
 
 import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
-import com.com.aparteone.entity.general.Resident;
+import com.com.aparteone.entity.Resident;
 
 public interface ResidentService {
     public PageResponse<ResidentDTO> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search);

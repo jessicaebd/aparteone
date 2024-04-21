@@ -15,8 +15,8 @@ import com.com.aparteone.constant.AparteoneConstant;
 import com.com.aparteone.dto.MerchantDTO;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterMerchantRequest;
-import com.com.aparteone.entity.general.Merchant;
-import com.com.aparteone.repository.general.MerchantRepo;
+import com.com.aparteone.entity.Merchant;
+import com.com.aparteone.repository.MerchantRepo;
 import com.com.aparteone.service.MerchantService;
 import com.com.aparteone.specification.MerchantSpecification;
 

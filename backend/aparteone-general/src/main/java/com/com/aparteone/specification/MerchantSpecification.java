@@ -2,7 +2,7 @@ package com.com.aparteone.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.com.aparteone.entity.general.Merchant;
+import com.com.aparteone.entity.Merchant;
 
 public class MerchantSpecification {
     public static Specification<Merchant> hasCategory(String category) {

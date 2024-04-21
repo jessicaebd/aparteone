@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.com.aparteone.dto.ApartmentDTO;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.ApartmentUnit;
-import com.com.aparteone.service.general.ApartmentService;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.ApartmentUnit;
+import com.com.aparteone.service.ApartmentService;
 
 import lombok.extern.slf4j.Slf4j;
 

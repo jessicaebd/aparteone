@@ -1,4 +1,4 @@
-package com.com.aparteone.service.general.impl;
+package com.com.aparteone.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ import com.com.aparteone.dto.ApartmentDTO;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.ApartmentUnit;
-import com.com.aparteone.repository.general.ApartmentRepo;
-import com.com.aparteone.repository.general.ApartmentUnitRepo;
-import com.com.aparteone.service.general.ApartmentService;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.ApartmentUnit;
+import com.com.aparteone.repository.ApartmentRepo;
+import com.com.aparteone.repository.ApartmentUnitRepo;
+import com.com.aparteone.service.ApartmentService;
 import com.com.aparteone.specification.ApartmentSpecification;
 
 import jakarta.transaction.Transactional;

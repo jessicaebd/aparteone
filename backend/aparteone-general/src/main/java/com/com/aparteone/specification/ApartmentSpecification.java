@@ -2,8 +2,8 @@ package com.com.aparteone.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.ApartmentUnit;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.ApartmentUnit;
 
 public class ApartmentSpecification {
     public static Specification<Apartment> isActive(Boolean isActive) {

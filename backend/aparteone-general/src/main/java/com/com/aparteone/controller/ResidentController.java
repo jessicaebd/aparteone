@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.entity.general.Resident;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.entity.Resident;
+import com.com.aparteone.service.ResidentService;
 
 import lombok.extern.slf4j.Slf4j;
 

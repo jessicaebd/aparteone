@@ -1,4 +1,4 @@
-package com.com.aparteone.service.general.impl;
+package com.com.aparteone.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 import com.com.aparteone.dto.ResidentDTO;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.ApartmentUnit;
-import com.com.aparteone.entity.general.Resident;
-import com.com.aparteone.entity.general.User;
-import com.com.aparteone.repository.general.ApartmentRepo;
-import com.com.aparteone.repository.general.ApartmentUnitRepo;
-import com.com.aparteone.repository.general.ResidentRepo;
-import com.com.aparteone.repository.general.UserRepo;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.ApartmentUnit;
+import com.com.aparteone.entity.Resident;
+import com.com.aparteone.entity.User;
+import com.com.aparteone.repository.ApartmentRepo;
+import com.com.aparteone.repository.ApartmentUnitRepo;
+import com.com.aparteone.repository.ResidentRepo;
+import com.com.aparteone.repository.UserRepo;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.ResidentSpecification;
 
 @Service

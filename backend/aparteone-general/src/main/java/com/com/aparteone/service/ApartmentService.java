@@ -1,11 +1,11 @@
-package com.com.aparteone.service.general;
+package com.com.aparteone.service;
 
 import com.com.aparteone.dto.ApartmentDTO;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.ApartmentUnit;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.ApartmentUnit;
 
 public interface ApartmentService {
     public PageResponse<ApartmentDTO> searchApartment(int page, int size, String sortBy, String sortDir, String search);

@@ -24,7 +24,7 @@ import com.com.aparteone.entity.MaintenanceRequest;
 import com.com.aparteone.repository.MaintenanceRepo;
 import com.com.aparteone.repository.MaintenanceRequestRepo;
 import com.com.aparteone.service.MaintenanceService;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.MaintenanceRequestSpecification;
 import com.com.aparteone.specification.MaintenanceSpecification;
 

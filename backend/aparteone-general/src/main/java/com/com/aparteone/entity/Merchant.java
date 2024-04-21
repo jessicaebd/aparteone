@@ -1,4 +1,4 @@
-package com.com.aparteone.entity.general;
+package com.com.aparteone.entity;
 
 import com.com.aparteone.entity.audit.AuditEntity;
 
@@ -15,20 +15,20 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "apartments")
+@Table(name = "merchants")
 @EqualsAndHashCode(callSuper = false)
-public class Apartment extends AuditEntity {
+public class Merchant extends AuditEntity {
     @Id
-    private Integer id; // apartmentId = userId
+    private Integer id; // merchantId = userId
+    private Integer apartmentId;
     @Lob
     private String image;
     private String name;
+    private String bankAccount;
+    private String accountNumber;
+    private String accountName;
+    private String category;
     private String address;
-    private String province;
-    private String city;
-    private String postalCode;
-    private String latitude;
-    private String longitude;
     private Boolean isActive;
     private Boolean isApproved;
 }

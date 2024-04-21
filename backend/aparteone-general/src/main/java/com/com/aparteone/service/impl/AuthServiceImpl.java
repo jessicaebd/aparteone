@@ -1,4 +1,4 @@
-package com.com.aparteone.service.general.impl;
+package com.com.aparteone.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,15 +8,15 @@ import com.com.aparteone.dto.request.auth.LoginRequest;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
 import com.com.aparteone.dto.request.auth.RegisterMerchantRequest;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.Merchant;
-import com.com.aparteone.entity.general.Resident;
-import com.com.aparteone.entity.general.User;
-import com.com.aparteone.repository.general.UserRepo;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.Merchant;
+import com.com.aparteone.entity.Resident;
+import com.com.aparteone.entity.User;
+import com.com.aparteone.repository.UserRepo;
+import com.com.aparteone.service.ApartmentService;
+import com.com.aparteone.service.AuthService;
 import com.com.aparteone.service.MerchantService;
-import com.com.aparteone.service.general.ApartmentService;
-import com.com.aparteone.service.general.AuthService;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.service.ResidentService;
 
 import jakarta.transaction.Transactional;
 

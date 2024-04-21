@@ -2,7 +2,7 @@ package com.com.aparteone.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.com.aparteone.entity.general.Resident;
+import com.com.aparteone.entity.Resident;
 
 public class ResidentSpecification {
     public static Specification<Resident> isActive(Boolean isActive) {

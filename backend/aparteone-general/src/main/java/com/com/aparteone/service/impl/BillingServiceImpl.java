@@ -28,7 +28,7 @@ import com.com.aparteone.repository.BillingDetailRepo;
 import com.com.aparteone.repository.BillingRepo;
 import com.com.aparteone.repository.PaymentRepo;
 import com.com.aparteone.service.BillingService;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.BillingSpecification;
 
 import jakarta.transaction.Transactional;

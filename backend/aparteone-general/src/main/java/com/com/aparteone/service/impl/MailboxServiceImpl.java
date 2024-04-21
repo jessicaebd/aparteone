@@ -24,7 +24,7 @@ import com.com.aparteone.entity.MailboxDetail;
 import com.com.aparteone.repository.MailboxDetailRepo;
 import com.com.aparteone.repository.MailboxRepo;
 import com.com.aparteone.service.MailboxService;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.MailboxSpecification;
 
 import jakarta.transaction.Transactional;

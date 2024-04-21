@@ -2,7 +2,7 @@ package com.com.aparteone.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.com.aparteone.entity.general.User;
+import com.com.aparteone.entity.User;
 
 public class UserSpecification {
     public static Specification<User> isNotAdmin() {

@@ -1,4 +1,4 @@
-package com.com.aparteone.repository.general;
+package com.com.aparteone.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.com.aparteone.entity.general.Resident;
+import com.com.aparteone.entity.Resident;
 
 @Repository
 public interface ResidentRepo extends JpaRepository<Resident, Integer>, JpaSpecificationExecutor<Resident> {

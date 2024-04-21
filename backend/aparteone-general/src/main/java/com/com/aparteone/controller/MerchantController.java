@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.MerchantDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.entity.general.Merchant;
+import com.com.aparteone.entity.Merchant;
 import com.com.aparteone.service.MerchantService;
 
 import lombok.extern.slf4j.Slf4j;
