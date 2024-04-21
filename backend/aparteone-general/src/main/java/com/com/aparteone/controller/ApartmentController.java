@@ -25,6 +25,18 @@ public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<ApartmentDTO>> searchApartment(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam String search) {
+        log.info("[Admin][Apartment] Search Apartment: search-{}", search);
+        PageResponse<ApartmentDTO> response = apartmentService.searchApartment(page, size, sortBy, sortDir, search);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("")
     public ResponseEntity<PageResponse<ApartmentDTO>> getApartmentList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
@@ -72,6 +84,19 @@ public class ApartmentController {
             @RequestParam Integer apartmentId) {
         log.info("[Apartment] Get Apartment Unit List: apartmentId-{}", apartmentId);
         PageResponse<ApartmentUnitDTO> response = apartmentService.getApartmentUnitListByApartmentId(page, size, sortBy, sortDir, apartmentId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/unit/search")
+    public ResponseEntity<PageResponse<ApartmentUnitDTO>> searchApartmentUnit(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam Integer apartmentId,
+            @RequestParam String search) {
+        log.info("[Apartment] Search Apartment Unit: apartmentId-{} | search-{}", apartmentId, search);
+        PageResponse<ApartmentUnitDTO> response = apartmentService.searchApartmentUnit(page, size, sortBy, sortDir, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 

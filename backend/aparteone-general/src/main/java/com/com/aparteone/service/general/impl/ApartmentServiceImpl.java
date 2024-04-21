@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,10 +44,22 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public PageResponse<ApartmentDTO> searchApartment(int page, int size, String sortBy, String sortDir,
-            String search) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchApartment'");
+    public PageResponse<ApartmentDTO> searchApartment(int page, int size, String sortBy, String sortDir, String search) {
+        Specification<Apartment> spec = Specification.where(ApartmentSpecification.hasName(search));
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Page<Apartment> apartments = apartmentRepo.findAll(spec, pageable);
+        List<ApartmentDTO> data = new ArrayList<>();
+        apartments.getContent().forEach(apartment -> {
+            data.add(getApartmentById(apartment.getId()));
+        });
+
+        PageResponse<ApartmentDTO> response = new PageResponse<>(
+                apartments.getTotalElements(),
+                apartments.getTotalPages(),
+                apartments.getNumber(),
+                apartments.getSize(),
+                data);
+        return response;
     }
 
     @Override
@@ -104,17 +117,37 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public PageResponse<ApartmentUnitDTO> searchApartmentUnit(int page, int size, String sortBy, String sortDir,
-            String search) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchApartmentUnit'");
+    public PageResponse<ApartmentUnitDTO> searchApartmentUnit(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search) {
+        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Specification<ApartmentUnit> spec = Specification.where(ApartmentSpecification.hasApartmentId(apartmentId))
+                                                        .and(ApartmentSpecification.hasUnitNumber(search));
+
+        Page<ApartmentUnit> apartmentUnits = apartmentUnitRepo.findAll(spec, pageable);
+
+        List<ApartmentUnitDTO> data = new ArrayList<>();
+        apartmentUnits.getContent().forEach(apartmentUnit -> {
+            data.add(new ApartmentUnitDTO(
+                    apartmentUnit.getId(),
+                    apartmentUnit.getApartmentId(),
+                    apartmentUnit.getUnitNumber(),
+                    apartmentUnit.getType()));
+        });
+
+        PageResponse<ApartmentUnitDTO> response = new PageResponse<>(
+                apartmentUnits.getTotalElements(),
+                apartmentUnits.getTotalPages(),
+                apartmentUnits.getNumber(),
+                apartmentUnits.getSize(),
+                data);
+        return response;
     }
 
     @Override
     public PageResponse<ApartmentUnitDTO> getApartmentUnitListByApartmentId(int page, int size, String sortBy,
             String sortDir, Integer apartmentId) {
+        Specification<ApartmentUnit> spec = Specification.where(ApartmentSpecification.hasApartmentId(apartmentId));
         Pageable pageable = pagination(page, size, sortBy, sortDir);
-        Page<ApartmentUnit> apartmentUnits = apartmentUnitRepo.findByApartmentId(apartmentId, pageable);
+        Page<ApartmentUnit> apartmentUnits = apartmentUnitRepo.findAll(spec, pageable);
 
         List<ApartmentUnitDTO> data = new ArrayList<>();
         apartmentUnits.getContent().forEach(apartmentUnit -> {

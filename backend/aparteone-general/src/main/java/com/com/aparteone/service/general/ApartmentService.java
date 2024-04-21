@@ -15,7 +15,7 @@ public interface ApartmentService {
     public Apartment updateApartment(Integer apartmentId, Boolean isActive, ApartmentDTO apartmentDTO);
     public Integer getApartmentTotal(String criteria);
 
-    public PageResponse<ApartmentUnitDTO> searchApartmentUnit(int page, int size, String sortBy, String sortDir, String search);
+    public PageResponse<ApartmentUnitDTO> searchApartmentUnit(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search);
     public PageResponse<ApartmentUnitDTO> getApartmentUnitListByApartmentId(int page, int size, String sortBy, String sortDir, Integer apartmentId);
     public ApartmentUnit addApartmentUnit(ApartmentUnitDTO apartmentUnitDTO);
     public ApartmentUnit updateApartmentUnit(Integer apartmentUnitId, ApartmentUnitDTO apartmentUnitDTO);
