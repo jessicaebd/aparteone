@@ -1,5 +1,5 @@
 <div class="container-fluid d-flex flex-row h-100 w-100">
-    <ng-container *ngIf="isEmpty; else selectedAttachment">
+    <ng-container *ngIf="base==null || base==undefined || base==''; else selectedAttachment">
         <div class="empty-image h-100 w-100">
             <label class="container upload-image" for="{{attachmentID}}">
                 <input class="form-control drop-image" type="file" id="{{attachmentID}}" [accept]="acceptedFileType" (change)="onUploadFile($event)" hidden>

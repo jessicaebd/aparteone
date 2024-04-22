@@ -10,14 +10,10 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./merchant-store.component.css']
 })
 export class MerchantStoreComponent {
-  @Input() merchantId!: number;
+  merchantId!: number;
 
   role: string = 'resident';
-  store: Merchant = {
-    'image' : null,
-    'merchantId': 9,
-    'merchantName': 'Bakmi Gading Permai'
-  };
+  store: Merchant = { };
   productList: Product[] = [];
   errorMsgProduct: string = '';
 
@@ -27,13 +23,27 @@ export class MerchantStoreComponent {
     this.apps.loadingPage(true);
     this.role = this.apps.getUserRole();
     this.errorMsgProduct = '';
-    if(this.merchantId == null || this.merchantId == undefined){
-      this.merchantId = this.route.snapshot.params['id'];
-    }
+    this.merchantId = this.route.snapshot.params['id'];
     console.log('MerchantID: ', this.merchantId);
+    await this.getMerchantDetail(this.merchantId);
     await this.getProductResident(this.merchantId);
     
     this.apps.loadingPage(false);
+  }
+
+  getMerchantDetail(merchantId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.merchantService.getMerchantDetail(merchantId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.store = response;
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
   }
 
   getProductResident(merchantId:any): Promise<any>{
@@ -60,6 +70,6 @@ export class MerchantStoreComponent {
   }
 
   backButton(){
-    window.location.replace('/merchant/');
+    window.location.replace('/merchant');
   }
 }

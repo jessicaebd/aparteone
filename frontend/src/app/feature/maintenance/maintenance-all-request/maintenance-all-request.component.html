@@ -11,8 +11,8 @@
         <div class="py-2">
             <app-table [dataTable]="table" [columns]="col" headerAlignment="center" 
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-                actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" 
-                [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsg"></app-table>
+                actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" prefix="#MNT00"
+                [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)" [errorMsg]="errorMsg"></app-table>
         </div>
     </div>
 

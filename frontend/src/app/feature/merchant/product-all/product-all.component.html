@@ -1,0 +1,51 @@
+<ng-container *ngIf="role=='merchant'">
+    <div class="container">
+        <div class="row mb-3">
+            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <app-label labelInput="Merchant" labelType="title"></app-label>
+            <app-label labelInput="View Product" labelType="label"></app-label>
+        </div>
+        <div class="merchant-request-list">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="LIST PRODUCT" labelType="subtitle"></app-label>
+                <app-button buttonClass="primary" buttonLabel="Add Product" data-bs-toggle="modal" data-bs-target="#modalProductAdd"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="table" [columns]="col" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                    actionTarget="modalProductDetail" (onClickActionEvent)="onListItemClick('approve', $event)" [pageIndex]="page" [pageSize]="size"
+                    [length]="allDataProduct" (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchProduct($event)" [errorMsg]="errorMsg"></app-table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <app-modal modalID="modalProductAdd" [width]="800" [modalContent]="modalProductAdd"></app-modal>
+    
+        <ng-template #modalProductAdd>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <app-product-add (onSubmitEvent)="onCloseModal('add')"></app-product-add>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Modal -->
+        <app-modal modalID="modalProductDetail" [width]="800" [modalContent]="modalProductDetail"></app-modal>
+    
+        <ng-template #modalProductDetail>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Product Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalDetail></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <app-product-detail [data]="dataProduct" (onSubmitEvent)="onCloseModal('detail')"></app-product-detail>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</ng-container>

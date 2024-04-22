@@ -1,10 +1,10 @@
-<ng-container *ngIf="counter>0; else counter0">
-    <div class="input-group">
-        <button class="btn border" (click)="onSubtract()">-</button>
-        <p class="form-control text-center mb-0">{{ counter }}</p>
-        <button class="btn border" (click)="onAdd()">+</button>
-    </div>
+<div class="input-group">
+    <button class="btn border rounded p-0 m-0" (click)="onSubtract()"><i class="bi bi-dash"></i></button>
+    <p class="form-control text-center mb-0 mx-1 border-0">{{ counter }}</p>
+    <button class="btn border rounded p-0 m-0" (click)="onAdd()"><i class="bi bi-plus"></i></button>
+</div>
+<!-- <ng-container *ngIf="counter>0; else counter0">
 </ng-container>
 <ng-template #counter0>
     <button class="fs-3 border-0" (click)="onAdd()" style="background-color: var(--white);"><i class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
-</ng-template>
+</ng-template> -->

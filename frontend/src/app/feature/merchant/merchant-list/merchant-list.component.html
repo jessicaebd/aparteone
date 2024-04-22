@@ -1,58 +1,42 @@
-<div class="accordion" id="active-transaction">
-    <div class="accordion-item mb-3">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <div class="header-button w-100">
-                    <div class="row">
-                        <h6 class="col">Bakmi Gading Permai</h6>
-                        <div class="col-2 d-flex justify-content-end">
-                            <app-badge badgeText="On Delivery" badgeType="warning"></app-badge>
-                        </div>
-                    </div>
-                    <span>Order Time: 11:20</span>
-                </div>
-            </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#active-transaction">
-            <div class="accordion-body">
-                <div class="row mb-2">
-                    <div class="order-detail ms-3 w-50">
-                        <h6>Order Detail :</h6>
-                        <div class="row ms-2 mb-2">
-                            <div class="col-1">
-                                <span class="">1x</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Bakmi Ujung Pandang</span>
-                            </div>
-                            <div class="col-2 text-end">
-                                <span class="">Rp. 45.000</span>
-                            </div>
-                        </div>
-                        <div class="row ms-2 mb-2">
-                            <div class="col-1">
-                                <span class="">1x</span>
-                            </div>
-                            <div class="col">
-                                <span class="">Nasi Goreng Makassar</span>
-                            </div>
-                            <div class="col-2 text-end">
-                                <span class="">Rp. 53.000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ms-3 w-50">
-                        <div class="row mb-2">
-                            <div class="col">
-                                <h6 class="">Total :</h6>
-                            </div>
-                            <div class="col-3 text-end">
-                                <h6 class="">Rp. 98.000</h6>
-                            </div>
-                        </div>
-                    </div>
+<ng-container *ngIf="role=='resident'">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex">
+            <button [ngClass]="category == 'Food and Beverage' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Food and Beverage')">Food & Beverage</button>
+            <button [ngClass]="category == 'Daily Needs' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Daily Needs')">Daily Needs</button>
+            <button [ngClass]="category == 'Home Service' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Home Service')">Home Service</button>
+            <button [ngClass]="category == 'Health and Beauty' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Health and Beauty')">Health and Beauty</button>
+            <button [ngClass]="category == 'Other' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Other')">Other</button>
+        </div>
+        <div class="d-flex pe-3 me-5">
+            <div class="d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="background-color: var(--primary-purple); height: 38px;">
+                <app-text-button iconStart="bi bi-cart" label="Cart" type="white"></app-text-button>
+            </div>
+            <div class="d-flex">
+                <app-textbox inputPlaceholder="Search..." [value]="keySearch" (onChangeEvent)="keySearch=$event"></app-textbox>
+                <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
+                    <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="merchant-card ms-1">
+        <ng-container *ngIf="errorMsgMerchant==''; else noData">
+            <ng-container *ngFor="let item of merchantCard">
+                <button class="card ms-2 me-2 mb-3" (click)="onMerchantClick(item.id)">
+                    <img class="card-img-top" [src]="item.image" alt="...">
+                    <div class="card-body w-100">
+                        <div class="d-flex justify-content-end pb-2">
+                            <app-badge [badgeText]="item.category" badgeType="primary"></app-badge>
+                        </div>
+                        <h5 class="card-title text-truncate">{{ item.name }}</h5>
+                    </div>
+                </button>
+            </ng-container>
+        </ng-container>
+        <ng-template #noData>
+            <div class="d-flex justify-content-center align-items-center w-100" style="height: 20rem;">
+                <p class="mb-0">{{ errorMsgMerchant }}</p>
+            </div>
+        </ng-template>
+    </div>
+</ng-container>

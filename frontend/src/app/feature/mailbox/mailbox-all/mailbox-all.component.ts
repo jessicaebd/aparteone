@@ -17,6 +17,7 @@ export class MailboxAllComponent {
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest?: string;
+  keySearch: string = '';
   page = 0;
   colRequest: Column[] = [];
   dataRequest: Mailbox = {};
@@ -27,13 +28,18 @@ export class MailboxAllComponent {
 
   constructor(private mailboxService: MailboxService, private apps: AppComponent){}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
+      this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        await this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
+      }
+      else{
+        await this.searchMailboxDetailApartment(this.apartmentId, 10, this.page, this.keySearch);
+      }
     }
     else if (this.role=='resident'){
       window.location.replace('');
@@ -44,6 +50,29 @@ export class MailboxAllComponent {
   getMailboxDetailApartment(apartmentId: any, size:number, page: number): Promise<any>{
     return new Promise<any>(resolve => 
       this.mailboxService.getMailboxDetailApartment(apartmentId, size, page).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.tableRequest = response.data;
+            this.allDataRequest = response.totalElements;
+          }
+          else{
+            this.errorMsgRequest = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsgRequest = 'No Data Found!'
+          this.tableRequest = null;
+          resolve(error);
+        }
+      }))
+  }
+
+  searchMailboxDetailApartment(apartmentId: any, size:number, page: number, search:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.mailboxService.searchMailboxDetailApartment(apartmentId, size, page, search).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -84,6 +113,12 @@ export class MailboxAllComponent {
       this.dataRequest['Completed Date'] = response.completedDate;
       resolve(this.dataRequest);
     });
+  }
+
+  onSearchData(key:any){
+    this.keySearch = key;
+    this.page = 0;
+    this.ngOnInit();
   }
 
   onLoadData(e:any){

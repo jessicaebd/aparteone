@@ -10,8 +10,8 @@
     </div>
     <div class="py-2">
         <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
-            iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-            actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" 
+            iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" prefix="#BLN00"
+            actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" (onSearchEvent)="onSearchData($event)"
             [length]="allDataRequest" [pageIndex]="page" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgRequest"></app-table>
     </div>
 </div>

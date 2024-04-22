@@ -65,7 +65,7 @@
                 <app-button buttonLabel="Add Announcement" buttonClass="primary" data-bs-toggle="modal" data-bs-target="#modalAddAnnouncement"></app-button>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center" 
+                <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center" [filter]="false"
                 iconStart="bi bi-eye-fill" label="View" type="primary" (onClickActionEvent)="onListItemClick('announcement', $event)" [length]="allDataAnnouncement" 
                 [pageIndex]="page" [pageSize]="size" (onPageIndexEvent)="onLoadData('announcement', $event)" (onSortEvent)="onSortData('announcement', $event)" [errorMsg]="errorMsglist"></app-table>
             </div>

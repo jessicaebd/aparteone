@@ -59,6 +59,13 @@ export class MaintenanceService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  searchMaintenanceAllRequest(apartmentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiApartment}`;
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search } });
+    const options = { params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
   getMaintenanceResidentRequest(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiResident}`;
     let params;
@@ -68,6 +75,13 @@ export class MaintenanceService {
     else{
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
+    const options = { params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  searchMaintenanceResidentRequest(residentId: any, size:number, page: number, search: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiResident}`;
+    const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search } });
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }

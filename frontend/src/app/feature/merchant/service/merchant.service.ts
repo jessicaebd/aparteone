@@ -11,10 +11,15 @@ export class MerchantService {
   private apiMerchant = `${environment.modules.feature.merchant}`;
   private apiProduct = `${environment.modules.feature.product}`;
   private apiCart = `${environment.modules.feature.cart}`;
+  private apiTransaction = `${environment.modules.feature.transaction}`;
+  private apiPayment = `${environment.modules.feature.paymentProof}`;
+  private apiCheckout = `${environment.modules.feature.checkout}`;
   private apiSearch = `${environment.modules.general.search}`;
   private apiUpdate = `${environment.modules.general.update}`;
   private apiDetail = `${environment.modules.general.detail}`;
   private apiDelete = `${environment.modules.general.delete}`;
+  private apiVerify = `${environment.modules.general.verify}`;
+  private apiApprove = `${environment.modules.general.approve}`;
   private apiAdd = `${environment.modules.general.add}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
@@ -22,75 +27,109 @@ export class MerchantService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   // MERCHANT
-  getMerchantResident(apartmentId: any, category:any): any {
+  getMerchantResident(apartmentId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}`;
-    const headers = new HttpHeaders({
-    });
-    let params;
-    if(category!=''){
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'category': category } });
-    }
-    else{
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
-    }
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': true, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC' } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  getMerchantApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
+  getMerchantApartment(apartmentId: any, size:number, page: number, isApproved:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}`;
-    const headers = new HttpHeaders({
-    });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isApproved': isApproved } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  searchMerchantApartment(apartmentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiSearch}`;
+    const headers = new HttpHeaders({ });
+    let params;
+    if(search!=''){
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search, 'sortBy': 'name', 'sortDir': 'ASC' } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': 'name', 'sortDir': 'ASC' } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   searchMerchantResident(apartmentId: any, search:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMerchant}`;
-    const headers = new HttpHeaders({
-    });
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiSearch}`;
+    const headers = new HttpHeaders({ });
     let params;
     if(search!=''){
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'search': search } });
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'search': search, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC', 'isActive': true } });
     }
     else{
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC', 'isActive': true } });
     }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  searchMerchantApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiSearch}`;
-    const headers = new HttpHeaders({
-    });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
-    const options = { headers, params };
-    return this.httpClient.get<any>(apiUrl, options);
-  }
-
-  // PRODUCT
-  getProductResident(merchantId: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiProduct}`;
-    const headers = new HttpHeaders({
-    });
+  getMerchantDetail(merchantId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiDetail}`;
+    const headers = new HttpHeaders({ });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
+
+  approveMerchant(merchantId:any, isApproved:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiApprove}`;
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'isApproved': isApproved } });
+    const options = { params };
+    const body = { };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  updateMerchantStatus(merchantId:any, isActive:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiMerchant}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'isActive': isActive } });
+    const options = { params };
+    const body = { };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  // PRODUCT
+  getProductResident(merchantId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': 100 } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
   
-  getProductMerchant(merchantId: any, size:number, page: number, sortBy: any, sortDir: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiProduct}`;
-    const headers = new HttpHeaders({
-    });
-    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
+  getProductMerchant(merchantId: any, size:number, page: number): any {
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  searchProductMerchant(merchantId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiSearch}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page, 'search': search, 'sortBy': 'name', 'sortDir': 'ASC' } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  searchProductResident(merchantId: any, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiSearch}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'search': search, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC' } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
   
   getProductDetail(productId: any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiProduct}/${this.apiDetail}`;
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiDetail}`;
     const headers = new HttpHeaders({
     });
     const params = new HttpParams({ fromObject: { 'productId': productId } });
@@ -98,17 +137,36 @@ export class MerchantService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  insertProduct(body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiAdd}`;
+    return this.httpClient.post<any>(apiUrl, body);
+  }
+
+  updateProduct(productId:any, isActive:any, body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'productId': productId, 'isActive': isActive } });
+    const options = { params };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
   // CART
-  getCart(residentId: any): any {
+  getCartList(residentId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ });
     const params = new HttpParams({ fromObject: { 'residentId': residentId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  insertCart(body:any): any {
+  getCartMerchant(residentId: any, merchantId:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiCart}/${residentId}/${merchantId}`;
+    // const headers = new HttpHeaders({ });
+    // const params = new HttpParams({ });
+    // const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl);
+  }
+
+  addToCart(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}/${this.apiAdd}`;
     return this.httpClient.post<any>(apiUrl, body);
   }
@@ -129,40 +187,60 @@ export class MerchantService {
   }
 
   // TRANSACTION
-  // getMailboxDetailApartment(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
-  //   const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiDetail}/${this.apiApartment}`;
-  //   const headers = new HttpHeaders({
-  //   });
-  //   const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
-  //   const options = { headers, params };
-  //   return this.httpClient.get<any>(apiUrl, options);
-  // }
+  getTransactionMerchant(merchantId: any, size:number, page: number): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiMerchant}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
 
-  // getMailboxDetailResident(residentId: any, size:number, page: number, status: any): any {
-  //   const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiDetail}/${this.apiResident}`;
-  //   const headers = new HttpHeaders({
-  //   });
-  //   let params;
-  //   if(status!='' || status != null){
-  //     params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
-  //   }
-  //   else{
-  //     params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
-  //   }
-  //   const options = { headers, params };
-  //   return this.httpClient.get<any>(apiUrl, options);
-  // }
+  getTransactionResident(merchantId: any, size:number, page: number, status:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiResident}`;
+    const headers = new HttpHeaders({ });
+    let params;
+    if(status=='' || status == null){
+      params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page, 'status': status } });
+    }
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
 
-  // insertMailboxDetail(body:any): any {
-  //   const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiDetail}`;
-  //   return this.httpClient.post<any>(apiUrl, body);
-  // }
+  getTransactionDetail(transactionId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiDetail}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'transactionId': transactionId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
 
-  // updateMailboxDetail(mailboxRequestId:any, status:any): any {
-  //   const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiDetail}/${this.apiUpdate}-status`;
-  //   const params = new HttpParams({ fromObject: { 'mailboxRequestId': mailboxRequestId, 'status': status } });
-  //   const options = { params };
-  //   const body = { };
-  //   return this.httpClient.post<any>(apiUrl, body, options);
-  // }
+  updateTransactionStatus(transactionId:any, status:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiUpdate}`;
+    const params = new HttpParams({ fromObject: { 'transactionId': transactionId, 'status': status } });
+    const options = { params };
+    const body = { };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  checkout(body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiCheckout}`;
+    return this.httpClient.post<any>(apiUrl, body);
+  }
+
+  payment(body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiPayment}`;
+    return this.httpClient.post<any>(apiUrl, body);
+  }
+
+  verifyPayment(transactionId:any, isValid:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiPayment}/${this.apiVerify}`;
+    const params = new HttpParams({ fromObject: { 'transactionId': transactionId, 'isValid': isValid } });
+    const options = { params };
+    const body = { };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
 }

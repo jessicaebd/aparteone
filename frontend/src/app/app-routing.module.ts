@@ -43,6 +43,8 @@ import { MerchantStoreComponent } from './feature/merchant/merchant-store/mercha
 // REPORT
 import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
+import { MerchantAllComponent } from './feature/merchant/merchant-all/merchant-all.component';
+import { ProductAllComponent } from './feature/merchant/product-all/product-all.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -77,8 +79,10 @@ const routes: Routes = [
 
   // MERCHANT
   { path: 'merchant', component: MerchantComponent },
+  { path: 'merchant/all', component: MerchantAllComponent  },
   { path: 'merchant/store/:id', component: MerchantStoreComponent  },
   { path: 'merchant/history', component: MerchantHistoryComponent  },
+  { path: 'product', component: ProductAllComponent  },
   
   // MERCHANT
   { path: 'chat', component: ChatComponent },

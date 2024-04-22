@@ -69,3 +69,13 @@
   background-color: var(--white);
   border-bottom: solid 1px var(--warm-light);
 }
+
+.search-table:enabled:focus{
+  box-shadow: none;
+  border-color: var(--primary-purple);
+}
+
+::placeholder {
+  color: var(--cool-light);
+  font-size: 0.9rem!important;
+}

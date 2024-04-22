@@ -3,6 +3,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
 import { MaintenanceRequest } from '../maintenance.interface';
 import { MaintenanceDetailRequestComponent } from '../maintenance-detail-request/maintenance-detail-request.component';
 import { MaintenanceService } from '../service/maintenance.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-maintenance-all-request',
@@ -14,7 +15,7 @@ export class MaintenanceAllRequestComponent {
 
   table: any;
   allDataCount: any;
-  filter: string = "";
+  keySearch: string = ''
   errorMsg?: string;
   page = 0;
   size = 10;
@@ -26,11 +27,19 @@ export class MaintenanceAllRequestComponent {
   @ViewChild('closeModal') modalClose: any;
   @ViewChild(MaintenanceDetailRequestComponent) detailMaintenance !: MaintenanceDetailRequestComponent;
 
-  constructor(private maintenanceService: MaintenanceService){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
 
-  ngOnInit(){
-    this.col = [{name: 'maintenanceCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentName', displayName:'Requested By'}, {name: 'assignedTo', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-    this.getMaintenanceAllRequest(this.apartmentId, this.size, this.page);
+  async ngOnInit(){
+    this.apps.loadingPage(true);
+    this.errorMsg = '';
+    this.col = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'maintenanceCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentName', displayName:'Requested By'}, {name: 'assignedTo', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+      await this.getMaintenanceAllRequest(this.apartmentId, this.size, this.page);
+    }
+    else{
+      await this.searchMaintenanceAllRequest(this.apartmentId, this.size, this.page, this.keySearch);
+    }
+    this.apps.loadingPage(false);
   }
 
   getMaintenanceAllRequest(apartementId:any, size:any, page:any): Promise<any>{
@@ -52,6 +61,33 @@ export class MaintenanceAllRequestComponent {
           resolve(error);
         }
       }))
+  }
+
+  searchMaintenanceAllRequest(apartementId:any, size:any, page:any, search:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.searchMaintenanceAllRequest(apartementId, size, page, search).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.table = response.data;
+            this.allDataCount = response.totalElements;
+          }
+          else{
+            this.errorMsg = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
+
+  onSearchData(key:any){
+    this.keySearch = key;
+    this.page = 0;
+    this.ngOnInit();
   }
 
   async onListItemClick(e:any){

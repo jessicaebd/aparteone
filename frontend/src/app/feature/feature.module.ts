@@ -56,6 +56,11 @@ import { MerchantProductComponent } from './merchant/merchant-product/merchant-p
 import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store.component';
 // REPORT
 import { ReportComponent } from './report/report.component';
+import { MerchantDetailComponent } from './merchant/merchant-detail/merchant-detail.component';
+import { TransactionListComponent } from './merchant/transaction-list/transaction-list.component';
+import { ProductAllComponent } from './merchant/product-all/product-all.component';
+import { ProductDetailComponent } from './merchant/product-detail/product-detail.component';
+import { ProductAddComponent } from './merchant/product-add/product-add.component';
 
 @NgModule({
   declarations: [
@@ -96,14 +101,19 @@ import { ReportComponent } from './report/report.component';
     PaymentAllComponent,
     PaymentPayComponent,
     PaymentDetailComponent,
-    ChatComponent,
     MerchantComponent,
     MerchantAllComponent,
     MerchantListComponent,
     MerchantHistoryComponent,
     MerchantProductComponent,
     MerchantStoreComponent,
+    MerchantDetailComponent,
+    TransactionListComponent,
     ReportComponent,
+    ChatComponent,
+    ProductAllComponent,
+    ProductDetailComponent,
+    ProductAddComponent,
   ],
   imports: [
     CommonModule,
@@ -149,13 +159,15 @@ import { ReportComponent } from './report/report.component';
     PaymentAllComponent,
     PaymentPayComponent,
     PaymentDetailComponent,
-    ChatComponent,
     MerchantComponent,
     MerchantAllComponent,
     MerchantListComponent,
     MerchantHistoryComponent,
     MerchantStoreComponent,
+    MerchantDetailComponent,
+    TransactionListComponent,
     ReportComponent,
+    ChatComponent,
   ],
   providers:[]
 })

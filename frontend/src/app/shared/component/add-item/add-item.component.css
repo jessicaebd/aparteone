@@ -1,3 +1,17 @@
 .btn:hover{
     background-color: var(--light-purple);
 }
+
+.btn:hover .bi{
+    color: var(--primary-purple);
+}
+
+button{
+    color: var(--primary-purple);
+    width: 38px;
+}
+
+.bi{
+    font-size: 25px;
+    font-weight: 800;
+}

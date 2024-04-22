@@ -18,6 +18,7 @@ export interface FeatureEnvironment {
   announcement: string,
   maintenance: string,
   paymentProof: string,
+  checkout: string,
   facility: string,
   time: string,
   mailbox: string,
@@ -25,6 +26,7 @@ export interface FeatureEnvironment {
   merchant: string,
   product: string,
   cart: string,
+  transaction: string,
   apartment: string,
   resident: string,
 }
@@ -38,6 +40,7 @@ export interface GeneralEnvironment {
   search: string,
   delete: string,
   verify: string,
+  approve: string,
   addCategory: string,
   updateStatus: string,
 }

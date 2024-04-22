@@ -65,6 +65,15 @@ export class MailboxService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  searchMailboxDetailApartment(apartmentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiApartment}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
   getMailboxDetailResident(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiResident}`;
     const headers = new HttpHeaders({
@@ -76,6 +85,15 @@ export class MailboxService {
     else{
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  searchMailboxDetailResident(residentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiResident}`;
+    const headers = new HttpHeaders({
+    });
+    const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }

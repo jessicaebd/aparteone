@@ -32,6 +32,7 @@ export class PaymentComponent implements OnInit{
   listRequest!: any;
   errorListRequest: string = "";
   allListRequest: any;
+  keySearch: string = '';
   pageList = 0;
   sizeRequest = 5;
   tableRequest: any;
@@ -51,21 +52,26 @@ export class PaymentComponent implements OnInit{
 
   constructor(private location: Location, private paymentService: PaymentService, private apps: AppComponent){}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Billing Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getPaymentCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-      this.getMailboxDetailApartment(this.apartmentId, 3, 0);
+      await this.getPaymentCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
+      await this.getMailboxDetailApartment(this.apartmentId, 3, 0);
     }
     else if (this.role=='resident'){
-      this.getPaymentDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        await this.getPaymentDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
+      }
+      else{
+        await this.searchPaymentDetailResident(this.residentId, this.sizeRequest, this.pageList, this.keySearch);
+      }
     }
     this.apps.loadingPage(false);
   }
@@ -138,6 +144,29 @@ export class PaymentComponent implements OnInit{
       }))
   }
 
+  searchPaymentDetailResident(apartmentId: any, size:number, page: number, search: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.paymentService.searchPaymentDetailResident(apartmentId, size, page, search).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.listRequest = response.data;
+            this.allListRequest = response.totalElements;
+          }
+          else{
+            this.errorListRequest = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorListRequest = 'No Data Found!'
+          this.listRequest = null;
+          resolve(error);
+        }
+      }))
+  }
+
   async onListItemClick(type: string, e:any){
     console.log('OnList:', e);
     if(type=='request'){
@@ -148,6 +177,11 @@ export class PaymentComponent implements OnInit{
       let data = await this.setDetailCategory(e);
       console.log('Category:', data);
     }
+  }
+
+  onSearchData(){
+    this.pageList = 0;
+    this.ngOnInit();
   }
 
   onAddPayment(){
@@ -185,6 +219,7 @@ export class PaymentComponent implements OnInit{
 
   onListSubmitEvent(){
     this.filter = '';
+    this.keySearch = '';
     this.pageList = 0;
     this.ngOnInit();
   }
@@ -240,6 +275,7 @@ export class PaymentComponent implements OnInit{
   onFilterBy(e:any){
     this.filter = e;
     this.pageList = 0;
+    this.keySearch = '';
     this.ngOnInit();
   }
   

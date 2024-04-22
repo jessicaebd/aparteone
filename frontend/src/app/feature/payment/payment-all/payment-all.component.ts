@@ -17,6 +17,7 @@ export class PaymentAllComponent {
   tableRequest: any;
   allDataRequest: any;
   errorMsgRequest?: string;
+  keySearch: string = '';
   page = 0;
   colRequest: Column[] = [];
   dataRequest: Payment = {};
@@ -27,13 +28,18 @@ export class PaymentAllComponent {
 
   constructor(private paymentService: PaymentService, private apps: AppComponent){}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.getPaymentDetailApartment(this.apartmentId, 10, this.page);
+      this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        await this.getPaymentDetailApartment(this.apartmentId, 10, this.page);
+      }
+      else{
+        await this.searchPaymentDetailApartment(this.apartmentId, 10, this.page, this.keySearch);
+      }
     }
     else if (this.role=='resident'){
       window.location.replace('');
@@ -51,6 +57,7 @@ export class PaymentAllComponent {
             this.allDataRequest = response.totalElements;
           }
           else{
+            this.tableRequest = null;
             this.errorMsgRequest = 'No Data Found!'
           }
           resolve(true);
@@ -62,6 +69,36 @@ export class PaymentAllComponent {
           resolve(error);
         }
       }))
+    }
+    
+    searchPaymentDetailApartment(apartmentId: any, size:number, page: number, search:any): Promise<any>{
+      return new Promise<any>(resolve => 
+        this.paymentService.searchPaymentDetailApartment(apartmentId, size, page, search).subscribe({
+          next: async (response: any) => {
+            console.log('Response: ', response);
+            if(response.data.length > 0){
+              this.tableRequest = response.data;
+              this.allDataRequest = response.totalElements;
+            }
+            else{
+              this.tableRequest = null;
+              this.errorMsgRequest = 'No Data Found!'
+            }
+            resolve(true);
+          },
+          error: (error: any) => {
+            console.log('#error', error);
+            this.errorMsgRequest = 'No Data Found!'
+            this.tableRequest = null;
+            resolve(error);
+          }
+      }))
+  }
+
+  onSearchData(key:any){
+    this.keySearch = key;
+    this.page = 0;
+    this.ngOnInit();
   }
 
   async onListItemClick(e:any){

@@ -4,11 +4,22 @@
         <app-label labelInput="FACILITY" labelType="title"></app-label>
         <app-label labelInput="Book History" labelType="label"></app-label>
     </div>
-    <div class="d-flex mb-3">
-        <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
-        <button [ngClass]="filter == 'Requested' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Requested')">Requested</button>
-        <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
-        <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+    <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex">
+            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+            <button [ngClass]="filter == 'Requested' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Requested')">Requested</button>
+            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
+            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+        </div>
+        <div class="d-flex">
+            <div class="input-group" style="height: 38px;">
+                <span class="input-group-text" id="basic-addon1">#FCT00</span>
+                <input type="text" class="form-control search-table" placeholder="Search..." [(ngModel)]="keySearch">
+            </div>
+            <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
+                <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
+            </div>
+        </div>
     </div>
     <app-facility-list [listRequest]="table" [length]="allDataCount" [pageSize]="size" [pageIndex]="page" (onPageIndexEvent)="onLoadData($event)" (onSubmitEvent)="ngOnInit()" [errorMsg]="errorMsg"></app-facility-list>
 </div>

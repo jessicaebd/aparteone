@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="mt-0 pt-0">
+        <app-label labelType="label"  labelFor="productImage" labelInput="Product Image" [isMandatory]="true"></app-label>
+        <app-attachment-image attachmentID="productImage" previewWidth="20vw" [base]="data['image']" (onChangeEvent)="data['image']=$event"></app-attachment-image>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="productName" labelInput="Product Name" [isMandatory]="true"></app-label>
+        <app-textbox inputID="productName" [value]="data['name']" (onChangeEvent)="data['name']=$event"></app-textbox>
+    </div>
+    <div class="mt-2 w-100">
+        <app-label labelType="label"  labelFor="productDetail" labelInput="Product Detail" [isMandatory]="true"></app-label>
+        <app-textarea inputID="productDetail" [value]="data['description']" (onChangeEvent)="data['description']=$event"></app-textarea>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="price" labelInput="Price" [isMandatory]="true"></app-label>
+        <app-number inputID="price" [value]="data['price']" (onChangeEvent)="data['price']=$event"></app-number>
+    </div>
+
+    <div class="container d-flex justify-content-center py-3">
+        <ng-container *ngIf="data['isActive']=='Active'; else inActive">
+            <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Deactive" (onClickEvent)="onButtonClick(false)"></app-button>
+            <app-button class="d-flex justify-content-center ms-2" buttonClass="primary" buttonLabel="Save" (onClickEvent)="onButtonClick(true)"></app-button>
+        </ng-container>
+        <ng-template #inActive>
+            <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Activate" (onClickEvent)="onButtonClick(true)"></app-button>
+            <app-button class="d-flex justify-content-center ms-2" buttonClass="primary" buttonLabel="Save" (onClickEvent)="onButtonClick(true)"></app-button>
+        </ng-template>
+    </div>
+</div>

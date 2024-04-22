@@ -12,6 +12,7 @@ export class MaintenanceHistoryComponent {
   
   table: any;
   allDataCount: any;
+  keySearch: string = '';
   size = 5;
   page = 0;
   filter: string = '';
@@ -24,7 +25,12 @@ export class MaintenanceHistoryComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    await this.getMaintenanceResidentRequest(this.residentId, this.size, this.page, this.filter);
+    if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+      await this.getMaintenanceResidentRequest(this.residentId, this.size, this.page, this.filter);
+    }
+    else{
+      await this.searchMaintenanceResidentRequest(this.residentId, this.size, this.page, this.keySearch);
+    }
     this.apps.loadingPage(false);
   }
 
@@ -50,6 +56,33 @@ export class MaintenanceHistoryComponent {
       }))
   }
 
+  searchMaintenanceResidentRequest(residentId:any, size:any, page:any, search: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.maintenanceService.searchMaintenanceResidentRequest(residentId, size, page, search).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.table = response.data;
+            this.allDataCount = response.totalElements;
+          }
+          else{
+            this.errorMsg = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsg = 'No Data Found!'
+          resolve(error);
+        }
+      }))
+  }
+
+  onSearchData(){
+    this.page = 0;
+    this.ngOnInit();
+  }
+
   onLoadData(e:any){
     console.log("Onload Page Index: ", e);
     this.page = e;
@@ -59,6 +92,7 @@ export class MaintenanceHistoryComponent {
   onFilterBy(e:any){
     this.filter = e;
     this.page = 0;
+    this.keySearch = '';
     console.log('Filter :', this.filter);
     this.ngOnInit();
   }

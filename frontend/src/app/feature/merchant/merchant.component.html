@@ -1,12 +1,14 @@
 <div class="container">
-    <ng-container *ngIf="isResident">
-        <div class="row mb-3">
-            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-            <app-label labelInput="Merchant" labelType="title"></app-label>
-            <app-label labelInput="Order Product" labelType="label"></app-label>
-        </div>
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="Merchant" labelType="title"></app-label>
+        <app-label labelInput="Order Product" labelType="label"></app-label>
+    </div>
+    <ng-container *ngIf="role=='resident'">
         <div class="d-flex justify-content-between align-items-center pe-3 me-5 mb-2">
-            <h5>Active Transaction</h5>
+            <div class="mb-2">
+                <app-label labelType="subtitle" labelInput="ACTIVE TRANSACTION"></app-label>
+            </div>
             <div class="d-flex">
                 <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="border: solid 1pt var(--primary-purple); height: 38px;">
                     <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat"></app-text-button>
@@ -15,11 +17,52 @@
             </div>
         </div>
         <div class="row mb-3 ms-2 me-5">
-            <app-merchant-list></app-merchant-list>
+            <app-transaction-list></app-transaction-list>
         </div>
         <div class="merchant-list mb-4">
-            <h5>Merchant</h5>
-            <app-merchant-all></app-merchant-all>
+            <div class="mb-2">
+                <app-label labelType="subtitle" labelInput="MERCHANT"></app-label>
+            </div>
+            <app-merchant-list></app-merchant-list>
         </div>
+    </ng-container>
+    <ng-container *ngIf="role=='management'">
+        <div class="merchant-list">
+            <div class="d-flex justify-content-start align-items-center subtitle mb-2">
+                <app-label labelInput="MERCHANT APPROVAL" labelType="subtitle"></app-label>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="tableMerchant" [columns]="colMerchant" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
+                    actionTarget="modalMerchantDetail" (onClickActionEvent)="onListItemClick('approve', $event)" [pageIndex]="pageMerchant" [pageSize]="sizeMerchant"
+                    [length]="allDataMerchant" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgMerchant"></app-table>
+            </div>
+        </div>
+        <div class="merchant-request-list my-5">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="LIST MERCHANT" labelType="subtitle"></app-label>
+                <app-button buttonLabel="View All" (onClickEvent)="onAllMerchant()"></app-button>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="tableList" [columns]="colList" headerAlignment="center" [filter]="false"
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" actionTarget="modalMerchantDetail" 
+                    (onClickActionEvent)="onListItemClick('list', $event)" [pagination]="false" [errorMsg]="errorMsgList"></app-table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <app-modal modalID="modalMerchantDetail" [width]="800" [modalContent]="modalMerchantDetail"></app-modal>
+    
+        <ng-template #modalMerchantDetail>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Merchant Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <app-merchant-detail [data]="dataMerchant" (onSubmitEvent)="onCloseModal()"></app-merchant-detail>
+                </div>
+            </div>
+        </ng-template>
     </ng-container>
 </div>

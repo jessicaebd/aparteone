@@ -14,6 +14,7 @@ export class FacilityAllRequestComponent {
   table: any;
   allDataCount: any;
   errorMsg: string = '';
+  keySearch: string = '';
   page: number = 0;
   size: number = 10;
   col: Column[] = [];
@@ -23,17 +24,44 @@ export class FacilityAllRequestComponent {
 
   constructor(private facilityService: FacilityService, private apps: AppComponent){}
   
-  ngOnInit(){
+  async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.col = [{name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-    this.getFacilityApartmentRequest(this.apartmentId, this.size, this.page);
+    this.col = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+      this.getFacilityApartmentRequest(this.apartmentId, this.size, this.page);
+    }
+    else{
+      await this.searchFacilityApartmentRequest(this.apartmentId, this.size, this.page, this.keySearch);
+    }
     this.apps.loadingPage(false);
   }
 
   getFacilityApartmentRequest(apartementId:any, size:any, page:any): Promise<any>{
     return new Promise<any>(resolve => 
       this.facilityService.getFacilityApartmentRequest(apartementId, size, page).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.table = response.data;
+            this.allDataCount = response.totalElements;
+          }
+          else{
+            this.errorMsg= 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsg = 'No Data Found!'
+          resolve(error);
+        }
+      }))
+  }
+
+  searchFacilityApartmentRequest(apartementId:any, size:any, page:any, search:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.facilityService.searchFacilityApartmentRequest(apartementId, size, page, search).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           if(response.data.length > 0){
@@ -71,6 +99,12 @@ export class FacilityAllRequestComponent {
       this.dataRequest['Cancelled Date'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
+  }
+
+  onSearchData(key:any){
+    this.keySearch = key;
+    this.page = 0;
+    this.ngOnInit();
   }
 
   async onListItemClick(e:any){

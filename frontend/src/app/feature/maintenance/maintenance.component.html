@@ -33,7 +33,7 @@
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
-                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
                 actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" [pageIndex]="pageCategory" [pageSize]="sizeCategory"
                 [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
@@ -44,7 +44,7 @@
                 <app-button buttonLabel="View All" (onClickEvent)="onAllRequest()"></app-button>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
+                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" [filter]="false"
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" actionTarget="modalRequestDetail" 
                     (onClickActionEvent)="onListItemClick('request', $event)" [pagination]="false" [errorMsg]="errorMsgRequest"></app-table>
             </div>

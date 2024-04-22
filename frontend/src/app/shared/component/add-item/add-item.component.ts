@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-add-item',
@@ -6,7 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./add-item.component.css']
 })
 export class AddItemComponent {
-  counter: number = 0;
+  @Input() counter: number = 0;
   @Output() onCounterEvent = new EventEmitter<number>;
 
   onAdd(){

@@ -83,6 +83,13 @@ export class FacilityService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  searchFacilityApartmentRequest(apartmentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiApartment}`;
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search} });
+    const options = { params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
   getFacilityResidentRequest(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiResident}`;
     let params;
@@ -92,6 +99,13 @@ export class FacilityService {
     else{
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
+    const options = { params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  searchFacilityResidentRequest(residentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiResident}`;
+    const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search} });
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }

@@ -65,6 +65,13 @@ export class PaymentService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  searchPaymentDetailApartment(apartmentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiApartment}`;
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search} });
+    const options = { params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
   getPaymentDetailResident(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiResident}`;
     let params;
@@ -74,6 +81,13 @@ export class PaymentService {
     else{
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
+    const options = { params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  searchPaymentDetailResident(residentId: any, size:number, page: number, search:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiPayment}/${this.apiDetail}/${this.apiResident}`;
+    const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search} });
     const options = { params }
     return this.httpClient.get<any>(apiUrl, options);
   }

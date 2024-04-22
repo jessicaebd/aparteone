@@ -30,6 +30,7 @@ export class MailboxComponent {
   listRequest!: any;
   errorListRequest: string = "";
   allListRequest: any;
+  keySearch: string = '';
   pageList = 0;
   sizeRequest = 5;
   tableRequest: any;
@@ -47,21 +48,26 @@ export class MailboxComponent {
 
   constructor(private location: Location, private mailboxService: MailboxService, private apps: AppComponent){}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Mailbox Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
-      this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest);
+      await this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
+      await this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest);
     }
     else if (this.role=='resident'){
-      this.getMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        await this.getMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
+      }
+      else{
+        await this.searchMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.keySearch);
+      }
     }
     this.apps.loadingPage(false);
   }
@@ -134,6 +140,33 @@ export class MailboxComponent {
       }))
   }
 
+  searchMailboxDetailResident(residentId: any, size:number, page: number, search: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.mailboxService.searchMailboxDetailResident(residentId, size, page, search).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.listRequest = response.data;
+            this.allListRequest = response.totalElements;
+          }
+          else{
+            this.errorListRequest = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorListRequest = 'No Data Found!'
+          resolve(error);
+        }
+      }))
+  }
+
+  onSearchData(){
+    this.pageList = 0;
+    this.ngOnInit();
+  }
+  
   async onListItemClick(type: string, e:any){
     console.log('OnList:', e);
     if(type=='request'){
@@ -221,6 +254,7 @@ export class MailboxComponent {
   onFilterBy(e:any){
     this.filter = e;
     this.pageList = 0;
+    this.keySearch = '';
     this.ngOnInit();
   }
   

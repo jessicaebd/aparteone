@@ -38,6 +38,7 @@ export class TableComponent implements OnInit{
   @Input() hidePageSize?: boolean = true;
 
   @Input() label?: string;
+  @Input() prefix?: string;
   @Input() type: "primary" | "secondary" | "accent" | "danger" | "white" = "primary";
   @Input() iconStart?: string;
   @Input() iconEnd?: string;
@@ -45,6 +46,7 @@ export class TableComponent implements OnInit{
   @Input() isDisabled: boolean = false;
   @Input() actionTarget?: string;
   @Input() actionToggle?: string;
+  @Input() filter?: boolean = true;
   @Input() sort?: boolean = false;
   @Input() flagSort?: boolean = true;
   @Output() onClickActionEvent = new EventEmitter<any>;
@@ -52,10 +54,12 @@ export class TableComponent implements OnInit{
   @Output() onSortEvent = new EventEmitter<any>;
   @Output() onClickEvent = new EventEmitter<any>;
   @Output() onDoubleClickEvent = new EventEmitter<any>;
+  @Output() onSearchEvent = new EventEmitter<any>;
   
   onClickActionElement: any;
   displayedColumns: string[] = [];
   clickedRows!: [any];
+  keySearch!: string;
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -101,5 +105,14 @@ export class TableComponent implements OnInit{
     let result = column.concat(';', sort);
     console.log('Sort:', result);
     this.onSortEvent.emit(result);
+  }
+
+  onSearchData(){
+    if(this.keySearch!=null || this.keySearch!='' || this.keySearch!=undefined){
+      this.onSearchEvent.emit(this.keySearch);
+    }
+    else{
+      this.onSearchEvent.emit(null);
+    }
   }
 }

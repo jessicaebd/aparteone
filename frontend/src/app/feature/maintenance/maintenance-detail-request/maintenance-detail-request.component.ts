@@ -11,8 +11,6 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class MaintenanceDetailRequestComponent{
   flagValidasi: boolean = false;
-  flagAssign: boolean = false;
-  flagCompleted: boolean = false;
   @Input() data!: MaintenanceRequest;
   @Output() onSubmitEvent = new EventEmitter<any>;
 

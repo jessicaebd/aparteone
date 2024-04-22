@@ -32,3 +32,8 @@
     border: 2.5px solid transparent;
     background-clip: content-box;
 }
+
+.search-table:enabled:focus{
+    box-shadow: none;
+    border-color: var(--primary-purple);
+}

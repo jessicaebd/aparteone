@@ -10,8 +10,8 @@
         </div>
         <div class="py-2">
             <app-table [dataTable]="table" [columns]="col" headerAlignment="center" iconStart="bi bi-eye-fill" label="View" type="primary" 
-                    actionToggle="modal"  actionTarget="modalViewRequest" [length]="allDataCount" [pageIndex]="page" [pageSize]="size"
-                    (onClickActionEvent)="onListItemClick($event)" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsg"></app-table>
+                    actionToggle="modal"  actionTarget="modalViewRequest" [length]="allDataCount" [pageIndex]="page" [pageSize]="size" prefix="#FCT00"
+                    (onClickActionEvent)="onListItemClick($event)" (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)" [errorMsg]="errorMsg"></app-table>
         </div>
     </div>
     

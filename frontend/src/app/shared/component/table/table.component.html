@@ -1,9 +1,29 @@
 <div class="group-table">
-  <div *ngIf="tableToolbar" class="table-toolbar flex-row p-3">
-    <ng-container *ngFor="let t of toolbar">
-      <app-text-button type="primary" [label]="t.label" [iconStart]="t.icon" [isDisabled]="t.disable" (onClickEvent)="onClickToolbar(t.label)"></app-text-button>
-    </ng-container>
-  </div>
+  <ng-container *ngIf="toolbar==[] || filter">
+    <div class="table-toolbar flex-row p-3 d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <ng-container *ngFor="let t of toolbar">
+          <app-text-button class="me-2" type="primary" [label]="t.label" [iconStart]="t.icon" [isDisabled]="t.disable" (onClickEvent)="onClickToolbar(t.label)"></app-text-button>
+        </ng-container>
+      </div>
+      <ng-container *ngIf="filter">
+        <div class="d-flex">
+          <ng-container *ngIf="prefix; else defaultSearch">
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">{{ prefix }}</span>
+              <input type="text" class="form-control search-table" placeholder="Search..." [(ngModel)]="keySearch">
+            </div>
+          </ng-container>
+          <ng-template #defaultSearch>
+            <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
+          </ng-template>
+          <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple);">
+            <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
   
   <div class="mat-elevation-z8">
     <mat-table [dataSource]="dataTable" class="flex">
