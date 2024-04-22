@@ -19,7 +19,7 @@ public interface MaintenanceRequestRepo extends JpaRepository<MaintenanceRequest
     @Query(value =  "select mr.id,mr.maintenance_id,mr.resident_id,mr.description,mr.status,mr.assigned_to,mr.assigned_date,mr.completed_date,mr.cancelled_date,mr.created_date,mr.modified_date from maintenance_requests mr " +
             "join maintenances m on mr.maintenance_id = m.id " +
             "where m.apartment_id = :apartmentId " +
-            "mr.id = :id", nativeQuery = true)
+            "and mr.id = :id", nativeQuery = true)
     public Page<MaintenanceRequest> findByApartmentIdAndId(Integer apartmentId, Integer id, Pageable pageable);
 
     @Query(value =  "select mr.id,mr.maintenance_id,mr.resident_id,mr.description,mr.status,mr.assigned_to,mr.assigned_date,mr.completed_date,mr.cancelled_date,mr.created_date,mr.modified_date from maintenance_requests mr " +
