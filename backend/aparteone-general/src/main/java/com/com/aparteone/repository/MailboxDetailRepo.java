@@ -24,6 +24,15 @@ public interface MailboxDetailRepo extends JpaRepository<MailboxDetail, Integer>
                 "on md.mailbox_id = m.id " + 
                 "join apartments a " + 
                 "on m.apartment_id = a.id " + 
+                "where a.id=:apartmentId " + 
+                "and md.id = :id", nativeQuery = true)
+    public Page<MailboxDetail> findByApartmentIdAndId(Integer apartmentId, Integer id, Pageable pageable);
+
+    @Query(value = "select md.id, md.mailbox_id, md.resident_id, md.description, md.status, md.received_date,md.completed_date,md.created_date,md.modified_date " + 
+                "from mailbox_details md join mailboxes m " + 
+                "on md.mailbox_id = m.id " + 
+                "join apartments a " + 
+                "on m.apartment_id = a.id " + 
                 "where a.id=:apartmentId " +
                 "and md.status = :status", nativeQuery = true)
     public Page<MailboxDetail> findByApartmentIdAndStatus(Integer apartmentId, String status, Pageable pageable);

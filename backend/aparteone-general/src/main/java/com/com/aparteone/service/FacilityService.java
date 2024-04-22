@@ -21,13 +21,13 @@ public interface FacilityService {
     public Facility updateFacilityIsActive(Integer facilityId, Boolean isActive);
     
     // Facility Time
-    public List<FacilityTimeResponse> getFacilityTimeByFacilityId(Integer facilityId, String date) throws ParseException; 
+    public List<FacilityTimeResponse> getFacilityTimeByFacilityId(Integer facilityId, String date, String search) throws ParseException; 
     public FacilityTime addFacilityTime(Integer facilityId, FacilityTimeRequest facilityTimeRequest);
     public FacilityTime updateFacilityTime(Integer facilityTimeId, FacilityTimeRequest facilityTimeRequest, Boolean isActive);
 
     // Facility Request
-    public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
-    public PageResponse<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
+    public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search);
+    public PageResponse<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search);
     public FacilityRequestResponse getFacilityRequestById(Integer facilityRequestId);
     public FacilityRequest addFacilityRequest(FacilityReserveRequest facilityReserveRequest);
     public FacilityRequest updateFacilityRequestStatus(Integer facilityRequestId, String status);

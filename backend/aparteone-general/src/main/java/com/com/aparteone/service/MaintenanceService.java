@@ -17,8 +17,8 @@ public interface MaintenanceService {
     public Maintenance updateMaintenanceIsActive(Integer maintenanceId, Boolean isActive);
 
     // Maintenance Request
-    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
-    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search);
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search);
     public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId);
     public MaintenanceRequest addMaintenanceRequest(MaintenanceReserveRequest request);
     public MaintenanceRequest updateMaintenanceRequestStatus(Integer maintenanceRequestId, String status, String remarks);

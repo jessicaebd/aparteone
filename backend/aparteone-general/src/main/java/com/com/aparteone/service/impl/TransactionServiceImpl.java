@@ -13,8 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.MerchantDTO;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.MerchantResponse;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.PaymentRequest;
 import com.com.aparteone.dto.request.TransactionRequest;
@@ -32,8 +32,8 @@ import com.com.aparteone.repository.ProductRepo;
 import com.com.aparteone.repository.TransactionDetailRepo;
 import com.com.aparteone.repository.TransactionRepo;
 import com.com.aparteone.service.MerchantService;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.service.TransactionService;
-import com.com.aparteone.service.general.ResidentService;
 import com.com.aparteone.specification.TransactionSpecification;
 
 import jakarta.transaction.Transactional;
@@ -122,8 +122,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionResponse getTransactionById(Integer transactionId) {
         Transaction transaction = transactionRepo.findById(transactionId).get();
-        MerchantDTO merchant = merchantService.getMerchantById(transaction.getMerchantId());
-        ResidentDTO resident = residentService.getResidentById(transaction.getResidentId());
+        MerchantResponse merchant = merchantService.getMerchantById(transaction.getMerchantId());
+        ResidentResponse resident = residentService.getResidentById(transaction.getResidentId());
 
         List<TransactionDetail> details = transactionDetailRepo.findByTransactionId(transactionId);
         List<TransactionDetailResponse> detailResponse = new ArrayList<>();

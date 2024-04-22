@@ -3,13 +3,14 @@ package com.com.aparteone.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.com.aparteone.entity.FacilityTime;
 
 @Repository
-public interface FacilityTimeRepo extends JpaRepository<FacilityTime, Integer> {
+public interface FacilityTimeRepo extends JpaRepository<FacilityTime, Integer>, JpaSpecificationExecutor<FacilityTime> {
     @Query(value = "select ft.id, ft.facility_id, ft.start_time, ft.end_time, ft.is_active, " +
             "case when ft.id not in (select fr.facility_time_id from facility_requests fr where to_char(fr.reserve_date, 'yyyy-mm-dd') = :reserveDate) " +
             "then 'Available' else 'Not Available' end as is_available, ft.created_date, ft.modified_date " +

@@ -1,4 +1,4 @@
-package com.com.aparteone.entity.general;
+package com.com.aparteone.entity;
 
 import com.com.aparteone.entity.audit.AuditEntity;
 

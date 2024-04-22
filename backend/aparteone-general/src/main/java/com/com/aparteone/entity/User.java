@@ -1,4 +1,4 @@
-package com.com.aparteone.entity.general;
+package com.com.aparteone.entity;
 
 import com.com.aparteone.entity.audit.AuditEntity;
 
@@ -23,14 +23,12 @@ public class User extends AuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer roleId;
-    private String name;
     private String email;
     private String phone;
     private String password;
 
     public User(Integer roleId, String name, String email, String phone, String password) {
         this.roleId = roleId;
-        this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;

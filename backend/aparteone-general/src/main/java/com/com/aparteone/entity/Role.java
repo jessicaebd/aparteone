@@ -1,5 +1,5 @@
 
-package com.com.aparteone.entity.general;
+package com.com.aparteone.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

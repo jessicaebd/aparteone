@@ -34,4 +34,8 @@ public class AparteoneConstant {
     public static final String ROLE_MERCHANT = "Merchant";
 
     public static final String FORMAT_DATE_TIME = "dd MMM yyyy HH:mm";
+    public static final String PREFIX_MAINTENANCE_REQUEST_ID = "#MNT00";
+    public static final String PREFIX_FACILITY_REQUEST_ID = "#FCT00";
+    public static final String PREFIX_BILLING_RECEIPT_ID = "#BLN00";
+    public static final String PREFIX_MAILBOX_RECEIPT_ID = "#MBX00";
 }

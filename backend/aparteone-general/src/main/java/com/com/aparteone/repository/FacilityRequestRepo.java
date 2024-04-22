@@ -24,6 +24,15 @@ public interface FacilityRequestRepo extends JpaRepository<FacilityRequest, Inte
             "on fr.facility_time_id = ft.id " +
             "join facilities f " +
             "on ft.facility_id = f.id " +
+            "where f.apartment_id=:apartmentId " + 
+            "and fr.id = :id", nativeQuery = true)
+    public Page<FacilityRequest> findByApartmentIdAndId(Integer apartmentId, Integer id, Pageable pageable);
+
+    @Query(value = "select fr.id,fr.facility_time_id,fr.resident_id,fr.status,fr.reserve_date,fr.completed_date,fr.cancelled_date,fr.created_date,fr.modified_date " +
+            "from facility_requests fr join facility_times ft " +
+            "on fr.facility_time_id = ft.id " +
+            "join facilities f " +
+            "on ft.facility_id = f.id " +
             "where f.apartment_id=:apartmentId " +
             "and fr.status = :status", nativeQuery = true)
     public Page<FacilityRequest> findByApartmentIdAndStatus(Integer apartmentId, String status, Pageable pageable);

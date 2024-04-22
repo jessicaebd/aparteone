@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.FacilityReserveRequest;
 import com.com.aparteone.dto.request.category.FacilityCategoryRequest;
@@ -31,8 +31,7 @@ import com.com.aparteone.repository.FacilityRepo;
 import com.com.aparteone.repository.FacilityRequestRepo;
 import com.com.aparteone.repository.FacilityTimeRepo;
 import com.com.aparteone.service.FacilityService;
-import com.com.aparteone.service.general.ResidentService;
-import com.com.aparteone.specification.FacilityRequestSpecification;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.FacilitySpecification;
 
 import jakarta.transaction.Transactional;
@@ -53,23 +52,13 @@ public class FacilityServiceImpl implements FacilityService {
     @Autowired
     private ResidentService residentService;
 
-    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return pageable;
-    }
-
     @Override
     public PageResponse<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
         Specification<Facility> spec = Specification.where(FacilitySpecification.hasApartmentId(apartmentId));
         if (isActive != null) {
             spec = spec.and(FacilitySpecification.isActive(isActive));
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<Facility> facilities = facilityRepo.findAll(spec, pageable);
 
         List<FacilityCategoryResponse> data = new ArrayList<>();
@@ -123,8 +112,14 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public List<FacilityTimeResponse> getFacilityTimeByFacilityId(Integer facilityId, String date) throws ParseException {
-        List<FacilityTime> facilityTimes = facilityTimeRepo.findFacilityTimeAvailable(facilityId, date);
+    public List<FacilityTimeResponse> getFacilityTimeByFacilityId(Integer facilityId, String date, String search) throws ParseException {
+        List<FacilityTime> facilityTimes = null;
+        if(search == null) {
+            facilityTimes = facilityTimeRepo.findFacilityTimeAvailable(facilityId, date);
+        } else {
+            Specification<FacilityTime> spec = Specification.where(FacilitySpecification.hasFacilityId(facilityId)).and(FacilitySpecification.hasFacilityTimeId(Integer.parseInt(search)));
+            facilityTimes = facilityTimeRepo.findAll(spec);
+        }
 
         List<FacilityTimeResponse> data = new ArrayList<>();
         facilityTimes.forEach(time -> {
@@ -168,9 +163,10 @@ public class FacilityServiceImpl implements FacilityService {
         FacilityRequest request = facilityRequestRepo.findById(facilityRequestId).get();
         FacilityTime time = facilityTimeRepo.findById(request.getFacilityTimeId()).get();
         Facility category = facilityRepo.findById(time.getFacilityId()).get();
-        ResidentDTO resident = residentService.getResidentById(request.getResidentId());
+        ResidentResponse resident = residentService.getResidentById(request.getResidentId());
         FacilityRequestResponse response = new FacilityRequestResponse(
                 request.getId(),
+                AparteoneConstant.PREFIX_FACILITY_REQUEST_ID + request.getId(),
                 request.getResidentId(),
                 resident.getName(),
                 resident.getUnitNumber(),
@@ -190,13 +186,15 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+    public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<FacilityRequest> facilityRequests = null;
         if (status == null) {
-            facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId, pageable);
-        } else {
             facilityRequests = facilityRequestRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
+        } else if (search != null) {
+            facilityRequests = facilityRequestRepo.findByApartmentIdAndId(apartmentId, Integer.parseInt(search), pageable);
+        }else {
+            facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId, pageable);
         }
 
         List<FacilityRequestResponse> data = new ArrayList<>();
@@ -214,12 +212,15 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public PageResponse<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
-        Specification<FacilityRequest> spec = Specification.where(FacilityRequestSpecification.hasResidentId(residentId));
+    public PageResponse<FacilityRequestResponse> getFacilityRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search) {
+        Specification<FacilityRequest> spec = Specification.where(FacilitySpecification.hasResidentId(residentId));
         if (status != null) {
-            spec = spec.and(FacilityRequestSpecification.hasStatus(status));
+            spec = spec.and(FacilitySpecification.hasStatus(status));
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        if (search != null) {
+            spec = spec.and(FacilitySpecification.hasFacilityRequestId(Integer.parseInt(search)));
+        }
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<FacilityRequest> facilityRequests = facilityRequestRepo.findAll(spec, pageable);
 
         List<FacilityRequestResponse> data = new ArrayList<>();

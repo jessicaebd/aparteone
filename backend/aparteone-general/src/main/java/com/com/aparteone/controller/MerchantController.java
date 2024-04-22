@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.MerchantDTO;
+import com.com.aparteone.dto.MerchantResponse;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.entity.general.Merchant;
+import com.com.aparteone.entity.Merchant;
 import com.com.aparteone.service.MerchantService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class MerchantController {
     private MerchantService merchantService;
 
     @GetMapping("")
-    public ResponseEntity<PageResponse<MerchantDTO>> getMerchantList(
+    public ResponseEntity<PageResponse<MerchantResponse>> getMerchantList(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
@@ -32,27 +32,28 @@ public class MerchantController {
         @RequestParam(required = false) Boolean isApproved,
         @RequestParam(required = false) Integer apartmentId){
         log.info("[Admin][Merchant] Get Merchant List: apartmentId-{} | isActive-{} | isApproved-{}", apartmentId, isActive, isApproved);
-        PageResponse<MerchantDTO> response = merchantService.getMerchantList(page, size, sortBy, sortDir, isActive, isApproved, apartmentId);
+        PageResponse<MerchantResponse> response = merchantService.getMerchantList(page, size, sortBy, sortDir, isActive, isApproved, apartmentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<PageResponse<MerchantDTO>> searchMerchant(
+    public ResponseEntity<PageResponse<MerchantResponse>> searchMerchant(
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size,
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Integer apartmentId,
+        @RequestParam(required = false) Boolean isActive,
         @RequestParam(required = false) String search){
         log.info("[Admin][Merchant] Search Merchant: apartmentId-{} | search-{}", apartmentId, search);
-        PageResponse<MerchantDTO> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, search);
+        PageResponse<MerchantResponse> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, isActive, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<MerchantDTO> getMerchantDetail(@RequestParam Integer merchantId){
+    public ResponseEntity<MerchantResponse> getMerchantDetail(@RequestParam Integer merchantId){
         log.info("[Admin][Merchant] Get Merchant Detail: merchantId-{}", merchantId);
-        MerchantDTO response = merchantService.getMerchantById(merchantId);
+        MerchantResponse response = merchantService.getMerchantById(merchantId);
         return ResponseEntity.ok(response);
     }
 

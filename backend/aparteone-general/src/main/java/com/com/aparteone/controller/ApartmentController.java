@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.com.aparteone.dto.ApartmentDTO;
+import com.com.aparteone.dto.ApartmentResponse;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.entity.general.ApartmentUnit;
-import com.com.aparteone.service.general.ApartmentService;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.entity.ApartmentUnit;
+import com.com.aparteone.service.ApartmentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,34 +26,35 @@ public class ApartmentController {
     private ApartmentService apartmentService;
 
     @GetMapping("/search")
-    public ResponseEntity<PageResponse<ApartmentDTO>> searchApartment(
+    public ResponseEntity<PageResponse<ApartmentResponse>> searchApartment(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(required = false) Boolean isActive,
             @RequestParam String search) {
-        log.info("[Admin][Apartment] Search Apartment: search-{}", search);
-        PageResponse<ApartmentDTO> response = apartmentService.searchApartment(page, size, sortBy, sortDir, search);
+        log.info("[Apartment] Search Apartment: search-{}", search);
+        PageResponse<ApartmentResponse> response = apartmentService.searchApartment(page, size, sortBy, sortDir, isActive, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("")
-    public ResponseEntity<PageResponse<ApartmentDTO>> getApartmentList(
+    public ResponseEntity<PageResponse<ApartmentResponse>> getApartmentList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam(value = "isApproved", required = false) Boolean isApproved) {
-        log.info("[Admin][Apartment] Get Apartment List: isActive-{} | isApproved-{}", isActive, isApproved);
-        PageResponse<ApartmentDTO> response = apartmentService.getApartmentList(page, size, sortBy, sortDir, isActive, isApproved);
+        log.info("[Apartment] Get Apartment List: isActive-{} | isApproved-{}", isActive, isApproved);
+        PageResponse<ApartmentResponse> response = apartmentService.getApartmentList(page, size, sortBy, sortDir, isActive, isApproved);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ApartmentDTO> getApartmentDetail(@RequestParam Integer apartmentId) {
-        log.info("[Admin][Apartment] Get Apartment Detail: apartmentId-{}", apartmentId);
-        ApartmentDTO response = apartmentService.getApartmentById(apartmentId);
+    public ResponseEntity<ApartmentResponse> getApartmentDetail(@RequestParam Integer apartmentId) {
+        log.info("[Apartment] Get Apartment Detail: apartmentId-{}", apartmentId);
+        ApartmentResponse response = apartmentService.getApartmentById(apartmentId);
         return ResponseEntity.ok(response);
     }
 
@@ -61,7 +62,7 @@ public class ApartmentController {
     public ResponseEntity<Apartment> approveApartment(
             @RequestParam Integer apartmentId,
             @RequestParam Boolean isApproved) {
-        log.info("[Admin][Apartment] Approve Apartment: apartmentId-{} | isApproved-{}", apartmentId, isApproved);
+        log.info("[Apartment] Approve Apartment: apartmentId-{} | isApproved-{}", apartmentId, isApproved);
         Apartment apartment = apartmentService.approveApartment(apartmentId, isApproved);
         return ResponseEntity.ok(apartment);
     }
@@ -70,7 +71,7 @@ public class ApartmentController {
     public ResponseEntity<Apartment> updateApartmentStatus(
             @RequestParam Integer apartmentId,
             @RequestParam Boolean isActive) {
-        log.info("[Admin][Apartment] Update Apartment Status: apartmentId-{} | isActive-{}", apartmentId, isActive);
+        log.info("[Apartment] Update Apartment Status: apartmentId-{} | isActive-{}", apartmentId, isActive);
         Apartment apartment = apartmentService.updateApartment(apartmentId, isActive, null);
         return ResponseEntity.ok(apartment);
     }

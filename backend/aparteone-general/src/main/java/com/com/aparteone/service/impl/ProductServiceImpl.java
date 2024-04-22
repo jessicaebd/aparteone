@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.MerchantDTO;
+import com.com.aparteone.dto.MerchantResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.ProductRequest;
 import com.com.aparteone.dto.response.ProductResponse;
@@ -72,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> data = new ArrayList<>();
         products.forEach(product -> {
-            MerchantDTO merchant = merchantService.getMerchantById(product.getMerchantId());
+            MerchantResponse merchant = merchantService.getMerchantById(product.getMerchantId());
             ProductResponse response = new ProductResponse(
                     product.getId(),
                     merchant.getId(),
@@ -97,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getProductById(Integer productId) {
         Product product = productRepo.findById(productId).get();
-        MerchantDTO merchant = merchantService.getMerchantById(product.getMerchantId());
+        MerchantResponse merchant = merchantService.getMerchantById(product.getMerchantId());
 
         ProductResponse response = new ProductResponse(
                 product.getId(),

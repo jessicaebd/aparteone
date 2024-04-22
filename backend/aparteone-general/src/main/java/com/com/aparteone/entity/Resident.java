@@ -1,4 +1,4 @@
-package com.com.aparteone.entity.general;
+package com.com.aparteone.entity;
 
 import com.com.aparteone.entity.audit.AuditEntity;
 
@@ -15,20 +15,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "apartments")
+@Table(name = "residents")
 @EqualsAndHashCode(callSuper = false)
-public class Apartment extends AuditEntity {
+public class Resident extends AuditEntity {
     @Id
-    private Integer id; // apartmentId = userId
+    private Integer id; // residentId = userId
+    private Integer apartmentId;
+    private Integer apartmentUnitId;
     @Lob
     private String image;
     private String name;
-    private String address;
-    private String province;
-    private String city;
-    private String postalCode;
-    private String latitude;
-    private String longitude;
+    private String type;
     private Boolean isActive;
     private Boolean isApproved;
 }

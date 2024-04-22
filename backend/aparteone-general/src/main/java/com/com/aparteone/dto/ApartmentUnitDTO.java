@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ApartmentUnitDTO {
     Integer id;
     Integer apartmentId;
+    String apartmentName;
     String unitNumber;
     String type;
 }

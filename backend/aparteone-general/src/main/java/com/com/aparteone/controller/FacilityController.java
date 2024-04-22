@@ -67,9 +67,10 @@ public class FacilityController {
     @GetMapping("/time")
     public ResponseEntity<List<FacilityTimeResponse>> getFacilityTimeList(
             @RequestParam Integer facilityId,
-            @RequestParam String date) throws ParseException {
+            @RequestParam String date,
+            @RequestParam(required = false) String search) throws ParseException {
         log.info("[Facility] Get Facility Time List: facilityId-{} | date-{}", facilityId, date);
-        List<FacilityTimeResponse> response = facilityService.getFacilityTimeByFacilityId(facilityId, date);
+        List<FacilityTimeResponse> response = facilityService.getFacilityTimeByFacilityId(facilityId, date, search);
         return ResponseEntity.ok(response);
     }
 
@@ -106,9 +107,10 @@ public class FacilityController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer residentId) {
         log.info("[Facility] Get Facility Request List - Resident: residentId-{} | status-{}", residentId, status);
-        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByResidentId(page, size, sortBy, sortDir, status, residentId, search);
         return ResponseEntity.ok(response);
     }
 
@@ -119,9 +121,10 @@ public class FacilityController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "created_date") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer apartmentId) {
         log.info("[Facility] Get Facility Request List - Apartment: apartmentId-{} | status-{}", apartmentId, status);
-        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 

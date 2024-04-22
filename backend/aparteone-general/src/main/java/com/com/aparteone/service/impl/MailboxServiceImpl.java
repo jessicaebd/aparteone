@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
-import com.com.aparteone.dto.ResidentDTO;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.MailboxDetailRequest;
 import com.com.aparteone.dto.request.category.MailboxCategoryRequest;
@@ -24,7 +24,7 @@ import com.com.aparteone.entity.MailboxDetail;
 import com.com.aparteone.repository.MailboxDetailRepo;
 import com.com.aparteone.repository.MailboxRepo;
 import com.com.aparteone.service.MailboxService;
-import com.com.aparteone.service.general.ResidentService;
+import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.MailboxSpecification;
 
 import jakarta.transaction.Transactional;
@@ -42,22 +42,9 @@ public class MailboxServiceImpl implements MailboxService {
     @Autowired
     private ResidentService residentService;
 
-    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size,
-                    sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                            : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return pageable;
-    }
-
     @Override
-    public PageResponse<MailboxCategoryResponse> getMailboxListByApartmentId(int page, int size, String sortBy,
-            String sortDir, Boolean isActive, Integer apartmentId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+    public PageResponse<MailboxCategoryResponse> getMailboxListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Mailbox> spec = Specification.where(MailboxSpecification.hasApartmentId(apartmentId));
         if (isActive != null) {
             spec = spec.and(MailboxSpecification.isActive(isActive));
@@ -101,13 +88,14 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public PageResponse<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy,
-            String sortDir, String status, Integer apartmentId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+    public PageResponse<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<MailboxDetail> mailboxDetails = null;
         if (status != null) {
             mailboxDetails = mailboxDetailRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
-        } else {
+        } else if (search != null) {
+            mailboxDetails = mailboxDetailRepo.findByApartmentIdAndId(apartmentId, Integer.parseInt(search), pageable);
+        }else {
             mailboxDetails = mailboxDetailRepo.findByApartmentId(apartmentId, pageable);
         }
 
@@ -126,15 +114,16 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public PageResponse<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy,
-            String sortDir, String status, Integer residentId) {
+    public PageResponse<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search) {
         Specification<MailboxDetail> spec = Specification.where(MailboxSpecification.hasResidentId(residentId));
         if (status != null) {
             spec = spec.and(MailboxSpecification.hasStatus(status));
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
-        Page<MailboxDetail> mailboxDetails = mailboxDetailRepo.findAll(spec,
-                pageable);
+        if (search != null) {
+            spec = spec.and(MailboxSpecification.hasId(Integer.parseInt(search)));
+        }
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        Page<MailboxDetail> mailboxDetails = mailboxDetailRepo.findAll(spec, pageable);
 
         List<MailboxDetailResponse> data = new ArrayList<>();
         mailboxDetails.getContent().forEach(request -> {
@@ -154,10 +143,11 @@ public class MailboxServiceImpl implements MailboxService {
     public MailboxDetailResponse getMailboxDetailById(Integer mailboxDetailId) {
         MailboxDetail mailboxDetail = mailboxDetailRepo.findById(mailboxDetailId).get();
         Mailbox mailbox = mailboxRepo.findById(mailboxDetail.getMailboxId()).get();
-        ResidentDTO resident = residentService.getResidentById(mailboxDetail.getResidentId());
+        ResidentResponse resident = residentService.getResidentById(mailboxDetail.getResidentId());
 
         MailboxDetailResponse response = new MailboxDetailResponse(
                 mailboxDetail.getId(),
+                AparteoneConstant.PREFIX_MAILBOX_RECEIPT_ID + mailboxDetail.getId(),
                 resident.getId(),
                 resident.getName(),
                 resident.getUnitNumber(),

@@ -66,9 +66,10 @@ public class MaintenanceController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer apartmentId) {
-        log.info("[Maintenance]  Get Maintenance Request - Apartment: apartmentId-{} | status-{}", apartmentId, status);
-        PageResponse<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        log.info("[Maintenance]  Get Maintenance Request - Apartment: apartmentId-{} | status-{} | search-{}", apartmentId, status, search);
+        PageResponse<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
         return ResponseEntity.ok(response);
     }
     
@@ -79,9 +80,10 @@ public class MaintenanceController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer residentId) {
-        log.info("[Maintenance] Get Maintenance Request - Resident: residentId-{} | status-{}", residentId, status);
-        PageResponse<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        log.info("[Maintenance] Get Maintenance Request - Resident: residentId-{} | status-{} | search-{}", residentId, status, search);
+        PageResponse<MaintenanceRequestResponse> response = maintenanceService.getMaintenanceRequestListByResidentId(page, size, sortBy, sortDir, status, residentId, search);
         return ResponseEntity.ok(response);
     }
 

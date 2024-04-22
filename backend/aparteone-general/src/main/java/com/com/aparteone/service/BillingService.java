@@ -16,8 +16,8 @@ public interface BillingService {
     public Billing updateBillingIsActive(Integer billingId, Boolean isActive);
 
     // Billing Detail
-    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
-    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
+    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search);
+    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search);
     public BillingDetailResponse getBillingDetailById(Integer billingDetailId);
     public BillingDetail addBillingDetail(BillingDetailRequest billingDetailRequest);
     public BillingDetail updateBillingDetail(Integer billingDetailId, String status);

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
-import com.com.aparteone.entity.general.Apartment;
-import com.com.aparteone.service.general.AuthService;
+import com.com.aparteone.entity.Apartment;
+import com.com.aparteone.service.AuthService;
 
 import lombok.extern.slf4j.Slf4j;
 

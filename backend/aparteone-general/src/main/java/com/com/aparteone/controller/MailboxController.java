@@ -63,9 +63,10 @@ public class MailboxController {
             @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer apartmentId) {
         log.info("[Mailbox] Get Mailbox Detail - Apartment: apartmentId-{}", apartmentId);
-        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 
@@ -76,9 +77,10 @@ public class MailboxController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer residentId) {
         log.info("[Mailbox] Get Mailbox Detail - Resident: residentId-{}", residentId);
-        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<MailboxDetailResponse> response = mailboxService.getMailboxDetailListByResidentId(page, size, sortBy, sortDir, status, residentId, search);
         return ResponseEntity.ok(response);
     }
 
