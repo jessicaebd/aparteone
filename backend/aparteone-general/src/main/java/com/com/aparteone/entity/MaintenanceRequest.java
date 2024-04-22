@@ -28,7 +28,6 @@ public class MaintenanceRequest extends AuditEntity {
     private Integer residentId;
     private String description;
     private String status;
-    // private Date requestedDate; -> createdDate
     private String assignedTo;
     private Date assignedDate;
     private Date completedDate;

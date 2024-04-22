@@ -43,19 +43,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Autowired
     private ResidentService residentService;
 
-    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return pageable;
-    }
-
     @Override
     public PageResponse<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Maintenance> spec = Specification.where(MaintenanceSpecification.hasApartmentId(apartmentId));
         if (isActive != null) {
             spec = spec.and(MaintenanceSpecification.isActive(isActive));
@@ -103,16 +93,19 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search) {
         Specification<MaintenanceRequest> spec = Specification.where(MaintenanceRequestSpecification.hasResidentId(residentId));
         if (status != null) {
             spec = spec.and(MaintenanceRequestSpecification.hasStatus(status));
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        if (search != null) {
+            spec = spec.and(MaintenanceRequestSpecification.hasId(search));
+        }
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<MaintenanceRequest> maintenanceRequests = maintenanceRequestRepo.findAll(spec, pageable);
 
         List<MaintenanceRequestResponse> data = new ArrayList<>();
-        maintenanceRequests.forEach(request -> {
+        maintenanceRequests.getContent().forEach(request -> {
             data.add(getMaintenanceRequestById(request.getId()));
         });
 
@@ -126,17 +119,20 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+    public PageResponse<MaintenanceRequestResponse> getMaintenanceRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<MaintenanceRequest> maintenanceRequests = null;
-        if (status == null) {
-            maintenanceRequests = maintenanceRequestRepo.findByApartmentId(apartmentId, pageable);
-        } else {
+        if (status != null) {
             maintenanceRequests = maintenanceRequestRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
+        } else if (search != null) {
+            maintenanceRequests = maintenanceRequestRepo.findByApartmentIdAndId(apartmentId, Integer.parseInt(search),
+                    pageable);
+        } else {
+            maintenanceRequests = maintenanceRequestRepo.findByApartmentId(apartmentId, pageable);
         }
 
         List<MaintenanceRequestResponse> data = new ArrayList<>();
-        maintenanceRequests.forEach(request -> {
+        maintenanceRequests.getContent().forEach(request -> {
             data.add(getMaintenanceRequestById(request.getId()));
         });
 
@@ -148,27 +144,28 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 data);
         return response;
     }
-    
+
     @Override
     public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId) {
         MaintenanceRequest maintenanceRequest = maintenanceRequestRepo.findById(maintenanceRequestId).get();
         Maintenance maintenance = maintenanceRepo.findById(maintenanceRequest.getMaintenanceId()).get();
         ResidentResponse resident = residentService.getResidentById(maintenanceRequest.getResidentId());
 
-        MaintenanceRequestResponse response = new MaintenanceRequestResponse();
-        response.setId(maintenanceRequest.getId());
-        response.setResidentId(maintenanceRequest.getResidentId());
-        response.setResidentName(resident.getName());
-        response.setResidentUnit(resident.getUnitNumber());
-        response.setMaintenanceId(maintenanceRequest.getMaintenanceId());
-        response.setMaintenanceCategory(maintenance.getCategory());
-        response.setDescription(maintenanceRequest.getDescription());
-        response.setStatus(maintenanceRequest.getStatus());
-        response.setRequestDate(maintenanceRequest.getCreatedDate());
-        response.setAssignedTo(maintenanceRequest.getAssignedTo());
-        response.setAssignedDate(maintenanceRequest.getAssignedDate());
-        response.setCompletedDate(maintenanceRequest.getCompletedDate());
-        response.setCancelledDate(maintenanceRequest.getCancelledDate());
+        MaintenanceRequestResponse response = new MaintenanceRequestResponse(
+                maintenanceRequest.getId(),
+                AparteoneConstant.PREFIX_MAINTENANCE_REQUEST_ID + maintenanceRequest.getId(),
+                maintenanceRequest.getResidentId(),
+                resident.getName(),
+                resident.getUnitNumber(),
+                maintenanceRequest.getMaintenanceId(),
+                maintenance.getCategory(),
+                maintenanceRequest.getDescription(),
+                maintenanceRequest.getStatus(),
+                maintenanceRequest.getCreatedDate(),
+                maintenanceRequest.getAssignedTo(),
+                maintenanceRequest.getAssignedDate(),
+                maintenanceRequest.getCompletedDate(),
+                maintenanceRequest.getCancelledDate());
         return response;
     }
 

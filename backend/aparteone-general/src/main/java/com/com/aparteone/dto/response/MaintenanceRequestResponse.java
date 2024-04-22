@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MaintenanceRequestResponse {
     Integer id;
+    String requestId;
     Integer residentId;
     String residentName;
     String residentUnit;
