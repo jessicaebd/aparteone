@@ -14,6 +14,10 @@ public class MailboxSpecification {
         return (root, query, builer) -> builer.equal(root.get("isActive"), isActive);
     }
 
+    public static Specification<MailboxDetail> hasId(Integer id) {
+        return (root, query, builer) -> builer.equal(root.get("id"), id);
+    }
+
     public static Specification<MailboxDetail> hasMailboxId(Integer mailboxId) {
         return (root, query, builer) -> builer.equal(root.get("mailboxId"), mailboxId);
     }

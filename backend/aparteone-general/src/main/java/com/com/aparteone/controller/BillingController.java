@@ -71,9 +71,10 @@ public class BillingController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer residentId) {
         log.info("[Billing] Get Billing Request List By Resident Id: {}", residentId);
-        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByResidentId(page, size, sortBy, sortDir, status, residentId);
+        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByResidentId(page, size, sortBy, sortDir, status, residentId, search);
         return ResponseEntity.ok(response);
     }
 
@@ -84,9 +85,10 @@ public class BillingController {
             @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", defaultValue = "ASC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer apartmentId) {
         log.info("[Billing] Get Billing Request List By Apartment Id: {}", apartmentId);
-        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId);
+        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 

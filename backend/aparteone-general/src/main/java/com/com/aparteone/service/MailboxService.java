@@ -16,8 +16,8 @@ public interface MailboxService {
     
 
     // Mailbox Request
-    public PageResponse<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId);
-    public PageResponse<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId);
+    public PageResponse<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search);
+    public PageResponse<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search);
     public MailboxDetailResponse getMailboxDetailById(Integer mailboxDetailId);
     public MailboxDetail addMailboxDetail(MailboxDetailRequest mailboxDetailRequest);
     public MailboxDetail updateMailboxDetailStatus(Integer mailboxDetailId, String status);

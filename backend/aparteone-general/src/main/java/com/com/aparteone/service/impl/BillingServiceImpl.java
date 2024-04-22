@@ -49,16 +49,6 @@ public class BillingServiceImpl implements BillingService {
     @Autowired
     private ResidentService residentService;
 
-    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return pageable;
-    }
-
     @Override
     public Billing addBilling(BillingCategoryRequest billingCategoryRequest) {
         Billing billing = new Billing();
@@ -81,7 +71,7 @@ public class BillingServiceImpl implements BillingService {
         if (isActive != null) {
             spec = spec.and(BillingSpecification.billingIsActive(isActive));
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<Billing> billing = billingRepo.findAll(spec, pageable);
 
         List<BillingCategoryResponse> data = new ArrayList<>();
@@ -122,6 +112,7 @@ public class BillingServiceImpl implements BillingService {
         ResidentResponse resident = residentService.getResidentById(billingDetail.getResidentId());
         BillingDetailResponse response = new BillingDetailResponse(
                 billingDetail.getId(),
+                AparteoneConstant.PREFIX_BILLING_RECEIPT_ID + billingDetail.getId(),
                 billingDetail.getResidentId(),
                 resident.getName(),
                 resident.getUnitNumber(),
@@ -138,13 +129,15 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId) {
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+    public PageResponse<BillingDetailResponse> getBillingDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search) {
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<BillingDetail> billingDetail = null;
-        if (status == null) {
-            billingDetail = billingDetailRepo.findByApartmentId(apartmentId, pageable);
-        } else {
+        if (status != null) {
             billingDetail = billingDetailRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
+        } else if(search != null) {
+            billingDetail = billingDetailRepo.findByApartmentIdAndId(apartmentId, Integer.parseInt(search), pageable);
+        } else {
+            billingDetail = billingDetailRepo.findByApartmentId(apartmentId, pageable);
         }
 
         List<BillingDetailResponse> data = new ArrayList<>();
@@ -162,15 +155,17 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId) {
+    public PageResponse<BillingDetailResponse> getBillingDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search) {
         Specification<BillingDetail> spec = Specification.where(BillingSpecification.billingDetailHasResidentId(residentId));
         if (status != null) {
             spec = spec.and(BillingSpecification.billingDetailHasStatus(status));
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        if (search != null) {
+            spec = spec.and(BillingSpecification.billingDetailHasId(search));
+        }
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
 
-        Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec,
-                pageable);
+        Page<BillingDetail> billingDetail = billingDetailRepo.findAll(spec, pageable);
 
         List<BillingDetailResponse> data = new ArrayList<>();
         billingDetail.getContent().forEach(request -> {

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BillingDetailResponse {
     Integer id;
+    String receiptId;
     Integer residentId;
     String residentName;
     String residentUnit;
