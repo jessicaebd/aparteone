@@ -1,4 +1,4 @@
-import { HomeComponent } from './general/home/home.component';
+import { HomeComponent } from './feature/home/home.component';
 import { ChartPageComponent } from './general/library/chart-page/chart-page.component';
 import { LibraryPageComponent } from './general/library/library-page/library-page.component';
 import { NgModule } from '@angular/core';
@@ -45,6 +45,7 @@ import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
 import { MerchantAllComponent } from './feature/merchant/merchant-all/merchant-all.component';
 import { ProductAllComponent } from './feature/merchant/product-all/product-all.component';
+import { CartComponent } from './feature/merchant/cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -83,6 +84,7 @@ const routes: Routes = [
   { path: 'merchant/store/:id', component: MerchantStoreComponent  },
   { path: 'merchant/history', component: MerchantHistoryComponent  },
   { path: 'product', component: ProductAllComponent  },
+  { path: 'cart/:id', component: CartComponent },
   
   // MERCHANT
   { path: 'chat', component: ChatComponent },

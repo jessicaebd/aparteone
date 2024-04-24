@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -6,7 +6,7 @@ import { AppComponent } from 'src/app/app.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent {
   role: string = 'resident';
   html = '';
   isGuest = false;

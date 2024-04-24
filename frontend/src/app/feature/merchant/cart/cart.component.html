@@ -1,0 +1,101 @@
+<div class="container">
+    <div class="row">
+        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="Cart - Bakmi Gading Permai" labelType="title"></app-label>
+    </div>
+    <div class="d-flex justify-content-between align-items-center pt-2 pb-3">
+        <app-label labelInput="ORDER SUMMARY" labelType="subtitle"></app-label>
+        <app-button buttonLabel="Add Item"></app-button>
+    </div>
+
+    <ng-container *ngFor="let item of cartList">
+        <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
+            <div class="col-1 d-flex justify-content-center ms-3 me-2 image-cart">
+                <img class="rounded" [src]="item.productImage" alt="">
+            </div>
+            <div class="col-8 py-2">
+                <div class="row w-50">
+                    <div class="col-1">
+                        <app-label [labelInput]="item.quantity + 'x'" style="font-weight: 600; font-size: 1rem;"></app-label>
+                    </div>
+                    <div class="col">
+                        <app-label [labelInput]="item.productName" style="font-weight: 600; font-size: 1rem;"></app-label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col ms-5">
+                        <app-label [labelInput]="item.notes"></app-label>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col ms-4 ps-3">
+                        <app-text-button iconStart="bi bi-pencil-fill" label="Edit" data-bs-toggle="modal" data-bs-target="#modalCartDetail" (onClickEvent)="onCartClick(item)"></app-text-button>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-end py-2 pe-4">
+                <app-label [labelInput]="item.totalPrice" style="font-weight: 600; font-size: 1rem;"></app-label>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
+        <div class="col-1 d-flex justify-content-center ms-3 me-2">
+            <app-label labelInput="Subtotal" style="font-weight: 600; font-size: 1rem;"></app-label>
+        </div>
+        <div class="col d-flex justify-content-end pe-4">
+            <app-label [labelInput]="subtotal" style="font-weight: 600; font-size: 1rem;"></app-label>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end my-3">
+        <app-button buttonLabel="Order Now"></app-button>
+    </div>
+
+    <!-- Modal -->
+    <app-modal modalID="modalCartDetail" [width]="400" [modalContent]="modalCartDetail"></app-modal>
+
+    <ng-template #modalCartDetail>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Product Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        </div>
+        <div class="modal-body justify-content-center">
+            <ng-container *ngIf="productOpen">
+                <div class="w-100">
+                    <div class="d-flex justify-content-center product-img mb-2">
+                        <img class="rounded" [src]="productOpen.productImage" alt="" style="width: 100%; object-fit: cover; height: 15rem">
+                    </div>
+                    <div class="container">
+                        <div class="row mb-1">
+                            <div class="col-9">
+                                <app-label class="text-break" labelType="subtitle" [labelInput]="productOpen.productName"></app-label>
+                            </div>
+                            <div class="col text-end">
+                                <app-label class="text-break" labelType="subtitle" [labelInput]="productOpen.productPrice"></app-label>
+                            </div>
+                        </div>
+                        <app-label class="text-break" labelType="span" [labelInput]="productOpen.productDescription"></app-label>
+                        <div class="my-2">
+                            <app-textarea inputPlaceholder="Notes..." [value]="productOpen.notes" (onChangeEvent)="productOpen.notes=$event"></app-textarea>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <app-add-item [counter]="counterProduct" (onCounterEvent)="counterProduct=$event"></app-add-item>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="counterProduct > 0; else deleteCart">
+                    <div class="d-flex justify-content-center mt-3">
+                        <app-button buttonLabel="Save" (onClickEvent)="saveOrder()"></app-button>
+                    </div>
+                </ng-container>
+                
+                <ng-template #deleteCart>
+                    <div class="d-flex justify-content-center mt-3">
+                        <app-button buttonLabel="Delete" buttonClass="danger" (onClickEvent)="deleteOrder()"></app-button>
+                    </div>
+                </ng-template>
+            </ng-container>
+        </div>
+    </ng-template>
+</div>

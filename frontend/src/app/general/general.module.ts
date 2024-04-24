@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ChartPageComponent } from './library/chart-page/chart-page.component';
 import { LibraryPageComponent } from './library/library-page/library-page.component';
-import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { NgxEditorModule } from 'ngx-editor';
 import { NotificationComponent } from './notification/notification.component';
@@ -15,7 +14,6 @@ import { NotificationComponent } from './notification/notification.component';
   declarations: [
     LibraryPageComponent,
     ChartPageComponent,
-    HomeComponent,
     RegisterComponent,
     NotificationComponent,
   ],
@@ -31,7 +29,6 @@ import { NotificationComponent } from './notification/notification.component';
   exports: [
     LibraryPageComponent,
     ChartPageComponent,
-    HomeComponent,
     RegisterComponent,
     NotificationComponent,
   ],

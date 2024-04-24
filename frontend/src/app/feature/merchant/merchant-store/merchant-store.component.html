@@ -11,7 +11,7 @@
             </div>
             <div class="d-flex align-items-center">
                 <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="background-color: var(--primary-purple); height: 38px;">
-                    <app-text-button iconStart="bi bi-cart" label="Cart" type="white"></app-text-button>
+                    <app-text-button iconStart="bi bi-cart" label="Cart" type="white" (onClickEvent)="onCartClick()"></app-text-button>
                 </div>
                 <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2" style="border: solid 1pt var(--primary-purple); height: 38px;">
                     <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat/{{merchantId}}"></app-text-button>
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="product-list ms-3 mb-4">
-            <app-merchant-product [productCard]="productList"></app-merchant-product>
+            <app-merchant-product [merchantId]="merchantId"></app-merchant-product>
         </div>
     </ng-container>
 </div>

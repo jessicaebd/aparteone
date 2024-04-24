@@ -5,7 +5,7 @@
         <button [ngClass]="filter == 'food' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('food')">Food</button>
         <button [ngClass]="filter == 'drink' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('drink')">Drink</button> -->
     </div>
-    <div class="d-flex w-25 me-3">
+    <div class="d-flex w-25 me-3 mb-3">
         <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
         <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
             <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="product-card ms-2">
-    <ng-container *ngFor="let item of productCard">
+    <ng-container *ngFor="let item of productList">
         <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
             <img class="card-img-top" [src]="item.image" alt="...">
             <div class="card-body w-100">
@@ -22,8 +22,8 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="card-text text-start mb-0">{{ item.price }}</p>
-                    <ng-container *ngIf="true; else addButton">
-                        <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">1</p>
+                    <ng-container *ngIf="item.quantity > 0; else addButton">
+                        <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">{{ item.quantity }}</p>
                     </ng-container>
                     <ng-template #addButton>
                         <button class="fs-4 border-0" style="background-color: var(--white);"><i class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
@@ -58,16 +58,29 @@
                         </div>
                         <app-label class="text-break" labelType="span" [labelInput]="productOpen.description"></app-label>
                         <div class="my-2">
-                            <app-textarea inputPlaceholder="Notes..." [value]="" (onChangeEvent)="$event"></app-textarea>
+                            <app-textarea inputPlaceholder="Notes..." [value]="productOpen.notes" (onChangeEvent)="productOpen.notes=$event"></app-textarea>
                         </div>
                         <div class="d-flex justify-content-center mt-3">
-                            <app-add-item [counter]="1" (onCounterEvent)="counterProduct=$event"></app-add-item>
+                            <app-add-item [counter]="counterProduct" (onCounterEvent)="counterProduct=$event"></app-add-item>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <app-button buttonLabel="Save" (onClickEvent)="saveOrder(productOpen.id, counterProduct)"></app-button>
-                </div>
+                <ng-container *ngIf="counterProduct > 0; else deleteCart">
+                    <div class="d-flex justify-content-center mt-3">
+                        <app-button buttonLabel="Save" (onClickEvent)="saveOrder()"></app-button>
+                    </div>
+                </ng-container>
+                
+                <ng-template #deleteCart>
+                    <div class="d-flex justify-content-center mt-3">
+                        <ng-container *ngIf="flagCart; else noDeleteCart">
+                            <app-button buttonLabel="Delete" buttonClass="danger" (onClickEvent)="deleteOrder()"></app-button>
+                        </ng-container>
+                        <ng-template #noDeleteCart>
+                            <app-button buttonLabel="Back" (onClickEvent)="onCloseModal()"></app-button>
+                        </ng-template>
+                    </div>
+                </ng-template>
             </ng-container>
         </div>
     </ng-template>

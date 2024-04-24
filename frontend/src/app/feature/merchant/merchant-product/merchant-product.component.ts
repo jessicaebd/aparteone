@@ -10,14 +10,21 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./merchant-product.component.css']
 })
 export class MerchantProductComponent {
-  @Input() productCard?: Product[];
-  @Output() onSubmitEvent = new EventEmitter<any>;
+  residentId = 4;
 
+  @Input() merchantId!: number;
+  @Output() onSubmitEvent = new EventEmitter<any>;
+  
+  productList: Product[] = [];
+  cartList: Cart[] = [];
+  productNote: string = '';
   keySearch?: string;
   filter: any = "";
   productOpen!: any;
-  counterProduct = 0;
-  dataCart: Cart = {};
+  counterProduct = 1;
+
+  flagCart?: boolean = false;
+  errorMsgProduct: string = '';
   flagValidasi?: boolean = false;
 
   @ViewChild('closeModal') modalClose: any;
@@ -25,88 +32,72 @@ export class MerchantProductComponent {
   constructor(private merchantService: MerchantService, private apps: AppComponent){}
 
   async ngOnInit() {
-    // this.data = {};
-    // this.mailboxCategory = [];
-    // this.setDropdown(category);
-  }
-
-  onButtonSubmit(){
-    this.flagValidasi = false;
-    let errorMsg = "";
-    console.log(this.dataCart);
-
-    if(this.dataCart['quantity'] < 0 || this.dataCart['quantity']==null || this.dataCart['quantity']==undefined){
-      errorMsg = "Please input Order Quantity";
-    }
-    else{
-      this.flagValidasi = true
-    }
-
-    if(this.flagValidasi){
-      //SUBMIT REQUEST
-      Swal.fire({
-        title: 'Are you sure?',
-        icon: 'question',
-        showCancelButton: true,
-        cancelButtonColor: "#697988",
-        confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
-      }).then((result) => {
-        if (result.value) {
-          this.apps.loadingPage(true);
-          this.submitRequest();
-        }
-      });
-    }
-    else{
-      Swal.fire({
-        title: 'Validasi',
-        html: errorMsg,
-        icon: 'warning',
-        confirmButtonColor: '#5025FA'
-      });
-    }
+    this.apps.loadingPage(true);
+    this.errorMsgProduct = '';
+    await this.getProductResident(this.merchantId);
+    await this.getCartMerchant(this.residentId, this.merchantId);
+    this.productList = await this.updateProductQuantity(this.productList, this.cartList);
+    this.productList = await this.updateProductNotes(this.productList, this.cartList);
+    console.log(this.productList);
+    this.apps.loadingPage(false);
   }
   
-  async submitRequest(){
-    let body = await this.setBodyAddToCart();
-    let result = await this.addToCart(body);
-    this.apps.loadingPage(false);
-    this.onSubmitEvent.emit();
+  updateProductQuantity(product:Product[], cart:Cart[]): Promise<any>{
+    return new Promise<any> (resolve => {
+      let result = product.map(p => (p.quantity = cart.find(c => c.productId == p.id)?.quantity || p.quantity, p));
+      resolve(result)
+    });
+  }
 
-    if(result==true){
-      Swal.fire({
-        title: 'Success',
-        html: 'Inserted Successfuly',
-        icon: 'success',
-        confirmButtonColor: '#5025FA'
-      });
-    }
-    else {
-      Swal.fire({
-        title: 'Error',
-        html: 'Failed Insert Category',
-        icon: 'error',
-        confirmButtonColor: '#5025FA'
-      });
-    }
+  updateProductNotes(product:Product[], cart:Cart[]): Promise<any>{
+    return new Promise<any> (resolve => {
+      let result = product.map(p => (p.notes = cart.find(c => c.productId == p.id)?.notes || p.notes, p));
+      resolve(result)
+    });
   }
 
   setBodyAddToCart(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        // 'residentId': this.residentId,s
+        residentId: this.residentId,
+        merchantId: this.merchantId,
+        productId: this.productOpen.id,
+        quantity: this.counterProduct,
+        notes: this.productOpen.notes
       }
       resolve(body);
     });
   }
 
-  addToCart(body:any): Promise<any>{
+  getProductResident(merchantId:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.merchantService.addToCart(body).subscribe({
+      this.merchantService.getProductResident(merchantId).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.productList = response.data;
+          }
+          else{
+            this.errorMsgProduct = 'No Data Found!'
+            this.productList = [];
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsgProduct = 'No Data Found!'
+          this.productList = [];
+          resolve(error);
+        }
+      }))
+  }
+
+  getCartMerchant(residentId:any, merchantId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.merchantService.getCartMerchant(residentId, merchantId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.cartList = response;
           resolve(true);
         },
         error: (error: any) => {
@@ -117,9 +108,93 @@ export class MerchantProductComponent {
     )
   }
 
-  saveOrder(productId: any, amount: any){
-    console.log(productId, amount);
+  addToCart(body:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.merchantService.addToCart(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.cartList = response;
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      })
+    )
+  }
 
+  updateCart(cartId:any, quantity:any, notes:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.merchantService.updateCart(cartId, quantity, notes).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.cartList = response;
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      })
+    )
+  }
+
+  deleteCart(cartId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.merchantService.deleteCart(cartId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.cartList = response;
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      })
+    )
+  }
+
+  async saveOrder(){
+    this.apps.loadingPage(true);
+    this.productOpen.quantity = this.counterProduct;
+    console.log('Open Product:', this.productOpen);
+    try {
+      let check = this.cartList.find(c => c.productId==this.productOpen.id);
+      console.log(check);
+      if(check!=undefined){
+        await this.updateCart(check!.id, this.productOpen.quantity, this.productOpen.notes);
+      }
+      else {
+        let body = await this.setBodyAddToCart();
+        await this.addToCart(body);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    this.ngOnInit();
+    this.apps.loadingPage(false);
+    
+    this.modalClose.nativeElement.click();
+  }
+
+  async deleteOrder(){
+    this.apps.loadingPage(true);
+    this.productOpen.quantity = this.counterProduct;
+    console.log('Open Product:', this.productOpen);
+    try {
+      let check = this.cartList.find(c => c.productId==this.productOpen.id);
+      console.log(check);
+      if(check!=undefined){
+        await this.deleteCart(check!.id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    this.ngOnInit();
+    this.apps.loadingPage(false);
+    
     this.modalClose.nativeElement.click();
   }
 
@@ -133,9 +208,58 @@ export class MerchantProductComponent {
   }
 
   onProductClick(item: any){
-    console.log(item);
     this.productOpen = item;
-    // this.activeCategory = id;
-    // this.maintenanceRequest.initRequestMaintenance(this.activeCategory);
+    if(item.quantity == null || item.quantity == undefined){
+      this.counterProduct = 1;
+      this.flagCart = false;
+    }
+    else{
+      this.counterProduct = item.quantity;
+      this.flagCart = true;
+    }
   }
+
+  onCloseModal(){
+    this.modalClose.nativeElement.click();
+  }
+
+  // onButtonSubmit(){
+  //   console.log(this.dataCart);
+  //   //SUBMIT REQUEST
+  //   Swal.fire({
+  //     title: 'Are you sure?',
+  //     icon: 'question',
+  //     showCancelButton: true,
+  //     cancelButtonColor: "#697988",
+  //     confirmButtonColor: "#5025FA",
+  //     confirmButtonText: 'Sure',
+  //     cancelButtonText: 'Cancel',
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       this.apps.loadingPage(true);
+  //       this.submitRequest();
+  //     }
+  //   });
+  // }
+
+  // async submitRequest(){
+  //   this.onSubmitEvent.emit();
+
+  //   if(result==true){
+  //     Swal.fire({
+  //       title: 'Success',
+  //       html: 'Inserted Successfuly',
+  //       icon: 'success',
+  //       confirmButtonColor: '#5025FA'
+  //     });
+  //   }
+  //   else {
+  //     Swal.fire({
+  //       title: 'Error',
+  //       html: 'Failed Insert Category',
+  //       icon: 'error',
+  //       confirmButtonColor: '#5025FA'
+  //     });
+  //   }
+  // }
 }

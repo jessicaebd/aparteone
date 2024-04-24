@@ -20,6 +20,8 @@ export interface Product{
     price?: any;
     description?: any;
     isActive?: any;
+    quantity?: any;
+    notes?: any;
 }
 
 export interface Cart{

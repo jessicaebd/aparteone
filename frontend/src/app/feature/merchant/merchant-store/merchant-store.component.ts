@@ -25,9 +25,7 @@ export class MerchantStoreComponent {
     this.errorMsgProduct = '';
     this.merchantId = this.route.snapshot.params['id'];
     console.log('MerchantID: ', this.merchantId);
-    await this.getMerchantDetail(this.merchantId);
-    await this.getProductResident(this.merchantId);
-    
+    await this.getMerchantDetail(this.merchantId);    
     this.apps.loadingPage(false);
   }
 
@@ -46,30 +44,11 @@ export class MerchantStoreComponent {
       }))
   }
 
-  getProductResident(merchantId:any): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.merchantService.getProductResident(merchantId).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          if(response.data.length > 0){
-            this.productList = response.data;
-          }
-          else{
-            this.errorMsgProduct = 'No Data Found!'
-            this.productList = [];
-          }
-          resolve(true);
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          this.errorMsgProduct = 'No Data Found!'
-          this.productList = [];
-          resolve(error);
-        }
-      }))
-  }
-
   backButton(){
     window.location.replace('/merchant');
+  }
+  
+  onCartClick(){
+    window.location.replace('/cart/' + this.merchantId);
   }
 }

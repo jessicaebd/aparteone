@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./add-item.component.css']
 })
 export class AddItemComponent {
-  @Input() counter: number = 0;
+  @Input() counter: number = 1;
   @Output() onCounterEvent = new EventEmitter<number>;
 
   onAdd(){
