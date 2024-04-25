@@ -1,8 +1,10 @@
 <div class="container pb-5">
     <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="MAILBOX" labelType="title"></app-label>
-        <app-label labelInput="Package Information" labelType="label"></app-label>
+        <app-text-button type="secondary" label="Back" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <div class="row justify-content-center">
+        <app-label labelInput="Mailbox" labelType="title"></app-label>
+        <app-label labelInput="Track your package and mail" labelType="label"></app-label>
+    </div>
     </div>
 
     <ng-container *ngIf="this.role=='resident'">

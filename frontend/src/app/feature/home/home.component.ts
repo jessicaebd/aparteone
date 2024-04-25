@@ -11,9 +11,10 @@ export class HomeComponent {
   html = '';
   isGuest = false;
 
-  flagPayment: boolean = true;
+  flagPayment: boolean = false;
   flagMailbox: boolean = false;
   flagFacility: boolean = true;
+  flagBills: boolean = true;
 
   constructor(private apps: AppComponent){  }
 
