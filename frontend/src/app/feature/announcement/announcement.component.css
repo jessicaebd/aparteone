@@ -4,6 +4,8 @@
 
 img{
     border-radius: 10px !important;
+    height: 25rem;
+    object-fit: cover;
 }
 
 .information-card{
