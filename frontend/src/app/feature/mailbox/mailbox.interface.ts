@@ -1,21 +1,22 @@
 export interface Mailbox{
-    "ID"?: any,
-    "Resident ID"?: any,
-    "Resident Name"?: any,
-    "Resident Unit"?: any,
-    "Mailbox ID"?: any,
-    "Mailbox Category"?: any,
-    "Mailbox Desc"?: any,
-    "Status"?: any,
-    "Received Date"?: any,
-    "Completed Date"?: any
+    "id"?: any,
+    "receiptId"?: any,
+    "residentId"?: any,
+    "residentName"?: any,
+    "residentUnit"?: any,
+    "mailboxId"?: any,
+    "mailboxCategory"?: any,
+    "description"?: any,
+    "status"?: any,
+    "receivedDate"?: any,
+    "completedDate"?: any
 }
 
 export interface MailboxCategory{
-    "ID"?: any,
-    "Apartment ID"?: any,
-    "Category Name"?: any,
-    "Status"?: any,
-    "Created Date"?: any,
-    "Modified Date"?: any
+    "id"?: any,
+    "apartmentId"?: any,
+    "category"?: any,
+    "isActive"?: any,
+    "createdDate"?: any,
+    "modifiedDate"?: any
 }

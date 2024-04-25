@@ -78,13 +78,13 @@ export class FacilityAddCategoryComponent implements OnInit{
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Category Image']=="" || this.data['Category Image']==undefined){
+    if(this.data['image']=="" || this.data['image']==undefined){
       errorMsg = "Please upload Facility Image";
     }
-    else if(this.data['Category Name']=="" || this.data['Category Name']=="Select a value" || this.data['Category Name']==undefined){
+    else if(this.data['category']=="" || this.data['category']=="Select a value" || this.data['category']==undefined){
       errorMsg = "Please fill Facility Name";
     }
-    else if(this.data['Category Desc']=="" || this.data['Category Desc']=="Select a value" || this.data['Category Desc']==undefined){
+    else if(this.data['description']=="" || this.data['description']=="Select a value" || this.data['description']==undefined){
       errorMsg = "Please fill Facility Description";
     }
     else if(flagTime!=''){
@@ -171,9 +171,9 @@ export class FacilityAddCategoryComponent implements OnInit{
       alert('times');
       let body = {
         'apartmentId': this.apartmentId,
-        'image': this.data['Category Image'],
-        'category': this.data['Category Name'],
-        'description': this.data['Category Desc'],
+        'image': this.data['image'],
+        'category': this.data['category'],
+        'description': this.data['description'],
         'facilityTime': times
       }
       resolve(body);

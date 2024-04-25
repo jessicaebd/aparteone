@@ -1,42 +1,42 @@
 <div class="container">
-    <app-label labelType="subtitle" [labelInput]="data['Maintenance Category']"></app-label>
+    <app-label labelType="subtitle" [labelInput]="data['receiptId'] + ' - ' + data['maintenanceCategory']"></app-label>
     <div class="ms-2 mt-1">
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Resident"></app-label>
-            <app-label class="col" [labelInput]="data['Resident Name']? (': ' + data['Resident Name']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['residentName']? (': ' + data['residentName']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Status"></app-label>
-            <app-label class="col" [labelInput]="data['Status']? (': ' + data['Status']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['status']? (': ' + data['status']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Request Date"></app-label>
-            <app-label class="col" [labelInput]="data['Request Date']? (': ' + data['Request Date']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['requestDate']? (': ' + data['requestDate']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Assigned Date"></app-label>
-            <app-label class="col" [labelInput]="data['Assigned Date']? (': ' + data['Assigned Date']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['assignedDate']? (': ' + data['assignedDate']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Assigned Name"></app-label>
-            <app-label class="col" [labelInput]="data['Assigned Name']? (': ' + data['Assigned Name']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['assignedTo']? (': ' + data['assignedTo']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Completed Date"></app-label>
-            <app-label class="col" [labelInput]="data['Completed Date']? (': ' + data['Completed Date']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['completedDate']? (': ' + data['completedDate']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-2" labelInput="Cancelled Date"></app-label>
-            <app-label class="col" [labelInput]="data['Cancelled Date']? (': ' + data['Cancelled Date']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['cancelledDate']? (': ' + data['cancelledDate']) : ': -'"></app-label>
         </div>
     </div>
 
-    <ng-container *ngIf="data['Status']=='Requested'">
+    <ng-container *ngIf="data['status']=='Requested'">
         <div class="border-top w-100 mt-3 pt-2">
             <app-label labelType="subtitle" labelInput="Assign"></app-label>
             <div class="mt-1">
                 <app-label labelType="label" labelFor="assignedName" labelInput="Staff Name" [isMandatory]="true"></app-label>
-                <app-textbox inputID="assignedName" (onChangeEvent)="data['Assigned Name']=$event"></app-textbox>
+                <app-textbox inputID="assignedName" (onChangeEvent)="data['assignedTo']=$event"></app-textbox>
             </div>
             <div class="container d-flex justify-content-center mt-4">
                 <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('Cancelled')"></app-button>
@@ -45,7 +45,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="data['Status']=='Assigned'">
+    <ng-container *ngIf="data['status']=='Assigned'">
         <div class="border-top w-100 mt-3 pt-2">
             <div class="container d-flex justify-content-center mt-2">
                 <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonClick('Completed')"></app-button>

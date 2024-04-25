@@ -152,7 +152,7 @@ export class ChatComponent {
     console.log('Index:', this.index);
   }
 
-  onChatItemClick(e:any){
+  goToDetailChatPage(e:any){
     this.activeChat = e.merchantId;
     console.log(e);
     window.location.replace('/chat/' + e.merchantId);

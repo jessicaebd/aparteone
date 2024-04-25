@@ -31,13 +31,13 @@ export class MailboxAddComponent implements OnInit{
     let errorMsg = "";
     console.log(this.data);
 
-    if(this.data['Resident ID']=="" || this.data['Resident ID']=="Select a value" || this.data['Resident ID']==undefined){
+    if(this.data['residentId']=="" || this.data['residentId']=="Select a value" || this.data['residentId']==undefined){
       errorMsg = "Please choose Mailbox Recipient";
     }
-    else if(this.data['Mailbox ID']=="" || this.data['Mailbox ID']==undefined){
+    else if(this.data['mailboxId']=="" || this.data['mailboxId']==undefined){
       errorMsg = "Please choose Mailbox Category";
     } 
-    else if(this.data['Mailbox Desc']=="" || this.data['Mailbox Desc']=="Select a value" || this.data['Mailbox Desc']==undefined){
+    else if(this.data['description']=="" || this.data['description']=="Select a value" || this.data['description']==undefined){
       errorMsg = "Please fill Mailbox Description";
     }
     else{
@@ -100,9 +100,9 @@ export class MailboxAddComponent implements OnInit{
   setBodyInsert(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'mailboxId': this.data['Mailbox ID'],
-        'residentId': this.data['Resident ID'],
-        'description': this.data['Mailbox Desc']
+        'mailboxId': this.data['mailboxId'],
+        'residentId': this.data['residentId'],
+        'description': this.data['description']
       }
       resolve(body);
     });

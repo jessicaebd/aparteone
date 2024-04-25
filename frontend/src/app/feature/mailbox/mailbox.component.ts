@@ -181,26 +181,27 @@ export class MailboxComponent {
 
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataCategory['ID'] = response.id;
-      this.dataCategory['Apartment ID'] = response.apartmentId;
-      this.dataCategory['Category Name'] = response.category;
-      this.dataCategory['Status'] = response.isActive;
+      this.dataCategory['id'] = response.id;
+      this.dataCategory['apartmentId'] = response.apartmentId;
+      this.dataCategory['category'] = response.category;
+      this.dataCategory['isActive'] = response.isActive;
       resolve(this.dataCategory);
     });
   }
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident Name'] = response.residentName;
-      this.dataRequest['Resident ID'] = response.residentId;
-      this.dataRequest['Resident Unit'] = response.residentUnit;
-      this.dataRequest['Mailbox ID'] = response.mailboxId;
-      this.dataRequest['Mailbox Category'] = response.mailboxCategory;
-      this.dataRequest['Mailbox Desc'] = response.description;
-      this.dataRequest['Status'] = response.status;
-      this.dataRequest['Received Date'] = response.receivedDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['mailboxId'] = response.mailboxId;
+      this.dataRequest['mailboxCategory'] = response.mailboxCategory;
+      this.dataRequest['description'] = response.description;
+      this.dataRequest['status'] = response.status;
+      this.dataRequest['receivedDate'] = response.receivedDate;
+      this.dataRequest['completedDate'] = response.completedDate;
       resolve(this.dataRequest);
     });
   }
@@ -258,7 +259,7 @@ export class MailboxComponent {
     this.ngOnInit();
   }
   
-  onCloseModal(type: string){
+  redirect(type: string){
     if(type=='add'){
       this.modalCloseAdd.nativeElement.click();
     }
@@ -279,11 +280,7 @@ export class MailboxComponent {
     this.mailboxAdd.ngOnInit();
   }
 
-  onHistoryClick(){
-    window.location.replace('/mailbox/history');
-  }
-
-  onAllMailbox(){
+  goToAllMailboxPage(){
     window.location.replace('/mailbox/all');
   }
 

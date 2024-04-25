@@ -124,7 +124,7 @@
     </div>
     <div class="modal-body d-flex col justify-content-center">
         <div class="container">
-            <app-payment-pay [data]="data" (onSubmitEvent)="onCloseModal()"></app-payment-pay>
+            <app-payment-pay [data]="data" (onSubmitEvent)="redirect()"></app-payment-pay>
         </div>
     </div>
 </ng-template>

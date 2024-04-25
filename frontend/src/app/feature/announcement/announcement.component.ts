@@ -86,7 +86,7 @@ export class AnnouncementComponent implements OnInit{
       }))
   }
 
-  async onListItemClick(type: string, e:any){
+  async goToDetailAnnouncementPage(type: string, e:any){
     window.location.replace('/announcement/detail/' + e.id);
   }
 
@@ -114,7 +114,7 @@ export class AnnouncementComponent implements OnInit{
     });
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.ngOnInit();
   }

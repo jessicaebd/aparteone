@@ -165,34 +165,35 @@ export class FacilityComponent {
 
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataCategory['ID'] = response.id;
-      this.dataCategory['Apartment ID'] = response.apartmentId;
-      this.dataCategory['Category Name'] = response.category;
-      this.dataCategory['Category Desc'] = response.description;
-      this.dataCategory['Category Image'] = response.image;
-      this.dataCategory['Status'] = response.isActive;
-      this.dataCategory['Created Date'] = response.createdDate;
-      this.dataCategory['Modified Date'] = response.modifiedDate;
+      this.dataCategory['id'] = response.id;
+      this.dataCategory['apartmentId'] = response.apartmentId;
+      this.dataCategory['category'] = response.category;
+      this.dataCategory['description'] = response.description;
+      this.dataCategory['image'] = response.image;
+      this.dataCategory['isActive'] = response.isActive;
+      this.dataCategory['createdDate'] = response.createdDate;
+      this.dataCategory['modifiedDate'] = response.modifiedDate;
       resolve(this.dataCategory);
     });
   }
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident ID'] = response.residentId;
-      this.dataRequest['Resident Name'] = response.residentName;
-      this.dataRequest['Resident Unit'] = response.residentUnit;
-      this.dataRequest['Facility ID'] = response.facilityId;
-      this.dataRequest['Facility Category'] = response.facilityCategory;
-      this.dataRequest['Facility Time ID'] = response.facilityTimeId;
-      this.dataRequest['Book Date'] = response.reserveDate;
-      this.dataRequest['Start Time'] = response.startTime;
-      this.dataRequest['End Time'] = response.endTime;
-      this.dataRequest['Status'] = response.facilityRequeststatus;
-      this.dataRequest['Request Date'] = response.requestDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
-      this.dataRequest['Cancelled Date'] = response.cancelledDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['facilityId'] = response.facilityId;
+      this.dataRequest['facilityCategory'] = response.facilityCategory;
+      this.dataRequest['facilityTimeId'] = response.facilityTimeId;
+      this.dataRequest['reserveDate'] = response.reserveDate;
+      this.dataRequest['startTime'] = response.startTime;
+      this.dataRequest['endTime'] = response.endTime;
+      this.dataRequest['facilityRequeststatus'] = response.facilityRequeststatus;
+      this.dataRequest['createdDate'] = response.createdDate;
+      this.dataRequest['completedDate'] = response.completedDate;
+      this.dataRequest['cancelledDate'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
   }
@@ -213,7 +214,7 @@ export class FacilityComponent {
     this.location.back();
   }
   
-  onCloseModal(type: string){
+  redirect(type: string){
     if(type=='add'){
       this.modalCloseAdd.nativeElement.click();
     }
@@ -226,11 +227,11 @@ export class FacilityComponent {
     this.ngOnInit();
   }
 
-  onHistoryClick(){
+  goToHistoryFacilityPage(){
     window.location.replace('/facility/history');
   }
 
-  onAllRequest(){
+  goToAllFacilityPage(){
     window.location.replace('/facility/all');
   }
 

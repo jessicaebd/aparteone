@@ -24,7 +24,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
         </div>
         <div class="modal-body d-flex col justify-content-center">
-            <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="onCloseModal()"></app-facility-detail-request>
+            <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="redirect()"></app-facility-detail-request>
         </div>
     </ng-template>
 </div>

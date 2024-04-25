@@ -25,7 +25,7 @@ export class MaintenanceRequestComponent{
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Maintenance Detail']=="" || this.data['Maintenance Detail']=="Select a value" || this.data['Maintenance Detail']==undefined){
+    if(this.data['description']=="" || this.data['description']=="Select a value" || this.data['description']==undefined){
       errorMsg = "Please fill Maintenance Detail";
     }
     else{
@@ -88,8 +88,8 @@ export class MaintenanceRequestComponent{
     return new Promise<any>(resolve =>{
       let body = {
         'residentId': this.residentId,
-        'maintenanceId': this.dataCategory['ID'],
-        'description': this.data['Maintenance Detail']
+        'maintenanceId': this.dataCategory['id'],
+        'description': this.data['description']
       }
       resolve(body);
     });

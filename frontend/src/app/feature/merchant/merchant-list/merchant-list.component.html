@@ -22,7 +22,7 @@
     <div class="merchant-card ms-1">
         <ng-container *ngIf="errorMsgMerchant==''; else noData">
             <ng-container *ngFor="let item of merchantCard">
-                <button class="card ms-2 me-2 mb-3" (click)="onMerchantClick(item.id)">
+                <button class="card ms-2 me-2 mb-3" (click)="goToMerchantStorePage(item.id)">
                     <img class="card-img-top" [src]="item.image" alt="...">
                     <div class="card-body w-100">
                         <div class="d-flex justify-content-end pb-2">

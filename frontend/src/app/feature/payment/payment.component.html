@@ -44,7 +44,7 @@
                 <app-label labelInput="LIST BILLING" labelType="subtitle"></app-label>
                 <div>
                     <app-button class="me-2" buttonLabel="Add Payment" data-bs-toggle="modal" data-bs-target="#modalAddPayment" (onClickEvent)="onAddPayment()"></app-button>
-                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="onAllRequest()"></app-button>
+                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="goToAllPaymentPage()"></app-button>
                 </div>
             </div>
             <div class="py-2">
@@ -63,7 +63,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-payment-add-category (onSubmitEvent)="onCloseModal('add')"></app-payment-add-category>
+                <app-payment-add-category (onSubmitEvent)="redirect('add')"></app-payment-add-category>
             </div>
         </ng-template>
 
@@ -76,7 +76,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-payment-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-payment-update-category>
+                <app-payment-update-category [data]="dataCategory" (onSubmitEvent)="redirect('update')"></app-payment-update-category>
             </div>
         </ng-template>
 
@@ -90,7 +90,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-payment-detail [data]="dataRequest" (onSubmitEvent)="onCloseModal('detail')"></app-payment-detail>
+                    <app-payment-detail [data]="dataRequest" (onSubmitEvent)="redirect('detail')"></app-payment-detail>
                 </div>
             </div>
         </ng-template>
@@ -105,7 +105,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-payment-add (onSubmitEvent)="onCloseModal('new')"></app-payment-add>
+                    <app-payment-add (onSubmitEvent)="redirect('new')"></app-payment-add>
                 </div>
             </div>
         </ng-template>

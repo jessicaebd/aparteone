@@ -48,7 +48,7 @@ export class PaymentUpdateCategoryComponent {
   }
   
   async submitRequest(isActive: boolean){
-    let result = await this.updatePaymentCategory(this.data['ID'], isActive);
+    let result = await this.updatePaymentCategory(this.data['id'], isActive);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

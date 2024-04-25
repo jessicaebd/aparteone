@@ -132,7 +132,7 @@ export class PaymentAllComponent {
     this.getPaymentDetailApartment(this.apartmentId, 10, this.page);
   }
   
-  onCloseModal(type: string){
+  redirect(type: string){
     if(type=='detail'){
       this.modalCloseDetail.nativeElement.click();
     }

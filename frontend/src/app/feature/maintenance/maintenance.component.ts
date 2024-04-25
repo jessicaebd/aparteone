@@ -162,29 +162,32 @@ export class MaintenanceComponent implements OnInit{
 
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataCategory['ID'] = response.id;
-      this.dataCategory['Apartment ID'] = response.apartment_id;
-      this.dataCategory['Category Name'] = response.category;
-      this.dataCategory['Category Desc'] = response.description;
-      this.dataCategory['Category Image'] = response.image;
-      this.dataCategory['Status'] = response.isActive;
+      this.dataCategory['id'] = response.id;
+      this.dataCategory['apartmentId'] = response.apartment_id;
+      this.dataCategory['category'] = response.category;
+      this.dataCategory['description'] = response.description;
+      this.dataCategory['image'] = response.image;
+      this.dataCategory['isActive'] = response.isActive;
       resolve(this.dataCategory);
     });
   }
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident Name'] = response.resident;
-      this.dataRequest['Maintenance ID'] = response.maintenanceId;
-      this.dataRequest['Maintenance Category'] = response.maintenanceCategory;
-      this.dataRequest['Maintenance Detail'] = response.maintenanceDetail;
-      this.dataRequest['Status'] = response.status;
-      this.dataRequest['Request Date'] = response.requestDate;
-      this.dataRequest['Assigned Name'] = response.assignedTo;
-      this.dataRequest['Assigned Date'] = response.assignedDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
-      this.dataRequest['Cancelled Date'] = response.cancelledDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['maintenanceId'] = response.maintenanceId;
+      this.dataRequest['maintenanceCategory'] = response.maintenanceCategory;
+      this.dataRequest['description'] = response.description;
+      this.dataRequest['status'] = response.status;
+      this.dataRequest['requestDate'] = response.requestDate;
+      this.dataRequest['assignedTo'] = response.assignedTo;
+      this.dataRequest['assignedDate'] = response.assignedDate;
+      this.dataRequest['completedDate'] = response.completedDate;
+      this.dataRequest['cancelledDate'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
   }
@@ -234,7 +237,7 @@ export class MaintenanceComponent implements OnInit{
     this.location.back();
   }
   
-  onCloseModal(type: string){
+  redirect(type: string){
     if(type=='add'){
       this.modalCloseAdd.nativeElement.click();
     }
@@ -248,11 +251,11 @@ export class MaintenanceComponent implements OnInit{
     this.ngOnInit();
   }
 
-  onHistoryClick(){
+  goToHistoryMaintenancePage(){
     window.location.replace('/maintenance/history');
   }
 
-  onAllRequest(){
+  goToAllMaintenancePage(){
     window.location.replace('/maintenance/all');
   }
 }

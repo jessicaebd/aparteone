@@ -53,13 +53,13 @@ export class FacilityRequestComponent {
 
   async onChangeDate(id:any, date:any){
     this.apps.loadingPage(true);
-    this.data['Book Date'] = date;
+    this.data['reserveDate'] = date;
     await this.getFacilityTime(id, date);
     this.apps.loadingPage(false);
   }
 
   onTimeClick(id:any){
-    if(this.data['Book Date']=="" || this.data['Book Date']=="dd/mm/yyyy" || this.data['Book Date']==undefined){
+    if(this.data['reserveDate']=="" || this.data['reserveDate']=="dd/mm/yyyy" || this.data['reserveDate']==undefined){
       Swal.fire({
         title: 'Validasi',
         text: 'Please choose Book Date',
@@ -68,7 +68,7 @@ export class FacilityRequestComponent {
       });
     }
     else {
-      this.data['Facility Time ID']=id
+      this.data['facilityTimeId']=id
     }
   }
 
@@ -76,10 +76,10 @@ export class FacilityRequestComponent {
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Book Date']=="" || this.data['Book Date']=="dd/mm/yyyy" || this.data['Book Date']==undefined){
+    if(this.data['reserveDate']=="" || this.data['reserveDate']=="dd/mm/yyyy" || this.data['reserveDate']==undefined){
       errorMsg = "Please choose Book Date";
     }
-    else if(this.data['Facility Time ID']=="" || this.data['Facility Time ID']==undefined){
+    else if(this.data['facilityTimeId']=="" || this.data['facilityTimeId']==undefined){
       errorMsg = "Please choose Book Time";
     }
     else{
@@ -141,8 +141,8 @@ export class FacilityRequestComponent {
     return new Promise<any>(resolve =>{
       let body = {
         'residentId': this.residentId,
-        'facilityTimeId': this.data['Facility Time ID'],
-        'reserveDate': this.data['Book Date']
+        'facilityTimeId': this.data['facilityTimeId'],
+        'reserveDate': this.data['reserveDate']
       }
       resolve(body);
     });

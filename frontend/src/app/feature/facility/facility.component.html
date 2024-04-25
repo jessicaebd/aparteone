@@ -14,7 +14,7 @@
         <div class="facility-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST BOOKING" labelType="subtitle"></app-label>
-                <app-button buttonLabel="View All" (onClickEvent)="onHistoryClick()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="goToHistoryFacilityPage()"></app-button>
             </div>
             <app-facility-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest" (onSubmitEvent)="ngOnInit()"></app-facility-list>
         </div>
@@ -41,7 +41,7 @@
         <div class="facility-request-list mt-5">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LIST FACILITY REQUEST" labelType="subtitle"></app-label>
-                <app-button buttonLabel="View All" (onClickEvent)="onAllRequest()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="goToAllFacilityPage()"></app-button>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" iconStart="bi bi-eye-fill" label="View" type="primary" 
@@ -59,7 +59,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-facility-add-category (onSubmitEvent)="onCloseModal('add')"></app-facility-add-category>
+                <app-facility-add-category (onSubmitEvent)="redirect('add')"></app-facility-add-category>
             </div>
         </ng-template>
 
@@ -72,7 +72,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-facility-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-facility-update-category>
+                <app-facility-update-category [data]="dataCategory" (onSubmitEvent)="redirect('update')"></app-facility-update-category>
             </div>
         </ng-template>
 
@@ -85,7 +85,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalRequest></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="onCloseModal('request')"></app-facility-detail-request>
+                <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="redirect('request')"></app-facility-detail-request>
             </div>
         </ng-template>
     </ng-container>

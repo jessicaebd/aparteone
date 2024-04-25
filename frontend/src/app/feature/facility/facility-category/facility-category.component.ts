@@ -21,19 +21,19 @@ export class FacilityCategoryComponent {
 
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.activeCategory['ID'] = response.id;
-      this.activeCategory['Apartment ID'] = response.apartmentId;
-      this.activeCategory['Category Name'] = response.category;
-      this.activeCategory['Category Desc'] = response.description;
-      this.activeCategory['Category Image'] = response.image;
-      this.activeCategory['Status'] = response.isActive;
-      this.activeCategory['Created Date'] = response.createdDate;
-      this.activeCategory['Modified Date'] = response.modifiedDate;
+      this.activeCategory['id'] = response.id;
+      this.activeCategory['apartmentId'] = response.apartmentId;
+      this.activeCategory['category'] = response.category;
+      this.activeCategory['description'] = response.description;
+      this.activeCategory['image'] = response.image;
+      this.activeCategory['isActive'] = response.isActive;
+      this.activeCategory['createdDate'] = response.createdDate;
+      this.activeCategory['modifiedDate'] = response.modifiedDate;
       resolve(this.activeCategory);
     });
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.onSubmitEvent.emit();
   }

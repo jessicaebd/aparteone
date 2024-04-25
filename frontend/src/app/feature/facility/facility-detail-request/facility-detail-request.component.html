@@ -1,45 +1,45 @@
 <div class="container">
-    <app-label labelType="subtitle" [labelInput]="data['Facility Category']"></app-label>
+    <app-label labelType="subtitle" [labelInput]="data['receiptId'] + ' - ' + data['facilityCategory']"></app-label>
     <div class="ms-2 mt-1">
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Unit"></app-label>
-            <app-label class="col" [labelInput]="data['Resident Unit']? (': ' + data['Resident Unit']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['residentUnit']? (': ' + data['residentUnit']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Resident"></app-label>
-            <app-label class="col" [labelInput]="data['Resident Name']? (': ' + data['Resident Name']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['residentName']? (': ' + data['residentName']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Book Date"></app-label>
-            <app-label class="col" [labelInput]="data['Book Date']? (': ' + data['Book Date']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['reserveDate']? (': ' + data['reserveDate']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Book Time"></app-label>
-            <app-label class="col" [labelInput]="data['Facility Time ID']? (': ' + data['Start Time']) + ' - ' + data['End Time'] : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['facilityTimeId']? (': ' + data['startTime']) + ' - ' + data['endTime'] : ': -'"></app-label>
         </div>
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Status"></app-label>
-            <app-label class="col" [labelInput]="data['Status']? (': ' + data['Status']) : ': -'"></app-label>
+            <app-label class="col" [labelInput]="data['facilityRequeststatus']? (': ' + data['facilityRequeststatus']) : ': -'"></app-label>
         </div>
         <!-- <div class="row mb-1">
             <app-label class="col-3" labelInput="Request Date"></app-label>
             <app-label class="col" [labelInput]="data['Request Date']? (': ' + data['Request Date']) : ': -'"></app-label>
         </div> -->
-        <ng-container *ngIf="data['Status']=='Completed'">
+        <ng-container *ngIf="data['facilityRequeststatus']=='Completed'">
             <div class="row mb-1">
                 <app-label class="col-3" labelInput="Completed Date"></app-label>
-                <app-label class="col" [labelInput]="data['Completed Date']? (': ' + data['Completed Date']) : ': -'"></app-label>
+                <app-label class="col" [labelInput]="data['completedDate']? (': ' + data['completedDate']) : ': -'"></app-label>
             </div>
         </ng-container>
-        <ng-container *ngIf="data['Status']=='Cancelled'">
+        <ng-container *ngIf="data['facilityRequeststatus']=='Cancelled'">
             <div class="row mb-1">
                 <app-label class="col-3" labelInput="Cancelled Date"></app-label>
-                <app-label class="col" [labelInput]="data['Cancelled Date']? (': ' + data['Cancelled Date']) : ': -'"></app-label>
+                <app-label class="col" [labelInput]="data['cancelledDate']? (': ' + data['cancelledDate']) : ': -'"></app-label>
             </div>
         </ng-container>
     </div>
 
-    <ng-container *ngIf="data['Status']=='Requested'">
+    <ng-container *ngIf="data['facilityRequeststatus']=='Requested'">
         <div class="border-top w-100 mt-3 py-3">
             <div class="d-flex justify-content-center">
                 <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('Cancelled')"></app-button>

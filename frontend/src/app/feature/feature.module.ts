@@ -63,6 +63,7 @@ import { ProductDetailComponent } from './merchant/product-detail/product-detail
 import { ProductAddComponent } from './merchant/product-add/product-add.component';
 import { CartComponent } from './merchant/cart/cart.component';
 import { HomeComponent } from './home/home.component';
+import { TransactionComponent } from './merchant/transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { HomeComponent } from './home/home.component';
     ReportComponent,
     ChatComponent,
     HomeComponent,
+    TransactionComponent,
   ],
   imports: [
     CommonModule,
@@ -177,6 +179,7 @@ import { HomeComponent } from './home/home.component';
     ReportComponent,
     ChatComponent,
     HomeComponent,
+    TransactionComponent,
   ],
   providers:[]
 })

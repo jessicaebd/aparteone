@@ -1,14 +1,14 @@
 <div class="container w-100">
     <div class="mt-2">
         <app-label labelType="label"  labelFor="categoryName" labelInput="Category Name"></app-label>
-        <app-textbox inputID="categoryName" [value]="data['Category Name']" [isReadOnly]="true"></app-textbox>
+        <app-textbox inputID="categoryName" [value]="data['category']" [isReadOnly]="true"></app-textbox>
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="categoryStatus" labelInput="Status"></app-label>
-        <app-textbox inputID="categoryStatus" [value]="data['Status']" [isReadOnly]="true"></app-textbox>
+        <app-textbox inputID="categoryStatus" [value]="data['isActive']" [isReadOnly]="true"></app-textbox>
     </div>
 
-    <ng-container *ngIf="data['Status']=='Active'; else setActive">
+    <ng-container *ngIf="data['isActive']=='Active'; else setActive">
         <div class="container d-flex justify-content-center mt-4">
             <app-button class="ms-3" buttonClass="primary" buttonLabel="Deactivate" (onClickEvent)="onButtonSubmit(false)"></app-button>
         </div>

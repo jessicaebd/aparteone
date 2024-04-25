@@ -48,7 +48,7 @@ export class MailboxDetailComponent {
   }
   
   async submitRequest(){
-    let result = await this.updateMailboxDetail(this.data['ID'], 'Completed');
+    let result = await this.updateMailboxDetail(this.data['id'], 'Completed');
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

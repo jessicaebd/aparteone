@@ -21,7 +21,7 @@ export class HomeComponent {
     this.role = this.apps.getUserRole();
   }
 
-  onCategoryInformation(e:any){
+  goToFeaturePage(e:any){
     window.location.replace('/' + e);
   }
 }

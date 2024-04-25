@@ -65,7 +65,7 @@ export class FacilityDetailRequestComponent {
   }
 
   async submitRequest(status:any){
-    let result = await this.updateFacilityRequest(this.data['ID'], status);
+    let result = await this.updateFacilityRequest(this.data['id'], status);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

@@ -43,7 +43,7 @@
                 <app-label labelInput="LIST MAILBOX" labelType="subtitle"></app-label>
                 <div>
                     <app-button class="me-2" buttonLabel="Add Mailbox" data-bs-toggle="modal" data-bs-target="#modalAddMailbox" (onClickEvent)="onAddMailbox()"></app-button>
-                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="onAllMailbox()"></app-button>
+                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="goToAllMailboxPage()"></app-button>
                 </div>
             </div>
             <div class="py-2">
@@ -63,7 +63,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-mailbox-add-category (onSubmitEvent)="onCloseModal('add')"></app-mailbox-add-category>
+                <app-mailbox-add-category (onSubmitEvent)="redirect('add')"></app-mailbox-add-category>
             </div>
         </ng-template>
 
@@ -76,7 +76,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-mailbox-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-mailbox-update-category>
+                <app-mailbox-update-category [data]="dataCategory" (onSubmitEvent)="redirect('update')"></app-mailbox-update-category>
             </div>
         </ng-template>
 
@@ -90,7 +90,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-mailbox-add (onSubmitEvent)="onCloseModal('new')"></app-mailbox-add>
+                    <app-mailbox-add (onSubmitEvent)="redirect('new')"></app-mailbox-add>
                 </div>
             </div>
         </ng-template>
@@ -105,7 +105,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-mailbox-detail [data]="dataRequest" (onSubmitEvent)="onCloseModal('detail')"></app-mailbox-detail>
+                    <app-mailbox-detail [data]="dataRequest" (onSubmitEvent)="redirect('detail')"></app-mailbox-detail>
                 </div>
             </div>
         </ng-template>

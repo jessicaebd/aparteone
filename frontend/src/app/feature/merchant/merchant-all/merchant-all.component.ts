@@ -125,12 +125,12 @@ export class MerchantAllComponent implements OnInit{
     this.ngOnInit();
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.ngOnInit();
   }
 
-  onMerchantClick(id: any){
+  goToMerchantStorePage(id: any){
     window.location.replace('/merchant/store/' + id);
   }
 

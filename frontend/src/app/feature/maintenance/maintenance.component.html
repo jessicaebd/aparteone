@@ -14,7 +14,7 @@
         <div class="maintenance-list">
             <div class="d-flex justify-content-between subtitle mb-2">
                 <app-label labelInput="LAST MAINTENANCE" labelType="subtitle"></app-label>
-                <app-button buttonLabel="View All" (onClickEvent)="onHistoryClick()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="goToHistoryMaintenancePage()"></app-button>
             </div>
             <app-maintenance-list [listRequest]="listRequest" [pagination]="false" [errorMsg]="errorListRequest" (onSubmitEvent)="ngOnInit()"></app-maintenance-list>
         </div>
@@ -41,7 +41,7 @@
         <div class="maintenance-request-list my-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST MAINTENANCE REQUEST" labelType="subtitle"></app-label>
-                <app-button buttonLabel="View All" (onClickEvent)="onAllRequest()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="goToAllMaintenancePage()"></app-button>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" [filter]="false"
@@ -59,7 +59,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-maintenance-add-category (onSubmitEvent)="onCloseModal('add')"></app-maintenance-add-category>
+                <app-maintenance-add-category (onSubmitEvent)="redirect('add')"></app-maintenance-add-category>
             </div>
         </ng-template>
 
@@ -72,7 +72,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-maintenance-update-category [data]="dataCategory" (onSubmitEvent)="onCloseModal('update')"></app-maintenance-update-category>
+                <app-maintenance-update-category [data]="dataCategory" (onSubmitEvent)="redirect('update')"></app-maintenance-update-category>
             </div>
         </ng-template>
 
@@ -86,7 +86,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-maintenance-detail-request [data]="dataRequest" (onSubmitEvent)="onCloseModal('assign')"></app-maintenance-detail-request>
+                    <app-maintenance-detail-request [data]="dataRequest" (onSubmitEvent)="redirect('assign')"></app-maintenance-detail-request>
                 </div>
             </div>
         </ng-template>

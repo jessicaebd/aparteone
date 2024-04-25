@@ -127,7 +127,7 @@ export class ProductAllComponent {
     this.ngOnInit();
   }
 
-  onCloseModal(type:any){
+  redirect(type:any){
     if(type=='add'){
       this.modalCloseAdd.nativeElement.click();
     }

@@ -34,7 +34,7 @@ export class MaintenanceDetailRequestComponent{
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Assigned Name']=="" || this.data['Assigned Name']==undefined){
+    if(this.data['assignedTo']=="" || this.data['assignedTo']==undefined){
       errorMsg = "Please fill Assigned Name";
     }
     else{
@@ -86,7 +86,7 @@ export class MaintenanceDetailRequestComponent{
   }
 
   async submitRequest(type:any){
-    let result = await this.updateMaintenanceRequest(this.data['ID'], type, this.data['Assigned Name']);
+    let result = await this.updateMaintenanceRequest(this.data['id'], type, this.data['assignedTo']);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

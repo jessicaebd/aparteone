@@ -26,7 +26,7 @@
     </div>
     <div class="modal-body d-flex col justify-content-center">
         <div class="container">
-            <app-mailbox-add (onSubmitEvent)="onCloseModal('new')"></app-mailbox-add>
+            <app-mailbox-add (onSubmitEvent)="redirect('new')"></app-mailbox-add>
         </div>
     </div>
 </ng-template>
@@ -41,7 +41,7 @@
     </div>
     <div class="modal-body d-flex col justify-content-center">
         <div class="container">
-            <app-mailbox-detail [data]="dataRequest" (onSubmitEvent)="onCloseModal('detail')"></app-mailbox-detail>
+            <app-mailbox-detail [data]="dataRequest" (onSubmitEvent)="redirect('detail')"></app-mailbox-detail>
         </div>
     </div>
 </ng-template>

@@ -13,7 +13,7 @@
                 <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="border: solid 1pt var(--primary-purple); height: 38px;">
                     <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat"></app-text-button>
                 </div>
-                <app-button buttonLabel="History" (onClickEvent)="onHistoryPage()"></app-button>
+                <app-button buttonLabel="History" (onClickEvent)="goToHistoryTransactionPage()"></app-button>
             </div>
         </div>
         <div class="row mb-3 ms-2 me-5">
@@ -41,7 +41,7 @@
         <div class="merchant-request-list my-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST MERCHANT" labelType="subtitle"></app-label>
-                <app-button buttonLabel="View All" (onClickEvent)="onAllMerchant()"></app-button>
+                <app-button buttonLabel="View All" (onClickEvent)="goToAllMerchantPage()"></app-button>
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableList" [columns]="colList" headerAlignment="center" [filter]="false"
@@ -60,7 +60,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-merchant-detail [data]="dataMerchant" (onSubmitEvent)="onCloseModal()"></app-merchant-detail>
+                    <app-merchant-detail [data]="dataMerchant" (onSubmitEvent)="redirect()"></app-merchant-detail>
                 </div>
             </div>
         </ng-template>

@@ -16,7 +16,7 @@
             <div class="d-flex flex-wrap information-category w-100 p-1">
                 <div class="information-card align-items-center">
                     <ng-container *ngIf="flagPayment; else noPayment">
-                        <button class="card justify-content-between w-100" (click)="onCategoryInformation('payment')">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
                             <img class="card-img-top mt-1" src="assets/general/1.png" alt="...">
                             <div class="card-title w-100  d-flex justify-content-center">
                                 <h6 style="color: var(--dark-purple); font-weight: 700;">1</h6>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="information-card">
                     <ng-container *ngIf="flagMailbox; else noMailbox">
-                        <button class="card justify-content-between w-100" (click)="onCategoryInformation('mailbox')">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('mailbox')">
                             <img class="card-img-top mt-1" src="assets/general/2.png" alt="...">
                             <div class="card-title w-100 d-flex justify-content-center">
                                 <h6 style="color: var(--dark-purple); font-weight: 700;">2</h6>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="information-card">
                     <ng-container *ngIf="flagFacility; else noBooking">
-                        <button class="card justify-content-between w-100" (click)="onCategoryInformation('facility')">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('facility')">
                             <img class="card-img-top mt-1" src="assets/general/3.png" alt="...">
                             <div class="card-title w-100 d-flex justify-content-center">
                                 <h6 style="color: var(--dark-purple); font-weight: 700;">1</h6>

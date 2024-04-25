@@ -1,15 +1,15 @@
 <div class="container form-category w-100">
     <div class="mt-0">
         <app-label labelType="label"  labelFor="categoryImage" labelInput="Image"></app-label>
-        <img class="w-100 rounded" [src]="data['Category Image']">
+        <img class="w-100 rounded" [src]="data['image']">
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="categoryName" labelInput="Name"></app-label>
-        <app-textbox inputID="categoryName" [value]="data['Category Name']" (onChangeEvent)="data['Category Name']=$event" [isReadOnly]="true"></app-textbox>
+        <app-textbox inputID="categoryName" [value]="data['category']" (onChangeEvent)="data['category']=$event" [isReadOnly]="true"></app-textbox>
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="categoryDesc" labelInput="Description"></app-label>
-        <app-textbox inputID="categoryDesc" [value]="data['Category Desc']" (onChangeEvent)="data['Category Desc']=$event" [isReadOnly]="true"></app-textbox>
+        <app-textbox inputID="categoryDesc" [value]="data['description']" (onChangeEvent)="data['description']=$event" [isReadOnly]="true"></app-textbox>
     </div>
     <div class="mt-2">
         <div class="d-flex justify-content-between align-items-center">
@@ -28,7 +28,7 @@
                 <div class="col-5 me-2">
                     <app-timepicker inputID="endTime" [value]="item.endTime" (onChangeEvent)="item.endTime=$event" [isReadOnly]="true"></app-timepicker>
                 </div>
-                <button type="button" class="btn-close col-1" (click)="onDeleteTime(data['ID'], item.id)"></button>
+                <button type="button" class="btn-close col-1" (click)="onDeleteTime(data['id'], item.id)"></button>
             </div>
         </ng-container>
         <ng-container *ngFor="let item of dataTimeAdd">
@@ -44,7 +44,7 @@
         </ng-container>
     </div>
     <div class="container d-flex justify-content-center py-4">
-        <ng-container *ngIf="data['Status']=='Active'; else inActive">
+        <ng-container *ngIf="data['isActive']=='Active'; else inActive">
             <app-button buttonClass="outline-primary" buttonLabel="Deactive" (onClickEvent)="onUpdateCategory(false)"></app-button>
         </ng-container>
         <ng-template #inActive>

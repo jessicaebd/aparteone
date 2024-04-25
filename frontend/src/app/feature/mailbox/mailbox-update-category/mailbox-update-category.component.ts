@@ -48,7 +48,7 @@ export class MailboxUpdateCategoryComponent {
   }
   
   async submitRequest(isActive: boolean){
-    let result = await this.updateMailboxCategory(this.data['ID'], isActive);
+    let result = await this.updateMailboxCategory(this.data['id'], isActive);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

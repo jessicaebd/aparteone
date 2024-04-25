@@ -97,17 +97,20 @@ export class MaintenanceAllRequestComponent {
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident Name'] = response.resident;
-      this.dataRequest['Maintenance ID'] = response.maintenanceId;
-      this.dataRequest['Maintenance Category'] = response.maintenanceCategory;
-      this.dataRequest['Maintenance Detail'] = response.maintenanceDetail;
-      this.dataRequest['Status'] = response.status;
-      this.dataRequest['Request Date'] = response.requestDate;
-      this.dataRequest['Assigned Name'] = response.assignedTo;
-      this.dataRequest['Assigned Date'] = response.assignedDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
-      this.dataRequest['Cancelled Date'] = response.cancelledDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
+      this.dataRequest['residentId'] = response.resident;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['maintenanceId'] = response.maintenanceId;
+      this.dataRequest['maintenanceCategory'] = response.maintenanceCategory;
+      this.dataRequest['description'] = response.description;
+      this.dataRequest['status'] = response.status;
+      this.dataRequest['requestDate'] = response.requestDate;
+      this.dataRequest['assignedTo'] = response.assignedTo;
+      this.dataRequest['assignedDate'] = response.assignedDate;
+      this.dataRequest['completedDate'] = response.completedDate;
+      this.dataRequest['cancelledDate'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
   }
@@ -135,7 +138,7 @@ export class MaintenanceAllRequestComponent {
   //   });
   // }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.ngOnInit();
   }

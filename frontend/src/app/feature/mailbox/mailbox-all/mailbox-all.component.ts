@@ -101,16 +101,17 @@ export class MailboxAllComponent {
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident Name'] = response.residentName;
-      this.dataRequest['Resident ID'] = response.residentId;
-      this.dataRequest['Resident Unit'] = response.residentUnit;
-      this.dataRequest['Mailbox ID'] = response.mailboxId;
-      this.dataRequest['Mailbox Category'] = response.mailboxCategory;
-      this.dataRequest['Mailbox Desc'] = response.description;
-      this.dataRequest['Status'] = response.status;
-      this.dataRequest['Received Date'] = response.receivedDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['mailboxId'] = response.mailboxId;
+      this.dataRequest['mailboxCategory'] = response.mailboxCategory;
+      this.dataRequest['description'] = response.description;
+      this.dataRequest['status'] = response.status;
+      this.dataRequest['receivedDate'] = response.receivedDate;
+      this.dataRequest['completedDate'] = response.completedDate;
       resolve(this.dataRequest);
     });
   }
@@ -144,7 +145,7 @@ export class MailboxAllComponent {
   //   });
   // }
   
-  onCloseModal(type: string){
+  redirect(type: string){
     if(type=='detail'){
       this.modalCloseDetail.nativeElement.click();
     }

@@ -59,7 +59,7 @@ export class AnnouncementDetailComponent implements OnInit{
     }
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.ngOnInit();
   }

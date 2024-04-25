@@ -195,15 +195,15 @@ export class MerchantService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
-  getTransactionResident(merchantId: any, size:number, page: number, status:any): any {
+  getTransactionResident(residentId: any, size:number, page: number, status:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiResident}`;
     const headers = new HttpHeaders({ });
     let params;
     if(status=='' || status == null){
-      params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
     }
     else{
-      params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page, 'status': status } });
+      params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);

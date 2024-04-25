@@ -219,7 +219,7 @@ export class MerchantProductComponent {
     }
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
   }
 

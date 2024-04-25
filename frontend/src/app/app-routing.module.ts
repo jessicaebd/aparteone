@@ -17,15 +17,12 @@ import { PaymentAllComponent } from './feature/payment/payment-all/payment-all.c
 
 // MAINTENANCE
 import { MaintenanceComponent } from './feature/maintenance/maintenance.component';
+import { MaintenanceHistoryComponent } from './feature/maintenance/maintenance-history/maintenance-history.component';
 import { MaintenanceAllRequestComponent } from './feature/maintenance/maintenance-all-request/maintenance-all-request.component';
-import { MaintenanceDetailRequestComponent } from './feature/maintenance/maintenance-detail-request/maintenance-detail-request.component';
 
 // FACILITY
 import { FacilityComponent } from './feature/facility/facility.component';
-import { FacilityRequestComponent } from './feature/facility/facility-request/facility-request.component';
-import { MaintenanceHistoryComponent } from './feature/maintenance/maintenance-history/maintenance-history.component';
 import { FacilityHistoryComponent } from './feature/facility/facility-history/facility-history.component';
-import { FacilityAddCategoryComponent } from './feature/facility/facility-add-category/facility-add-category.component';
 import { FacilityAllRequestComponent } from './feature/facility/facility-all-request/facility-all-request.component';
 
 // MAILBOX
@@ -39,13 +36,14 @@ import { ChatComponent } from './feature/chat/chat.component';
 import { MerchantComponent } from './feature/merchant/merchant.component';
 import { MerchantHistoryComponent } from './feature/merchant/merchant-history/merchant-history.component';
 import { MerchantStoreComponent } from './feature/merchant/merchant-store/merchant-store.component';
+import { MerchantAllComponent } from './feature/merchant/merchant-all/merchant-all.component';
+import { ProductAllComponent } from './feature/merchant/product-all/product-all.component';
+import { CartComponent } from './feature/merchant/cart/cart.component';
+import { TransactionComponent } from './feature/merchant/transaction/transaction.component';
 
 // REPORT
 import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
-import { MerchantAllComponent } from './feature/merchant/merchant-all/merchant-all.component';
-import { ProductAllComponent } from './feature/merchant/product-all/product-all.component';
-import { CartComponent } from './feature/merchant/cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -85,8 +83,9 @@ const routes: Routes = [
   { path: 'merchant/history', component: MerchantHistoryComponent  },
   { path: 'product', component: ProductAllComponent  },
   { path: 'cart/:id', component: CartComponent },
+  { path: 'transaction', component: TransactionComponent  },
   
-  // MERCHANT
+  // CHAT
   { path: 'chat', component: ChatComponent },
   { path: 'chat/:id', component: ChatComponent  },
 ];

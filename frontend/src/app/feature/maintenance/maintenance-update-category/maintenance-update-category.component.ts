@@ -48,7 +48,7 @@ export class MaintenanceUpdateCategoryComponent{
   }
   
   async submitRequest(isActive: boolean){
-    let result = await this.updateMaintenanceCategory(this.data['ID'], isActive);
+    let result = await this.updateMaintenanceCategory(this.data['id'], isActive);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 
@@ -69,9 +69,5 @@ export class MaintenanceUpdateCategoryComponent{
       });
     }
     
-  }
-
-  backButton(){
-    window.location.replace('/maintenance');
   }
 }

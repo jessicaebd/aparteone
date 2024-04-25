@@ -190,10 +190,10 @@ export class PaymentComponent implements OnInit{
 
   setDetailCategory (response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataCategory['ID'] = response.id;
-      this.dataCategory['Apartment ID'] = response.apartmentId;
-      this.dataCategory['Category Name'] = response.category;
-      this.dataCategory['Status'] = response.isActive;
+      this.dataCategory['id'] = response.id;
+      this.dataCategory['apartmentId'] = response.apartmentId;
+      this.dataCategory['category'] = response.category;
+      this.dataCategory['isActive'] = response.isActive;
       resolve(this.dataCategory);
     });
   }
@@ -201,6 +201,7 @@ export class PaymentComponent implements OnInit{
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
       this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
       this.dataRequest['residentId'] = response.residentId;
       this.dataRequest['residentUnit'] = response.residentUnit;
       this.dataRequest['residentName'] = response.residentName;
@@ -279,7 +280,7 @@ export class PaymentComponent implements OnInit{
     this.ngOnInit();
   }
   
-  onCloseModal(type: string){
+  redirect(type: string){
     console.log(type);
     if(type=='add'){
       this.modalCloseAdd.nativeElement.click();
@@ -297,11 +298,7 @@ export class PaymentComponent implements OnInit{
     this.ngOnInit();
   }
 
-  onHistoryClick(){
-    window.location.replace('/payment/history');
-  }
-
-  onAllRequest(){
+  goToAllPaymentPage(){
     window.location.replace('/payment/all');
   }
 }

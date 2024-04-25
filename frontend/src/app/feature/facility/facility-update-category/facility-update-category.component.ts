@@ -100,7 +100,7 @@ export class FacilityUpdateCategoryComponent {
     }).then(async (result) => {
       if (result.value) {
         this.apps.loadingPage(true);
-        let result = await this.updateFacilityCategory(this.data['ID'], set);
+        let result = await this.updateFacilityCategory(this.data['id'], set);
         this.onSubmitEvent.emit();
         this.apps.loadingPage(false);
         this.clearData()
@@ -187,7 +187,7 @@ export class FacilityUpdateCategoryComponent {
         'startTime': t.startTime,
         'endTime': t.endTime,
       }
-      result = await this.insertFacilityTime(this.data['ID'], objTime);
+      result = await this.insertFacilityTime(this.data['id'], objTime);
     }
 
     this.apps.loadingPage(false);

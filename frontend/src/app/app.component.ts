@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
     this.auth.onLogout();
   }
 
-  onNotificationClick(){
+  goToNotificationPage(){
     window.location.replace('/notification');
   }
 

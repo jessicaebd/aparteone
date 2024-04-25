@@ -26,7 +26,7 @@
     </div>
     <div class="modal-body d-flex col justify-content-center">
         <div class="container">
-            <app-payment-add (onSubmitEvent)="onCloseModal('new')"></app-payment-add>
+            <app-payment-add (onSubmitEvent)="redirect('new')"></app-payment-add>
         </div>
     </div>
 </ng-template>
@@ -41,7 +41,7 @@
     </div>
     <div class="modal-body d-flex col justify-content-center">
         <div class="container">
-            <app-payment-detail [data]="dataRequest" (onSubmitEvent)="onCloseModal('detail')"></app-payment-detail>
+            <app-payment-detail [data]="dataRequest" (onSubmitEvent)="redirect('detail')"></app-payment-detail>
         </div>
     </div>
 </ng-template>

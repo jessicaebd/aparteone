@@ -66,7 +66,7 @@
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center" [filter]="false"
-                iconStart="bi bi-eye-fill" label="View" type="primary" (onClickActionEvent)="onListItemClick('announcement', $event)" [length]="allDataAnnouncement" 
+                iconStart="bi bi-eye-fill" label="View" type="primary" (onClickActionEvent)="goToDetailAnnouncementPage('announcement', $event)" [length]="allDataAnnouncement" 
                 [pageIndex]="page" [pageSize]="size" (onPageIndexEvent)="onLoadData('announcement', $event)" (onSortEvent)="onSortData('announcement', $event)" [errorMsg]="errorMsglist"></app-table>
             </div>
         </div>
@@ -81,7 +81,7 @@
             <button type="button" class="btn-close" #closeModal data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body d-flex col justify-content-center">
-            <app-announcement-add (onSubmitEvent)="onCloseModal()"></app-announcement-add>
+            <app-announcement-add (onSubmitEvent)="redirect()"></app-announcement-add>
         </div>
     </ng-template>
 </ng-container>

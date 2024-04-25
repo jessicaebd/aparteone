@@ -52,7 +52,7 @@ export class PaymentListComponent {
     console.log('Download PDF');
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.onSubmitEvent.emit();
   }

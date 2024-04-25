@@ -1,5 +1,6 @@
 export interface Payment{
     "id"?: any,
+    "receiptId"?: any,
     "residentId"?: any,
     "residentUnit"?: any,
     "residentName"?: any,
@@ -15,18 +16,18 @@ export interface Payment{
 }
 
 export interface PaymentCategory{
-    "ID"?: any,
-    "Apartment ID"?: any,
-    "Category Name"?: any,
-    "Status"?: any,
-    "Created Date"?: any,
-    "Modified Date"?: any
+    "id"?: any,
+    "apartmentId"?: any,
+    "category"?: any,
+    "isActive"?: any,
+    "createdDate"?: any,
+    "modifiedDate"?: any
 }
 
 export interface PaymentProof{
-    id: any,
-    paymentProofImage?: any,
-    paymentStatus?: any,
-    paymentDate?: any,
-    verifiedDate?: any
+    'id': any,
+    'paymentProofImage'?: any,
+    'paymentStatus'?: any,
+    'paymentDate'?: any,
+    'verifiedDate'?: any
 }

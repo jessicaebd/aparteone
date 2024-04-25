@@ -86,7 +86,7 @@ export class MerchantListComponent {
     this.searchMerchantResident(this.apartmentId, this.keySearch);
   }
 
-  onMerchantClick(id: any){
+  goToMerchantStorePage(id: any){
     window.location.replace('/merchant/store/' + id);
   }
 }

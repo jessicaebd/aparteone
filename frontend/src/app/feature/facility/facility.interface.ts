@@ -1,36 +1,30 @@
 export interface FacilityRequest{
-    "ID"?: any,
-    "Resident ID"?: any,
-    "Resident Unit"?: any,
-    "Resident Name"?: any,
-    "Facility ID"?: any,
-    "Facility Category"?: any,
-    "Facility Time ID"?: any,
-    "Book Date"?: any,
-    "Start Time"?: any,
-    "End Time"?: any,
-    "Status"?: any,
-    "Request Date"?: any,
-    "Completed Date"?: any,
-    "Cancelled Date"?: any,
+    "id"?: any,
+    "receiptId"?: any,
+    "residentId"?: any,
+    "residentName"?: any,
+    "residentUnit"?: any,
+    "facilityId"?: any,
+    "facilityCategory"?: any,
+    "facilityTimeId"?: any,
+    "reserveDate"?: any,
+    "startTime"?: any,
+    "endTime"?: any,
+    "facilityRequeststatus"?: any,
+    "createdDate"?: any,
+    "completedDate"?: any,
+    "cancelledDate"?: any,
   }
 
-export interface Facility {
-    'Category' : FacilityCategory,
-    'Time': FacilityCategoryTime
-}
-
 export interface FacilityCategory{
-    "ID"?: any,
-    "Apartment ID"?: any,
-    "Category Name"?: any,
-    "Category Desc"?: any,
-    "Category Image"?: any,
-    "Category Time"?: FacilityCategoryTime[],
-    "Status"?: any,
-    "Created Date"?: any,
-    "Modified Date"?: any
-    "Deleted Date"?: any
+    "id"?: any,
+    "apartmentId"?: any,
+    "category"?: any,
+    "description"?: any,
+    "image"?: any,
+    "isActive"?: any,
+    "createdDate"?: any,
+    "modifiedDate"?: any
 }
 
 export interface FacilityCategoryTime{

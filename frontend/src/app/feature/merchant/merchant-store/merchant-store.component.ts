@@ -48,7 +48,7 @@ export class MerchantStoreComponent {
     window.location.replace('/merchant');
   }
   
-  onCartClick(){
+  goToCartPage(){
     window.location.replace('/cart/' + this.merchantId);
   }
 }

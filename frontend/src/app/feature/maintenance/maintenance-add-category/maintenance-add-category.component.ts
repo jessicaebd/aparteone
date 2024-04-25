@@ -21,13 +21,13 @@ export class MaintenanceAddCategoryComponent {
     this.flagValidasi = false;
     let errorMsg = "";
 
-    if(this.data['Category Image']=="" || this.data['Category Image']==undefined){
+    if(this.data['image']=="" || this.data['image']==undefined){
       errorMsg = "Please upload Maintenance Image";
     }
-    else if(this.data['Category Name']=="" || this.data['Category Name']=="Select a value" || this.data['Category Name']==undefined){
+    else if(this.data['category']=="" || this.data['category']=="Select a value" || this.data['category']==undefined){
       errorMsg = "Please fill Maintenance Name";
     } 
-    else if(this.data['Category Desc']=="" || this.data['Category Desc']=="Select a value" || this.data['Category Desc']==undefined){
+    else if(this.data['description']=="" || this.data['description']=="Select a value" || this.data['description']==undefined){
       errorMsg = "Please fill Maintenance Description";
     }
     else{
@@ -90,9 +90,9 @@ export class MaintenanceAddCategoryComponent {
     return new Promise<any>(resolve =>{
       let body = {
         'apartmentId': 1,
-        'image': this.data['Category Image'],
-        'category': this.data['Category Name'],
-        'description': this.data['Category Desc'],
+        'image': this.data['image'],
+        'category': this.data['category'],
+        'description': this.data['description'],
         'isActive': true
       }
       resolve(body);
@@ -111,9 +111,5 @@ export class MaintenanceAddCategoryComponent {
           resolve(error);
         }
       }))
-  }
-
-  backButton(){
-    window.location.replace('/maintenance');
   }
 }

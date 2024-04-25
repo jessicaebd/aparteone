@@ -39,15 +39,29 @@ export interface Cart{
 }
 
 export interface Transaction{
-    // id?:any
-    // merchantId?: any;
-    // merchantName?: any;
-    // residentId?: any;
-    // productId?: any;
-    // productImage?: any;
-    // productName?: any;
-    // productPrice?: any;
-    // quantity?: any;
-    // notes?: any;
-    // totalPrice?: any;
+    id?:any
+    residentId?: any;
+    residentName?: any;
+    residentUnit?: any;
+    merchantId?: any;
+    merchantName?: any;
+    merchantCategory?: any;
+    grandTotal?: any;
+    status?: any;
+    transactionDate?: any;
+    deliveredDate?: any;
+    completedDate?: any;
+    cancelledDate?: any;
+    details?: TransactionDetail;
+}
+
+export interface TransactionDetail{
+    id?:any
+    productId?: any;
+    name?: any;
+    price?: any;
+    description?: any;
+    quantity?: any;
+    notes?: any;
+    totalPrice?: any;
 }

@@ -25,7 +25,7 @@
                 <button type="button" class="btn-close" #closeModal data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-announcement-update [data]="announcement" (onSubmitEvent)="onCloseModal()"></app-announcement-update>
+                <app-announcement-update [data]="announcement" (onSubmitEvent)="redirect()"></app-announcement-update>
             </div>
         </ng-template>
     </ng-container>

@@ -28,7 +28,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-product-add (onSubmitEvent)="onCloseModal('add')"></app-product-add>
+                    <app-product-add (onSubmitEvent)="redirect('add')"></app-product-add>
                 </div>
             </div>
         </ng-template>
@@ -43,7 +43,7 @@
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
-                    <app-product-detail [data]="dataProduct" (onSubmitEvent)="onCloseModal('detail')"></app-product-detail>
+                    <app-product-detail [data]="dataProduct" (onSubmitEvent)="redirect('detail')"></app-product-detail>
                 </div>
             </div>
         </ng-template>

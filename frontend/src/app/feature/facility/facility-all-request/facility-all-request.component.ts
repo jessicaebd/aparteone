@@ -83,20 +83,21 @@ export class FacilityAllRequestComponent {
 
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
-      this.dataRequest['ID'] = response.id;
-      this.dataRequest['Resident ID'] = response.residentId;
-      this.dataRequest['Resident Name'] = response.residentName;
-      this.dataRequest['Resident Unit'] = response.residentUnit;
-      this.dataRequest['Facility ID'] = response.facilityId;
-      this.dataRequest['Facility Category'] = response.facilityCategory;
-      this.dataRequest['Facility Time ID'] = response.facilityTimeId;
-      this.dataRequest['Book Date'] = response.reserveDate;
-      this.dataRequest['Start Time'] = response.startTime;
-      this.dataRequest['End Time'] = response.endTime;
-      this.dataRequest['Status'] = response.facilityRequeststatus;
-      this.dataRequest['Request Date'] = response.requestDate;
-      this.dataRequest['Completed Date'] = response.completedDate;
-      this.dataRequest['Cancelled Date'] = response.cancelledDate;
+      this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
+      this.dataRequest['residentId'] = response.residentId;
+      this.dataRequest['residentName'] = response.residentName;
+      this.dataRequest['residentUnit'] = response.residentUnit;
+      this.dataRequest['facilityId'] = response.facilityId;
+      this.dataRequest['facilityCategory'] = response.facilityCategory;
+      this.dataRequest['facilityTimeId'] = response.facilityTimeId;
+      this.dataRequest['reserveDate'] = response.reserveDate;
+      this.dataRequest['startTime'] = response.startTime;
+      this.dataRequest['endTime'] = response.endTime;
+      this.dataRequest['facilityRequeststatus'] = response.facilityRequeststatus;
+      this.dataRequest['createdDate'] = response.createdDate;
+      this.dataRequest['completedDate'] = response.completedDate;
+      this.dataRequest['cancelledDate'] = response.cancelledDate;
       resolve(this.dataRequest);
     });
   }
@@ -118,7 +119,7 @@ export class FacilityAllRequestComponent {
     this.ngOnInit();
   }
 
-  onCloseModal(){
+  redirect(){
     this.modalClose.nativeElement.click();
     this.ngOnInit();
   }

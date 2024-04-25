@@ -1,56 +1,64 @@
 <div class="container">
     <div class="row">
         <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="Cart - Bakmi Gading Permai" labelType="title"></app-label>
+        <app-label [labelInput]="'Cart - ' + merchant.name" labelType="title"></app-label>
     </div>
     <div class="d-flex justify-content-between align-items-center pt-2 pb-3">
         <app-label labelInput="ORDER SUMMARY" labelType="subtitle"></app-label>
-        <app-button buttonLabel="Add Item"></app-button>
+        <app-button buttonLabel="Add Item" (onClickEvent)="backButton()"></app-button>
     </div>
 
-    <ng-container *ngFor="let item of cartList">
-        <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
-            <div class="col-1 d-flex justify-content-center ms-3 me-2 image-cart">
-                <img class="rounded" [src]="item.productImage" alt="">
-            </div>
-            <div class="col-8 py-2">
-                <div class="row w-50">
-                    <div class="col-1">
-                        <app-label [labelInput]="item.quantity + 'x'" style="font-weight: 600; font-size: 1rem;"></app-label>
-                    </div>
-                    <div class="col">
-                        <app-label [labelInput]="item.productName" style="font-weight: 600; font-size: 1rem;"></app-label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col ms-5">
-                        <app-label [labelInput]="item.notes"></app-label>
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col ms-4 ps-3">
-                        <app-text-button iconStart="bi bi-pencil-fill" label="Edit" data-bs-toggle="modal" data-bs-target="#modalCartDetail" (onClickEvent)="onCartClick(item)"></app-text-button>
-                    </div>
-                </div>
-            </div>
-            <div class="col d-flex justify-content-end py-2 pe-4">
-                <app-label [labelInput]="item.totalPrice" style="font-weight: 600; font-size: 1rem;"></app-label>
-            </div>
+    <ng-container *ngIf="flagNoCart; else list">
+        <div class="d-flex justify-content-center align-items-center" style="height: 10rem;">
+            <app-label labelInput="Cart is Empty!"></app-label>
         </div>
     </ng-container>
 
-    <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
-        <div class="col-1 d-flex justify-content-center ms-3 me-2">
-            <app-label labelInput="Subtotal" style="font-weight: 600; font-size: 1rem;"></app-label>
+    <ng-template #list>
+        <ng-container *ngFor="let item of cartList">
+            <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
+                <div class="col-1 d-flex justify-content-center ms-3 me-2 image-cart">
+                    <img class="rounded" [src]="item.productImage" alt="">
+                </div>
+                <div class="col-8 py-2">
+                    <div class="row w-50">
+                        <div class="col-1">
+                            <app-label [labelInput]="item.quantity + 'x'" style="font-weight: 600; font-size: 1rem;"></app-label>
+                        </div>
+                        <div class="col">
+                            <app-label [labelInput]="item.productName" style="font-weight: 600; font-size: 1rem;"></app-label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col ms-5">
+                            <app-label [labelInput]="item.notes"></app-label>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col ms-4 ps-3">
+                            <app-text-button iconStart="bi bi-pencil-fill" label="Edit" data-bs-toggle="modal" data-bs-target="#modalCartDetail" (onClickEvent)="onCartClick(item)"></app-text-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col d-flex justify-content-end py-2 pe-4">
+                    <app-label [labelInput]="item.totalPrice" style="font-weight: 600; font-size: 1rem;"></app-label>
+                </div>
+            </div>
+        </ng-container>
+    
+        <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
+            <div class="col-1 d-flex justify-content-center ms-3 me-2">
+                <app-label labelInput="Subtotal" style="font-weight: 600; font-size: 1rem;"></app-label>
+            </div>
+            <div class="col d-flex justify-content-end pe-4">
+                <app-label [labelInput]="subtotal" style="font-weight: 600; font-size: 1rem;"></app-label>
+            </div>
         </div>
-        <div class="col d-flex justify-content-end pe-4">
-            <app-label [labelInput]="subtotal" style="font-weight: 600; font-size: 1rem;"></app-label>
+    
+        <div class="d-flex justify-content-center my-3">
+            <app-button buttonLabel="Order Now" data-bs-toggle="modal" data-bs-target="#modalCheckout" (onClickEvent)="onCheckoutCart()"></app-button>
         </div>
-    </div>
-
-    <div class="d-flex justify-content-end my-3">
-        <app-button buttonLabel="Order Now"></app-button>
-    </div>
+    </ng-template>
 
     <!-- Modal -->
     <app-modal modalID="modalCartDetail" [width]="400" [modalContent]="modalCartDetail"></app-modal>
@@ -87,6 +95,61 @@
                 <ng-container *ngIf="counterProduct > 0; else deleteCart">
                     <div class="d-flex justify-content-center mt-3">
                         <app-button buttonLabel="Save" (onClickEvent)="saveOrder()"></app-button>
+                    </div>
+                </ng-container>
+                
+                <ng-template #deleteCart>
+                    <div class="d-flex justify-content-center mt-3">
+                        <app-button buttonLabel="Delete" buttonClass="danger" (onClickEvent)="deleteOrder()"></app-button>
+                    </div>
+                </ng-template>
+            </ng-container>
+        </div>
+    </ng-template>
+
+    <!-- Modal -->
+    <app-modal modalID="modalCheckout" [width]="400" [modalContent]="modalCheckout"></app-modal>
+
+    <ng-template #modalCheckout>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Checkout</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalCO></button>
+        </div>
+        <div class="modal-body justify-content-center">
+            <ng-container *ngIf="checkout">
+                <div class="w-100">
+                    <div class="row mb-1">
+                        <div class="col-5">
+                            <app-label class="text-break" labelType="label" labelInput="Bank Account Number"></app-label>
+                        </div>
+                        <div class="col">
+                            <app-label class="text-break" labelType="label" [labelInput]="': ' + merchant.accountNumber"></app-label>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-5">
+                            <app-label class="text-break" labelType="label" labelInput="Bank Account Name"></app-label>
+                        </div>
+                        <div class="col">
+                            <app-label class="text-break" labelType="label" [labelInput]="': ' + merchant.accountName"></app-label>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-5">
+                            <app-label class="text-break" labelType="label" labelInput="Total"></app-label>
+                        </div>
+                        <div class="col">
+                            <app-label class="text-break" labelType="label" [labelInput]="': ' + checkout.grandTotal"></app-label>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <app-label labelType="label"  labelFor="proof" labelInput="Payment Proof" [isMandatory]="true"></app-label>
+                        <app-attachment-image attachmentID="proof" paymentProof="20vw" (onChangeEvent)="paymentProof=$event"></app-attachment-image>
+                    </div>
+                </div>
+                <ng-container *ngIf="counterProduct > 0; else deleteCart">
+                    <div class="d-flex justify-content-center mt-3">
+                        <app-button buttonLabel="Pay" (onClickEvent)="payCheckout()"></app-button>
                     </div>
                 </ng-container>
                 
