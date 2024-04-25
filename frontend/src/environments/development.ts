@@ -30,7 +30,7 @@ export const environment : EnvironmentInterface = {
             facility: "facility",
             time: "time",
             mailbox: "mailbox",
-            payment: "billing",
+            billing: "billing",
             merchant: "merchant",
             product: "product",
             cart: "cart",

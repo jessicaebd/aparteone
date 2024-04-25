@@ -12,8 +12,8 @@ import { AnnouncementComponent } from './feature/announcement/announcement.compo
 import { AnnouncementDetailComponent } from './feature/announcement/announcement-detail/announcement-detail.component';
 
 // PAYMENT
-import { PaymentComponent } from './feature/payment/payment.component';
-import { PaymentAllComponent } from './feature/payment/payment-all/payment-all.component';
+import { BillingComponent } from './feature/billing/billing.component';
+import { BillingAllComponent } from './feature/billing/billing-all/billing-all.component';
 
 // MAINTENANCE
 import { MaintenanceComponent } from './feature/maintenance/maintenance.component';
@@ -59,8 +59,8 @@ const routes: Routes = [
   { path: 'announcement/detail/:id', component: AnnouncementDetailComponent},
   
   // PAYMENT
-  { path: 'payment', component: PaymentComponent },
-  { path: 'payment/all', component: PaymentAllComponent},
+  { path: 'billing', component: BillingComponent },
+  { path: 'billing/all', component: BillingAllComponent},
   
   // MAINTENANCE
   { path: 'maintenance', component: MaintenanceComponent },

@@ -68,8 +68,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     let currentPath = window.location.href;
 
-    if(currentPath.includes('payment')){
-      this.activeNav = 'payment'
+    if(currentPath.includes('billing')){
+      this.activeNav = 'billing'
     }
     else if(currentPath.includes('facility')){
       this.activeNav = 'facility'

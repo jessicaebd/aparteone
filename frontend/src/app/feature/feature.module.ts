@@ -37,14 +37,14 @@ import { MailboxAllComponent } from './mailbox/mailbox-all/mailbox-all.component
 import { MailboxAddComponent } from './mailbox/mailbox-add/mailbox-add.component';
 import { MailboxDetailComponent } from './mailbox/mailbox-detail/mailbox-detail.component';
 // PAYMENT
-import { PaymentComponent } from './payment/payment.component';
-import { PaymentListComponent } from './payment/payment-list/payment-list.component';
-import { PaymentAddCategoryComponent } from './payment/payment-add-category/payment-add-category.component';
-import { PaymentUpdateCategoryComponent } from './payment/payment-update-category/payment-update-category.component';
-import { PaymentAddComponent } from './payment/payment-add/payment-add.component';
-import { PaymentAllComponent } from './payment/payment-all/payment-all.component';
-import { PaymentPayComponent } from './payment/payment-pay/payment-pay.component';
-import { PaymentDetailComponent } from './payment/payment-detail/payment-detail.component';
+import { BillingComponent } from './billing/billing.component';
+import { BillingAddComponent } from './billing/billing-add/billing-add.component';
+import { BillingAddCategoryComponent } from './billing/billing-add-category/billing-add-category.component';
+import { BillingAllComponent } from './billing/billing-all/billing-all.component';
+import { BillingDetailComponent } from './billing/billing-detail/billing-detail.component';
+import { BillingListComponent } from './billing/billing-list/billing-list.component';
+import { BillingPayComponent } from './billing/billing-pay/billing-pay.component';
+import { BillingUpdateCategoryComponent } from './billing/billing-update-category/billing-update-category.component';
 // CHAT
 import { ChatComponent } from './chat/chat.component';
 // MERCHANT
@@ -54,16 +54,16 @@ import { MerchantHistoryComponent } from './merchant/merchant-history/merchant-h
 import { MerchantListComponent } from './merchant/merchant-list/merchant-list.component';
 import { MerchantProductComponent } from './merchant/merchant-product/merchant-product.component';
 import { MerchantStoreComponent } from './merchant/merchant-store/merchant-store.component';
-// REPORT
-import { ReportComponent } from './report/report.component';
-import { MerchantDetailComponent } from './merchant/merchant-detail/merchant-detail.component';
-import { TransactionListComponent } from './merchant/transaction-list/transaction-list.component';
 import { ProductAllComponent } from './merchant/product-all/product-all.component';
+import { MerchantDetailComponent } from './merchant/merchant-detail/merchant-detail.component';
 import { ProductDetailComponent } from './merchant/product-detail/product-detail.component';
 import { ProductAddComponent } from './merchant/product-add/product-add.component';
 import { CartComponent } from './merchant/cart/cart.component';
-import { HomeComponent } from './home/home.component';
 import { TransactionComponent } from './merchant/transaction/transaction.component';
+import { TransactionListComponent } from './merchant/transaction-list/transaction-list.component';
+// REPORT
+import { ReportComponent } from './report/report.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -96,14 +96,6 @@ import { TransactionComponent } from './merchant/transaction/transaction.compone
     MailboxAllComponent,
     MailboxAddComponent,
     MailboxDetailComponent,
-    PaymentComponent,
-    PaymentListComponent,
-    PaymentAddCategoryComponent,
-    PaymentUpdateCategoryComponent,
-    PaymentAddComponent,
-    PaymentAllComponent,
-    PaymentPayComponent,
-    PaymentDetailComponent,
     MerchantComponent,
     MerchantAllComponent,
     MerchantListComponent,
@@ -120,6 +112,14 @@ import { TransactionComponent } from './merchant/transaction/transaction.compone
     ChatComponent,
     HomeComponent,
     TransactionComponent,
+    BillingComponent,
+    BillingAddComponent,
+    BillingAddCategoryComponent,
+    BillingAllComponent,
+    BillingDetailComponent,
+    BillingListComponent,
+    BillingPayComponent,
+    BillingUpdateCategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -157,14 +157,6 @@ import { TransactionComponent } from './merchant/transaction/transaction.compone
     MailboxAllComponent,
     MailboxAddComponent,
     MailboxDetailComponent,
-    PaymentComponent,
-    PaymentListComponent,
-    PaymentAddCategoryComponent,
-    PaymentUpdateCategoryComponent,
-    PaymentAddComponent,
-    PaymentAllComponent,
-    PaymentPayComponent,
-    PaymentDetailComponent,
     MerchantComponent,
     MerchantAllComponent,
     MerchantListComponent,
@@ -180,6 +172,14 @@ import { TransactionComponent } from './merchant/transaction/transaction.compone
     ChatComponent,
     HomeComponent,
     TransactionComponent,
+    BillingComponent,
+    BillingAddComponent,
+    BillingAddCategoryComponent,
+    BillingAllComponent,
+    BillingDetailComponent,
+    BillingListComponent,
+    BillingPayComponent,
+    BillingUpdateCategoryComponent,
   ],
   providers:[]
 })

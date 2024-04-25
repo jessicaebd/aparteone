@@ -22,7 +22,7 @@ export interface FeatureEnvironment {
   facility: string,
   time: string,
   mailbox: string,
-  payment: string,
+  billing: string,
   merchant: string,
   product: string,
   cart: string,

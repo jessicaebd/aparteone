@@ -1,0 +1,9 @@
+:host(app-billing-detail){
+    width: 100%;
+}
+
+img{
+    object-fit: contain;
+    min-height: 25rem;
+    max-height: 25rem;
+}

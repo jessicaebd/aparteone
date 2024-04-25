@@ -1,0 +1,130 @@
+<ng-container *ngIf="errorMsg!=''; else list">
+    <div class="d-flex justify-content-center align-items-center" style="height: 10rem;">
+        <p class="mb-0">{{ errorMsg }}</p>
+    </div>
+</ng-container>
+
+<ng-template #list>
+    <div class="accordion" id="paymentParent">
+        <ng-container *ngFor="let item of listRequest">
+            <div class="accordion-item mb-3">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
+                        <div class="header-button w-100">
+                            <div class="row">
+                                <h6 class="col mb-0">{{ item.receiptId }} - {{item.billingCategory}}</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <ng-container *ngIf="item.status=='Waiting for Payment'">
+                                        <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Waiting for Confirmation'">
+                                        <app-badge [badgeText]="item.status" badgeType="secondary"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Completed'">
+                                        <app-badge [badgeText]="item.status" badgeType="success"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Cancelled'">
+                                        <app-badge [badgeText]="item.status" badgeType="danger"></app-badge>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <app-label labelType="span" labelInput="Due Date :"></app-label>
+                            <app-label labelType="span" *ngIf="item.dueDate; else noData" [labelInput]="item.dueDate"></app-label>
+                        </div>
+                    </button>
+                </h2>
+                <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#paymentParent">
+                    <div class="accordion-body pt-0">
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Unit"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.residentUnit; else noData" [labelInput]="': ' + item.residentUnit"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Recipient"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.residentName; else noData" [labelInput]="': ' + item.residentName"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Amount"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.amount; else noData" [labelInput]="': ' + item.amount"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Status"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.status; else noData" [labelInput]="': ' + item.status"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Billing Date"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.billingDate; else noData" [labelInput]="': ' + item.billingDate"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Completed Date"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.completedDate; else noData" [labelInput]="': ' + item.completedDate"></app-label>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="item.status=='Waiting for Payment'">
+                            <div class="d-flex justify-content-center">
+                                <app-button buttonLabel="Pay" data-bs-toggle="modal" data-bs-target="#modalPayBilling" (onClickEvent)="onPayClick(item)"></app-button>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #noData>
+                            <app-label [labelInput]="': -'"></app-label>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Pagination -->
+    <ng-container *ngIf="pagination">
+        <mat-paginator #paginator 
+          (page)="onClickPageIndex($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons] = "false"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page">
+        </mat-paginator>
+    </ng-container>
+</ng-template>
+
+<!-- Modal -->
+<app-modal modalID="modalPayBilling" [width]="600" [modalContent]="modalPayBilling"></app-modal>
+    
+<ng-template #modalPayBilling>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Pay Billing</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container">
+            <app-billing-pay [data]="data" (onSubmitEvent)="redirect()"></app-billing-pay>
+        </div>
+    </div>
+</ng-template>
