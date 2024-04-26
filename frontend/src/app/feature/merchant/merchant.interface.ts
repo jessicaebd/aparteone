@@ -52,7 +52,8 @@ export interface Transaction{
     deliveredDate?: any;
     completedDate?: any;
     cancelledDate?: any;
-    details?: TransactionDetail;
+    details?: TransactionDetail[];
+    payment?: PaymentProof;
 }
 
 export interface TransactionDetail{
@@ -64,4 +65,12 @@ export interface TransactionDetail{
     quantity?: any;
     notes?: any;
     totalPrice?: any;
+}
+
+export interface PaymentProof{
+    id?:any;
+    paymentDate?: any;
+    paymentProofImage?: any;
+    paymentStatus?: any;
+    verifiedDate?: any;
 }
