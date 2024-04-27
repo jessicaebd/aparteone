@@ -21,5 +21,5 @@ public interface MailboxService {
     public MailboxDetailResponse getMailboxDetailById(Integer mailboxDetailId);
     public MailboxDetail addMailboxDetail(MailboxDetailRequest mailboxDetailRequest);
     public MailboxDetail updateMailboxDetailStatus(Integer mailboxDetailId, String status);
-    public void notifyMailboxDetail(Integer userId, Integer mailboxDetailId);
+    public void sendMailboxDetailNotification(Integer userId, Integer mailboxDetailId);
 }

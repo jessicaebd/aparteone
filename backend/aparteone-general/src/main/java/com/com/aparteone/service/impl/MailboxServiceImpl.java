@@ -174,7 +174,7 @@ public class MailboxServiceImpl implements MailboxService {
         mailboxDetail.setReceivedDate(new Date());
         mailboxDetailRepo.save(mailboxDetail);
 
-        notifyMailboxDetail(mailboxDetailRequest.getResidentId(), mailboxDetail.getId());
+        sendMailboxDetailNotification(mailboxDetailRequest.getResidentId(), mailboxDetail.getId());
         return mailboxDetail;
     }
 
@@ -190,7 +190,7 @@ public class MailboxServiceImpl implements MailboxService {
     }
 
     @Override
-    public void notifyMailboxDetail(Integer userId, Integer mailboxDetailId) {
+    public void sendMailboxDetailNotification(Integer userId, Integer mailboxDetailId) {
         notificationService.sendNotification(userId, "Mailbox MBX00" + mailboxDetailId, "You have a new mailbox");
     }
 }

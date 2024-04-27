@@ -244,7 +244,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public void notifyBillingDetail(Integer userId, Integer billingDetailId) {
+    public void sendBillingDetailNotification(Integer userId, Integer billingDetailId) {
         notificationService.sendNotification(userId, "Bills BLN00" + billingDetailId, "You have a new billing");
     }
 }

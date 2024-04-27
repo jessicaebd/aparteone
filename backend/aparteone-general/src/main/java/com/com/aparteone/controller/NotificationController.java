@@ -13,6 +13,9 @@ import com.com.aparteone.entity.Notification;
 import com.com.aparteone.service.NotificationService;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Slf4j
 @RestController
@@ -27,4 +30,5 @@ public class NotificationController {
         List<Notification> response = notificationService.getNotifications(userId);
         return ResponseEntity.ok(response);
     }
+    
 }
