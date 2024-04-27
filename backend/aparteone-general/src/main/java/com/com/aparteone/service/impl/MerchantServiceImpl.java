@@ -20,6 +20,7 @@ import com.com.aparteone.entity.Merchant;
 import com.com.aparteone.repository.MerchantRepo;
 import com.com.aparteone.service.ApartmentService;
 import com.com.aparteone.service.MerchantService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.specification.MerchantSpecification;
 
 import jakarta.transaction.Transactional;
@@ -34,6 +35,9 @@ public class MerchantServiceImpl implements MerchantService {
     @Autowired
     private ApartmentService apartmentService;
 
+    @Autowired
+    private NotificationService notificationService;
+    
     @Override
     public PageResponse<MerchantResponse> searchMerchant(int page, int size, String sortBy, String sortDir, Integer apartmentId, Boolean isActive, String search) {
         Specification<Merchant> spec = Specification.where(null);
@@ -118,7 +122,10 @@ public class MerchantServiceImpl implements MerchantService {
         Merchant merchant = merchantRepo.findById(merchantId).get();
         merchant.setIsActive(isApproved);
         merchant.setIsApproved(isApproved);
-        return merchantRepo.save(merchant);
+        merchantRepo.save(merchant);
+
+        notificationService.sendNotification(merchantId, "Hello!", "Your registration has been " + (isApproved ? "approved" : "rejected"));
+        return merchant;
     }
 
     @Override
@@ -136,6 +143,8 @@ public class MerchantServiceImpl implements MerchantService {
                 false,
                 false
         );
+
+        notificationService.sendNotification(request.getApartmentId(), "Merchant Approval", "You have a new merchant to approve");
         return merchantRepo.save(merchant);
     }
 

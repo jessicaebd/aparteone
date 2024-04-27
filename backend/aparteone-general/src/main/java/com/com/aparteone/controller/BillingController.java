@@ -68,7 +68,7 @@ public class BillingController {
     public ResponseEntity<PageResponse<BillingDetailResponse>> getBillingDetailByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "created_date") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,

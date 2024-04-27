@@ -24,6 +24,7 @@ import com.com.aparteone.entity.MaintenanceRequest;
 import com.com.aparteone.repository.MaintenanceRepo;
 import com.com.aparteone.repository.MaintenanceRequestRepo;
 import com.com.aparteone.service.MaintenanceService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.MaintenanceRequestSpecification;
 import com.com.aparteone.specification.MaintenanceSpecification;
@@ -42,6 +43,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private ResidentService residentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public PageResponse<MaintenanceCategoryResponse> getMaintenanceListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
@@ -185,13 +189,16 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         if (status.equals(AparteoneConstant.STATUS_COMPLETED)) {
             maintenanceRequest.setStatus(status);
             maintenanceRequest.setCompletedDate(new Date());
+            notificationService.sendNotification(maintenanceRequest.getResidentId(), "Maintenance MNT00" + maintenanceRequestId, "Your maintenance request has been completed");
         } else if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
             maintenanceRequest.setStatus(status);
             maintenanceRequest.setCancelledDate(new Date());
+            notificationService.sendNotification(maintenanceRequest.getResidentId(), "Maintenance MNT00" + maintenanceRequestId, "Your maintenance request has been cancelled");
         } else if (status.equals(AparteoneConstant.STATUS_ASSIGNED)) {
             maintenanceRequest.setStatus(status);
             maintenanceRequest.setAssignedTo(remarks);
             maintenanceRequest.setAssignedDate(new Date());
+            notificationService.sendNotification(maintenanceRequest.getResidentId(), "Maintenance MNT00" + maintenanceRequestId, "Your maintenance request has been assigned");
         }
         return maintenanceRequestRepo.save(maintenanceRequest);
     }

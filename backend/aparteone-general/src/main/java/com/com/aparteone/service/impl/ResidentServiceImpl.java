@@ -19,6 +19,7 @@ import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.repository.ResidentRepo;
 import com.com.aparteone.service.ApartmentService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.ResidentSpecification;
 
@@ -30,6 +31,9 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Autowired
     private ApartmentService apartmentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public PageResponse<ResidentResponse> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, Boolean isActive, String search) {
@@ -111,6 +115,8 @@ public class ResidentServiceImpl implements ResidentService {
         Resident resident = residentRepo.findById(residentId).get();
         resident.setIsActive(isApproved);
         resident.setIsApproved(isApproved);
+
+        notificationService.sendNotification(residentId, "Hello!", "Your registration has been " + (isApproved ? "approved" : "rejected"));
         return residentRepo.save(resident);
     }
 
@@ -125,6 +131,8 @@ public class ResidentServiceImpl implements ResidentService {
                 request.getType(),
                 false,
                 false);
+
+        notificationService.sendNotification(request.getApartmentId(), "Resident Approval", "You have a new resident to approve");
         return residentRepo.save(resident);
     }
 

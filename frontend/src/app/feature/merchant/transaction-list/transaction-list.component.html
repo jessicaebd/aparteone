@@ -7,217 +7,87 @@
 <ng-template #list>
     <div class="accordion" id="transactionParent">
         <ng-container *ngFor="let item of listTransaction">
-            <div class="accordion-item mb-3 shadow-sm">
+            <div class="accordion-item mb-3">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
                         <div class="header-button w-100">
                             <div class="row">
-                                <div class="col-1">
-                                    <ng-container *ngIf="item.status=='Pending' || item.status=='On Process'">
-                                        <img class="transaction-img" src="assets/icon/transaction-status/pending.png"
-                                            alt="...">
+                                <h6 class="col mb-0">{{ item.merchantName }}</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <ng-container *ngIf="item.status=='Pending'">
+                                        <app-badge [badgeText]="item.status" badgeType="secondary"></app-badge>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.status=='Waiting for Confirmation' || item.status=='On Process' || item.status=='On Delivery'">
+                                        <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
                                     </ng-container>
                                     <ng-container *ngIf="item.status=='Completed'">
-                                        <img class="transaction-img" src="assets/icon/transaction-status/completed.png"
-                                            alt="...">
-                                    </ng-container>
-                                    <ng-container *ngIf="item.status=='Waiting for Confirmation'">
-                                        <img class="transaction-img"
-                                            src="assets/icon/transaction-status/payment-approval.png" alt="...">
-                                    </ng-container>
-                                    <ng-container *ngIf="item.status=='On Delivery'">
-                                        <img class="transaction-img"
-                                            src="assets/icon/transaction-status/on-delivery.png" alt="...">
+                                        <app-badge [badgeText]="item.status" badgeType="success"></app-badge>
                                     </ng-container>
                                     <ng-container *ngIf="item.status=='Cancelled'">
-                                        <img class="transaction-img" src="assets/icon/transaction-status/cancelled.png"
-                                            alt="...">
+                                        <app-badge [badgeText]="item.status" badgeType="danger"></app-badge>
                                     </ng-container>
                                 </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <h6 class="col mb-0 fs-6"><span class="fw-bolder">#MRC00{{item.id}} - </span>{{
-                                            item.merchantName }}</h6>
-
-                                        <div class="col-2 d-flex justify-content-end">
-                                            <ng-container *ngIf="item.status=='Pending'">
-                                                <app-badge [badgeText]="item.status" badgeType="secondary"></app-badge>
-                                            </ng-container>
-                                            <ng-container
-                                                *ngIf="item.status=='Waiting for Confirmation' || item.status=='On Process' || item.status=='On Delivery'">
-                                                <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
-                                            </ng-container>
-                                            <ng-container *ngIf="item.status=='Completed'">
-                                                <app-badge [badgeText]="item.status" badgeType="success"></app-badge>
-                                            </ng-container>
-                                            <ng-container *ngIf="item.status=='Cancelled'">
-                                                <app-badge [badgeText]="item.status" badgeType="danger"></app-badge>
-                                            </ng-container>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between mt-2">
-                                        <app-label labelType="span" *ngIf="item.transactionDate"
-                                            [labelInput]="item.transactionDate"></app-label>
-                                        <app-label labelType="subtitle" *ngIf="item.grandTotal"
-                                            [labelInput]="item.grandTotal"></app-label>
-                                    </div>
-                                </div>
                             </div>
-
+                            <div class="d-flex justify-content-between mt-1">
+                                <app-label labelType="span" *ngIf="item.transactionDate" [labelInput]="item.transactionDate"></app-label>
+                                <app-label labelType="subtitle" *ngIf="item.grandTotal" [labelInput]="item.grandTotal"></app-label>
+                            </div>
                         </div>
                     </button>
                 </h2>
-
                 <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#transactionParent">
-                    <div class="accordion-body row pt-0">
-                        <h6 class="fw-bolder border-bottom py-2 mt-3">Detail Transaction Receipt</h6>
-                        <div class="col-7">
-                            <div class="row">
-                                <div class="col-3">
-                                    <app-label labelInput="Receipt Id" class="fw-semibold"></app-label>
-                                </div>
-                                <div class="col">
-                                    <app-label *ngIf="item.id; else noData"
-                                        [labelInput]="': MRC00' + item.id"></app-label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <app-label labelInput="Transaction Date" class="fw-semibold"></app-label>
-                                </div>
-                                <div class="col">
-                                    <app-label *ngIf="item.id; else noData"
-                                        [labelInput]="': ' + item.transactionDate"></app-label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <app-label labelInput="Name" class="fw-semibold"></app-label>
-                                </div>
-                                <div class="col">
-                                    <app-label *ngIf="item.residentName; else noData"
-                                        [labelInput]="': ' + item.residentName"></app-label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <app-label labelInput="Unit Number" class="fw-semibold"></app-label>
-                                </div>
-                                <div class="col">
-                                    <app-label *ngIf="item.residentUnit; else noData"
-                                        [labelInput]="': ' + item.residentUnit"></app-label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <app-label labelInput="Merchant Name" class="fw-semibold"></app-label>
-                                </div>
-                                <div class="col">
-                                    <app-label *ngIf="item.merchantName; else noData"
-                                        [labelInput]="': ' + item.merchantName"></app-label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <app-label labelInput="Merchant Category" class="fw-semibold"></app-label>
-                                </div>
-                                <div class="col">
-                                    <app-label *ngIf="item.merchantCategory; else noData"
-                                        [labelInput]="': ' + item.merchantCategory"></app-label>
-                                </div>
-                            </div>
-
-                            <div class="order-detail w-50">
-                                <app-label labelInput="Order Detail :" style="font-weight: 600;"></app-label>
-                                <ng-container *ngFor="let i of item.details">
-                                    <div class="row ms-2 mb-2">
-                                        <div class="col-1">
-                                            <app-label labelType="span" [labelInput]="i.quantity + ' x'"></app-label>
-                                        </div>
-                                        <div class="col">
-                                            <app-label labelType="span" [labelInput]="i.name"></app-label>
-                                        </div>
-                                        <div class="col-2 text-end">
-                                            <app-label labelType="span" [labelInput]="i.totalPrice"></app-label>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                            </div>
-                            <div class="ms-3 w-50">
-                                <div class="row mb-2">
-                                    <div class="col">
-                                        <app-label labelInput="Total :" style="font-weight: 600;"></app-label>
-                                    </div>
-                                    <div class="col-3 text-end">
-                                        <app-label [labelInput]="item.grandTotal" style="font-weight: 600;"></app-label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-5">
-                            <ng-container *ngIf="item.status!='Pending' && item.status != 'Cancelled'">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <app-label labelInput="Payment History" class="fw-semibold"></app-label>
+                    <div class="accordion-body pt-0">
+                        <div class="order-detail ms-3 w-50">
+                            <app-label labelInput="Order Detail :" style="font-weight: 600;"></app-label>
+                            <ng-container *ngFor="let i of item.details">
+                                <div class="row ms-2 mb-2">
+                                    <div class="col-1">
+                                        <app-label labelType="span" [labelInput]="i.quantity + 'x'"></app-label>
                                     </div>
                                     <div class="col">
-                                        <span>: </span><a href="">View</a>
+                                        <app-label labelType="span" [labelInput]="i.name"></app-label>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <app-label labelInput="Delivery Date" class="fw-semibold"></app-label>
-                                    </div>
-                                    <div class="col">
-                                        <app-label *ngIf="item.deliveryDate; else noData"
-                                            [labelInput]="': ' + item.deliveryDate"></app-label>
-                                    </div>
-                                </div>
-                            </ng-container>
-
-                            <ng-container *ngIf="item.status=='Completed'">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <app-label labelInput="Completed Date"></app-label>
-                                    </div>
-                                    <div class="col">
-                                        <app-label *ngIf="item.completedDate; else noData"
-                                            [labelInput]="': ' + item.completedDate"></app-label>
-                                    </div>
-                                </div>
-                            </ng-container>
-
-                            <ng-container *ngIf="item.status=='Cancelled'">
-                                <div class="row">
-                                    <div class="col-4 fw-semibold">
-                                        <app-label labelInput="Cancelled Date"></app-label>
-                                    </div>
-                                    <div class="col">
-                                        <app-label *ngIf="item.cancelledDate; else noData"
-                                            [labelInput]="': ' + item.cancelledDate"></app-label>
+                                    <div class="col-2 text-end">
+                                        <app-label labelType="span" [labelInput]="i.totalPrice"></app-label>
                                     </div>
                                 </div>
                             </ng-container>
                         </div>
-
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-1 button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2"
-                                style="border: solid 1pt var(--primary-purple); height: 38px;">
-                                <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat"></app-text-button>
-                            </div>
-                            <ng-container *ngIf="item.status=='Pending'">
-                                <!-- If payment exist disabled button -->
-                                <div class="col-1 justify-content-center">
-                                    <app-button buttonClass="primary" buttonLabel="Pay" data-bs-toggle="modal"
-                                        data-bs-target="#modalCheckout"
-                                        (onClickEvent)="onSetCheckout(item)"></app-button>
+                        <div class="ms-3 w-50">
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <app-label labelInput="Total :" style="font-weight: 600;"></app-label>
                                 </div>
-                            </ng-container>
-                        </div>
+                                <div class="col-3 text-end">
+                                    <app-label [labelInput]="item.grandTotal" style="font-weight: 600;"></app-label>
+                                </div>
+                            </div>
+                        </div>                        
+                        <ng-container *ngIf="item.status=='Pending'">
+                            <div class="d-flex justify-content-center pt-4 pt-3">
+                                <app-button buttonClass="primary" buttonLabel="Pay"></app-button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.status=='Completed'">
+                            <div class="row w-50">
+                                <div class="col-3">
+                                    <app-label labelInput="Completed Date"></app-label>
+                                </div>
+                                <div class="col">
+                                    <app-label *ngIf="item.completedDate; else noData" [labelInput]="': ' + item.completedDate"></app-label>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.status=='Cancelled'">
+                            <div class="row w-50">
+                                <div class="col-3">
+                                    <app-label labelInput="Cancelled Date"></app-label>
+                                </div>
+                                <div class="col">
+                                    <app-label *ngIf="item.cancelledDate; else noData" [labelInput]="': ' + item.cancelledDate"></app-label>
+                                </div>
+                            </div>
+                        </ng-container>
 
                         <ng-template #noData>
                             <app-label [labelInput]="': -'"></app-label>
@@ -230,62 +100,15 @@
 
     <!-- Pagination -->
     <ng-container *ngIf="pagination">
-        <mat-paginator #paginator (page)="onClickPageIndex($event)" [length]="length" [pageSize]="pageSize"
-            [disabled]="disabled" [showFirstLastButtons]="false" [hidePageSize]="hidePageSize" [pageIndex]="pageIndex"
-            aria-label="Select page">
+        <mat-paginator #paginator 
+          (page)="onClickPageIndex($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons] = "false"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page">
         </mat-paginator>
     </ng-container>
-
-    <!-- Modal -->
-    <app-modal modalID="modalCheckout" [width]="400" [modalContent]="modalCheckout"></app-modal>
-
-    <ng-template #modalCheckout>
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Checkout</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalCO></button>
-        </div>
-        <div class="modal-body justify-content-center">
-            <ng-container *ngIf="checkout">
-                <div class="w-100">
-                    <div class="row mb-1">
-                        <div class="col-5">
-                            <app-label class="text-break" labelType="label"
-                                labelInput="Bank Account Number"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label class="text-break" labelType="label"
-                                [labelInput]="': ' + merchant.accountNumber"></app-label>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-5">
-                            <app-label class="text-break" labelType="label" labelInput="Bank Account Name"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label class="text-break" labelType="label"
-                                [labelInput]="': ' + merchant.accountName"></app-label>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-5">
-                            <app-label class="text-break" labelType="label" labelInput="Total"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label class="text-break" labelType="label"
-                                [labelInput]="': ' + checkout.grandTotal"></app-label>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <app-label labelType="label" labelFor="proof" labelInput="Payment Proof"
-                            [isMandatory]="true"></app-label>
-                        <app-attachment-image attachmentID="proof" paymentProof="20vw"
-                            (onChangeEvent)="paymentProof=$event"></app-attachment-image>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <app-button buttonLabel="Pay" (onClickEvent)="payCheckout()"></app-button>
-                </div>
-            </ng-container>
-        </div>
-    </ng-template>
 </ng-template>
