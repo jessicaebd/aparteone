@@ -1,16 +1,11 @@
 <div class="container">
-    <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="MAINTENENCE" labelType="title"></app-label>
-        <app-label labelInput="Request History" labelType="label"></app-label>
-    </div>
     <div class="d-flex justify-content-between mb-3">
         <div class="d-flex">
             <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
             <button [ngClass]="filter == 'Requested' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Requested')">Requested</button>
             <button [ngClass]="filter == 'Assigned' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Assigned')">Assigned</button>
             <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
-            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Canceled</button>
+            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
         </div>
         <div class="d-flex">
             <div class="input-group" style="height: 38px;">

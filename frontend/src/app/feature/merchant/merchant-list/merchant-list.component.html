@@ -1,38 +1,49 @@
 <ng-container *ngIf="role=='resident'">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="d-flex">
-            <button [ngClass]="category == 'Food and Beverage' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Food and Beverage')">Food & Beverage</button>
-            <button [ngClass]="category == 'Daily Needs' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Daily Needs')">Daily Needs</button>
-            <button [ngClass]="category == 'Home Service' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Home Service')">Home Service</button>
-            <button [ngClass]="category == 'Health and Beauty' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Health and Beauty')">Health and Beauty</button>
-            <button [ngClass]="category == 'Other' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Other')">Other</button>
+            <button [ngClass]="category == 'Food and Beverage' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                (click)="onFilterBy('Food and Beverage')">Food & Beverage</button>
+            <button [ngClass]="category == 'Daily Needs' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                (click)="onFilterBy('Daily Needs')">Daily Needs</button>
+            <button [ngClass]="category == 'Home Service' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                (click)="onFilterBy('Home Service')">Home Service</button>
+            <button [ngClass]="category == 'Health and Beauty' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                (click)="onFilterBy('Health and Beauty')">Health and Beauty</button>
+            <button [ngClass]="category == 'Other' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                (click)="onFilterBy('Other')">Other</button>
         </div>
         <div class="d-flex pe-3 me-5">
             <!-- <div class="d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="background-color: var(--primary-purple); height: 38px;">
                 <app-text-button iconStart="bi bi-cart" label="Cart" type="white"></app-text-button>
             </div> -->
             <div class="d-flex">
-                <app-textbox inputPlaceholder="Search..." [value]="keySearch" (onChangeEvent)="keySearch=$event"></app-textbox>
-                <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
-                    <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
+                <app-textbox inputPlaceholder="Search..." [value]="keySearch"
+                    (onChangeEvent)="keySearch=$event"></app-textbox>
+                <div class="d-flex justify-content-center align-items-center rounded ms-1"
+                    style="background-color: var(--primary-purple); height: 38px;">
+                    <app-text-button iconEnd="bi bi-search" type="white"
+                        (onClickEvent)="onSearchData()"></app-text-button>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="merchant-card ms-1">
-        <ng-container *ngIf="errorMsgMerchant==''; else noData">
-            <ng-container *ngFor="let item of merchantCard">
-                <button class="card ms-2 me-2 mb-3" (click)="goToMerchantStorePage(item.id)">
-                    <img class="card-img-top" [src]="item.image" alt="...">
-                    <div class="card-body w-100">
-                        <div class="d-flex justify-content-end pb-2">
-                            <app-badge [badgeText]="item.category" badgeType="primary"></app-badge>
+        <div class="row">
+            <ng-container *ngIf="errorMsgMerchant==''; else noData">
+                <ng-container *ngFor="let item of merchantCard">
+                    <button class="col-2 card mx-3" (click)="goToMerchantStorePage(item.id)">
+                        <img class="card-img-top" [src]="item.image" alt="...">
+                        <div class="card-body w-100">
+                            <div class="d-flex justify-content-end pb-2">
+                                <app-badge [badgeText]="item.category" badgeType="primary"></app-badge>
+                            </div>
+                            <h5 class="card-title text-truncate">{{ item.name }}</h5>
                         </div>
-                        <h5 class="card-title text-truncate">{{ item.name }}</h5>
-                    </div>
-                </button>
+                    </button>
+                </ng-container>
             </ng-container>
-        </ng-container>
+        </div>
         <ng-template #noData>
             <div class="d-flex justify-content-center align-items-center w-100" style="height: 20rem;">
                 <p class="mb-0">{{ errorMsgMerchant }}</p>

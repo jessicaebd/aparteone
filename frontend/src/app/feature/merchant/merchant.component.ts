@@ -11,7 +11,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./merchant.component.css']
 })
 export class MerchantComponent implements OnInit{
-  role : string = 'management';
+  role : string = 'resident';
   apartmentId = 1;
 
   tableList: any;

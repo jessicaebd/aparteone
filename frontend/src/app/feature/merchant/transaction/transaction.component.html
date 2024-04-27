@@ -1,21 +1,22 @@
 <div class="container pb-5">
     <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="TRANSACTION HISTORY" labelType="title"></app-label>
-        <app-label labelInput="Merchant Order History" labelType="label"></app-label>
+        <app-label labelInput="Transaction" labelType="title"></app-label>
+        <app-label labelInput="Your transaction history" labelType="label"></app-label>
     </div>
 
     <ng-container *ngIf="this.role=='resident'">
-        <div class="d-flex mb-3">
-            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
-            <button [ngClass]="filter == 'Pending' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Pending')">Pending</button>
-            <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
-            <button [ngClass]="filter == 'On Process' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('On Process')">On Process</button>
-            <button [ngClass]="filter == 'On Delivery' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('On Delivery')">On Delivery</button>
-            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
-            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+        <div class="transaction-list shadow-sm border p-3" style="border-radius: 2vh;">
+            <div class="d-flex mb-3">
+                <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+                <button [ngClass]="filter == 'Pending' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Pending')">Pending</button>
+                <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+                <button [ngClass]="filter == 'On Process' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('On Process')">On Process</button>
+                <button [ngClass]="filter == 'On Delivery' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('On Delivery')">On Delivery</button>
+                <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
+                <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+            </div>
+            <app-transaction-list [role]="role" [listTransaction]="listTransaction" [length]="allListTransaction" [pageSize]="sizeList" [pageIndex]="pageList" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('listRequest', $event)" [errorMsg]="errorListTransaction"></app-transaction-list>
         </div>
-        <app-transaction-list [listTransaction]="listTransaction" [length]="allListTransaction" [pageSize]="sizeList" [pageIndex]="pageList" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="ngOnInit" [errorMsg]="errorListTransaction"></app-transaction-list>
     </ng-container>
 
     <ng-container *ngIf="this.role=='merchant'">
@@ -24,26 +25,12 @@
                 <app-label labelInput="LIST TRANSACTION" labelType="subtitle"></app-label>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableTransaction" [columns]="colTransaction" headerAlignment="center" 
+                <!-- <app-table [dataTable]="tableTransaction" [columns]="colTransaction" headerAlignment="center" 
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
                     actionTarget="modalUpdateTransaction" (onClickActionEvent)="dataTransaction = $event" 
-                    [length]="allDataTransaction" [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onPageIndexEvent)="onLoadData('merchant', $event)" [errorMsg]="errorMsgTransaction"></app-table>
+                    [length]="allDataTransaction" [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onPageIndexEvent)="onLoadData('merchant', $event)" [errorMsg]="errorMsgTransaction"></app-table> -->
+                    <app-transaction-list [role]="role"  [listTransaction]="tableTransaction" [length]="allDataTransaction" [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('merchant', $event)" [errorMsg]="errorMsgTransaction"></app-transaction-list>
             </div>
         </div>
-
-        <!-- Modal -->
-        <app-modal modalID="modalUpdateTransaction" [width]="600" [modalContent]="modalUpdateTransaction"></app-modal>
-    
-        <ng-template #modalUpdateTransaction>
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Transaction Detail</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalDetail></button>
-            </div>
-            <div class="modal-body d-flex col justify-content-center">
-                <div class="container">
-                    <app-transaction-detail [data]="dataTransaction" (onSubmitEvent)="redirect()"></app-transaction-detail>
-                </div>
-            </div>
-        </ng-template>
     </ng-container>
 </div>

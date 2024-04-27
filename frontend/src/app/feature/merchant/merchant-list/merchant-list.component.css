@@ -27,7 +27,7 @@
 .card{
     display: flex;
     width: 18rem;
-    height: 16rem;
+    height: 15rem;
     /* justify-content: center; */
     align-items: center;
     border-radius: 10px;
@@ -42,9 +42,9 @@
 }
 
 img{
-    object-fit: fill;
-    min-height: 11rem;
-    max-height: 11rem;
+    object-fit: contain;
+    min-height: 10rem;
+    max-height: 10rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }

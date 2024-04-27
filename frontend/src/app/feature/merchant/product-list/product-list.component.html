@@ -1,0 +1,63 @@
+<div class="product-card ms-2">
+    <ng-container *ngFor="let item of productList">
+        <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
+            <img class="card-img-top" [src]="item.image" alt="...">
+            <div class="card-body w-100">
+                <div class="d-flex justify-content-between">
+                    <h6 class="card-title text-truncate mb-0 fw-bold">{{ item.name }}</h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text text-start fs-6 fw-semibold mt-1 mb-0"><span>Rp. </span>{{ item.price }}</p>
+                </div>
+            </div>
+        </button>
+    </ng-container>
+
+    <!-- Modal -->
+    <app-modal modalID="modalProductDetail" [width]="500" [modalContent]="modalProductDetail"></app-modal>
+
+    <ng-template #modalProductDetail>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Product Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        </div>
+        <div class="modal-body justify-content-center">
+            <ng-container *ngIf="productOpen">
+                <app-product-detail [data]="productOpen" (onSubmitEvent)="redirect('detail')"></app-product-detail>
+            </ng-container>
+        </div>
+    </ng-template>
+</div>
+<!-- <div class="product-card-list container">
+    <div class="row border">
+        <ng-container *ngFor="let item of productList">
+            <div class="col-3">
+                <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail"
+                    (click)="onProductClick(item)">
+                    <img class="product-img" [src]="item.image" alt="...">
+                    <div class="card-body row align-items-end justify-content-center">
+                        <div class="row">
+                            <h6 class="card-title mb-0 col-12 fw-bold">{{ item.name }}</h6>
+                            <p class="fs-6 fw-semibold mt-2 col-12"><span>Rp. </span>{{item.price}}</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </ng-container>
+
+        <app-modal modalID="modalProductDetail" [width]="800" [modalContent]="modalProductDetail"></app-modal>
+
+        <ng-template #modalProductDetail>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Product Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeModalDetail></button>
+            </div>
+            <div class="modal-body d-flex col justify-content-center">
+                <div class="container">
+                    <app-product-detail [data]="productOpen" (onSubmitEvent)="redirect('detail')"></app-product-detail>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div> -->

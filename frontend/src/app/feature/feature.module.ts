@@ -65,6 +65,8 @@ import { TransactionListComponent } from './merchant/transaction-list/transactio
 import { ReportComponent } from './report/report.component';
 import { HomeComponent } from './home/home.component';
 import { TransactionDetailComponent } from './merchant/transaction-detail/transaction-detail.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProductListComponent } from './merchant/product-list/product-list.component';
 
 @NgModule({
   declarations: [
@@ -107,8 +109,10 @@ import { TransactionDetailComponent } from './merchant/transaction-detail/transa
     ProductAllComponent,
     ProductDetailComponent,
     ProductAddComponent,
+    ProductListComponent,
     CartComponent,
     TransactionListComponent,
+    TransactionDetailComponent,
     ReportComponent,
     ChatComponent,
     HomeComponent,
@@ -121,7 +125,7 @@ import { TransactionDetailComponent } from './merchant/transaction-detail/transa
     BillingListComponent,
     BillingPayComponent,
     BillingUpdateCategoryComponent,
-    TransactionDetailComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

@@ -1,24 +1,17 @@
 <div class="container">
-    <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="onBackButton()"></app-text-button>
-        <app-label labelInput="Maintenance" labelType="title"></app-label>
-        <app-label labelInput="Need Service" labelType="label"></app-label>
-    </div>
-    <div class="maintenance-request-list mt-3">
-        <div class="d-flex justify-content-between subtitle mb-2">
-            <app-label labelInput="LIST MAINTENANCE REQUEST" labelType="subtitle"></app-label>
-        </div>
+    <div class="maintenance-request-list mt-3 rounded shadow" style="border-radius: 2vh;">
         <div class="py-2">
-            <app-table [dataTable]="table" [columns]="col" headerAlignment="center" 
-                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" 
-                actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" prefix="#MNT00"
-                [length]="allDataCount" (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)" [errorMsg]="errorMsg"></app-table>
+            <app-table [dataTable]="table" [columns]="col" headerAlignment="center" iconStart="bi bi-eye-fill"
+                label="View" type="primary" actionToggle="modal" actionTarget="modalRequestDetail"
+                (onClickActionEvent)="onListItemClick($event)" prefix="#MNT00" [length]="allDataCount"
+                (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)"
+                [errorMsg]="errorMsg"></app-table>
         </div>
     </div>
 
     <!-- Modal -->
     <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalContent"></app-modal>
-    
+
     <ng-template #modalContent>
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Maintenance Request Detail</h1>
@@ -26,7 +19,8 @@
         </div>
         <div class="modal-body d-flex col justify-content-center">
             <div class="container">
-                <app-maintenance-detail-request [data]="dataRequest" (onSubmitEvent)="redirect()"></app-maintenance-detail-request>
+                <app-maintenance-detail-request [data]="dataRequest"
+                    (onSubmitEvent)="redirect()"></app-maintenance-detail-request>
             </div>
         </div>
     </ng-template>

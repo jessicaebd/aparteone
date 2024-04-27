@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 })
 export class ProductAllComponent {
   role : string = 'merchant';
-  merchantId = 9;
+  merchantId:number = 9;
 
   table: any;
   allDataProduct: any;
@@ -87,13 +87,13 @@ export class ProductAllComponent {
       }))
   }
 
-  async onSearchProduct(key:any){
+  async onSearchProduct(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    console.log('Search :', key);
-    this.keySearch = key;
+    console.log('Search :', this.keySearch);
+    // this.keySearch = key;
     this.page = 0;
-    if(key!='' && key!=undefined){
+    if(this.keySearch!='' && this.keySearch!=undefined){
       await this.searchProductMerchant(this.merchantId, this.size, this.page, this.keySearch);
     }
     else {

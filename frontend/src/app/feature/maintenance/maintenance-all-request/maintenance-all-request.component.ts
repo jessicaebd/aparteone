@@ -32,7 +32,13 @@ export class MaintenanceAllRequestComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.col = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'maintenanceCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentName', displayName:'Requested By'}, {name: 'assignedTo', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    this.col = [
+      {name: 'receiptId', displayName: 'Request ID'}, 
+      {name: 'maintenanceCategory', displayName: 'Category'}, 
+      {name: 'residentName', displayName:'Resident Name'}, 
+      {name: 'requestDate', displayName: 'Request Date'}, 
+      {name: 'status', displayName: 'Status'}, 
+      {name:"ActionCol", displayName:"Action", align:"center"}];
     if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
       await this.getMaintenanceAllRequest(this.apartmentId, this.size, this.page);
     }

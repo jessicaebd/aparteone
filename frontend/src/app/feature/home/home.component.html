@@ -5,69 +5,520 @@
     <img src="assets/general/landing-page.png" width="100%" alt="">
 </ng-container>
 
-<!-- LOG IN -->
-<div class="container">
-    <ng-container *ngIf="role=='resident'">
-        <app-announcement></app-announcement>     
-        <div class="mt-5">
-            <app-label labelInput="YOUR INFORMATION" labelType="title"></app-label>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="d-flex flex-wrap information-category w-100 p-1">
-                <div class="information-card align-items-center">
-                    <ng-container *ngIf="flagPayment; else noPayment">
-                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
-                            <img class="card-img-top mt-1" src="assets/general/1.png" alt="...">
-                            <div class="card-title w-100  d-flex justify-content-center">
-                                <h6 style="color: var(--dark-purple); font-weight: 700;">1</h6>
-                                <h6 class="ms-1" style="color: var(--secondary-purple); font-weight: 700;">BILL TO PAY</h6>
+<!-- Admin -->
+<ng-container *ngIf="role=='admin'">
+</ng-container>
+
+<!-- Management -->
+<ng-container *ngIf="role=='management'">
+    <div class="justify-content-center">
+        <div class="row d-flex">
+            <div class="mx-2 mt-3 mb-3">
+                <app-label labelInput="Apartment Mediterania" labelType="title"></app-label>
+            </div>
+
+            <div class="left col-8">
+                <!-- Stats -->
+                <div class="row stats">
+                    <div class="p-3 col-6 justify-content-center align-items-center">
+                        <button class="card-user-stats card justify-content-center w-100"
+                            (click)="goToFeaturePage('resident')">
+                            <div class="d-flex w-100 justify-content-centers">
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <img class="" src="assets/icon/category/resident.png" alt="...">
+                                </div>
+                                <div class="col-8 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 600;" class="fs-4 mb-2">Total Residents</h6>
+                                        <h4 style="font-weight: 650;" class="fs-2 mt-2">100</h4>
+                                    </div>
+                                </div>
                             </div>
                         </button>
-                    </ng-container>
-                    <ng-template #noPayment>
-                        <div class="card w-100">
-                            <h6 class="h-100 d-flex align-items-center" style="color: var(--secondary-purple); font-weight: 600;">No Bill to Pay</h6>
-                        </div>
-                    </ng-template>
+                    </div>
+                    <div class="p-3 col-6 justify-content-center align-items-center">
+                        <button class="card-user-stats card justify-content-center w-100"
+                            (click)="goToFeaturePage('merchant')">
+                            <div class="d-flex w-100 justify-content-centers">
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <img class="" src="assets/icon/category/merchant.png" alt="...">
+                                </div>
+                                <div class="col-8 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 600;" class="fs-4 mb-2">Total Merchants</h6>
+                                        <h4 style="font-weight: 650;" class="fs-2 mt-2">100</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
                 </div>
-                <div class="information-card">
-                    <ng-container *ngIf="flagMailbox; else noMailbox">
+
+                <!-- Feature -->
+                <div class="mx-2 mt-3 mb-3">
+                    <app-label labelInput="Shortcut" labelType="title"></app-label>
+                </div>
+                <div class="row feature">
+                    <div class="p-3 col-4">
                         <button class="card justify-content-between w-100" (click)="goToFeaturePage('mailbox')">
-                            <img class="card-img-top mt-1" src="assets/general/2.png" alt="...">
-                            <div class="card-title w-100 d-flex justify-content-center">
-                                <h6 style="color: var(--dark-purple); font-weight: 700;">2</h6>
-                                <h6 class="ms-1" style="color: var(--secondary-purple); font-weight: 700;">PACKAGE ARRIVED</h6>
+                            <div class="row d-flex p-1">
+                                <img class="mt-4 card-img-top" src="assets/icon/category/mailbox.png" alt="...">
+                                <h5 style="font-weight: 640;" class="mt-4 fs-5"><i
+                                        class="bi bi-plus-circle me-2"></i>Add Mailbox</h5>
                             </div>
                         </button>
-                    </ng-container>
-                    <ng-template #noMailbox>
-                        <div class="card w-100">
-                            <h6 class="h-100 d-flex align-items-center" style="color: var(--secondary-purple); font-weight: 600;">Empty Mailbox</h6>
-                        </div>
-                    </ng-template>
-                </div>
-                <div class="information-card">
-                    <ng-container *ngIf="flagFacility; else noBooking">
+                    </div>
+                    <div class="p-3 col-4">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('billing')">
+                            <div class="row d-flex p-1">
+                                <img class="mt-4 card-img-top" src="assets/icon/category/billing.png" alt="...">
+                                <h5 style="font-weight: 640;" class="mt-4 fs-5"><i
+                                        class="bi bi-plus-circle me-2"></i>Add Bills</h5>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-4">
                         <button class="card justify-content-between w-100" (click)="goToFeaturePage('facility')">
-                            <img class="card-img-top mt-1" src="assets/general/3.png" alt="...">
-                            <div class="card-title w-100 d-flex justify-content-center">
-                                <h6 style="color: var(--dark-purple); font-weight: 700;">1</h6>
-                                <h6 style="color: var(--secondary-purple); font-weight: 700;">BOOKING ACTIVE</h6>
+                            <div class="row d-flex p-1">
+                                <img class="mt-4 card-img-top" src="assets/icon/category/facility.png" alt="...">
+                                <h5 style="font-weight: 640;" class="mt-4 fs-5"><i
+                                        class="bi bi-plus-circle me-2"></i>Add Announcement</h5>
                             </div>
                         </button>
-                    </ng-container>
-                    <ng-template #noBooking>
-                        <div class="card w-100">
-                            <h6 class="h-100 d-flex align-items-center" style="color: var(--secondary-purple); font-weight: 600;">No Booking Active</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Need Approval -->
+            <div class="upcoming right col-4 shadow-sm p-2" style="border-radius: 2vh;">
+                <div class="mx-2 mt-3 mb-3">
+                    <app-label labelInput="Need Approval" labelType="title"></app-label>
+                    <div class="d-grid d-md-flex justify-content-md-end">
+                        <button class="btn btn-dark rounded-pill px-2 fw-semibold" type="button"
+                            style="font-size: 13px;">User</button>
+                        <button class="btn btn-light rounded-pill px-2" type="button">Payment</button>
+                    </div>
+                    <p class="mt-2"> </p>
+                    <!-- <div class="d-flex">
+                            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+                            <button [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
+                            <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+                            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+                            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
+                        </div> -->
+                </div>
+
+
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Jojo</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Resident</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">A01AB</span>
+                            </div>
                         </div>
-                    </ng-template>
+                    </div>
+                </div>
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Bakmie Gading</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Merchant</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">Food & Beverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Jojo</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Resident</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">A01AB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Bakmie Gading</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Merchant</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">Food & Beverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Latest Request -->
+            <div class="mx-2 mt-3 mb-3">
+                <div class="d-flex mt-2 mx-3">
+                    <app-label labelInput="Latest Request" labelType="title"></app-label>
+                    <div class="filter mx-3">
+                        <button
+                            [ngClass]="latestRequest == 'maintenance' ? 'btn btn-dark active rounded-pill fw-semibold px-2' : 'btn btn-light'"
+                            (click)="showLatestRequest('maintenance')">Maintenance</button>
+                        <button
+                            [ngClass]="latestRequest == 'facility' ? 'btn btn-dark mx-2 my-1 active' : 'btn btn-light mx-2 my-1'"
+                            (click)="showLatestRequest('facility')">Facility</button>
+                    </div>
+                </div>
+                <div *ngIf="latestRequest === 'maintenance'">
+                    <app-maintenance-all-request></app-maintenance-all-request>
+                </div>
+
+                <div *ngIf="latestRequest === 'facility'">
+                    <app-facility-all-request></app-facility-all-request>
                 </div>
             </div>
         </div>
-    </ng-container>
+    </div>
+</ng-container>
 
-    <!-- Management -->
-    <ng-container *ngIf="role=='management'">
-        
-    </ng-container>
-</div>
+<!-- Resident -->
+<ng-container *ngIf="role=='resident'">
+    <div class="justify-content-center">
+        <div class="row d-flex">
+            <div class="left col-8">
+                <!-- Announcement -->
+                <app-announcement></app-announcement>
+
+                <!-- Stats -->
+                <div class="mx-2 mt-3">
+                    <app-label labelInput="Latest Information" labelType="title"></app-label>
+                </div>
+                <div class="row">
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/category/facility.png" alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Facility Request</h6>
+                                        <h4 style="font-weight: 650;">1</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/category/maintenance.png" alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Maintenance Request</h6>
+                                        <h4 style="font-weight: 650;">10</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/category/mailbox.png" alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Mailbox Received</h6>
+                                        <h4 style="font-weight: 650;">1</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/category/billing.png" alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Upcoming Bills</h6>
+                                        <h4 style="font-weight: 650;">1</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="upcoming right col-4 shadow-sm p-2" style="border-radius: 2vh;">
+                <div class="mx-2 mt-3 mb-3">
+                    <app-label labelInput="Upcoming Bookings" labelType="title"></app-label>
+                    <p class="mt-2"> </p>
+                    <!-- <div class="d-flex">
+                            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+                            <button [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
+                            <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+                            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+                            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
+                        </div> -->
+                </div>
+
+
+                <div class="upcoming-booking p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Lapangan Basket</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Facility</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                    10:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="upcoming-booking p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Lapangan Basket</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Facility</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                    10:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="upcoming-booking p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Lapangan Basket</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Facility</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                    10:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="upcoming-booking p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Lapangan Basket</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Facility</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                    10:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<!-- Merchant -->
+<ng-container *ngIf="role=='merchant'">
+    <div class="justify-content-center">
+        <div class="row d-flex">
+            <div class="left col-8">
+                <!-- Announcement -->
+                <app-announcement></app-announcement>
+
+                <!-- Stats -->
+                <div class="mx-2 mt-3">
+                    <app-label labelInput="Your Transaction Stats" labelType="title"></app-label>
+                </div>
+                <div class="row">
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top ms-2" src="assets/icon/transaction-status/pending.png"
+                                    alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Pending</h6>
+                                        <h4 style="font-weight: 650;">1</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/transaction-status/on-delivery.png"
+                                    alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">On Delivery</h6>
+                                        <h4 style="font-weight: 650;">1</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/transaction-status/completed.png"
+                                    alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Completed</h6>
+                                        <h4 style="font-weight: 650;">10</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-3">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <div class="row d-flex">
+                                <img class="mt-3 card-img-top" src="assets/icon/transaction-status/payment-approval.png"
+                                    alt="...">
+                                <div class="card-title w-100 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 650;">Payment Approval</h6>
+                                        <h4 style="font-weight: 650;">1</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information -->
+            <div class="right col-4 shadow-sm p-3" style="border-radius: 2vh;">
+                <div class="row p-4 shadow-sm border mb-4" style="border-radius: 2vh;">
+                    <div class="row">
+                        <div class="col">
+                            <app-label labelInput="Total Income" labelType="title"></app-label>
+                        </div>
+                        <div class="col-4">
+                            <p class="text-secondary fw-semibold text-end">April 2024</p>
+                        </div>
+                    </div>
+                    <h2 class="mt-3 p-3 text-center fw-bold">Rp 1.000.000</h2>
+                </div>
+
+                <div class="latest-transaction border shadow-sm p-2" style="border-radius: 2vh;">
+                    <div class="mx-2 my-3">
+                        <app-label labelInput="Latest Transaction" labelType="title"></app-label>
+                    </div>
+                    <div class="latest-transaction p-1">
+                        <div class="row p-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <span
+                                            class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                        10:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="latest-transaction p-1">
+                        <div class="row p-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <span
+                                            class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                        10:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="latest-transaction p-1">
+                        <div class="row p-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <span
+                                            class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                        10:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="latest-transaction p-1">
+                        <div class="row p-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <span
+                                            class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00 -
+                                        10:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

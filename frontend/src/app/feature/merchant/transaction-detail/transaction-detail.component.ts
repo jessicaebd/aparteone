@@ -10,7 +10,6 @@ import { Transaction } from '../merchant.interface';
   styleUrls: ['./transaction-detail.component.css']
 })
 export class TransactionDetailComponent {
-  flagValidasi: boolean = false;
   @Input() data: Transaction = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 

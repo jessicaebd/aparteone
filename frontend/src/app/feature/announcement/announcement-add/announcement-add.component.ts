@@ -13,6 +13,8 @@ export class AnnouncementAddComponent {
   flagValidasi?: boolean = false;
   data: Announcement = {};
   description!: any;
+  range!: any;
+  sel!: any;
   @Output() onSubmitEvent = new EventEmitter<any>;
 
   constructor(private announcementService: AnnouncementService, private apps: AppComponent){}
@@ -73,6 +75,11 @@ export class AnnouncementAddComponent {
   async submitRequest(){
     let body = await this.setBodyInsertAnnouncement();
     let result = await this.insertAnnouncement(body);
+    await this.setSelection();
+    setTimeout(()=>{
+      document.execCommand('insertHTML', false, this.data['description']);
+    }, 1000);
+    this.data = {};
     this.apps.loadingPage(false);
 
     if(result==true){
@@ -121,5 +128,17 @@ export class AnnouncementAddComponent {
           resolve(error);
         }
       }))
+  }
+
+  setSelection(): Promise<any>{
+    return new Promise<any> (resolve => {
+      let desc = document.querySelectorAll(".description");
+      this.range = document.createRange();
+      this.range.setStart(desc[0], 0);
+      this.sel = document.getSelection();
+      this.sel.removeAllRanges();
+      this.sel.addRange(this.range);
+      resolve(true);
+    })
   }
 }
