@@ -5,7 +5,206 @@
     <img src="assets/general/landing-page.png" width="100%" alt="">
 </ng-container>
 
-<!-- LOG IN -->
+<!-- Admin -->
+<ng-container *ngIf="role=='admin'">
+</ng-container>
+
+<!-- Management -->
+<ng-container *ngIf="role=='management'">
+    <div class="justify-content-center">
+        <div class="row d-flex">
+            <div class="mx-2 mt-3 mb-3">
+                <app-label labelInput="Apartment Mediterania" labelType="title"></app-label>
+            </div>
+
+            <div class="left col-8">
+                <!-- Stats -->
+                <div class="row stats">
+                    <div class="p-3 col-6 justify-content-center align-items-center">
+                        <button class="card-user-stats card justify-content-center w-100"
+                            (click)="goToFeaturePage('resident')">
+                            <div class="d-flex w-100 justify-content-centers">
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <img class="" src="assets/icon/category/resident.png" alt="...">
+                                </div>
+                                <div class="col-8 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 600;" class="fs-4 mb-2">Total Residents</h6>
+                                        <h4 style="font-weight: 650;" class="fs-2 mt-2">100</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-6 justify-content-center align-items-center">
+                        <button class="card-user-stats card justify-content-center w-100"
+                            (click)="goToFeaturePage('merchant')">
+                            <div class="d-flex w-100 justify-content-centers">
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <img class="" src="assets/icon/category/merchant.png" alt="...">
+                                </div>
+                                <div class="col-8 d-flex justify-content-center">
+                                    <div class="row">
+                                        <h6 style="font-weight: 600;" class="fs-4 mb-2">Total Merchants</h6>
+                                        <h4 style="font-weight: 650;" class="fs-2 mt-2">100</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feature -->
+                <div class="mx-2 mt-3 mb-3">
+                    <app-label labelInput="Shortcut" labelType="title"></app-label>
+                </div>
+                <div class="row feature">
+                    <div class="p-3 col-4">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('mailbox')">
+                            <div class="row d-flex p-1">
+                                <img class="mt-4 card-img-top" src="assets/icon/category/mailbox.png" alt="...">
+                                <h5 style="font-weight: 640;" class="mt-4 fs-5"><i
+                                        class="bi bi-plus-circle me-2"></i>Add Mailbox</h5>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-4">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('billing')">
+                            <div class="row d-flex p-1">
+                                <img class="mt-4 card-img-top" src="assets/icon/category/billing.png" alt="...">
+                                <h5 style="font-weight: 640;" class="mt-4 fs-5"><i
+                                        class="bi bi-plus-circle me-2"></i>Add Bills</h5>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="p-3 col-4">
+                        <button class="card justify-content-between w-100" (click)="goToFeaturePage('facility')">
+                            <div class="row d-flex p-1">
+                                <img class="mt-4 card-img-top" src="assets/icon/category/facility.png" alt="...">
+                                <h5 style="font-weight: 640;" class="mt-4 fs-5"><i
+                                        class="bi bi-plus-circle me-2"></i>Add Announcement</h5>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Need Approval -->
+            <div class="upcoming right col-4 shadow-sm p-2" style="border-radius: 2vh;">
+                <div class="mx-2 mt-3 mb-3">
+                    <app-label labelInput="Need Approval" labelType="title"></app-label>
+                    <div class="d-grid d-md-flex justify-content-md-end">
+                        <button class="btn btn-dark rounded-pill px-2 fw-semibold" type="button" style="font-size: 13px;">User</button>
+                        <button class="btn btn-light rounded-pill px-2" type="button">Payment</button>
+                    </div>
+                    <p class="mt-2"> </p>
+                    <!-- <div class="d-flex">
+                            <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
+                            <button [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
+                            <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+                            <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
+                            <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
+                        </div> -->
+                </div>
+
+
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Jojo</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Resident</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">A01AB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Bakmie Gading</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Merchant</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">Food & Beverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Jojo</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Resident</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">A01AB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="need-approval p-1">
+                    <div class="row p-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <h6 class="col-10 fw-bolder fs-6">Bakmie Gading</h6>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <span
+                                        class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Merchant</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <span class="col-10 text-secondary" style="font-size: 12px;">Food & Beverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Latest Request -->
+            <div class="mx-2 mt-3 mb-3">
+                <div class="d-flex mt-2 mx-3">
+                    <app-label labelInput="Latest Request" labelType="title"></app-label>
+                    <div class="filter mx-3">
+                    <button
+                        [ngClass]="latestRequest == 'maintenance' ? 'btn btn-dark active rounded-pill fw-semibold px-2' : 'btn btn-light'"
+                        (click)="showLatestRequest('maintenance')">Maintenance</button>
+                    <button
+                        [ngClass]="latestRequest == 'facility' ? 'btn btn-dark mx-2 my-1 active' : 'btn btn-light mx-2 my-1'"
+                        (click)="showLatestRequest('facility')">Facility</button>
+                    </div>
+                </div>
+                <div *ngIf="latestRequest === 'maintenance'">
+                    <app-maintenance-all-request></app-maintenance-all-request>
+                </div>
+
+                <div *ngIf="latestRequest === 'facility'">
+                    <app-facility-all-request></app-facility-all-request>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</ng-container>
+
+<!-- Resident -->
 <ng-container *ngIf="role=='resident'">
     <div class="justify-content-center">
         <div class="row d-flex">
@@ -165,6 +364,6 @@
 
 </ng-container>
 
-<!-- Management -->
-<ng-container *ngIf="role=='management'">
+<!-- Merchant -->
+<ng-container *ngIf="role=='merchant'">
 </ng-container>

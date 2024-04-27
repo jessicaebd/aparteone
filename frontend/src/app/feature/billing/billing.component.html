@@ -1,56 +1,81 @@
 <div class="container">
     <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="BILLING" labelType="title"></app-label>
-        <app-label labelInput="Bill Information" labelType="label"></app-label>
+        <app-label labelInput="Bills" labelType="title"></app-label>
+        <app-label labelInput="Your Bills & Payment Information" labelType="label"></app-label>
     </div>
+
+    <!-- Resident -->
     <ng-container *ngIf="this.role=='resident'">
-        <div class="d-flex justify-content-between mb-3">
-            <div class="d-flex">
-                <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
-                <button [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
-                <button [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
-                <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
-                <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
-            </div>
-            <div class="d-flex">
-                <div class="input-group" style="height: 38px;">
-                    <span class="input-group-text" id="basic-addon1">#BLN00</span>
-                    <input type="text" class="form-control search-table" placeholder="Search..." [(ngModel)]="keySearch">
+        <div class="mailbox-list shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
+            <div class="d-flex justify-content-between mb-3">
+                <!-- Filter -->
+                <div class="d-flex">
+                    <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                        (click)="onFilterBy('')">All</button>
+                    <button
+                        [ngClass]="filter == 'Waiting for Payment' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                        (click)="onFilterBy('Waiting for Payment')">Waiting for Payment</button>
+                    <button
+                        [ngClass]="filter == 'Waiting for Confirmation' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                        (click)="onFilterBy('Waiting for Confirmation')">Waiting for Confirmation</button>
+                    <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                        (click)="onFilterBy('Cancelled')">Cancelled</button>
+                    <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
+                        (click)="onFilterBy('Completed')">Completed</button>
                 </div>
-                <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
-                    <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
+
+                <!-- Search -->
+                <div class="d-flex">
+                    <div class="input-group" style="height: 38px;">
+                        <span class="input-group-text" id="basic-addon1">#BLN00</span>
+                        <input type="text" class="form-control search-table" placeholder="Search..."
+                            [(ngModel)]="keySearch">
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center rounded ms-1"
+                        style="background-color: var(--primary-purple); height: 38px;">
+                        <app-text-button iconEnd="bi bi-search" type="white"
+                            (onClickEvent)="onSearchData()"></app-text-button>
+                    </div>
                 </div>
             </div>
+            <app-billing-list [listRequest]="listRequest" [length]="allListRequest" [pageSize]="sizeRequest"
+                [pageIndex]="pageList" (onPageIndexEvent)="onLoadData('listRequest', $event)"
+                (onSubmitEvent)="onListSubmitEvent()" [errorMsg]="errorListRequest"></app-billing-list>
         </div>
-        <app-billing-list [listRequest]="listRequest" [length]="allListRequest" [pageSize]="sizeRequest" [pageIndex]="pageList" (onPageIndexEvent)="onLoadData('listRequest', $event)" (onSubmitEvent)="onListSubmitEvent()" [errorMsg]="errorListRequest"></app-billing-list>
     </ng-container>
 
+    <!-- Management -->
     <ng-container *ngIf="this.role=='management'">
         <div class="billing-list">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="BILLING CATEGORY" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Category" data-bs-toggle="modal" data-bs-target="#modalAddCategory"></app-button>
+                <app-button buttonLabel="Add Category" data-bs-toggle="modal"
+                    data-bs-target="#modalAddCategory"></app-button>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center" 
-                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)" [pageIndex]="pageCategory" [pageSize]="sizeCategory"
-                [length]="allDataCategory" (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
+                <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center"
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
+                    actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)"
+                    [pageIndex]="pageCategory" [pageSize]="sizeCategory" [length]="allDataCategory"
+                    (onPageIndexEvent)="onLoadData('category', $event)" (onSortEvent)="onSortData('category', $event)"
+                    [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
         <div class="billing-request-list mt-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST BILLING" labelType="subtitle"></app-label>
                 <div>
-                    <app-button class="me-2" buttonLabel="Add Payment" data-bs-toggle="modal" data-bs-target="#modalAddPayment" (onClickEvent)="onAddPayment()"></app-button>
-                    <app-button buttonLabel="View All" buttonClass="outline-primary" (onClickEvent)="goToAllPaymentPage()"></app-button>
+                    <app-button class="me-2" buttonLabel="Add Payment" data-bs-toggle="modal"
+                        data-bs-target="#modalAddPayment" (onClickEvent)="onAddPayment()"></app-button>
+                    <app-button buttonLabel="View All" buttonClass="outline-primary"
+                        (onClickEvent)="goToAllPaymentPage()"></app-button>
                 </div>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
+                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center"
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)" [pagination]="false" [errorMsg]="errorMsgRequest"></app-table>
+                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)"
+                    [pagination]="false" [errorMsg]="errorMsgRequest"></app-table>
             </div>
         </div>
 
@@ -60,7 +85,8 @@
         <ng-template #modalAddCategory>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Billing Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalAdd></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeModalAdd></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <app-billing-add-category (onSubmitEvent)="redirect('add')"></app-billing-add-category>
@@ -73,20 +99,23 @@
         <ng-template #modalViewCategory>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Billing Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUpdate></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeModalUpdate></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
-                <app-billing-update-category [data]="dataCategory" (onSubmitEvent)="redirect('update')"></app-billing-update-category>
+                <app-billing-update-category [data]="dataCategory"
+                    (onSubmitEvent)="redirect('update')"></app-billing-update-category>
             </div>
         </ng-template>
 
         <!-- Modal -->
         <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalRequestDetail"></app-modal>
-    
+
         <ng-template #modalRequestDetail>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Billing Detail</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalDetail></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeModalDetail></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">
@@ -97,11 +126,12 @@
 
         <!-- Modal -->
         <app-modal modalID="modalAddPayment" [width]="800" [modalContent]="modalAddPayment"></app-modal>
-    
+
         <ng-template #modalAddPayment>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Billing</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalNew></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closeModalNew></button>
             </div>
             <div class="modal-body d-flex col justify-content-center">
                 <div class="container">

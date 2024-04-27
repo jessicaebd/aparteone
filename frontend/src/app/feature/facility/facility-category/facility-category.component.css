@@ -4,8 +4,8 @@
 
 .card{
     display: flex;
-    width: 20rem;
-    height: 16rem;
+    /* width: 20rem; */
+    height: 10rem;
     /* justify-content: center; */
     align-items: center;
     border-radius: 10px;
@@ -21,18 +21,23 @@
 
 img{
     object-fit: fill;
-    min-height: 13rem;
-    max-height: 13rem;
+    min-height: 6rem;
+    max-height: 6rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 .card-title{
-    height: 2rem;
+    height: 3rem;
     /* padding-top: 0.6rem;
     padding-bottom: 0.6rem; */
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.facility-category {
+    border-radius: 2vh;
+    height: 15rem;
 }
 
 .facility-category::-webkit-scrollbar{

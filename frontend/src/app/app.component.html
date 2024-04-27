@@ -28,24 +28,40 @@
         </div>
         <div class="d-flex row align-items-center">
           <a [ngClass]="
-              activeNav == 'payment'
+              activeNav == 'billing'
                 ? 'navbar-item py-3 active'
                 : 'navbar-item py-3'
-            " routerLink="/payment" data-bs-dismiss="offcanvas" (click)="onNavbarActive('payment')">
-            <i *ngIf="activeNav == 'payment'" class="navbar-icon bi bi-cash-coin"
+            " routerLink="/billing" data-bs-dismiss="offcanvas" (click)="onNavbarActive('billing')">
+            <i *ngIf="activeNav == 'billing'" class="navbar-icon bi bi-cash-coin"
               style="color: var(--primary-purple)"></i>
-            <i *ngIf="activeNav != 'payment'" class="navbar-icon bi bi-receipt-cutoff" style="color: var(--black)"></i>
+            <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-receipt-cutoff" style="color: var(--black)"></i>
             <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
           <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
-            <label class="navbar-name ms-2">Payment</label>
+            <label class="navbar-name ms-2">Bills</label>
           </a>
         </div>
+        <div class="d-flex row align-items-center">
+          <a [ngClass]="
+              activeNav == 'mailbox'
+                ? 'navbar-item py-3 active'
+                : 'navbar-item py-3'
+            " routerLink="/mailbox" data-bs-dismiss="offcanvas" (click)="onNavbarActive('mailbox')">
+            <i *ngIf="activeNav == 'mailbox'" class="navbar-icon bi bi-envelope-open-fill"
+              style="color: var(--primary-purple)"></i>
+            <i *ngIf="activeNav != 'mailbox'" class="navbar-icon bi bi-envelope" style="color: var(--black)"></i>
+            <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
+          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
+            <label class="navbar-name ms-2">Mail Box</label>
+          </a>
+        </div>
+
         <div class="d-flex row align-items-center">
           <a [ngClass]="
               activeNav == 'facility'
                 ? 'navbar-item py-3 active'
                 : 'navbar-item py-3'
             " routerLink="/facility" data-bs-dismiss="offcanvas" (click)="onNavbarActive('facility')">
+            
             <i *ngIf="activeNav == 'facility'" class="navbar-icon bi bi-calendar-check-fill"
               style="color: var(--primary-purple)"></i>
             <i *ngIf="activeNav != 'facility'" class="navbar-icon bi bi-calendar-check" style="color: var(--black)"></i>
@@ -68,20 +84,7 @@
             <label class="navbar-name ms-2">Maintenance</label>
           </a>
         </div>
-        <div class="d-flex row align-items-center">
-          <a [ngClass]="
-              activeNav == 'mailbox'
-                ? 'navbar-item py-3 active'
-                : 'navbar-item py-3'
-            " routerLink="/mailbox" data-bs-dismiss="offcanvas" (click)="onNavbarActive('mailbox')">
-            <i *ngIf="activeNav == 'mailbox'" class="navbar-icon bi bi-envelope-open-fill"
-              style="color: var(--primary-purple)"></i>
-            <i *ngIf="activeNav != 'mailbox'" class="navbar-icon bi bi-envelope" style="color: var(--black)"></i>
-            <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
-          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
-            <label class="navbar-name ms-2">Mail Box</label>
-          </a>
-        </div>
+
         <div class="d-flex row align-items-center">
           <a [ngClass]="
               activeNav == 'merchant'

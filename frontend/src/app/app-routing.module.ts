@@ -45,6 +45,9 @@ import { TransactionComponent } from './feature/merchant/transaction/transaction
 import { ReportComponent } from './feature/report/report.component';
 import { NotificationComponent } from './general/notification/notification.component';
 
+// PROFILE
+import { ProfileComponent } from './feature/profile/profile.component';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: AuthComponent },

@@ -7,25 +7,35 @@
 <ng-template #list>
     <div class="accordion" id="maintenanceParent">
         <ng-container *ngFor="let item of listRequest">
-            <div class="accordion-item mb-3">
+            <div class="accordion-item mb-3 shadow-sm">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">
                         <div class="header-button w-100">
                             <div class="row">
-                                <h6 class="col mb-0">{{item.receiptId}} - {{item.maintenanceCategory}}</h6>
-                                <div class="col-2 d-flex justify-content-end">
-                                    <ng-container *ngIf="item.status=='Requested'">
-                                        <app-badge [badgeText]="item.status" badgeType="secondary"></app-badge>
-                                    </ng-container>
-                                    <ng-container *ngIf="item.status=='Assigned'">
-                                        <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
-                                    </ng-container>
-                                    <ng-container *ngIf="item.status=='Cancelled'">
-                                        <app-badge [badgeText]="item.status" badgeType="danger"></app-badge>
-                                    </ng-container>
-                                    <ng-container *ngIf="item.status=='Completed'">
-                                        <app-badge [badgeText]="item.status" badgeType="success"></app-badge>
-                                    </ng-container>
+                                <div class="col-1">
+                                    <img class="maintenance-img" src="assets/icon/category/maintenance.png" alt="...">
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <h6 class="col mb-0 fs-6"><span class="fw-bolder">{{item.receiptId}}</span> -
+                                            {{item.maintenanceCategory}}</h6>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <ng-container *ngIf="item.status=='Requested'">
+                                                <app-badge [badgeText]="item.status" badgeType="secondary"></app-badge>
+                                            </ng-container>
+                                            <ng-container *ngIf="item.status=='Assigned'">
+                                                <app-badge [badgeText]="item.status" badgeType="warning"></app-badge>
+                                            </ng-container>
+                                            <ng-container *ngIf="item.status=='Cancelled'">
+                                                <app-badge [badgeText]="item.status" badgeType="danger"></app-badge>
+                                            </ng-container>
+                                            <ng-container *ngIf="item.status=='Completed'">
+                                                <app-badge [badgeText]="item.status" badgeType="success"></app-badge>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <span class="text-secondary" style="font-size: 12px;">{{item.requestDate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -33,76 +43,118 @@
                 </h2>
                 <div [id]="'collapse' +item.id" class="accordion-collapse collapse" data-bs-parent="#maintenanceParent">
                     <div class="accordion-body pt-0">
+                        <h6 class="fw-bolder border-bottom py-2 ">Detail Maintenance Request Receipt</h6>
+
                         <div class="row w-50">
                             <div class="col-3">
-                                <app-label labelInput="Description"></app-label>
+                                <app-label labelInput="Name" class="fw-semibold"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.description; else noData" [labelInput]="': ' + item.description"></app-label>
+                                <app-label *ngIf="item.residentName; else noData"
+                                    [labelInput]="': ' + item.residentName"></app-label>
                             </div>
                         </div>
                         <div class="row w-50">
                             <div class="col-3">
-                                <app-label labelInput="Requested Date"></app-label>
+                                <app-label labelInput="Unit Number" class="fw-semibold"></app-label>
                             </div>
                             <div class="col">
-                                <app-label *ngIf="item.requestDate else noData" [labelInput]="': ' + item.requestDate"></app-label>
+                                <app-label *ngIf="item.residentUnit; else noData"
+                                    [labelInput]="': ' + item.residentUnit"></app-label>
                             </div>
                         </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Category" class="fw-semibold"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.maintenanceCategory; else noData"
+                                    [labelInput]="': ' + item.maintenanceCategory"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Description" class="fw-semibold"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.description; else noData"
+                                    [labelInput]="': ' + item.description"></app-label>
+                            </div>
+                        </div>
+                        <div class="row w-50">
+                            <div class="col-3">
+                                <app-label labelInput="Requested Date" class="fw-semibold"></app-label>
+                            </div>
+                            <div class="col">
+                                <app-label *ngIf="item.requestDate else noData"
+                                    [labelInput]="': ' + item.requestDate"></app-label>
+                            </div>
+                        </div>
+
                         <ng-container *ngIf="item.status=='Requested'">
-                            <app-button class="d-flex justify-content-center" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onCancelEvent(item.id)"></app-button>
+                            <app-button class="d-flex justify-content-center" buttonClass="outline-primary"
+                                buttonLabel="Cancel" (onClickEvent)="onCancelEvent(item.id)"></app-button>
                         </ng-container>
+
                         <ng-container *ngIf="item.status=='Assigned'">
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Fixed Date"></app-label>
+                                    <app-label labelInput="Engineer Name" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label *ngIf="item.assignedDate; else noData" [labelInput]="': ' + item.assignedDate"></app-label>
+                                    <app-label *ngIf="item.assignedTo; else noData"
+                                        [labelInput]="': ' + item.assignedTo"></app-label>
                                 </div>
                             </div>
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Fixed By"></app-label>
+                                    <app-label labelInput="Assigned Date" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label *ngIf="item.assignedTo; else noData" [labelInput]="': ' + item.assignedTo"></app-label>
+                                    <app-label *ngIf="item.assignedDate; else noData"
+                                        [labelInput]="': ' + item.assignedDate"></app-label>
                                 </div>
                             </div>
                         </ng-container>
+
                         <ng-container *ngIf="item.status=='Completed'">
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Fixed Date"></app-label>
+                                    <app-label labelInput="Engineer Name" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label *ngIf="item.assignedDate; else noData" [labelInput]="': ' + item.assignedDate"></app-label>
+                                    <app-label *ngIf="item.assignedTo; else noData"
+                                        [labelInput]="': ' + item.assignedTo"></app-label>
                                 </div>
                             </div>
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Fixed By"></app-label>
+                                    <app-label labelInput="Assigned Date" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label *ngIf="item.assignedTo; else noData" [labelInput]="': ' + item.assignedTo"></app-label>
+                                    <app-label *ngIf="item.assignedDate; else noData"
+                                        [labelInput]="': ' + item.assignedDate"></app-label>
                                 </div>
                             </div>
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Completed Date"></app-label>
+                                    <app-label labelInput="Completed Date" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label *ngIf="item.completedDate; else noData" [labelInput]="': ' + item.completedDate"></app-label>
+                                    <app-label *ngIf="item.completedDate; else noData"
+                                        [labelInput]="': ' + item.completedDate"></app-label>
                                 </div>
                             </div>
                         </ng-container>
+
                         <ng-container *ngIf="item.status=='Cancelled'">
                             <div class="row w-50">
                                 <div class="col-3">
-                                    <app-label labelInput="Cancelled Date"></app-label>
+                                    <app-label labelInput="Cancelled Date" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <app-label *ngIf="item.cancelledDate; else noData" [labelInput]="': ' + item.cancelledDate"></app-label>
+                                    <app-label *ngIf="item.cancelledDate; else noData"
+                                        [labelInput]="': ' + item.cancelledDate"></app-label>
                                 </div>
                             </div>
                         </ng-container>
@@ -118,15 +170,9 @@
 
     <!-- Pagination -->
     <ng-container *ngIf="pagination">
-        <mat-paginator #paginator 
-          (page)="onClickPageIndex($event)"
-          [length]="length"
-          [pageSize]="pageSize"
-          [disabled]="disabled"
-          [showFirstLastButtons] = "false"
-          [hidePageSize]="hidePageSize"
-          [pageIndex]="pageIndex"
-          aria-label="Select page">
+        <mat-paginator #paginator (page)="onClickPageIndex($event)" [length]="length" [pageSize]="pageSize"
+            [disabled]="disabled" [showFirstLastButtons]="false" [hidePageSize]="hidePageSize" [pageIndex]="pageIndex"
+            aria-label="Select page">
         </mat-paginator>
     </ng-container>
 </ng-template>

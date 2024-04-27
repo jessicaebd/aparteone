@@ -7,6 +7,7 @@ import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface
 import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-maintenance',
   templateUrl: './maintenance.component.html',
@@ -49,8 +50,16 @@ export class MaintenanceComponent implements OnInit{
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'maintenanceCategory', displayName: 'Category'}, {name: 'requestDate', displayName: 'Request Date'}, {name: 'residentName', displayName:'Requested By'}, {name: 'assignedTo', displayName: 'Assign To'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [
+        {name: 'receiptId', displayName: 'Receipt ID'}, 
+        {name: 'maintenanceCategory', displayName: 'Category'}, 
+        {name: 'requestDate', displayName: 'Request Date'}, 
+        {name: 'residentName', displayName:'Requested By'}, 
+        {name: 'status', displayName: 'Status'}, 
+        {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colCategory = [
+        {name: 'category', displayName: 'Category Name'}, 
+        {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory);
       this.getMaintenanceAllRequest(this.apartmentId, 5, 0);

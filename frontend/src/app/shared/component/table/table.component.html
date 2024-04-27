@@ -1,9 +1,10 @@
 <div class="group-table">
   <ng-container *ngIf="toolbar==[] || filter">
-    <div class="table-toolbar flex-row p-3 d-flex justify-content-between">
+    <div class="table-toolbar flex-row p-3 d-flex justify-content-between rounded">
       <div class="d-flex align-items-center">
         <ng-container *ngFor="let t of toolbar">
-          <app-text-button class="me-2" type="primary" [label]="t.label" [iconStart]="t.icon" [isDisabled]="t.disable" (onClickEvent)="onClickToolbar(t.label)"></app-text-button>
+          <app-text-button class="me-2" type="primary" [label]="t.label" [iconStart]="t.icon" [isDisabled]="t.disable"
+            (onClickEvent)="onClickToolbar(t.label)"></app-text-button>
         </ng-container>
       </div>
       <ng-container *ngIf="filter">
@@ -17,14 +18,15 @@
           <ng-template #defaultSearch>
             <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
           </ng-template>
-          <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple);">
+          <div class="d-flex justify-content-center align-items-center rounded ms-1"
+            style="background-color: var(--primary-purple);">
             <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
           </div>
         </div>
       </ng-container>
     </div>
   </ng-container>
-  
+
   <div class="mat-elevation-z8">
     <mat-table [dataSource]="dataTable" class="flex">
       <ng-container [matColumnDef]="col.name" *ngFor="let col of columns">
@@ -35,36 +37,44 @@
             <ng-container *ngIf="col.name != 'ActionCol'">
               <ng-container *ngIf="sort">
                 <ng-container *ngIf="flagSort; else sortUp">
-                  <app-text-button iconStart="bi bi-sort-down" (onClickEvent)="onSortClick(col.name, 'DESC')"></app-text-button>
+                  <app-text-button iconStart="bi bi-sort-down"
+                    (onClickEvent)="onSortClick(col.name, 'DESC')"></app-text-button>
                 </ng-container>
                 <ng-template #sortUp>
-                  <app-text-button iconStart="bi bi-sort-up" (onClickEvent)="onSortClick(col.name, 'ASC')"></app-text-button>
+                  <app-text-button iconStart="bi bi-sort-up"
+                    (onClickEvent)="onSortClick(col.name, 'ASC')"></app-text-button>
                 </ng-template>
               </ng-container>
             </ng-container>
           </div>
         </mat-header-cell>
-        <ng-container *ngIf="col.name != 'ActionCol'; else actionButton">
-          <mat-cell *matCellDef="let element" class="{{'unique-' + col.name}} {{'cell-' + col.align }}">{{element[col.name]}}</mat-cell>
-        </ng-container>
         
+        <ng-container *ngIf="col.name != 'ActionCol'; else actionButton">
+          <mat-cell *matCellDef="let element"
+            class="{{'unique-' + col.name}} {{'cell-' + col.align }}">{{element[col.name]}}</mat-cell>
+        </ng-container>
+
         <ng-template #actionButton>
           <mat-cell mat-cell *matCellDef="let element" class="{{'cell-' + col.align }} action-cell">
             <ng-container *ngIf="!buttonFlag">
-              <app-text-button [label]="label" [type]="type" [size]="size" [iconStart]="iconStart" [iconEnd]="iconEnd" [isDisabled]="isDisabled" [attr.data-bs-toggle]="actionToggle" [attr.data-bs-target]="'#' + actionTarget" (onClickEvent)="OnClickActionButton(element)"></app-text-button>
+              <app-text-button [label]="label" [type]="type" [size]="size" [iconStart]="iconStart" [iconEnd]="iconEnd"
+                [isDisabled]="isDisabled" [attr.data-bs-toggle]="actionToggle"
+                [attr.data-bs-target]="'#' + actionTarget"
+                (onClickEvent)="OnClickActionButton(element)"></app-text-button>
             </ng-container>
-  
+
             <!-- <ng-template #action>  
               <app-button [buttonLabel]="label" [buttonClass]="type" [isDisable]="isDisabled" (onClickEvent)="OnClickActionButton(element)"></app-button>
             </ng-template> -->
           </mat-cell>
         </ng-template>
-        
-        
+
+
       </ng-container>
-  
+
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;" [class.row-clicked]="clickedRows == row" (dblclick)="onRowDoubleClicked(row)" (click)="onRowClicked(row)"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" [class.row-clicked]="clickedRows == row"
+        (dblclick)="onRowDoubleClicked(row)" (click)="onRowClicked(row)"></mat-row>
       <!--  -->
     </mat-table>
 
@@ -73,14 +83,8 @@
     </div>
 
     <ng-container *ngIf="pagination">
-      <mat-paginator #paginator 
-        (page)="onClickPageIndex($event)"
-        [length]="length"
-        [pageSize]="pageSize"
-        [disabled]="disabled"
-        [showFirstLastButtons] = "false"
-        [hidePageSize]="hidePageSize"
-        [pageIndex]="pageIndex"
+      <mat-paginator #paginator (page)="onClickPageIndex($event)" [length]="length" [pageSize]="pageSize"
+        [disabled]="disabled" [showFirstLastButtons]="false" [hidePageSize]="hidePageSize" [pageIndex]="pageIndex"
         aria-label="Select page">
         [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
       </mat-paginator>
@@ -97,7 +101,7 @@
 -- pagination [offset(startIndex), limit(amountData)] -->
 
 
-  <!-- <table mat-table [dataSource]="dataTable">
+<!-- <table mat-table [dataSource]="dataTable">
       <ng-container [matColumnDef]="col.name" *ngFor="let col of columns">
         <th mat-header-cell *matHeaderCellDef>{{col.displayName}}</th>
         <ng-container *ngIf="col.name != 'action'; else actionButton">

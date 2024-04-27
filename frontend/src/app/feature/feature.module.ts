@@ -64,6 +64,7 @@ import { TransactionListComponent } from './merchant/transaction-list/transactio
 // REPORT
 import { ReportComponent } from './report/report.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { HomeComponent } from './home/home.component';
     BillingListComponent,
     BillingPayComponent,
     BillingUpdateCategoryComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
