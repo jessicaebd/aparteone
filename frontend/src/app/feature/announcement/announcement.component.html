@@ -67,6 +67,75 @@
     </div>
 </ng-container>
 
+<ng-container *ngIf="role=='merchant'">
+    <div class="container">
+        <ng-container *ngIf="errorMsglist==''; else noData">
+            <div id="carouselAnnouncement" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <ng-container *ngFor="let item1 of listAnnouncement; let x = index">
+                        <ng-container *ngIf="x==0; else default">
+                            <button type="button" data-bs-target="#carouselAnnouncement" [attr.data-bs-slide-to]="x"
+                                [attr.aria-label]="'Slide ' + item1.id" class="active" aria-current="true"></button>
+                        </ng-container>
+                        <ng-template #default>
+                            <button type="button" data-bs-target="#carouselAnnouncement" [attr.data-bs-slide-to]="x"
+                                [attr.aria-label]="'Slide ' + item1.id"></button>
+                        </ng-template>
+                    </ng-container>
+                </div>
+                <div class="carousel-inner">
+                    <ng-container *ngFor="let item2 of listAnnouncement; let y = index">
+                        <ng-container *ngIf="y==0; else defaultImg">
+                            <div class="carousel-item active">
+                                <a [href]="'announcement/detail/' + item2.id">
+                                    <img [src]="item2.image" class="d-block w-100" alt="announcement">
+                                </a>
+                            </div>
+                        </ng-container>
+                        <ng-template #defaultImg>
+                            <div class="carousel-inner">
+                                <div class="carousel-item">
+                                    <a [href]="'announcement/detail/' + item2.id">
+                                        <img [src]="item2.image" class="d-block w-100" alt="announcement">
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselAnnouncement"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselAnnouncement"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </ng-container>
+        <ng-template #noData>
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="assets/announcement/1.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/announcement/2.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/announcement/3.png" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="d-flex justify-content-center align-items-center border rounded shadow-sm" style="height: 20rem;">
+                <p class="mb-0">{{ errorMsglist }}</p>
+            </div> -->
+        </ng-template>
+    </div>
+</ng-container>
+
 <ng-container *ngIf="role=='management'">
     <div class="container">
         <div class="announcement-list">

@@ -36,3 +36,8 @@
     --bs-accordion-border-width: none;
     --bs-accordion-border-color: none;
 }
+
+.transaction-img {
+    object-fit: contain;
+    height: 2.7rem;
+  }

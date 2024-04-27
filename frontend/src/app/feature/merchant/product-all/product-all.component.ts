@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 })
 export class ProductAllComponent {
   role : string = 'merchant';
-  merchantId = 9;
+  merchantId:number = 9;
 
   table: any;
   allDataProduct: any;

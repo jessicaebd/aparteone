@@ -7,7 +7,7 @@
 <ng-template #list>
     <div class="accordion" id="paymentParent">
         <ng-container *ngFor="let item of listRequest">
-            <div class="accordion-item mb-3 shadow">
+            <div class="accordion-item mb-3 shadow-sm">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#collapse' +item.id" aria-expanded="true" aria-controls="collapseOne">

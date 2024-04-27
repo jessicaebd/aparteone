@@ -33,7 +33,7 @@ export class AnnouncementComponent implements OnInit{
     this.errorMsglist = "";
     this.role = this.apps.getUserRole();
 
-    if(this.role=='resident'){
+    if(this.role=='resident' || this.role=='merchant'){
       await this.getListAnnouncementResident(this.apartmentId, 'Active');
     }
     else if(this.role=='management'){

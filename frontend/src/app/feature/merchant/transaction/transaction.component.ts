@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
 import { Location } from '@angular/common';
+import { Column } from 'src/app/shared/component/table/table.component';
+import { Transaction } from '../merchant.interface';
 
 @Component({
   selector: 'app-transaction',
@@ -15,17 +17,18 @@ export class TransactionComponent {
   filter: string = '';
   
   listTransaction!: any;
-  errorListRequest: string = "";
-  allListRequest: any;
+  errorListTransaction: string = "";
+  allListTransaction: any;
   keySearch: string = '';
   pageList = 0;
-  sizeRequest = 5;
-  tableRequest: any;
-  allDataRequest: any;
-  errorMsgRequest: string = '';
-  pageRequest = 0;
-  // colRequest: Column[] = [];
-  // dataRequest: Mailbox = {};
+  sizeList = 5;
+  tableTransaction: any;
+  allDataTransaction: any;
+  errorMsgTransaction: string = '';
+  pageTransaction = 0;
+  sizeTransaction = 10;
+  colTransaction: Column[] = [];
+  dataTransaction: Transaction = {};
   
   @ViewChild('closeModalDetail') modalCloseDetail: any;
 
@@ -33,24 +36,39 @@ export class TransactionComponent {
 
   async ngOnInit() {
     this.apps.loadingPage(true);
-    this.errorListRequest = '';
-    this.errorMsgRequest = '';
+    this.errorListTransaction = '';
+    this.errorMsgTransaction = '';
     this.role = this.apps.getUserRole();
-    if(this.role=='management'){
-      // this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      
-      // await this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
-      // await this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest);
+    if(this.role=='merchant'){
+      this.colTransaction = [{name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'transactionDate', displayName: 'Transaction Date'},  {name: 'grandTotal', displayName: 'Grand Total'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      await this.getTransactionMerchant(this.merchantId, this.sizeTransaction, this.pageTransaction);
     }
     else if (this.role=='resident'){
-      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-        await this.getTransactionResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
-      }
-      else{
-        // await this.searchMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.keySearch);
-      }
+      await this.getTransactionResident(this.residentId, this.sizeList, this.pageList, this.filter);
     }
     this.apps.loadingPage(false);
+  }
+
+  getTransactionMerchant(merchantId: any, size:number, page: number): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.merchantService.getTransactionMerchant(merchantId, size, page).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.data.length > 0){
+            this.tableTransaction = response.data;
+            this.allDataTransaction = response.totalElements;
+          }
+          else{
+            this.errorMsgTransaction = 'No Data Found!'
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsgTransaction = 'No Data Found!'
+          resolve(error);
+        }
+      }))
   }
 
   getTransactionResident(residentId: any, size:number, page: number, status: any): Promise<any>{
@@ -60,19 +78,24 @@ export class TransactionComponent {
           console.log('Response: ', response);
           if(response.data.length > 0){
             this.listTransaction = response.data;
-            this.allListRequest = response.totalElements;
+            this.allListTransaction = response.totalElements;
           }
           else{
-            this.errorListRequest = 'No Data Found!'
+            this.errorListTransaction = 'No Data Found!'
           }
           resolve(true);
         },
         error: (error: any) => {
           console.log('#error', error);
-          this.errorListRequest = 'No Data Found!'
+          this.errorListTransaction = 'No Data Found!'
           resolve(error);
         }
       }))
+  }
+
+  redirect(){
+    this.modalCloseDetail.nativeElement.click();
+    this.ngOnInit();
   }
 
   onFilterBy(e:any){
@@ -85,18 +108,11 @@ export class TransactionComponent {
   onLoadData(type:any, e:any){
     console.log("Onload Page Index: ", e);
     if(type=='request'){
-      this.pageRequest = e;
-      // this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqDir);
-    }
-    else if(type=='listRequest'){
       this.pageList = e;
-      // this.getMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
     }
-    this.ngOnInit();
-  }
-
-  onSearchData(){
-    this.pageList = 0;
+    else if(type=='merchant'){
+      this.pageTransaction = e;
+    }
     this.ngOnInit();
   }
 

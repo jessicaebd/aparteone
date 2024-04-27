@@ -1,0 +1,9 @@
+:host(app-transaction-detail){
+    width: 100%;
+}
+
+.payment-proof img{
+    object-fit: contain;
+    min-height: 15rem;
+    max-height: 15rem;
+}

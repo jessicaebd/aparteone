@@ -10,7 +10,7 @@ import { FacilityAllRequestComponent } from '../facility/facility-all-request/fa
 })
 
 export class HomeComponent implements OnInit {
-  role: string = 'resident';
+  role: string = 'merchant';
   html = '';
   isGuest = false;
   latestRequest: string = 'maintenance';

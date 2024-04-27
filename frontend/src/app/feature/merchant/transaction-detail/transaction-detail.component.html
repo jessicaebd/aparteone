@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="ms-2 mt-1">
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Unit"></app-label>
+            <app-label class="col" [labelInput]="data['residentUnit']? (': ' + data['residentUnit']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Resident"></app-label>
+            <app-label class="col" [labelInput]="data['residentName']? (': ' + data['residentName']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Status"></app-label>
+            <app-label class="col" [labelInput]="data['status']? (': ' + data['status']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Transaction Date"></app-label>
+            <app-label class="col" [labelInput]="data['transactionDate']? (': ' + data['transactionDate']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Delivered Date"></app-label>
+            <app-label class="col" [labelInput]="data['deliveredDate']? (': ' + data['deliveredDate']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Completed Date"></app-label>
+            <app-label class="col" [labelInput]="data['completedDate']? (': ' + data['completedDate']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-3">
+            <app-label class="col-3" labelInput="Cancelled Date"></app-label>
+            <app-label class="col" [labelInput]="data['cancelledDate']? (': ' + data['cancelledDate']) : ': -'"></app-label>
+        </div>
+        <app-label labelInput="Product" style="font-weight: 600;"></app-label>
+        <div class="row mb-1 px-2">
+            <ng-container *ngFor="let product of data['details']">
+                <div class="d-flex">
+                    <app-label class="col-1" [labelInput]="product['quantity']+'x'"></app-label>
+                    <app-label class="col" [labelInput]="product['name']"></app-label>
+                    <app-label class="col-2" [labelInput]="product['totalPrice']"></app-label>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row mb-3">
+            <app-label class="col-3" labelInput="Grand Total" style="font-weight: 600;"></app-label>
+            <div class="col d-flex justify-content-end">
+                <app-label [labelInput]="data['grandTotal']" style="font-weight: 600;"></app-label>
+            </div>
+            <div class="col-1 ms-3">
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="data['status']=='Waiting for Confirmation'">
+        <div class="border-top w-100 mt-3 pt-2">
+            <ng-container *ngIf="data['payment']">
+                <app-label labelType="subtitle" labelInput="Payment Proof"></app-label>
+                <div class="payment-proof mt-1 d-flex justify-content-center">
+                    <img [src]="data['payment']['paymentProofImage']" alt="">
+                </div>
+                <div class="container d-flex justify-content-center py-4">
+                    <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('Cancelled')"></app-button>
+                    <app-button class="ms-3" buttonClass="primary" buttonLabel="Verify" (onClickEvent)="onButtonVerify()"></app-button>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="data['status']=='On Process'">
+        <div class="border-top w-100 mt-3 pt-2">
+            <div class="container d-flex justify-content-center my-2">
+                <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Delivered" (onClickEvent)="onButtonClick('On Delivery')"></app-button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="data['status']=='On Delivery'">
+        <div class="border-top w-100 mt-3 pt-2">
+            <div class="container d-flex justify-content-center mt-2">
+                <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonClick('Completed')"></app-button>
+            </div>
+        </div>
+    </ng-container>
+</div>
