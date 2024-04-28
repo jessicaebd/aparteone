@@ -36,6 +36,7 @@ export const environment : EnvironmentInterface = {
             cart: "cart",
             transaction: "transaction",
             apartment: "apartment",
+            unit: "unit",
             resident: "resident",
         },
     },

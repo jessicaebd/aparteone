@@ -47,6 +47,8 @@ import { NotificationComponent } from './general/notification/notification.compo
 
 // PROFILE
 import { ProfileComponent } from './feature/profile/profile.component';
+import { ResidentComponent } from './feature/admin/resident/resident.component';
+import { ApartmentComponent } from './feature/admin/apartment/apartment.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -91,6 +93,10 @@ const routes: Routes = [
   // CHAT
   { path: 'chat', component: ChatComponent },
   { path: 'chat/:id', component: ChatComponent  },
+
+  // ADMIN
+  { path: 'resident', component: ResidentComponent },
+  { path: 'apartment', component: ApartmentComponent },
 ];
 
 @NgModule({

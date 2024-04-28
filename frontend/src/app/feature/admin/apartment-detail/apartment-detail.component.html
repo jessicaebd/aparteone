@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="ms-2 mt-1">
+        <div class="row mb-3 apartment-image">
+            <img [src]="data['image']" alt="apartment-image">
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Apartment" style="font-weight: 600;"></app-label>
+            <app-label class="col" [labelInput]="data['name']? (': ' + data['name']) : ': -'" style="font-weight: 600;"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Province"></app-label>
+            <app-label class="col" [labelInput]="data['province']? (': ' + data['province']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="City"></app-label>
+            <app-label class="col" [labelInput]="data['city']? (': ' + data['city']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Address"></app-label>
+            <app-label class="col" [labelInput]="data['address']? (': ' + data['address']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Postal Code"></app-label>
+            <app-label class="col" [labelInput]="data['postalCode']? (': ' + data['postalCode']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Latitude"></app-label>
+            <app-label class="col" [labelInput]="data['latitude']? (': ' + data['latitude']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Longitude"></app-label>
+            <app-label class="col" [labelInput]="data['longitude']? (': ' + data['longitude']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Approval"></app-label>
+            <app-label class="col" [labelInput]="data['isApproved']? (': ' + data['isApproved']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Status"></app-label>
+            <app-label class="col" [labelInput]="data['isActive']? (': ' + data['isActive']) : ': -'"></app-label>
+        </div>
+    </div>
+
+    <ng-container *ngIf="data['isActive']=='Active' && data['isApproved']=='Approved'">
+        <div class="border-top w-100 mt-3 py-3">
+            <div class="d-flex justify-content-center">
+                <app-button class="ms-3" buttonClass="primary" buttonLabel="Deactive" (onClickEvent)="onUpdateResident(false)"></app-button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="data['isActive']=='Inactive' && data['isApproved']=='Approved'">
+        <div class="border-top w-100 mt-3 py-3">
+            <div class="d-flex justify-content-center">
+                <app-button class="ms-3" buttonClass="primary" buttonLabel="Activate" (onClickEvent)="onUpdateResident(true)"></app-button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="data['isApproved']=='Pending'">
+        <div class="border-top w-100 mt-3 py-3">
+            <div class="d-flex justify-content-center">
+                <app-button class="" buttonClass="outline-primary" buttonLabel="Reject" (onClickEvent)="onApproveResident(false)"></app-button>
+                <app-button class="ms-3" buttonClass="primary" buttonLabel="Approve" (onClickEvent)="onApproveResident(true)"></app-button>
+            </div>
+        </div>
+    </ng-container>    
+</div>

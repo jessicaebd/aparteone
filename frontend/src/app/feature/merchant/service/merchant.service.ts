@@ -38,7 +38,13 @@ export class MerchantService {
   getMerchantApartment(apartmentId: any, size:number, page: number, isApproved:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}`;
     const headers = new HttpHeaders({ });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isApproved': isApproved } });
+    let params;
+    if(apartmentId==null || apartmentId==''){
+      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'isApproved': true } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isApproved': isApproved } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
@@ -47,7 +53,13 @@ export class MerchantService {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiSearch}`;
     const headers = new HttpHeaders({ });
     let params;
-    if(search!=''){
+    if(search!='' && apartmentId==null){
+      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'search': search, 'sortBy': 'name', 'sortDir': 'ASC' } });
+    }
+    else if(search=='' && apartmentId==null){
+      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'sortBy': 'name', 'sortDir': 'ASC' } });
+    }
+    else if(search!='' && apartmentId!=null){
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search, 'sortBy': 'name', 'sortDir': 'ASC' } });
     }
     else{

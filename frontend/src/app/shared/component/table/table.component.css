@@ -57,12 +57,11 @@
 }
 
 .mat-mdc-row:hover{
-  /* background-color: var(--warm-lighter); */
-  background-color: rgba(80, 196, 253, 0.05);
+  background-color: rgba(80, 37, 250, 0.03);
 }
 
 .row-clicked{
-  background-color: rgba(80, 196, 253, 0.05);
+  background-color: rgba(80, 37, 250, 0.03);
 }
 
 ::ng-deep .table-toolbar{

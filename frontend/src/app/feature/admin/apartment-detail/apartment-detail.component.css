@@ -1,0 +1,9 @@
+:host(app-apartment-detail){
+    width: 100%;
+}
+
+.apartment-image img{
+    object-fit: cover;
+    min-height: 20rem;
+    max-height: 20rem;
+}

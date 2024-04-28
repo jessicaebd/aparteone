@@ -1,0 +1,13 @@
+<div class="container w-100">
+    <div class="mt-0 pt-0">
+        <app-label labelType="label"  labelFor="type" labelInput="Unit Type" [isMandatory]="true"></app-label>
+        <app-textbox inputID="type" [value]="data['type']" (onChangeEvent)="data['type']=$event"></app-textbox>
+    </div>
+    <div class="mt-2">
+        <app-label labelType="label"  labelFor="unitNumber" labelInput="Unit Number" [isMandatory]="true"></app-label>
+        <app-textbox inputID="unitNumber" [value]="data['unitNumber']" (onChangeEvent)="data['unitNumber']=$event"></app-textbox>
+    </div>
+    <div class="container d-flex justify-content-center py-4">
+        <app-button buttonClass="primary" buttonLabel="Submit" (onClickEvent)="onButtonSubmit()"></app-button>
+    </div>
+</div>

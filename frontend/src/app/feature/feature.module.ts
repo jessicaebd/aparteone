@@ -68,6 +68,14 @@ import { TransactionDetailComponent } from './merchant/transaction-detail/transa
 import { ProfileComponent } from './profile/profile.component';
 import { ProductListComponent } from './merchant/product-list/product-list.component';
 
+// ADMIN
+import { ResidentComponent } from './admin/resident/resident.component';
+import { ResidentDetailComponent } from './admin/resident-detail/resident-detail.component';
+import { ApartmentDetailComponent } from './admin/apartment-detail/apartment-detail.component';
+import { ApartmentComponent } from './admin/apartment/apartment.component';
+import { UnitDetailComponent } from './admin/unit-detail/unit-detail.component';
+import { UnitAddComponent } from './admin/unit-add/unit-add.component';
+
 @NgModule({
   declarations: [
     MaintenanceComponent,
@@ -126,6 +134,12 @@ import { ProductListComponent } from './merchant/product-list/product-list.compo
     BillingPayComponent,
     BillingUpdateCategoryComponent,
     ProfileComponent,
+    ResidentComponent,
+    ResidentDetailComponent,
+    ApartmentDetailComponent,
+    ApartmentComponent,
+    UnitDetailComponent,
+    UnitAddComponent,
   ],
   imports: [
     CommonModule,
@@ -186,6 +200,11 @@ import { ProductListComponent } from './merchant/product-list/product-list.compo
     BillingListComponent,
     BillingPayComponent,
     BillingUpdateCategoryComponent,
+    ProfileComponent,
+    ResidentComponent,
+    ResidentDetailComponent,
+    ApartmentDetailComponent,
+    ApartmentComponent,
   ],
   providers:[]
 })

@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <app-label labelInput="APARTMENT" labelType="title"></app-label>
+        <app-label labelInput="Apartment Information" labelType="label"></app-label>
+    </div>
+    <ng-container *ngIf="role=='admin'">
+        <div class="approval-apartment mb-3">
+            <div class="d-flex align-items-center subtitle">
+                <app-label labelInput="APPROVAL LIST" labelType="subtitle"></app-label>
+            </div>
+            <div class="pb-2">
+                <app-table [dataTable]="tableApartmentApproval" [columns]="colApartmentApproval" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
+                    actionTarget="modalApartmentDetail" (onClickActionEvent)="onListItemClick('apartment', $event)" 
+                    [length]="allDataApartmentApproval" [pageIndex]="pageApartmentApproval" [pageSize]="sizeApartment" (onPageIndexEvent)="onLoadData('approval', $event)" [errorMsg]="errorMsgApartmentApproval"></app-table>
+            </div>
+        </div>
+        <div class="list-apartment">
+            <div class="d-flex align-items-center subtitle">
+                <app-label labelInput="LIST APARTMENT" labelType="subtitle"></app-label>
+            </div>
+            <div class="pb-2">
+                <app-table [dataTable]="tableApartment" [columns]="colApartment" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal"
+                    actionTarget="modalApartmentDetail" (onClickActionEvent)="onListItemClick('apartment', $event)" 
+                    [length]="allDataApartment" [pageIndex]="pageApartment" [pageSize]="sizeApartment" (onPageIndexEvent)="onLoadData('list', $event)" (onSearchEvent)="onSearchData('apartment',$event)" [errorMsg]="errorMsgApartment"></app-table>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="role=='management'">
+        <div class="list-apartment">
+            <div class="d-flex justify-content-between align-items-center subtitle">
+                <app-label labelInput="LIST UNIT" labelType="subtitle"></app-label>
+                <app-button buttonLabel="Add Unit" data-bs-toggle="modal" data-bs-target="#modalUnitAdd"></app-button>
+            </div>
+            <div class="pb-2">
+                <app-table [dataTable]="tableUnit" [columns]="colUnit" headerAlignment="center" 
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal"
+                    actionTarget="modalUnitDetail" (onClickActionEvent)="onListItemClick('unit', $event)" 
+                    [length]="allDataUnit" [pageIndex]="pageUnit" [pageSize]="sizeApartment" (onPageIndexEvent)="onLoadData('unit', $event)" (onSearchEvent)="onSearchData('unit', $event)" [errorMsg]="errorMsgUnit"></app-table>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<!-- Modal -->
+<app-modal modalID="modalApartmentDetail" [width]="600" [modalContent]="modalApartmentDetail"></app-modal>
+    
+<ng-template #modalApartmentDetail>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Apartment Detail</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalApartment></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container">
+            <app-apartment-detail [data]="dataApartment" (onSubmitEvent)="redirect('apartment')"></app-apartment-detail>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Modal -->
+<app-modal modalID="modalUnitAdd" [width]="600" [modalContent]="modalUnitAdd"></app-modal>
+    
+<ng-template #modalUnitAdd>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Unit</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUnitAdd></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container">
+            <app-unit-add (onSubmitEvent)="redirect('add')"></app-unit-add>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Modal -->
+<app-modal modalID="modalUnitDetail" [width]="600" [modalContent]="modalUnitDetail"></app-modal>
+    
+<ng-template #modalUnitDetail>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Unit Detail</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalUnit></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container">
+            <app-unit-detail [data]="dataUnit" (onSubmitEvent)="redirect('unit')"></app-unit-detail>
+        </div>
+    </div>
+</ng-template>

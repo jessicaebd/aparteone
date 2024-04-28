@@ -33,8 +33,8 @@
             <div class="py-2">
                 <app-table [dataTable]="tableMerchant" [columns]="colMerchant" headerAlignment="center" 
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalMerchantDetail" (onClickActionEvent)="onListItemClick('approve', $event)" [pageIndex]="pageMerchant" [pageSize]="sizeMerchant"
-                    [length]="allDataMerchant" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgMerchant"></app-table>
+                    actionTarget="modalMerchantDetail" (onClickActionEvent)="onListItemClick($event)" [pageIndex]="pageMerchant" [pageSize]="sizeMerchant"
+                    [length]="allDataMerchant" (onPageIndexEvent)="onLoadData('approve', $event)" [errorMsg]="errorMsgMerchant"></app-table>
             </div>
         </div>
         <div class="merchant-request-list my-5">
@@ -45,23 +45,37 @@
             <div class="py-2">
                 <app-table [dataTable]="tableList" [columns]="colList" headerAlignment="center" [filter]="false"
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" actionTarget="modalMerchantDetail" 
-                    (onClickActionEvent)="onListItemClick('list', $event)" [pagination]="false" [errorMsg]="errorMsgList"></app-table>
+                    (onClickActionEvent)="onListItemClick($event)" [pagination]="false" [errorMsg]="errorMsgList"></app-table>
             </div>
         </div>
-
-        <!-- Modal -->
-        <app-modal modalID="modalMerchantDetail" [width]="800" [modalContent]="modalMerchantDetail"></app-modal>
-    
-        <ng-template #modalMerchantDetail>
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Merchant Detail</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
-            </div>
-            <div class="modal-body d-flex col justify-content-center">
-                <div class="container">
-                    <app-merchant-detail [data]="dataMerchant" (onSubmitEvent)="redirect()"></app-merchant-detail>
-                </div>
-            </div>
-        </ng-template>
     </ng-container>
+
+    <!-- Admin -->
+    <ng-container *ngIf="role=='admin'">
+        <div class="merchant-list">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="LIST MERCHANT" labelType="subtitle"></app-label>
+            </div>
+            <div class="py-2">
+                <app-table [dataTable]="tableList" [columns]="colList" headerAlignment="center"
+                    iconStart="bi bi-eye-fill" label="View" type="primary" [length]="allMerchantList" [pageIndex]="pageList" [pageSize]="sizeList" actionToggle="modal" actionTarget="modalMerchantDetail" 
+                    (onClickActionEvent)="onListItemClick($event)" (onSearchEvent)="onSearchMerchant($event)" (onPageIndexEvent)="onLoadData('admin', $event)" [errorMsg]="errorMsgList"></app-table>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Modal -->
+    <app-modal modalID="modalMerchantDetail" [width]="800" [modalContent]="modalMerchantDetail"></app-modal>
+
+    <ng-template #modalMerchantDetail>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Merchant Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+            <div class="container">
+                <app-merchant-detail [data]="dataMerchant" (onSubmitEvent)="redirect()"></app-merchant-detail>
+            </div>
+        </div>
+    </ng-template>
 </div>
