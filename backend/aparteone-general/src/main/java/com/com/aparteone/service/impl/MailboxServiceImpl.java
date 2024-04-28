@@ -24,6 +24,7 @@ import com.com.aparteone.entity.MailboxDetail;
 import com.com.aparteone.repository.MailboxDetailRepo;
 import com.com.aparteone.repository.MailboxRepo;
 import com.com.aparteone.service.MailboxService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.MailboxSpecification;
 
@@ -41,6 +42,9 @@ public class MailboxServiceImpl implements MailboxService {
 
     @Autowired
     private ResidentService residentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public PageResponse<MailboxCategoryResponse> getMailboxListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
@@ -168,18 +172,20 @@ public class MailboxServiceImpl implements MailboxService {
         mailboxDetail.setDescription(mailboxDetailRequest.getDescription());
         mailboxDetail.setStatus(AparteoneConstant.STATUS_RECEIVED);
         mailboxDetail.setReceivedDate(new Date());
-        return mailboxDetailRepo.save(mailboxDetail);
+        mailboxDetailRepo.save(mailboxDetail);
+
+        notificationService.sendNotification(mailboxDetailRequest.getResidentId(), "Mailbox MBX00" + mailboxDetail.getId(), "You have a new mailbox");
+        return mailboxDetail;
     }
 
     @Override
-    public MailboxDetail updateMailboxDetailStatus(Integer mailboxDetailId,
-            String status) {
+    public MailboxDetail updateMailboxDetailStatus(Integer mailboxDetailId, String status) {
         MailboxDetail mailboxDetail = mailboxDetailRepo.findById(mailboxDetailId).get();
         if (status.equalsIgnoreCase(AparteoneConstant.STATUS_COMPLETED)) {
             mailboxDetail.setStatus(status);
             mailboxDetail.setCompletedDate(new Date());
+            notificationService.sendNotification(mailboxDetail.getId(), "Mailbox MBX00" + mailboxDetailId, "Your mailbox has been completed");
         }
         return mailboxDetailRepo.save(mailboxDetail);
     }
-
 }

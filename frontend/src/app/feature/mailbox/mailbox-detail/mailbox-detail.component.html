@@ -28,6 +28,7 @@
         <app-textbox inputID="status" [value]="data['status']" [isReadOnly]="true"></app-textbox>
     </div>
     <div class="container d-flex justify-content-center py-4">
+        <app-button class="me-3" buttonClass="outline-primary" buttonLabel="Remind" (onClickEvent)="onRemind()"></app-button>
         <app-button buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonSubmit()"></app-button>
     </div>
 </div>

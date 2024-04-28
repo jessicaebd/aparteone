@@ -28,6 +28,7 @@ import com.com.aparteone.repository.BillingDetailRepo;
 import com.com.aparteone.repository.BillingRepo;
 import com.com.aparteone.repository.PaymentRepo;
 import com.com.aparteone.service.BillingService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.BillingSpecification;
 
@@ -48,6 +49,9 @@ public class BillingServiceImpl implements BillingService {
 
     @Autowired
     private ResidentService residentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public Billing addBilling(BillingCategoryRequest billingCategoryRequest) {
@@ -189,7 +193,10 @@ public class BillingServiceImpl implements BillingService {
         billingDetail.setAmount(billingDetailRequest.getAmount());
         billingDetail.setDueDate(billingDetailRequest.getDueDate());
         billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_PAYMENT);
-        return billingDetailRepo.save(billingDetail);
+        billingDetail = billingDetailRepo.save(billingDetail);
+
+        notificationService.sendNotification(billingDetailRequest.getResidentId(), "Bills BLN00" + billingDetail.getId(), "You have a new bills");
+        return billingDetail;
     }
 
     @Override
@@ -198,6 +205,7 @@ public class BillingServiceImpl implements BillingService {
         if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
             billingDetail.setStatus(AparteoneConstant.STATUS_CANCELLED);
             billingDetail.setCancelledDate(new Date());
+            notificationService.sendNotification(billingDetail.getResidentId(), "Bills BLN00" + billingDetail.getId(), "Your bills is cancelled");
         }
         return billingDetailRepo.save(billingDetail);
     }
@@ -214,6 +222,10 @@ public class BillingServiceImpl implements BillingService {
 
         billingDetail.setPaymentId(payment.getId());
         billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_CONFIRMATION);
+
+        Billing billing = billingRepo.findById(billingDetail.getBillingId()).get();
+
+        notificationService.sendNotification(billing.getApartmentId(), "Bills BLN00" + billingDetail.getId(), "You have a new payment to approve");
         return billingDetailRepo.save(billingDetail);
     }
 
@@ -226,6 +238,8 @@ public class BillingServiceImpl implements BillingService {
         payment.setVerifiedDate(new Date());
 
         billingDetail.setStatus((payment.getIsValid() == true) ? AparteoneConstant.STATUS_COMPLETED : AparteoneConstant.STATUS_CANCELLED);
+
+        notificationService.sendNotification(billingDetail.getResidentId(), "Bills BLN00" + billingDetailId, "Your billing payment has been " + (payment.getIsValid() == true ? "approved" : "rejected"));
         return billingDetailRepo.save(billingDetail);
     }
 }

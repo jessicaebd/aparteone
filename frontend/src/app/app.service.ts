@@ -4,16 +4,22 @@ import { Subject, Observable } from 'rxjs';
 import { LocalStorageService } from 'ngx-webstorage';
 import { UserStorage } from './shared/models/general.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/development';
+import { HttpRequest, HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
-  private domain = 'DTIDOMAIN';
+  private apiUrl = `${environment.baseApiUrl}`;
+  private apiNotification = `${environment.modules.feature.notification}`;
+  private apiBilling = `${environment.modules.feature.billing}`;
+  private apiMailbox = `${environment.modules.feature.mailbox}`;
 
   constructor(
     private localStorage: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private httpClient: HttpClient
   ) { }
 
   public saveUser(response: LoginResponse) {
@@ -82,7 +88,30 @@ export class AppService {
     return this.localStorage.retrieve('access_token').expired_in;
   }
 
-  retrieveDomain() {
-    return this.domain;
+  // NOTIFICATION
+  getNotifications(userId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiNotification}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'userId': userId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  sendBillingNotification(userId: any, billingDetailId:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiNotification}/${this.apiBilling}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'userId': userId, 'billingDetailId': billingDetailId } });
+    const options = { headers, params };
+    const body = {}
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  sendMailboxNotification(userId: any, mailboxDetailId:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiNotification}/${this.apiMailbox}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'userId': userId, 'mailboxDetailId': mailboxDetailId } });
+    const options = { headers, params };
+    const body = {}
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 }

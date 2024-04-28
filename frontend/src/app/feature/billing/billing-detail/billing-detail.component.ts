@@ -3,6 +3,7 @@ import { BillingService } from '../service/billing.service';
 import { AppComponent } from 'src/app/app.component';
 import { Billing } from '../billing.interface';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-billing-detail',
@@ -10,10 +11,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./billing-detail.component.css']
 })
 export class BillingDetailComponent {
+  residentId = 4;
   @Input() data: Billing = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private billingService: BillingService, private apps: AppComponent){}
+  constructor(private billingService: BillingService, private apps: AppComponent, private appService: AppService){}
 
   updateBillingDetail(id:any, status:any): Promise<any>{
     return new Promise<any>(resolve => 
@@ -41,6 +43,43 @@ export class BillingDetailComponent {
           resolve(error);
         }
       }))
+  }
+
+  sendBillingNotification(userId:any, billingDetailId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.appService.sendBillingNotification(userId, billingDetailId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
+
+  async onRemind(){
+    let result = await this.sendBillingNotification(this.residentId, this.data['id']);
+    this.apps.loadingPage(false);
+    this.onSubmitEvent.emit();
+
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Sended Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Send Reminder',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
   }
 
   onButtonSubmit(type:any){

@@ -98,7 +98,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 apartment.getLatitude(),
                 apartment.getLongitude(),
                 (apartment.getIsActive()) ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
-                (apartment.getIsApproved()) ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_PENDING);
+                (apartment.getIsApproved() == null) ? AparteoneConstant.STATUS_PENDING : (apartment.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_REJECTED));
         return response;
     }
 
@@ -123,7 +123,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 request.getLatitude(),
                 request.getLongitude(),
                 false,
-                false);
+                null);
         return apartmentRepo.save(apartment);
     }
 

@@ -4,44 +4,21 @@
         <app-label labelInput="NOTIFICATION" labelType="title"></app-label>
         <app-label labelInput="Newest Information" labelType="label"></app-label>
     </div>
-    <div class="accordion" id="mailboxParent">
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <div class="accordion" id="announcementParent">
+        <ng-container *ngFor="let item of data">
+            <div class="accordion-item mb-3">
+                <div class="accordion-button" type="button" aria-expanded="true">
                     <div class="header-button w-100">
                         <div class="row">
-                            <h6 class="col">REMINDER!</h6>
+                            <h6 class="col">{{ item.title }}</h6>
                             <div class="col-2 d-flex justify-content-end">
-                                <span>18.01</span>
+                                <span>{{ item.createdDate }}</span>
                             </div>
                         </div>
-                        <app-label labelType="span" labelInput="Kepada seluruh, penghuni diingatkan kembali untuk membayar biaya/tagihan sebelum tanggal jatuh tempo yang tertera"></app-label>
+                        <app-label labelType="span" [labelInput]="item.message"></app-label>
                     </div>
-                </button>
-            </h2>
-            <!-- <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#mailboxParent">
-                <div class="accordion-body">
                 </div>
-            </div> -->
-        </div>
-        <div class="accordion-item mb-3">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">JADWAL PEMADAMAN</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <span>17.31</span>
-                            </div>
-                        </div>
-                        <span>Kepada seluruh penghuni, diinformasikan bahwa besok 17 Agustus 2024 akan diadakan pemadaman air Tower A selama masa perbaikan berlangsung</span>
-                    </div>
-                </button>
-            </h2>
-            <!-- <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#mailboxParent">
-                <div class="accordion-body">
-                </div>
-            </div> -->
-        </div>
+            </div>
+        </ng-container>
     </div>
 </div>

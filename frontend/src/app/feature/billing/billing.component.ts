@@ -299,6 +299,6 @@ export class BillingComponent implements OnInit{
   }
 
   goToAllPaymentPage(){
-    window.location.replace('/payment/all');
+    window.location.replace('/billing/all');
   }
 }

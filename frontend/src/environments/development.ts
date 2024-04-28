@@ -35,6 +35,7 @@ export const environment : EnvironmentInterface = {
             product: "product",
             cart: "cart",
             transaction: "transaction",
+            notification: "notification",
             apartment: "apartment",
             unit: "unit",
             resident: "resident",

@@ -1,9 +1,15 @@
 package com.com.aparteone.service.impl;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.dto.auth.UserResponse;
 import com.com.aparteone.dto.request.auth.LoginRequest;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
 import com.com.aparteone.dto.request.auth.RegisterMerchantRequest;
@@ -12,20 +18,47 @@ import com.com.aparteone.entity.Apartment;
 import com.com.aparteone.entity.Merchant;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.entity.User;
+import com.com.aparteone.repository.ApartmentRepo;
+import com.com.aparteone.repository.MerchantRepo;
+import com.com.aparteone.repository.ResidentRepo;
 import com.com.aparteone.repository.UserRepo;
 import com.com.aparteone.service.ApartmentService;
 import com.com.aparteone.service.AuthService;
 import com.com.aparteone.service.MerchantService;
 import com.com.aparteone.service.ResidentService;
+import com.com.aparteone.utils.JWTUtils;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
+    private JWTUtils jwtUtils;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private ApartmentRepo apartmentRepo;
+
+    @Autowired
+    private MerchantRepo merchantRepo;
+
+    @Autowired
+    private ResidentRepo residentRepo;
+
+    @Autowired
+    private ResidentService residentService;
 
     @Autowired
     private ApartmentService apartmentService;
@@ -33,72 +66,164 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private MerchantService merchantService;
 
-    @Autowired
-    private ResidentService residentService;
-
     @Override
-    public Apartment registerApartment(RegisterApartmentRequest request) throws Exception {
-        if (isEmailExist(request.getEmail())) {
-            throw new RuntimeException("Email already exist");
-        } else {
-            User user = new User(
-                    AparteoneConstant.ROLE_ID_ADMIN,
-                    request.getName(),
-                    request.getEmail(),
-                    request.getPhone(),
-                    request.getPassword());
+    public UserResponse registerApartment(RegisterApartmentRequest request) {
+        UserResponse response = new UserResponse();
+        try {
+
+            User user = new User();
+            user.setRoleId(AparteoneConstant.ROLE_ID_MANAGEMENT);
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPhone(request.getPhone());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
             userRepo.save(user);
 
-            Apartment apartment = apartmentService.addApartment(user.getId(), request);
-            return apartment;
+            Apartment apartment = new Apartment();
+            apartment.setId(user.getId());
+            apartment.setImage(request.getImage());
+            apartment.setName(request.getName());
+            apartment.setAddress(request.getAddress());
+            apartment.setProvince(request.getProvince());
+            apartment.setCity(request.getCity());
+            apartment.setPostalCode(request.getPostalCode());
+            apartment.setLatitude(request.getLatitude());
+            apartment.setLongitude(request.getLongitude());
+            apartment.setIsActive(false);
+            apartment.setIsApproved(null);
+            apartmentRepo.save(apartment);
+
+            if (apartment.getId() != null) {
+                response.setStatusCode(200);
+                response.setMessage("Successfully Registered");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setError(e.getMessage());
         }
+        return response;
     }
 
     @Override
-    public Resident registerResident(RegisterResidentRequest request) throws Exception {
-        if (isEmailExist(request.getEmail())) {
-            throw new RuntimeException("Email already exist");
-        } else {
-            User user = new User(
-                    AparteoneConstant.ROLE_ID_RESIDENT,
-                    request.getName(),
-                    request.getEmail(),
-                    request.getPhone(),
-                    request.getPassword());
+    public UserResponse registerResident(RegisterResidentRequest request) {
+        UserResponse response = new UserResponse();
+        log.info("Request: {}", request);
+        try {
+
+            User user = new User();
+            user.setRoleId(AparteoneConstant.ROLE_ID_RESIDENT);
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPhone(request.getPhone());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
             userRepo.save(user);
 
-            Resident resident = residentService.addResident(user.getId(), request);
-            return resident;
+            Resident resident = new Resident();
+            resident.setId(user.getId());
+            resident.setApartmentId(request.getApartmentId());
+            resident.setApartmentUnitId(request.getApartmentUnitId());
+            resident.setImage(request.getImage());
+            resident.setName(request.getName());
+            resident.setType(request.getType());
+            resident.setIsActive(false);
+            resident.setIsApproved(null);
+            residentRepo.save(resident);
+
+            if (resident.getId() != null) {
+                response.setStatusCode(200);
+                response.setMessage("Successfully Registered");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setError(e.getMessage());
         }
+        return response;
     }
 
     @Override
-    public Merchant registerMerchant(RegisterMerchantRequest request) throws Exception {
-        if (isEmailExist(request.getEmail())) {
-            throw new RuntimeException("Email already exist");
-        } else {
-            User user = new User(
-                    AparteoneConstant.ROLE_ID_RESIDENT,
-                    request.getName(),
-                    request.getEmail(),
-                    request.getPhone(),
-                    request.getPassword());
+    public UserResponse registerMerchant(RegisterMerchantRequest request) {
+        UserResponse response = new UserResponse();
+        try {
+
+            User user = new User();
+            user.setRoleId(AparteoneConstant.ROLE_ID_MERCHANT);
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPhone(request.getPhone());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
             userRepo.save(user);
 
-            Merchant merchant = merchantService.addMerchant(user.getId(), request);
-            return merchant;
+            Merchant merchant = new Merchant();
+            merchant.setId(user.getId());
+            merchant.setApartmentId(request.getApartmentId());
+            merchant.setImage(request.getImage());
+            merchant.setName(request.getName());
+            merchant.setBankAccount(request.getBankAccount());
+            merchant.setAccountNumber(request.getAccountNumber());
+            merchant.setAccountName(request.getAccountName());
+            merchant.setCategory(request.getCategory());
+            merchant.setAddress(request.getAddress());
+            merchant.setIsActive(false);
+            merchant.setIsApproved(null);
+            merchantRepo.save(merchant);
+
+            if (merchant.getId() != null) {
+                response.setStatusCode(200);
+                response.setMessage("Successfully Registered");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setError(e.getMessage());
         }
+        return response;
     }
 
     @Override
-    public User login(LoginRequest request) {
-        User user = userRepo.findByEmail(request.getEmail());
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        } else if (!user.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Invalid password");
+    public UserResponse login(LoginRequest request) {
+        log.info("Request: {}", request);
+        UserResponse response = new UserResponse();
+        try {
+            authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            var user = userRepo.findByEmail(request.getEmail()).orElseThrow();
+            var jwt = jwtUtils.generateToken(user);
+            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+            log.info("User-{} | jwt-{} | refreshToken-{}", user, jwt, refreshToken);
+            response.setStatusCode(200);
+            response.setToken(jwt);
+            response.setRefreshToken(refreshToken);
+            response.setExpirationTime("24Hr");
+            response.setMessage("Successfully Signed In");
+
+            response.setId(user.getId());
+
+            response.setEmail(user.getEmail());
+            response.setPhone(user.getPhone());
+
+            String role = null;
+            Object profile = null;
+            if (user.getRoleId() == AparteoneConstant.ROLE_ID_ADMIN) {
+                role = AparteoneConstant.ROLE_ADMIN;
+            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_MANAGEMENT) {
+                role = AparteoneConstant.ROLE_MANAGEMENT;
+                profile = apartmentService.getApartmentById(user.getId());
+            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_RESIDENT) {
+                role = AparteoneConstant.ROLE_RESIDENT;
+                profile = residentService.getResidentById(user.getId());
+            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_MERCHANT) {
+                role = AparteoneConstant.ROLE_MERCHANT;
+                profile = merchantService.getMerchantById(user.getId());
+            }
+            response.setRole(role);
+            response.setProfile(profile);
+
+        } catch (Exception e) {
+            response.setStatusCode(401);
+            response.setError(e.getMessage());
+            response.setMessage("Invalid Email or Password");
         }
-        return user;
+        log.info("Response: {}", response);
+        return response;
     }
 
     @Override
@@ -107,9 +232,19 @@ public class AuthServiceImpl implements AuthService {
         throw new UnsupportedOperationException("Unimplemented method 'logout'");
     }
 
-    public Boolean isEmailExist(String email) {
-        User user = userRepo.findByEmail(email);
-        return user != null;
+    public UserResponse refreshToken(UserResponse refreshTokenRequest) {
+        UserResponse response = new UserResponse();
+        String email = jwtUtils.extractUsername(refreshTokenRequest.getToken());
+        User user = userRepo.findByEmail(email).orElseThrow();
+        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), user)) {
+            var jwt = jwtUtils.generateToken(user);
+            response.setStatusCode(200);
+            response.setToken(jwt);
+            response.setRefreshToken(refreshTokenRequest.getToken());
+            response.setExpirationTime("24Hr");
+            response.setMessage("Successfully Refreshed Token");
+        }
+        response.setStatusCode(500);
+        return response;
     }
-
 }

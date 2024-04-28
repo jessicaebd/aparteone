@@ -3,6 +3,7 @@ import { MailboxService } from '../service/mailbox.service';
 import { AppComponent } from 'src/app/app.component';
 import { Mailbox } from '../mailbox.interface';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-mailbox-detail',
@@ -10,10 +11,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./mailbox-detail.component.css']
 })
 export class MailboxDetailComponent {
+  residentId = 4;
   @Input() data: Mailbox = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private mailboxService: MailboxService, private apps: AppComponent){}
+  constructor(private mailboxService: MailboxService, private apps: AppComponent, private appService: AppService){}
 
   updateMailboxDetail(id:any, status:any): Promise<any>{
     return new Promise<any>(resolve => 
@@ -27,6 +29,43 @@ export class MailboxDetailComponent {
           resolve(error);
         }
       }))
+  }
+
+  sendMailboxNotification(userId:any, mailboxDetailId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.appService.sendMailboxNotification(userId, mailboxDetailId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
+
+  async onRemind(){
+    let result = await this.sendMailboxNotification(this.residentId, this.data['id']);
+    this.apps.loadingPage(false);
+    this.onSubmitEvent.emit();
+
+    if(result==true){
+      Swal.fire({
+        title: 'Success',
+        html: 'Sended Successfuly',
+        icon: 'success',
+        confirmButtonColor: '#5025FA'
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        html: 'Failed Send Reminder',
+        icon: 'error',
+        confirmButtonColor: '#5025FA'
+      });
+    }
   }
 
   onButtonSubmit(){

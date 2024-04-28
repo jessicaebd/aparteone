@@ -27,6 +27,7 @@ export interface FeatureEnvironment {
   product: string,
   cart: string,
   transaction: string,
+  notification: string,
   apartment: string,
   unit: string,
   resident: string,

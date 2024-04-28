@@ -14,6 +14,7 @@ public class AparteoneConstant {
     public static final String STATUS_PENDING = "Pending";
     public static final String STATUS_REQUESTED = "Requested";
     public static final String STATUS_RECEIVED = "Received";
+    public static final String STATUS_REJECTED = "Rejected";
     public static final String STATUS_WAITING_CONFIRMATION = "Waiting for Confirmation";
     public static final String STATUS_WAITING_PAYMENT = "Waiting for Payment";
 
@@ -34,6 +35,7 @@ public class AparteoneConstant {
     public static final String ROLE_MERCHANT = "Merchant";
 
     public static final String FORMAT_DATE_TIME = "dd MMM yyyy HH:mm";
+    public static final String FORMAT_DATE = "dd MMM yyyy";
     public static final String PREFIX_MAINTENANCE_REQUEST_ID = "#MNT00";
     public static final String PREFIX_FACILITY_REQUEST_ID = "#FCT00";
     public static final String PREFIX_BILLING_RECEIPT_ID = "#BLN00";

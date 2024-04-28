@@ -19,6 +19,7 @@ import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.repository.ResidentRepo;
 import com.com.aparteone.service.ApartmentService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.ResidentSpecification;
 
@@ -30,6 +31,9 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Autowired
     private ApartmentService apartmentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public PageResponse<ResidentResponse> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, Boolean isActive, String search) {
@@ -61,7 +65,7 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
+    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId) {
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Resident> spec = Specification.where(null);
         if (isActive != null) {
@@ -69,6 +73,9 @@ public class ResidentServiceImpl implements ResidentService {
         }
         if (apartmentId != null) {
             spec = spec.and(ResidentSpecification.hasApartmentId(apartmentId));
+        }
+        if (isApproved != null) {
+            spec = spec.and(ResidentSpecification.isApproved(isApproved));
         }
         Page<Resident> residents = residentRepo.findAll(spec, pageable);
 
@@ -102,7 +109,7 @@ public class ResidentServiceImpl implements ResidentService {
                 apartmentUnit.getUnitNumber(),
                 apartmentUnit.getType(),
                 resident.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
-                resident.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_PENDING);
+                resident.getIsApproved() == null ? AparteoneConstant.STATUS_PENDING : (resident.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_REJECTED));
         return response;
     }
 
@@ -111,6 +118,8 @@ public class ResidentServiceImpl implements ResidentService {
         Resident resident = residentRepo.findById(residentId).get();
         resident.setIsActive(isApproved);
         resident.setIsApproved(isApproved);
+
+        notificationService.sendNotification(residentId, "Hello!", "Your registration has been " + (isApproved ? "approved" : "rejected"));
         return residentRepo.save(resident);
     }
 
@@ -124,7 +133,9 @@ public class ResidentServiceImpl implements ResidentService {
                 request.getName(),
                 request.getType(),
                 false,
-                false);
+                null);
+
+        notificationService.sendNotification(request.getApartmentId(), "Resident Approval", "You have a new resident to approve");
         return residentRepo.save(resident);
     }
 

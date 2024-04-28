@@ -31,6 +31,7 @@ import com.com.aparteone.repository.FacilityRepo;
 import com.com.aparteone.repository.FacilityRequestRepo;
 import com.com.aparteone.repository.FacilityTimeRepo;
 import com.com.aparteone.service.FacilityService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.FacilitySpecification;
 
@@ -51,6 +52,9 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Autowired
     private ResidentService residentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public PageResponse<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
@@ -258,9 +262,11 @@ public class FacilityServiceImpl implements FacilityService {
         if (status.equals(AparteoneConstant.STATUS_COMPLETED)) {
             facilityRequest.setStatus(status);
             facilityRequest.setCompletedDate(new Date());
+            notificationService.sendNotification(facilityRequest.getResidentId(), "Facility FCT00" + facilityRequestId, "Your facility request has been completed");
         } else if (status.equals(AparteoneConstant.STATUS_CANCELLED)) {
             facilityRequest.setStatus(status);
             facilityRequest.setCancelledDate(new Date());
+            notificationService.sendNotification(facilityRequest.getResidentId(), "Facility FCT00" + facilityRequestId, "Your facility request has been cancelled");
         }
         return facilityRequestRepo.save(facilityRequest);
     }

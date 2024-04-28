@@ -32,6 +32,7 @@ import com.com.aparteone.repository.ProductRepo;
 import com.com.aparteone.repository.TransactionDetailRepo;
 import com.com.aparteone.repository.TransactionRepo;
 import com.com.aparteone.service.MerchantService;
+import com.com.aparteone.service.NotificationService;
 import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.service.TransactionService;
 import com.com.aparteone.specification.TransactionSpecification;
@@ -62,6 +63,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired 
+    private NotificationService notificationService;
 
     public Pageable pagination(int page, int size, String sortBy, String sortDir) {
         Pageable pageable = null;
@@ -180,14 +184,17 @@ public class TransactionServiceImpl implements TransactionService {
         if (status.equalsIgnoreCase(AparteoneConstant.STATUS_ON_DELIVERY)) {
             transaction.setStatus(AparteoneConstant.STATUS_ON_DELIVERY);
             transaction.setDeliveredDate(new Date());
+            notificationService.sendNotification(transaction.getResidentId(), "Transaction MCN00" + transactionId, "Your order is on delivery!");
             transactionRepo.save(transaction);
         } else if (status.equalsIgnoreCase(AparteoneConstant.STATUS_COMPLETED)) {
             transaction.setStatus(AparteoneConstant.STATUS_COMPLETED);
             transaction.setCompletedDate(new Date());
+            notificationService.sendNotification(transaction.getResidentId(), "Transaction MCN00" + transactionId, "Your order is completed!");
             transactionRepo.save(transaction);
         } else if (status.equalsIgnoreCase(AparteoneConstant.STATUS_CANCELLED)) {
             transaction.setStatus(AparteoneConstant.STATUS_CANCELLED);
             transaction.setCancelledDate(new Date());
+            notificationService.sendNotification(transaction.getResidentId(), "Transaction MCN00" + transactionId, "Your order is cancelled!");
             transactionRepo.save(transaction);
         }
         return transaction;
@@ -222,6 +229,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setGrandTotal(grandTotal[0]);
         transaction.setStatus(AparteoneConstant.STATUS_PENDING);
         transactionRepo.save(transaction);
+
+        notificationService.sendNotification(transaction.getMerchantId(), "Transaction MCN00" + transaction.getId(), "You have a new order!");
         return transaction;
     }
 
@@ -237,6 +246,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setPaymentId(payment.getId());
         transaction.setStatus(AparteoneConstant.STATUS_WAITING_CONFIRMATION);
         transactionRepo.save(transaction);
+
+        notificationService.sendNotification(transaction.getMerchantId(), "Transaction MCN00" + transaction.getId(), "You have a new payment to approve");
         return transaction;
     }
 
@@ -250,6 +261,8 @@ public class TransactionServiceImpl implements TransactionService {
 
         transaction.setStatus((isValid == true) ? AparteoneConstant.STATUS_ON_PROCESS : AparteoneConstant.STATUS_CANCELLED);
         transactionRepo.save(transaction);
+
+        notificationService.sendNotification(transaction.getResidentId(), "Transaction MCN00" + transaction.getId(), "Your transaction payment has been " + ((isValid == true) ? "approved" : "rejected"));
         return transaction;
     }
 }
