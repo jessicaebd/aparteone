@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.com.aparteone.dto.auth.UserResponse;
 import com.com.aparteone.dto.request.auth.LoginRequest;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
+import com.com.aparteone.dto.request.auth.RegisterMerchantRequest;
+import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
 import com.com.aparteone.service.AuthService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +30,15 @@ public class AuthController {
     }
 
     @PostMapping("/register/resident")
-    public ResponseEntity<UserResponse> registerResident(@RequestBody RegisterApartmentRequest request) throws Exception {
+    public ResponseEntity<UserResponse> registerResident(@RequestBody RegisterResidentRequest request) throws Exception {
         log.info("[Auth] Register Resident: {}", request.toString());
-        return ResponseEntity.ok(authService.registerApartment(request));
+        return ResponseEntity.ok(authService.registerResident(request));
     }
 
     @PostMapping("/register/merchant")
-    public ResponseEntity<UserResponse> registerMerchant(@RequestBody RegisterApartmentRequest request) throws Exception {
+    public ResponseEntity<UserResponse> registerMerchant(@RequestBody RegisterMerchantRequest request) throws Exception {
         log.info("[Auth] Register Merchant: {}", request.toString());
-        return ResponseEntity.ok(authService.registerApartment(request));
+        return ResponseEntity.ok(authService.registerMerchant(request));
     }
 
     @PostMapping("/login")

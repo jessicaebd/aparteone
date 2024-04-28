@@ -17,8 +17,10 @@ public class UserResponse {
     String expirationTime;
 
     Integer id;
-    Integer roleId;
+    String role;
     String email;
     String phone;
     String password;
+
+    Object profile;
 }
