@@ -123,10 +123,4 @@ public class BillingController {
         BillingDetail billingDetail = billingService.verifyPayment(billingDetailId, isValid);
         return ResponseEntity.ok(billingDetail);
     }
-
-    @PostMapping("/notification/send") 
-    public void sendBillingNotification(@RequestParam Integer userId, @RequestParam Integer billingDetailId) {
-        log.info("[Mailbox] Send Mailbox Notification: userId-{} | billingDetailId-{}", userId, billingDetailId);
-        billingService.sendBillingDetailNotification(userId, billingDetailId);
-    }
 }

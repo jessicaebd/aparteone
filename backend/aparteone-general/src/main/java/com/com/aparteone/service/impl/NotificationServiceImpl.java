@@ -22,11 +22,21 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendNotification(Integer userId, String title, String message) {
+    public Notification sendNotification(Integer userId, String title, String message) {
         Notification notification = new Notification();
         notification.setUserId(userId);
         notification.setTitle(title);
         notification.setMessage(message);
-        notificationRepo.save(notification);
+        return notificationRepo.save(notification);
+    }
+
+    @Override
+    public Notification sendBillingNotification(Integer userId, Integer billingDetailId) {
+        return sendNotification(userId, "Bills BLN00" + billingDetailId, "You have a new billing");
+    }
+
+    @Override
+    public Notification sendMailboxNotification(Integer userId, Integer mailboxDetailId) {
+        return sendNotification(userId, "Mailbox MBX00" + mailboxDetailId, "You have a new mailbox");
     } 
 }

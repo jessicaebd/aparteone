@@ -106,10 +106,4 @@ public class MailboxController {
         MailboxDetail mailboxRequest = mailboxService.updateMailboxDetailStatus(mailboxRequestId, status);
         return ResponseEntity.ok(mailboxRequest);
     }
-
-    @PostMapping("/notification/send") 
-    public void sendMailboxNotification(@RequestParam Integer userId, @RequestParam Integer mailboxDetailId) {
-        log.info("[Mailbox] Send Mailbox Notification: userId-{} | mailboxDetailId-{}", userId, mailboxDetailId);
-        mailboxService.sendMailboxDetailNotification(userId, mailboxDetailId);
-    }
 }
