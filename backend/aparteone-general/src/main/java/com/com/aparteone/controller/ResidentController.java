@@ -29,9 +29,10 @@ public class ResidentController {
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Boolean isActive,
+        @RequestParam(required = false) Boolean isApproved,
         @RequestParam(required = false) Integer apartmentId){
         log.info("[Resident] Get Resident List: apartmentId-{} | isActive-{}", isActive);
-        PageResponse<ResidentResponse> response = residentService.getResidentList(page, size, sortBy, sortDir, isActive, apartmentId);
+        PageResponse<ResidentResponse> response = residentService.getResidentList(page, size, sortBy, sortDir, isActive, isApproved, apartmentId);
         return ResponseEntity.ok(response);
     }
 

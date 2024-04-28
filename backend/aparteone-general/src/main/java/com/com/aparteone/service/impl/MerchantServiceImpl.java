@@ -113,7 +113,7 @@ public class MerchantServiceImpl implements MerchantService {
                 merchant.getCategory(),
                 merchant.getAddress(),
                 merchant.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
-                merchant.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_PENDING);
+                merchant.getIsApproved() == null ? AparteoneConstant.STATUS_PENDING : (merchant.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_REJECTED));
         return merchantDTO;
     }
 
@@ -141,7 +141,7 @@ public class MerchantServiceImpl implements MerchantService {
                 request.getCategory(),
                 request.getAddress(),
                 false,
-                false
+                null
         );
 
         notificationService.sendNotification(request.getApartmentId(), "Merchant Approval", "You have a new merchant to approve");

@@ -65,7 +65,7 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId) {
+    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId) {
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Resident> spec = Specification.where(null);
         if (isActive != null) {
@@ -73,6 +73,9 @@ public class ResidentServiceImpl implements ResidentService {
         }
         if (apartmentId != null) {
             spec = spec.and(ResidentSpecification.hasApartmentId(apartmentId));
+        }
+        if (isApproved != null) {
+            spec = spec.and(ResidentSpecification.isApproved(isApproved));
         }
         Page<Resident> residents = residentRepo.findAll(spec, pageable);
 
@@ -106,7 +109,7 @@ public class ResidentServiceImpl implements ResidentService {
                 apartmentUnit.getUnitNumber(),
                 apartmentUnit.getType(),
                 resident.getIsActive() ? AparteoneConstant.STATUS_ACTIVE : AparteoneConstant.STATUS_INACTIVE,
-                resident.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_PENDING);
+                resident.getIsApproved() == null ? AparteoneConstant.STATUS_PENDING : (resident.getIsApproved() ? AparteoneConstant.STATUS_APPROVED : AparteoneConstant.STATUS_REJECTED));
         return response;
     }
 
@@ -130,7 +133,7 @@ public class ResidentServiceImpl implements ResidentService {
                 request.getName(),
                 request.getType(),
                 false,
-                false);
+                null);
 
         notificationService.sendNotification(request.getApartmentId(), "Resident Approval", "You have a new resident to approve");
         return residentRepo.save(resident);

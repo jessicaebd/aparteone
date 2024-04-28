@@ -14,6 +14,7 @@ public class AparteoneConstant {
     public static final String STATUS_PENDING = "Pending";
     public static final String STATUS_REQUESTED = "Requested";
     public static final String STATUS_RECEIVED = "Received";
+    public static final String STATUS_REJECTED = "Rejected";
     public static final String STATUS_WAITING_CONFIRMATION = "Waiting for Confirmation";
     public static final String STATUS_WAITING_PAYMENT = "Waiting for Payment";
 

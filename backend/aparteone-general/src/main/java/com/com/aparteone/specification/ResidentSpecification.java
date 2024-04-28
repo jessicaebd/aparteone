@@ -16,4 +16,8 @@ public class ResidentSpecification {
     public static Specification<Resident> isActive(Boolean isActive) {
         return (root, query, builder) -> builder.equal(root.get("isActive"), isActive);
     }
+
+    public static Specification<Resident> isApproved(Boolean isApproved) {
+        return (root, query, builder) -> builder.equal(root.get("isApproved"), isApproved);
+    }
 }
