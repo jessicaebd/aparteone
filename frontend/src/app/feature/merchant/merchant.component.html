@@ -1,25 +1,27 @@
-<div class="container">
-    <div class="row mb-3">
-        <app-label labelInput="E-Mart" labelType="title"></app-label>
-        <app-label labelInput="Provide your daily needs" labelType="label"></app-label>
-    </div>
-
-    <!-- Resident -->
-    <ng-container *ngIf="role=='resident'">
-        <div class="d-flex justify-content-end align-items-center pe-3 me-5 mb-2">
-            <div class="d-flex">
-                <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="border: solid 1pt var(--primary-purple); height: 38px;">
+<div class="container-fluid">
+    <div class="row align-items-end mb-4">
+        <div class="col-9 row">
+            <app-label labelInput="E-Mart" labelType="title"></app-label>
+            <app-label labelInput="Provide your daily needs" labelType="label"></app-label>
+        </div>
+        <div class="col-3 row">
+            <div class="d-flex justify-content-end align-items-end">
+                <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2"
+                    style="border: solid 1pt var(--primary-purple); height: 38px;">
                     <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat"></app-text-button>
                 </div>
                 <app-button buttonLabel="History" (onClickEvent)="goToHistoryTransactionPage()"></app-button>
             </div>
         </div>
+    </div>
 
+    <!-- Resident -->
+    <ng-container *ngIf="role=='resident'">
         <!-- Merchant List -->
         <div class="merchant-list shadow-sm border p-3" style="border-radius: 2vh;">
-            <div class="subtitle px-3 py-2 mb-3">
+            <!-- <div class="subtitle px-3 py-2 mb-3">
                 <app-label labelInput="Choose Merchant" labelType="title"></app-label>
-            </div>
+            </div> -->
             <app-merchant-list></app-merchant-list>
         </div>
     </ng-container>
@@ -31,10 +33,11 @@
                 <app-label labelInput="MERCHANT APPROVAL" labelType="subtitle"></app-label>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableMerchant" [columns]="colMerchant" headerAlignment="center" 
+                <app-table [dataTable]="tableMerchant" [columns]="colMerchant" headerAlignment="center"
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalMerchantDetail" (onClickActionEvent)="onListItemClick($event)" [pageIndex]="pageMerchant" [pageSize]="sizeMerchant"
-                    [length]="allDataMerchant" (onPageIndexEvent)="onLoadData('approve', $event)" [errorMsg]="errorMsgMerchant"></app-table>
+                    actionTarget="modalMerchantDetail" (onClickActionEvent)="onListItemClick($event)"
+                    [pageIndex]="pageMerchant" [pageSize]="sizeMerchant" [length]="allDataMerchant"
+                    (onPageIndexEvent)="onLoadData('approve', $event)" [errorMsg]="errorMsgMerchant"></app-table>
             </div>
         </div>
         <div class="merchant-request-list my-5">
@@ -44,8 +47,9 @@
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableList" [columns]="colList" headerAlignment="center" [filter]="false"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" actionTarget="modalMerchantDetail" 
-                    (onClickActionEvent)="onListItemClick($event)" [pagination]="false" [errorMsg]="errorMsgList"></app-table>
+                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal"
+                    actionTarget="modalMerchantDetail" (onClickActionEvent)="onListItemClick($event)"
+                    [pagination]="false" [errorMsg]="errorMsgList"></app-table>
             </div>
         </div>
     </ng-container>
@@ -58,8 +62,10 @@
             </div>
             <div class="py-2">
                 <app-table [dataTable]="tableList" [columns]="colList" headerAlignment="center"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" [length]="allMerchantList" [pageIndex]="pageList" [pageSize]="sizeList" actionToggle="modal" actionTarget="modalMerchantDetail" 
-                    (onClickActionEvent)="onListItemClick($event)" (onSearchEvent)="onSearchMerchant($event)" (onPageIndexEvent)="onLoadData('admin', $event)" [errorMsg]="errorMsgList"></app-table>
+                    iconStart="bi bi-eye-fill" label="View" type="primary" [length]="allMerchantList"
+                    [pageIndex]="pageList" [pageSize]="sizeList" actionToggle="modal" actionTarget="modalMerchantDetail"
+                    (onClickActionEvent)="onListItemClick($event)" (onSearchEvent)="onSearchMerchant($event)"
+                    (onPageIndexEvent)="onLoadData('admin', $event)" [errorMsg]="errorMsgList"></app-table>
             </div>
         </div>
     </ng-container>

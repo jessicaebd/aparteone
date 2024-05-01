@@ -237,8 +237,7 @@
             " routerLink="/product" data-bs-dismiss="offcanvas" (click)="onNavbarActive('product')">
               <i *ngIf="activeNav == 'product'" class="navbar-icon bi bi-basket2-fill"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'product'" class="navbar-icon bi bi-basket2"
-                style="color: var(--black)"></i>
+              <i *ngIf="activeNav != 'product'" class="navbar-icon bi bi-basket2" style="color: var(--black)"></i>
               <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
           <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
               <label class="navbar-name ms-2">Product</label>
@@ -281,7 +280,8 @@
     <!-- Main content area -->
     <main class="col-md-9 ms-sm-auto col-lg-10">
       <!-- Topbar -->
-      <div class="nav fixed fixed-top justify-content-end align-items-center p-3" style="background-color: var(--white); z-index: 0;">
+      <div class="nav fixed fixed-top justify-content-end align-items-center p-3"
+        style="background-color: var(--white); z-index: 0;">
         <label class="me-1" style="font-size: 1rem; font-weight: 500; color: var(--black)">Hello,</label>
         <app-label class="profile-name" labelInput="ROBERT MJ"></app-label>
         <div class="border-end pe-2">
@@ -296,13 +296,29 @@
             </ul>
           </div>
         </div>
-        <button type="button" class="btn btn-notification position-relative ms-3 me-3" (click)="goToNotificationPage()">
+        <button type="button" class="btn btn-notification position-relative ms-3 me-3" data-bs-toggle="modal"
+          data-bs-target="#modalNotification">
           <i class="bi bi-bell-fill"></i>
-          <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+          <span
+            class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
             <span class="visually-hidden">New alerts</span>
           </span>
         </button>
       </div>
+
+      <!-- Modal -->
+      <app-modal modalID="modalNotification" [width]="500" [modalContent]="modalNotification"></app-modal>
+      <ng-template #modalNotification>
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Notifications</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+          <div class="container">
+            <app-notification></app-notification>
+          </div>
+        </div>
+      </ng-template>
 
       <!-- Content -->
       <main class="page container-fluid">

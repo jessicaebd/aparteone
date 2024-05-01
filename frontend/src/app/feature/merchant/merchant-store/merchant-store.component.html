@@ -1,25 +1,44 @@
-<div class="container">
+<div class="container-fluid row">
     <ng-container *ngIf="role=='resident'">
-        <div class="row">
-            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+        <div class="col-8 left">
+            <div class="row">
             <img class="w-100" [src]="store.image" alt="" style="object-fit: contain; height: 12rem">
         </div>
-        <div class="d-flex justify-content-between mx-3 my-3">
-            <div class="row">
-                <app-label [labelInput]="store.name" labelType="title"></app-label>
-                <!-- <app-label [labelInput]="store.desc" labelType="label"></app-label> -->
+
+
+            <!-- <div class="subtitle px-3 py-2 mb-3">
+                <app-label labelInput="Choose Merchant" labelType="title"></app-label>
+            </div> -->
+            <!-- <app-merchant-list></app-merchant-list> -->
+            <!-- </div> -->
+
+            <div class="d-flex justify-content-between mx-3 my-3">
+                <div class="row">
+                    <app-label [labelInput]="store.name" labelType="title"></app-label>
+                    <app-label [labelInput]="store.category" labelType="label"></app-label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <!-- <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2"
+                        style="background-color: var(--primary-purple); height: 38px;">
+                        <app-text-button iconStart="bi bi-cart" label="Cart" type="white"
+                            (onClickEvent)="goToCartPage()"></app-text-button>
+                    </div> -->
+                    <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2"
+                        style="border: solid 1pt var(--primary-purple); height: 38px;">
+                        <app-text-button iconStart="bi bi-chat" label="Chat"
+                            link="/chat/{{merchantId}}"></app-text-button>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex align-items-center">
-                <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2" style="background-color: var(--primary-purple); height: 38px;">
-                    <app-text-button iconStart="bi bi-cart" label="Cart" type="white" (onClickEvent)="goToCartPage()"></app-text-button>
-                </div>
-                <div class="button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2" style="border: solid 1pt var(--primary-purple); height: 38px;">
-                    <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat/{{merchantId}}"></app-text-button>
-                </div>
+
+            <div class="product-list shadow-sm border p-3" style="border-radius: 2vh;">
+                <app-merchant-product [merchantId]="merchantId"></app-merchant-product>
             </div>
         </div>
-        <div class="product-list ms-3 mb-4">
-            <app-merchant-product [merchantId]="merchantId"></app-merchant-product>
+
+        <!-- Cart -->
+        <div class="col-4 right">
+            <app-cart></app-cart>
         </div>
     </ng-container>
 </div>

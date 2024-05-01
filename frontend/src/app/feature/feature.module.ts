@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GeneralModule } from './../general/general.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -144,6 +145,7 @@ import { UnitAddComponent } from './admin/unit-add/unit-add.component';
   imports: [
     CommonModule,
     FormsModule,
+    GeneralModule,
     SharedModule,
     MatPaginatorModule,
   ],

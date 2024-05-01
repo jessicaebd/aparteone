@@ -1,18 +1,23 @@
 <ng-container *ngIf="role=='merchant'">
-    <div class="container pb-5">
+    <div class="container">
         <div class="row mb-3">
-            <app-label labelInput="Product" labelType="title"></app-label>
-            <app-label labelInput="Manage your product" labelType="label"></app-label>
+            <div class="col-6 row">
+                <app-label labelInput="Product" labelType="title"></app-label>
+                <app-label labelInput="Manage your products" labelType="label"></app-label>
+            </div>
+            <div class="col-6 d-flex justify-content-end align-items-end">
+                <app-button buttonClass="primary" buttonLabel="+ Add Product" data-bs-toggle="modal"
+                    data-bs-target="#modalProductAdd"></app-button>
+            </div>
+            
         </div>
-
+    
         <!-- Product List -->
         <div class="product-list shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="LIST PRODUCT" labelType="subtitle"></app-label>
-                <app-button buttonClass="primary" buttonLabel="Add Product" data-bs-toggle="modal"
-                    data-bs-target="#modalProductAdd"></app-button>
+                
             </div>
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end mb-3">
                 <div class="d-flex w-25 mb-3">
                     <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
                     <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">

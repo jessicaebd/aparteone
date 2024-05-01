@@ -3,11 +3,12 @@
 }
 
 .image-cart img{
-    object-fit: cover;
-    min-height: 7rem;
+    /* object-fit: contain;
+    height: 4rem; */
+    /* min-height: 2rem;
     max-height: 7rem;
     min-width: 7rem;
-    max-width: 7rem;
+    max-width: 7rem; */
 }
 
 .product-card{

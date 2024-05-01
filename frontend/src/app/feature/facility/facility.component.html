@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <ng-container *ngIf="role=='resident'">
         <div class="row mb-3">
             <app-label labelInput="Facility" labelType="title"></app-label>
@@ -6,12 +6,12 @@
         </div>
 
         <!-- Category -->
-        <!-- <div class="facility-category shadow-sm border p-3 mb-5" style="border-radius: 2vh;">
+        <div class="facility-category shadow-sm border p-3 mb-5" style="border-radius: 2vh;">
             <div class="subtitle px-3 py-2 mb-3">
                 <app-label labelInput="Choose Your Apartment Facility" labelType="title"></app-label>
             </div>
             <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-facility-category>
-        </div> -->
+        </div>
 
         <!-- Facility Request History -->
 

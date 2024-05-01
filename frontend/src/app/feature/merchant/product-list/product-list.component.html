@@ -1,6 +1,6 @@
 <div class="product-card ms-2">
     <ng-container *ngFor="let item of productList">
-        <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
+        <button class="col-3 col-md-2 card mx-3 mb-4" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
             <img class="card-img-top" [src]="item.image" alt="...">
             <div class="card-body w-100">
                 <div class="d-flex justify-content-between">
