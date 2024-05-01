@@ -23,8 +23,7 @@
                     </ng-container>
                     <div class="d-flex justify-content-between">
                         <p class="fs-6 fw-bold">{{item.totalPrice}}</p>
-                        <app-add-item [counter]="item.quantity"
-                            (onCounterEvent)="counterProduct=$event"></app-add-item>
+                        <app-text-button iconStart="bi bi-pencil-fill" label="Edit" data-bs-toggle="modal" data-bs-target="#modalCartDetail" (onClickEvent)="onCartClick(item)"></app-text-button>
                     </div>
                 </div>
             </div>
@@ -52,64 +51,62 @@
     </ng-template>
 
     <!-- Modal -->
-    <app-modal modalID="modalCheckout" [width]="400" [modalContent]="modalCheckout"></app-modal>
+    <app-modal modalID="modalCartDetail" [width]="400" [modalContent]="modalCartDetail"></app-modal>
 
-    <ng-template #modalCheckout>
+    <ng-template #modalCartDetail>
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Checkout</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalCO></button>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Product Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
         </div>
         <div class="modal-body justify-content-center">
-            <!-- <ng-container *ngIf="checkout"> -->
+            <ng-container *ngIf="productOpen">
                 <div class="w-100">
-                    <div class="row mb-1">
-                        <div class="col-5">
-                            <app-label class="text-break" labelType="label"
-                                labelInput="Bank Account Number"></app-label>
-                        </div>
-                        <div class="col">
-                            <app-label class="text-break" labelType="label"
-                                [labelInput]="': ' + merchant.accountNumber"></app-label>
-                        </div>
+                    <div class="d-flex justify-content-center product-img mb-2">
+                        <img class="rounded" [src]="productOpen.productImage" alt="" style="width: 100%; object-fit: cover; height: 15rem">
                     </div>
-                    <div class="row mb-1">
-                        <div class="col-5">
-                            <app-label class="text-break" labelType="label" labelInput="Bank Account Name"></app-label>
+                    <div class="container">
+                        <div class="row mb-1">
+                            <div class="col-9">
+                                <app-label class="text-break" labelType="subtitle" [labelInput]="productOpen.productName"></app-label>
+                            </div>
+                            <div class="col text-end">
+                                <app-label class="text-break" labelType="subtitle" [labelInput]="productOpen.productPrice"></app-label>
+                            </div>
                         </div>
-                        <div class="col">
-                            <app-label class="text-break" labelType="label"
-                                [labelInput]="': ' + merchant.accountName"></app-label>
+                        <app-label class="text-break" labelType="span" [labelInput]="productOpen.productDescription"></app-label>
+                        <div class="my-2">
+                            <app-textarea inputPlaceholder="Notes..." [value]="productOpen.notes" (onChangeEvent)="productOpen.notes=$event"></app-textarea>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-5">
-                            <app-label class="text-break" labelType="label" labelInput="Total"></app-label>
+                        <div class="d-flex justify-content-center mt-3">
+                            <app-add-item [counter]="counterProduct" (onCounterEvent)="counterProduct=$event"></app-add-item>
                         </div>
-                        <div class="col">
-                            <app-label class="text-break" labelType="label"
-                                [labelInput]="': ' + checkout.grandTotal"></app-label>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <app-label labelType="label" labelFor="proof" labelInput="Payment Proof"
-                            [isMandatory]="true"></app-label>
-                        <app-attachment-image attachmentID="proof" paymentProof="20vw"
-                            (onChangeEvent)="paymentProof=$event"></app-attachment-image>
                     </div>
                 </div>
                 <ng-container *ngIf="counterProduct > 0; else deleteCart">
                     <div class="d-flex justify-content-center mt-3">
-                        <app-button buttonLabel="Pay" (onClickEvent)="payCheckout()"></app-button>
+                        <app-button buttonLabel="Save" (onClickEvent)="saveOrder()"></app-button>
                     </div>
                 </ng-container>
-
+                
                 <ng-template #deleteCart>
                     <div class="d-flex justify-content-center mt-3">
-                        <app-button buttonLabel="Delete" buttonClass="danger"
-                            (onClickEvent)="deleteOrder()"></app-button>
+                        <app-button buttonLabel="Delete" buttonClass="danger" (onClickEvent)="deleteOrder()"></app-button>
                     </div>
                 </ng-template>
-            <!-- </ng-container> -->
+            </ng-container>
+        </div>
+    </ng-template>
+
+    <!-- Modal -->
+    <app-modal modalID="modalCheckout" [width]="700" [modalContent]="modalCheckout"></app-modal>
+
+    <ng-template #modalCheckout>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Summary</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalCO></button>
+        </div>
+        <div class="modal-body justify-content-center">
+            <app-checkout></app-checkout>
         </div>
     </ng-template>
 </div>

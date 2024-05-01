@@ -5,13 +5,14 @@
             <app-label labelInput="Maintenance" labelType="title"></app-label>
             <app-label labelInput="Your Maintenance Request Information" labelType="label"></app-label>
         </div>
-        <!-- <div class="maintenance-category mb-4">
-            <div class="subtitle mb-2">
-                <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
+        
+        <!-- Category -->
+        <div class="maintenance-category shadow-sm border p-3 mb-5" style="border-radius: 2vh;">
+            <div class="subtitle px-3 py-2 mb-3">
+                <app-label labelInput="Choose Your Apartment Maintenance" labelType="title"></app-label>
             </div>
-            <app-maintenance-category [listCategory]="listCategory" [errorMsg]="errorListCategory"
-                (onSubmitEvent)="ngOnInit()"></app-maintenance-category>
-        </div> -->
+            <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-facility-category>
+        </div>
 
         <!-- Maintenance Request History -->
         <div class="maintenance-list shadow-sm border p-3" style="border-radius: 2vh;">

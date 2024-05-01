@@ -47,6 +47,7 @@ import { NotificationComponent } from './feature/notification/notification.compo
 import { ProfileComponent } from './feature/profile/profile.component';
 import { ResidentComponent } from './feature/admin/resident/resident.component';
 import { ApartmentComponent } from './feature/admin/apartment/apartment.component';
+import { CheckoutComponent } from './feature/merchant/checkout/checkout.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -85,6 +86,7 @@ const routes: Routes = [
   { path: 'product', component: ProductAllComponent  },
   { path: 'cart/:id', component: CartComponent },
   { path: 'transaction', component: TransactionComponent  },
+  { path: 'checkout/:id', component: CheckoutComponent  },
   
   // CHAT
   { path: 'chat', component: ChatComponent },

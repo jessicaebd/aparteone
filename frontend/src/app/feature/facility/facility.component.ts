@@ -15,6 +15,7 @@ export class FacilityComponent {
   apartmentId = 1;
   residentId = 4;
   role: string = 'resident';
+  page: string = 'category';
 
   listCategory!: any;
   errorListCategory: string = '';
@@ -234,7 +235,6 @@ export class FacilityComponent {
   goToAllFacilityPage(){
     window.location.replace('/facility/all');
   }
-
   
   // setFacilityCategory(response:any): Promise<any>{
   //   return new Promise<any> (resolve => {

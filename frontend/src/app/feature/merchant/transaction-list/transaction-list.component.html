@@ -262,11 +262,11 @@
     </ng-container>
 
     <!-- Modal -->
-    <app-modal modalID="modalCheckout" [width]="400" [modalContent]="modalCheckout"></app-modal>
+    <app-modal modalID="modalCheckout" [width]="450" [modalContent]="modalCheckout"></app-modal>
 
     <ng-template #modalCheckout>
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Checkout</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalCO></button>
         </div>
         <div class="modal-body justify-content-center">
@@ -274,7 +274,7 @@
                 <div class="w-100">
                     <div class="row mb-1">
                         <div class="col-5">
-                            <app-label class="text-break" labelType="label"
+                            <app-label class="text-break fw-semibold" labelType="label"
                                 labelInput="Bank Account Number"></app-label>
                         </div>
                         <div class="col">
@@ -284,7 +284,7 @@
                     </div>
                     <div class="row mb-1">
                         <div class="col-5">
-                            <app-label class="text-break" labelType="label" labelInput="Bank Account Name"></app-label>
+                            <app-label class="text-break fw-semibold" labelType="label" labelInput="Bank Account Name"></app-label>
                         </div>
                         <div class="col">
                             <app-label class="text-break" labelType="label"
@@ -293,7 +293,7 @@
                     </div>
                     <div class="row mb-1">
                         <div class="col-5">
-                            <app-label class="text-break" labelType="label" labelInput="Total"></app-label>
+                            <app-label class="text-break fw-semibold" labelType="label" labelInput="Total"></app-label>
                         </div>
                         <div class="col">
                             <app-label class="text-break" labelType="label"
@@ -301,14 +301,14 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <app-label labelType="label" labelFor="proof" labelInput="Payment Proof"
+                        <app-label labelType="label" labelFor="proof" labelInput="Payment Proof" class="fw-semibold"
                             [isMandatory]="true"></app-label>
                         <app-attachment-image attachmentID="proof" paymentProof="20vw"
                             (onChangeEvent)="paymentProof=$event"></app-attachment-image>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-3">
-                    <app-button buttonLabel="Pay" (onClickEvent)="payCheckout()"></app-button>
+                    <app-button buttonLabel="Submit" (onClickEvent)="payCheckout()"></app-button>
                 </div>
             </ng-container>
         </div>

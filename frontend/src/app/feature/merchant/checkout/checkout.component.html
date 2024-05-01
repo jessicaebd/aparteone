@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <ng-container *ngIf="flagNoCart; else list">
+        <div class="d-flex justify-content-center align-items-center" style="height: 10rem;">
+            <app-label labelInput="Cart is Empty!"></app-label>
+        </div>
+    </ng-container>
+
+    <ng-template #list>
+        <ng-container *ngFor="let item of cartList">
+            <div class="row p-3" style="border-radius: 2vh;">
+                <div class="col-1">
+                    <img class="rounded w-100" [src]="item.productImage" alt="">
+                </div>
+                <div class="col-10 row">
+                    <div class="col-1">
+                        <app-label [labelInput]="item.quantity + 'x'"
+                            style="font-weight: 600; font-size: 1rem;"></app-label>
+                    </div>
+                    <div class="col row">
+                        <app-label [labelInput]="item.productName"
+                            style="font-weight: 600; font-size: 1rem;"></app-label>
+                        <ng-container *ngIf="item.notes != null">
+                            <span class="text-secondary mb-2" style="font-size: 12px;"><span class="fw-semibold">Notes:
+                                </span>{{item.notes}}</span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <app-label [labelInput]="item.totalPrice" style="font-weight: 600; font-size: 1rem;"></app-label>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="d-flex row rounded border mx-1 px-2 py-3 mb-2">
+            <div class="col-1 d-flex justify-content-center ms-3 me-2">
+                <app-label labelInput="Total" style="font-weight: 600; font-size: 1rem;"></app-label>
+            </div>
+            <div class="col d-flex justify-content-end pe-4">
+                <p class="fs-6 fw-bold">Rp {{subtotal}}</p>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center my-3">
+            <app-button buttonLabel="Order Now" (onClickEvent)="onCheckoutCart()"
+                (onSubmitEvent)="ngOnInit()"></app-button>
+        </div>
+    </ng-template>
+</div>
