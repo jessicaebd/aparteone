@@ -19,7 +19,7 @@ public interface FacilityService {
     public PageResponse<FacilityCategoryResponse> getFacilityListByApartmentId(int page, int size, String sortBy, String sortDir, Boolean isActive, Integer apartmentId);
     public Facility addFacility(FacilityCategoryRequest facilityCategoryRequest);
     public Facility updateFacilityIsActive(Integer facilityId, Boolean isActive);
-    
+
     // Facility Time
     public List<FacilityTimeResponse> getFacilityTimeByFacilityId(Integer facilityId, String date, String search) throws ParseException; 
     public FacilityTime addFacilityTime(Integer facilityId, FacilityTimeRequest facilityTimeRequest);

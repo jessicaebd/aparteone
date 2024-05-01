@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.MerchantResponse;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterMerchantRequest;
 import com.com.aparteone.entity.Merchant;
 import com.com.aparteone.service.MerchantService;
 
@@ -67,11 +69,12 @@ public class MerchantController {
     }
 
     @PostMapping("/merchant/update")
-    public ResponseEntity<Merchant> updateMerchantStatus(
+    public ResponseEntity<Merchant> updateMerchant(
         @RequestParam Integer merchantId,
-        @RequestParam Boolean isActive){
-        log.info("[Admin][Merchant] Update Merchant Status: merchantId-{} | isActive-{}", merchantId, isActive);
-        Merchant response = merchantService.updateMerchantStatus(merchantId, isActive);
+        @RequestParam(required = false) Boolean isActive,
+        @RequestBody(required = false) RegisterMerchantRequest merchantRequest){
+        log.info("[Merchant] Update Merchant: merchantId-{} | isActive-{} | merchantRequest-{}", merchantId, isActive, merchantRequest.toString());
+        Merchant response = merchantService.updateMerchant(merchantId, isActive, merchantRequest);
         return ResponseEntity.ok(response);
     }
 }

@@ -12,6 +12,7 @@ export const environment : EnvironmentInterface = {
         general: {
             auth: "auth",
             login: "login",
+            user: "user",
             register: "register",
             dashboard: "dashboard",
             request: "request",

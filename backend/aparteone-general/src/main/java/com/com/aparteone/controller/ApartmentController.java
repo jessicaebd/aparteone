@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.com.aparteone.dto.ApartmentResponse;
 import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
 import com.com.aparteone.entity.Apartment;
 import com.com.aparteone.entity.ApartmentUnit;
 import com.com.aparteone.service.ApartmentService;
@@ -51,13 +52,6 @@ public class ApartmentController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<ApartmentResponse> getApartmentDetail(@RequestParam Integer apartmentId) {
-        log.info("[Apartment] Get Apartment Detail: apartmentId-{}", apartmentId);
-        ApartmentResponse response = apartmentService.getApartmentById(apartmentId);
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/approve")
     public ResponseEntity<Apartment> approveApartment(
             @RequestParam Integer apartmentId,
@@ -68,11 +62,12 @@ public class ApartmentController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Apartment> updateApartmentStatus(
+    public ResponseEntity<Apartment> updateApartment(
             @RequestParam Integer apartmentId,
-            @RequestParam Boolean isActive) {
-        log.info("[Apartment] Update Apartment Status: apartmentId-{} | isActive-{}", apartmentId, isActive);
-        Apartment apartment = apartmentService.updateApartment(apartmentId, isActive, null);
+            @RequestParam(required = false) Boolean isActive,
+            @RequestBody(required = false) RegisterApartmentRequest apartmentRequest) {
+        log.info("[Apartment] Update Apartment: apartmentId-{} | isActive-{} | apartmentRequest-{}", apartmentId, isActive, apartmentRequest.toString());
+        Apartment apartment = apartmentService.updateApartment(apartmentId, isActive, apartmentRequest);
         return ResponseEntity.ok(apartment);
     }
 

@@ -29,7 +29,7 @@ export class MerchantService {
   // MERCHANT
   getMerchantResident(apartmentId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': true, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC' } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -37,7 +37,7 @@ export class MerchantService {
 
   getMerchantApartment(apartmentId: any, size:number, page: number, isApproved:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(apartmentId==null || apartmentId==''){
       params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'isApproved': true } });
@@ -51,7 +51,7 @@ export class MerchantService {
 
   searchMerchantApartment(apartmentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiSearch}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(search!='' && apartmentId==null){
       params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'search': search, 'sortBy': 'name', 'sortDir': 'ASC' } });
@@ -71,7 +71,7 @@ export class MerchantService {
 
   searchMerchantResident(apartmentId: any, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiSearch}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(search!=''){
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'search': search, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC', 'isActive': true } });
@@ -85,7 +85,7 @@ export class MerchantService {
 
   getMerchantDetail(merchantId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiDetail}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -93,16 +93,18 @@ export class MerchantService {
 
   approveMerchant(merchantId:any, isApproved:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiApprove}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'isApproved': isApproved } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateMerchantStatus(merchantId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiMerchant}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'isActive': isActive } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
@@ -110,7 +112,7 @@ export class MerchantService {
   // PRODUCT
   getProductResident(merchantId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': 100 } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -118,7 +120,7 @@ export class MerchantService {
   
   getProductMerchant(merchantId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -126,7 +128,7 @@ export class MerchantService {
 
   searchProductMerchant(merchantId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiSearch}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page, 'search': search, 'sortBy': 'name', 'sortDir': 'ASC' } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -134,7 +136,7 @@ export class MerchantService {
 
   searchProductResident(merchantId: any, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiSearch}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'search': search, 'size': 100, 'sortBy': 'name', 'sortDir': 'ASC' } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -142,8 +144,7 @@ export class MerchantService {
   
   getProductDetail(productId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiDetail}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'productId': productId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -151,20 +152,23 @@ export class MerchantService {
 
   insertProduct(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateProduct(productId:any, isActive:any, body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiProduct}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'productId': productId, 'isActive': isActive } });
-    const options = { params };
+    const options = { headers, params };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   // CART
   getCartList(residentId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'residentId': residentId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -172,36 +176,39 @@ export class MerchantService {
 
   getCartMerchant(residentId: any, merchantId:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}/${residentId}/${merchantId}`;
-    // const headers = new HttpHeaders({ });
-    // const params = new HttpParams({ });
-    // const options = { headers, params };
-    return this.httpClient.get<any>(apiUrl);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.get<any>(apiUrl, options);
   }
 
   addToCart(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
   
   updateCart(cartId:any, quantity:any, notes:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'cartId': cartId, 'quantity': quantity, 'notes': notes } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   deleteCart(cartId:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}/${this.apiDelete}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'cartId': cartId } });
-    const options = { params };
+    const options = { headers, params };
     return this.httpClient.delete<any>(apiUrl, options);
   }
 
   // TRANSACTION
   getTransactionMerchant(merchantId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiMerchant}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -209,7 +216,7 @@ export class MerchantService {
 
   getTransactionResident(residentId: any, size:number, page: number, status:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiResident}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(status=='' || status == null){
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
@@ -223,7 +230,7 @@ export class MerchantService {
 
   getTransactionDetail(transactionId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiDetail}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'transactionId': transactionId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -231,26 +238,32 @@ export class MerchantService {
 
   updateTransactionStatus(transactionId:any, status:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'transactionId': transactionId, 'status': status } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   checkout(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiCheckout}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   payment(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiPayment}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   verifyPayment(transactionId:any, isValid:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiPayment}/${this.apiVerify}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'transactionId': transactionId, 'isValid': isValid } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }

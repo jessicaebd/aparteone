@@ -53,8 +53,6 @@ export class AuthComponent implements OnInit {
 
     logger(){
         console.log(this.appService.retrieveAccessToken());
-        console.log(this.appService.retrieveAccessTokenExpiredIn());
-        console.log(this.appService.retrieveRefreshToken());
         console.log(this.appService.retrieveUser());
     }
       

@@ -18,8 +18,7 @@ export class AnnouncementService {
   // GET LIST
   getListAnnouncement(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -28,8 +27,7 @@ export class AnnouncementService {
   // GET LIST
   getListAnnouncementResident(apartmentId: any, criteria: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'criteria': criteria } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -38,8 +36,7 @@ export class AnnouncementService {
   // GET DETAIL
   getDetailAnnouncement(announcementId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}/${this.apiDetail}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'announcementId': announcementId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -48,14 +45,17 @@ export class AnnouncementService {
   // ADD
   insertAnnouncement(body: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   // UPDATE
   updateAnnouncement(announcementId:any, body: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiAnnouncement}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'announcementId': announcementId } });
-    const options = { params };
+    const options = { headers, params };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 }

@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
+import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.service.ResidentService;
 
@@ -50,13 +52,6 @@ public class ResidentController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<ResidentResponse> getResidentDetail(@RequestParam Integer residentId){
-        log.info("[Resident] Get Resident Detail: residentId-{}", residentId);
-        ResidentResponse response = residentService.getResidentById(residentId);
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/approve")
     public ResponseEntity<Resident> approveResident(
         @RequestParam Integer residentId,
@@ -67,11 +62,12 @@ public class ResidentController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Resident> updateResidentStatus(
+    public ResponseEntity<Resident> updateResident(
         @RequestParam Integer residentId,
-        @RequestParam Boolean isActive){
-        log.info("[Admin][Resident] Update Resident Status: residentId-{} | isActive-{}", residentId, isActive);
-        Resident response = residentService.updateResidentStatus(residentId, isActive);
+        @RequestParam(required = false) Boolean isActive,
+        @RequestBody(required = false) RegisterResidentRequest registerResidentRequest){
+        log.info("[Resident] Update Resident: residentId-{} | isActive-{}", residentId, isActive);
+        Resident response = residentService.updateResident(residentId, isActive, registerResidentRequest);
         return ResponseEntity.ok(response);
     }
 }

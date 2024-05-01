@@ -17,14 +17,14 @@ export class ChatService {
 
   sendMessage(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiChat}/${this.apiSend}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const options = { headers };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   getChatRooms(userId:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiChat}/${this.apiRooms}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'userId': userId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -32,8 +32,9 @@ export class ChatService {
 
   getChatMessages(senderId:any, receiverId:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiChat}/${this.apiMessages}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'senderId': senderId, 'receiverId': receiverId } });
-    const options = { params };
+    const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 }

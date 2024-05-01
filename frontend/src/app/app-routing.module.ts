@@ -51,52 +51,52 @@ import { ResidentComponent } from './feature/admin/resident/resident.component';
 import { ApartmentComponent } from './feature/admin/apartment/apartment.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
   { path: 'login', component: AuthComponent },
   { path: 'register', component: RegisterComponent },
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'library', component: LibraryPageComponent  },
   { path: 'chart', component: ChartPageComponent  },
-  { path: 'report', component: ReportComponent },
-  { path: 'notification', component: NotificationComponent },
+  { path: 'report', component: ReportComponent, canActivate: [authGuard] },
+  { path: 'notification', component: NotificationComponent, canActivate: [authGuard] },
   
   // ANNOUNCEMENT
-  { path: 'announcement', component: AnnouncementComponent},
-  { path: 'announcement/detail/:id', component: AnnouncementDetailComponent},
+  { path: 'announcement', component: AnnouncementComponent, canActivate: [authGuard] },
+  { path: 'announcement/detail/:id', component: AnnouncementDetailComponent, canActivate: [authGuard] },
   
   // PAYMENT
-  { path: 'billing', component: BillingComponent },
-  { path: 'billing/all', component: BillingAllComponent},
+  { path: 'billing', component: BillingComponent, canActivate: [authGuard] },
+  { path: 'billing/all', component: BillingAllComponent, canActivate: [authGuard] },
   
   // MAINTENANCE
-  { path: 'maintenance', component: MaintenanceComponent },
-  { path: 'maintenance/history', component: MaintenanceHistoryComponent  },
-  { path: 'maintenance/all', component: MaintenanceAllRequestComponent  },
+  { path: 'maintenance', component: MaintenanceComponent, canActivate: [authGuard] },
+  { path: 'maintenance/history', component: MaintenanceHistoryComponent, canActivate: [authGuard]  },
+  { path: 'maintenance/all', component: MaintenanceAllRequestComponent, canActivate: [authGuard]  },
   
   // FACILITY
-  { path: 'facility', component: FacilityComponent },
-  { path: 'facility/history', component: FacilityHistoryComponent  },
-  { path: 'facility/all', component: FacilityAllRequestComponent  },
+  { path: 'facility', component: FacilityComponent, canActivate: [authGuard] },
+  { path: 'facility/history', component: FacilityHistoryComponent, canActivate: [authGuard]  },
+  { path: 'facility/all', component: FacilityAllRequestComponent, canActivate: [authGuard]  },
   
   // MAILBOX
-  { path: 'mailbox', component: MailboxComponent },
-  { path: 'mailbox/all', component: MailboxAllComponent },
+  { path: 'mailbox', component: MailboxComponent, canActivate: [authGuard] },
+  { path: 'mailbox/all', component: MailboxAllComponent, canActivate: [authGuard] },
 
   // MERCHANT
-  { path: 'merchant', component: MerchantComponent },
-  { path: 'merchant/all', component: MerchantAllComponent  },
-  { path: 'merchant/store/:id', component: MerchantStoreComponent  },
-  { path: 'merchant/history', component: MerchantHistoryComponent  },
-  { path: 'product', component: ProductAllComponent  },
-  { path: 'cart/:id', component: CartComponent },
-  { path: 'transaction', component: TransactionComponent  },
+  { path: 'merchant', component: MerchantComponent, canActivate: [authGuard] },
+  { path: 'merchant/all', component: MerchantAllComponent, canActivate: [authGuard]  },
+  { path: 'merchant/store/:id', component: MerchantStoreComponent, canActivate: [authGuard]  },
+  { path: 'merchant/history', component: MerchantHistoryComponent, canActivate: [authGuard]  },
+  { path: 'product', component: ProductAllComponent, canActivate: [authGuard]  },
+  { path: 'cart/:id', component: CartComponent, canActivate: [authGuard] },
+  { path: 'transaction', component: TransactionComponent, canActivate: [authGuard]  },
   
   // CHAT
-  { path: 'chat', component: ChatComponent },
-  { path: 'chat/:id', component: ChatComponent  },
+  { path: 'chat', component: ChatComponent, canActivate: [authGuard] },
+  { path: 'chat/:id', component: ChatComponent, canActivate: [authGuard]  },
 
   // ADMIN
-  { path: 'resident', component: ResidentComponent },
-  { path: 'apartment', component: ApartmentComponent },
+  { path: 'resident', component: ResidentComponent, canActivate: [authGuard] },
+  { path: 'apartment', component: ApartmentComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

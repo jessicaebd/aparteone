@@ -20,8 +20,7 @@ export class MailboxService {
   // CATEGORY
   getMailboxCategory(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -29,8 +28,7 @@ export class MailboxService {
 
   getMailboxActiveCategory(apartmentId: any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(isActive=='' || isActive == null){
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
@@ -44,13 +42,16 @@ export class MailboxService {
 
   insertMailboxCategory(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
   
   updateMailboxCategory(mailboxId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'mailboxId': mailboxId, 'isActive': isActive } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
@@ -58,8 +59,7 @@ export class MailboxService {
   // DETAIL
   getMailboxDetailApartment(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiApartment}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -67,8 +67,7 @@ export class MailboxService {
 
   searchMailboxDetailApartment(apartmentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiApartment}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -76,8 +75,7 @@ export class MailboxService {
   
   getMailboxDetailResident(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiResident}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(status=='' || status == null){
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
@@ -91,8 +89,7 @@ export class MailboxService {
   
   searchMailboxDetailResident(residentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiResident}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -100,13 +97,16 @@ export class MailboxService {
 
   insertMailboxDetail(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateMailboxDetail(mailboxRequestId:any, status:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'mailboxRequestId': mailboxRequestId, 'status': status } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }

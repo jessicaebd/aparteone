@@ -16,6 +16,7 @@ import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
+import com.com.aparteone.dto.response.stats.ResidentStatsResponse;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.repository.ResidentRepo;
 import com.com.aparteone.service.ApartmentService;
@@ -140,9 +141,19 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident updateResidentStatus(Integer residentId, Boolean isActive) {
+    public Resident updateResident(Integer residentId, Boolean isActive, RegisterResidentRequest residentDTO) {
         Resident resident = residentRepo.findById(residentId).get();
-        resident.setIsActive(isActive);
+        if(isActive != null) {
+            resident.setIsActive(isActive);
+        }
+        if(residentDTO != null) {
+            if(residentDTO.getImage() != null) {
+                resident.setImage(residentDTO.getImage());
+            }
+            if(residentDTO.getName() != null) {
+                resident.setName(residentDTO.getName());
+            }
+        }
         return residentRepo.save(resident);
     }
 }

@@ -13,6 +13,8 @@ import { HttpRequest, HttpClient, HttpHeaders, HttpParams } from '@angular/commo
 export class AppService {
   private apiUrl = `${environment.baseApiUrl}`;
   private apiNotification = `${environment.modules.feature.notification}`;
+  private apiUser = `${environment.modules.general.user}`;
+  private apiDetail = `${environment.modules.general.detail}`;
   private apiBilling = `${environment.modules.feature.billing}`;
   private apiMailbox = `${environment.modules.feature.mailbox}`;
 
@@ -27,27 +29,46 @@ export class AppService {
   }
 
   storeToLocalStorage(response: LoginResponse) {
-    this.storeAccessToken(response.token, response.expirationTime);
-    this.storeRefreshToken(response.refreshToken);
+    this.storeAccessToken(response.token);
     this.storeUser(response);
   }
 
-  storeAccessToken(token: string, expirationTime: string) {
-    let accessToken = { token: token, expirationTime: expirationTime }
-    this.localStorage.store('accessToken', accessToken);
-  }
-
-  storeRefreshToken(refreshToken: string) {
-    this.localStorage.store('refreshToken', refreshToken);
+  storeAccessToken(token: string) {
+    this.localStorage.store('accessToken', token);
   }
 
   storeUser(response: LoginResponse) {
-    this.localStorage.store('user', response.profile);
+    let obj = {
+      id: response['id'],
+      role: response['role'],
+      email: response['email'],
+      phone: response['phone'],
+      apartmentId: response.profile['apartmentId'],
+      apartmentUnitId: response.profile['apartmentUnitId'],
+      apartmentName: response.profile['apartmentName'],
+      image: response.profile['image'],
+      name: response.profile['name'],
+      type: response.profile['type'],
+      unitNumber: response.profile['unitNumber'],
+      unitType: response.profile['unitType'],
+      bankAccount: response.profile['bankAccount'],
+      accountNumber: response.profile['accountNumber'],
+      accountName: response.profile['accountName'],
+      category: response.profile['category'],
+      address: response.profile['address'],
+      province: response.profile['province'],
+      city: response.profile['city'],
+      postalCode: response.profile['postalCode'],
+      latitude: response.profile['latitude'],
+      longitude: response.profile['longitude'],
+      isActive: response.profile['isActive'],
+      isApproved: response.profile['isApproved'],
+    };
+    this.localStorage.store('user', obj);
   }
 
   clearLocalSession() {
     this.localStorage.clear('accessToken');
-    this.localStorage.clear('refreshToken');
     this.localStorage.clear('user');
   }
 
@@ -85,22 +106,23 @@ export class AppService {
     return this.localStorage.retrieve('accessToken');
   }
 
-  retrieveRefreshToken() {
-    return this.localStorage.retrieve('refreshToken');
-  }
-
   public deleteUser() {
     this.clearLocalSession();
   }
 
-  retrieveAccessTokenExpiredIn() {
-    return this.localStorage.retrieve('accessToken').expirationTime;
+  // User
+  getUserDetail(userId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiUser}/${this.apiDetail}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'userId': userId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
   }
 
   // NOTIFICATION
   getNotifications(userId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiNotification}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'userId': userId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -108,7 +130,7 @@ export class AppService {
 
   sendBillingNotification(userId: any, billingDetailId:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiNotification}/${this.apiBilling}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'userId': userId, 'billingDetailId': billingDetailId } });
     const options = { headers, params };
     const body = {}
@@ -117,7 +139,7 @@ export class AppService {
 
   sendMailboxNotification(userId: any, mailboxDetailId:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiNotification}/${this.apiMailbox}`;
-    const headers = new HttpHeaders({ });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'userId': userId, 'mailboxDetailId': mailboxDetailId } });
     const options = { headers, params };
     const body = {}

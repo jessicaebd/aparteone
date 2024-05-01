@@ -22,8 +22,7 @@ export class BillingService {
   // CATEGORY
   getBillingCategory(apartmentId: any, size:number, page: number, sortBy: any, sortDir: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'sortBy': sortBy, 'sortDir': sortDir } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -31,8 +30,7 @@ export class BillingService {
 
   getBillingActiveCategory(apartmentId: any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(isActive=='' || isActive == null){
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
@@ -46,13 +44,16 @@ export class BillingService {
 
   insertBillingCategory(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateBillingCategory(billingId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'billingId': billingId, 'isActive': isActive } });
-    const options = { params };
+    const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
@@ -60,20 +61,23 @@ export class BillingService {
   // REQUEST
   getBillingDetailApartment(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiApartment}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page} });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   searchBillingDetailApartment(apartmentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiApartment}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search} });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
   
   getBillingDetailResident(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiResident}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(status=='' || status == null){
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
@@ -81,46 +85,54 @@ export class BillingService {
     else{
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
   
   searchBillingDetailResident(residentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiResident}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search} });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   getBillingDetailByID(billingDetailId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'billingDetailId': billingDetailId } });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertBillingDetail(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateBillingDetail(billingDetailId: any, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'billingDetailId': billingDetailId, 'status': status } });
-    const options = { params }
+    const options = { headers, params }
     const body = { }
     return this.httpClient.post<any>(apiUrl, body, options);
   }
   
   insertPaymentProof(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiPaymentProof}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   verifyPayment(billingDetailId: any, isValid: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiPaymentProof}/${this.apiVerify}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'isValid': isValid, 'billingDetailId': billingDetailId } });
-    const options = { params }
+    const options = { headers, params }
     const body = { }
     return this.httpClient.post<any>(apiUrl, body, options);
   }

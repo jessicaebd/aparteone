@@ -31,9 +31,24 @@ export class ChatComponent {
     this.receiverId = this.route.snapshot.params['id'];
     if(this.receiverId){
       console.log('ReceiverID: ', this.receiverId);
-      this.setDetailChatPage(this.receiverId);
+      let user = await this.getUserDetail(this.receiverId);
+      this.setDetailChatPage(user.profile);
     }
     this.apps.loadingPage(false);
+  }
+
+  getUserDetail(userId: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.appService.getUserDetail(userId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(response);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
   }
 
   getChatRooms(userId: any): Promise<any>{
@@ -129,23 +144,23 @@ export class ChatComponent {
     await this.getChatMessages(this.user.id, e.userId);
   }
   
-  async setDetailChatPage(id:any){
-    let result = this.listChat.find(chat => chat.userId = id);
+  async setDetailChatPage(e:any){
+    let result = this.listChat.find(chat => chat.userId == e.id);
     console.log(result);
     if(result){
       await this.goToDetailChatPage(result);
     }
     else {
-      this.roomName = 'Name';
-      this.roomImage = 'Image';
+      this.roomName = e.name;
+      this.roomImage = e.image;
       this.listChat.unshift({
-        'id': 9999999,
-        'userId': 4,
-        'userImage': 'Image',
-        'userName': 'Name',
+        'id': 999999,
+        'userId': e.id,
+        'userImage': e.image,
+        'userName': e.name,
       })
     }
-    this.activeChat = 9999999;
+    this.activeChat = 999999;
     this.chatMessage = 1;
   }
 

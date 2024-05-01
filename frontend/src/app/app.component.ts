@@ -116,6 +116,7 @@ export class AppComponent implements OnInit {
 
   logOut(): void {
     console.log('Log Out');
+    this.isLogin = false;
     this.auth.onLogout();
   }
 
