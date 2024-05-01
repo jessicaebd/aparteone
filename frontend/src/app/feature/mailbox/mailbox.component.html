@@ -4,7 +4,7 @@
         <app-label labelInput="Track your package & mail information" labelType="label"></app-label>
     </div>
 
-    <ng-container *ngIf="this.role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <div class="mailbox-list shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between mb-3">
                 <div class="d-flex">
@@ -34,7 +34,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="this.role=='management'">
+    <ng-container *ngIf="user.role=='Management'">
         <div class="mailbox-list">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="MAILBOX CATEGORY" labelType="subtitle"></app-label>

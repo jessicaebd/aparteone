@@ -6,11 +6,11 @@
 </ng-container>
 
 <!-- Admin -->
-<ng-container *ngIf="role=='admin'">
+<ng-container *ngIf="user.role=='Admin'">
 </ng-container>
 
 <!-- Management -->
-<ng-container *ngIf="role=='management'">
+<ng-container *ngIf="user.role=='Management'">
     <div class="justify-content-center">
         <div class="row d-flex">
             <div class="mx-2 mt-3 mb-3">
@@ -203,7 +203,7 @@
 </ng-container>
 
 <!-- Resident -->
-<ng-container *ngIf="role=='resident'">
+<ng-container *ngIf="user.role=='Resident'">
     <div class="justify-content-center">
         <div class="row d-flex">
             <div class="left col-8">
@@ -360,7 +360,7 @@
 </ng-container>
 
 <!-- Merchant -->
-<ng-container *ngIf="role=='merchant'">
+<ng-container *ngIf="user.role=='Merchant'">
     <div class="justify-content-center">
         <div class="row d-flex">
             <div class="left col-8">

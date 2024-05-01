@@ -22,48 +22,42 @@ export class AuthComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private appService: AppService,
+        private apps: AppComponent,
         private router: Router,
         private route: ActivatedRoute,
     ) {  }
 
     ngOnInit(): void {
-        if (this.appService.retrieveAccessToken()) {
-            this.router.navigateByUrl('');
-        }
-        const { returnUrl, params } = this.route.snapshot.queryParams;
-        if (returnUrl) this.returnUrl = returnUrl;
-        if (params) this.params = JSON.parse(params);
+      if (this.appService.retrieveAccessToken()) {
+          this.router.navigateByUrl('');
+      }
+      const { returnUrl, params } = this.route.snapshot.queryParams;
+      if (returnUrl) this.returnUrl = returnUrl;
+      if (params) this.params = JSON.parse(params);
     }
 
 
     login(email:any, password:any): Promise<any>{
-        return new Promise<any>(resolve => 
-          this.authService.login(email, password).subscribe({
-            next: async (response: any) => {
-              console.log('Response: ', response);
-              this.appService.saveUser(response);
-            },
-            error: (error: any) => {
-              console.log('#error', error);
-              resolve(error);
-            }
-          })
-        )
-    }
-
-    logger(){
-        console.log(this.appService.retrieveAccessToken());
-        console.log(this.appService.retrieveUser());
+      return new Promise<any>(resolve => 
+        this.authService.login(email, password).subscribe({
+          next: async (response: any) => {
+            console.log('Response: ', response);
+            await this.appService.saveUser(response);
+            resolve(true);
+          },
+          error: (error: any) => {
+            console.log('#error', error);
+            resolve(error);
+          }
+        })
+      )
     }
       
     async onLoginSubmit(){
-        console.log(this.email, ' | ', this.password);
-        await this.login(this.email, this.password);
-        this.router.navigateByUrl('');
-    }
-
-    onLogout(): void {
-        this.appService.deleteUser();
-        this.router.navigateByUrl('login');
+      this.apps.loadingPage(true);
+      await this.login(this.email, this.password);
+      this.router.navigateByUrl('');
+      this.apps.ngOnInit();
+      this.apps.loadingPage(false);
     }
 }

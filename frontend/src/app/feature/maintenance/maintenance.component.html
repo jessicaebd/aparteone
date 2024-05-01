@@ -6,7 +6,7 @@
 
 
     <!-- Resident -->
-    <ng-container *ngIf="this.role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <!-- <div class="maintenance-category mb-4">
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
@@ -25,7 +25,7 @@
     </ng-container>
 
     <!-- Management -->
-    <ng-container *ngIf="this.role=='management'">
+    <ng-container *ngIf="user.role=='Management'">
         <div class="row mb-3">
             <div class="mx-2 mt-3 mb-3">
                 <app-label labelInput="Manage Maintenance" labelType="title"></app-label>

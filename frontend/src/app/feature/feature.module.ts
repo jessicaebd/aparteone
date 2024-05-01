@@ -75,6 +75,8 @@ import { ApartmentDetailComponent } from './admin/apartment-detail/apartment-det
 import { ApartmentComponent } from './admin/apartment/apartment.component';
 import { UnitDetailComponent } from './admin/unit-detail/unit-detail.component';
 import { UnitAddComponent } from './admin/unit-add/unit-add.component';
+import { NotificationComponent } from './notification/notification.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +142,8 @@ import { UnitAddComponent } from './admin/unit-add/unit-add.component';
     ApartmentComponent,
     UnitDetailComponent,
     UnitAddComponent,
+    NotificationComponent,
+    RegisterComponent,
   ],
   imports: [
     CommonModule,
@@ -205,6 +209,8 @@ import { UnitAddComponent } from './admin/unit-add/unit-add.component';
     ResidentDetailComponent,
     ApartmentDetailComponent,
     ApartmentComponent,
+    NotificationComponent,
+    RegisterComponent,
   ],
   providers:[]
 })

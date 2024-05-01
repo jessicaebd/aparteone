@@ -4,6 +4,7 @@ import { BillingAddComponent } from '../billing-add/billing-add.component';
 import { Billing } from '../billing.interface';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { BillingService } from '../service/billing.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-billing-all',
@@ -11,8 +12,7 @@ import { BillingService } from '../service/billing.service';
   styleUrls: ['./billing-all.component.css']
 })
 export class BillingAllComponent {
-  role: string = 'management';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableRequest: any;
   allDataRequest: any;
@@ -26,22 +26,21 @@ export class BillingAllComponent {
   @ViewChild('closeModalDetail') modalCloseDetail: any;
   @ViewChild(BillingAddComponent) paymentAdd!: BillingAddComponent;
 
-  constructor(private billingService: BillingService, private apps: AppComponent){}
+  constructor(private billingService: BillingService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgRequest = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='management'){
+    if(this.user.role=='Management'){
       this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-        await this.getBillingDetailApartment(this.apartmentId, 10, this.page);
+        await this.getBillingDetailApartment(this.user.id, 10, this.page);
       }
       else{
-        await this.searchBillingDetailApartment(this.apartmentId, 10, this.page, this.keySearch);
+        await this.searchBillingDetailApartment(this.user.id, 10, this.page, this.keySearch);
       }
     }
-    else if (this.role=='resident'){
+    else {
       window.location.replace('');
     }
     this.apps.loadingPage(false);
@@ -129,7 +128,7 @@ export class BillingAllComponent {
   onLoadData(e:any){
     console.log("Onload Page Index: ", e);
     this.page = e;
-    this.getBillingDetailApartment(this.apartmentId, 10, this.page);
+    this.getBillingDetailApartment(this.user.id, 10, this.page);
   }
   
   redirect(type: string){

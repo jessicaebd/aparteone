@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BubbleChat, ChatList } from './chat.interface';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from './service/chat.service';
 import { AppComponent } from 'src/app/app.component';
 import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -11,6 +12,8 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
+  @Input() back: boolean = true;
+
   listChat: ChatList[] = [];
   bubbleChat: BubbleChat[] = [];
   errorMsgRoom: string = '';
@@ -23,7 +26,7 @@ export class ChatComponent {
 
   user = this.appService.retrieveUser();
 
-  constructor(private route: ActivatedRoute, private chatService: ChatService, private apps: AppComponent, private appService: AppService){}
+  constructor(private location: Location, private route: ActivatedRoute, private chatService: ChatService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit(){
     this.apps.loadingPage(true);
@@ -149,6 +152,7 @@ export class ChatComponent {
     console.log(result);
     if(result){
       await this.goToDetailChatPage(result);
+      this.activeChat = result.id;
     }
     else {
       this.roomName = e.name;
@@ -165,6 +169,6 @@ export class ChatComponent {
   }
 
   backButton(){
-    window.location.replace('/merchant/');
+    this.location.back();
   }
 }

@@ -17,6 +17,10 @@ export class AppService {
   private apiDetail = `${environment.modules.general.detail}`;
   private apiBilling = `${environment.modules.feature.billing}`;
   private apiMailbox = `${environment.modules.feature.mailbox}`;
+  private apiMerchant = `${environment.modules.feature.merchant}`;
+  private apiUpdate = `${environment.modules.general.update}`;
+  private apiApartment = `${environment.modules.feature.apartment}`;
+  private apiResident = `${environment.modules.feature.resident}`;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -24,51 +28,95 @@ export class AppService {
     private httpClient: HttpClient
   ) { }
 
-  public saveUser(response: LoginResponse) {
-    this.storeToLocalStorage(response);
+  saveUser(response: LoginResponse): Promise<any> {
+    return new Promise<any> (async resolve => {
+      await this.storeToLocalStorage(response);
+      resolve(true);
+    })
   }
 
-  storeToLocalStorage(response: LoginResponse) {
-    this.storeAccessToken(response.token);
-    this.storeUser(response);
+  storeToLocalStorage(response: LoginResponse): Promise<any> {
+    return new Promise<any> (async resolve => {
+      await this.storeAccessToken(response.token);
+      await this.storeUser(response);
+      resolve(true);
+    })
   }
 
-  storeAccessToken(token: string) {
-    this.localStorage.store('accessToken', token);
+  storeAccessToken(token: string): Promise<any> {
+    return new Promise<any> (resolve => {
+      this.localStorage.store('accessToken', token);
+      resolve(true);
+    })
   }
 
-  storeUser(response: LoginResponse) {
+  storeUser(response: LoginResponse): Promise<any> {
+    return new Promise<any> (resolve => {
+      let obj = {
+        id: response['id'],
+        role: response['role'],
+        email: response['email'],
+        phone: response['phone'],
+        apartmentId: response.profile['apartmentId'],
+        apartmentUnitId: response.profile['apartmentUnitId'],
+        apartmentName: response.profile['apartmentName'],
+        image: response.profile['image'],
+        name: response.profile['name'],
+        type: response.profile['type'],
+        unitNumber: response.profile['unitNumber'],
+        unitType: response.profile['unitType'],
+        bankAccount: response.profile['bankAccount'],
+        accountNumber: response.profile['accountNumber'],
+        accountName: response.profile['accountName'],
+        category: response.profile['category'],
+        address: response.profile['address'],
+        province: response.profile['province'],
+        city: response.profile['city'],
+        postalCode: response.profile['postalCode'],
+        latitude: response.profile['latitude'],
+        longitude: response.profile['longitude'],
+        isActive: response.profile['isActive'],
+        isApproved: response.profile['isApproved'],
+      };
+      this.localStorage.store('user', obj);
+      resolve(true);
+    })
+  }
+
+  updateUser(response: any) {
+    const user = this.localStorage.retrieve('user');
+    this.localStorage.clear('user');
     let obj = {
-      id: response['id'],
-      role: response['role'],
-      email: response['email'],
-      phone: response['phone'],
-      apartmentId: response.profile['apartmentId'],
-      apartmentUnitId: response.profile['apartmentUnitId'],
-      apartmentName: response.profile['apartmentName'],
-      image: response.profile['image'],
-      name: response.profile['name'],
-      type: response.profile['type'],
-      unitNumber: response.profile['unitNumber'],
-      unitType: response.profile['unitType'],
-      bankAccount: response.profile['bankAccount'],
-      accountNumber: response.profile['accountNumber'],
-      accountName: response.profile['accountName'],
-      category: response.profile['category'],
-      address: response.profile['address'],
-      province: response.profile['province'],
-      city: response.profile['city'],
-      postalCode: response.profile['postalCode'],
-      latitude: response.profile['latitude'],
-      longitude: response.profile['longitude'],
-      isActive: response.profile['isActive'],
-      isApproved: response.profile['isApproved'],
+      id: user['id'],
+      role: user['role'],
+      email: user['email'],
+      phone: user['phone'],
+      apartmentId: user['apartmentId'],
+      apartmentUnitId: user['apartmentUnitId'],
+      apartmentName: user['apartmentName'],
+      image: response.image,
+      name: response.name,
+      type: user['type'],
+      unitNumber: user['unitNumber'],
+      unitType: user['unitType'],
+      bankAccount: response.bankAccount,
+      accountNumber: response.accountNumber,
+      accountName: response.accountName,
+      category: response.category,
+      address: response.address,
+      province: response.province,
+      city: response.city,
+      postalCode: response.postalCode,
+      latitude: response.latitude,
+      longitude: response.longitude,
+      isActive: user['isActive'],
+      isApproved: user['isApproved'],
     };
     this.localStorage.store('user', obj);
   }
 
   clearLocalSession() {
-    this.localStorage.clear('accessToken');
+    this.localStorage.clear('accesstoken');
     this.localStorage.clear('user');
   }
 
@@ -143,6 +191,31 @@ export class AppService {
     const params = new HttpParams({ fromObject: { 'userId': userId, 'mailboxDetailId': mailboxDetailId } });
     const options = { headers, params };
     const body = {}
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  // UPDATE PROFILE
+  updateResident(residentId:any, body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiResident}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'residentId': residentId } });
+    const options = { headers, params };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  updateApartment(apartmentId:any, body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiApartment}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    const options = { headers, params };
+    return this.httpClient.post<any>(apiUrl, body, options);
+  }
+
+  updateMerchant(merchantId:any, body:any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiMerchant}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'merchantId': merchantId } });
+    const options = { headers, params };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 }

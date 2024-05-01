@@ -2,6 +2,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 import { MaintenanceAllRequestComponent } from '../maintenance/maintenance-all-request/maintenance-all-request.component';
 import { FacilityAllRequestComponent } from '../facility/facility-all-request/facility-all-request.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { FacilityAllRequestComponent } from '../facility/facility-all-request/fa
 })
 
 export class HomeComponent implements OnInit {
-  role: string = 'merchant';
+  user = this.appService.retrieveUser();
   html = '';
   isGuest = false;
   latestRequest: string = 'maintenance';
@@ -19,10 +20,10 @@ export class HomeComponent implements OnInit {
   flagMailbox: boolean = false;
   flagFacility: boolean = true;
 
-  constructor(private apps: AppComponent){  }
+  constructor(private apps: AppComponent, private appService: AppService){  }
 
   ngOnInit(){
-    this.role = this.apps.getUserRole();
+    
   }
 
   goToFeaturePage(e:any){

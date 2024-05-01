@@ -29,7 +29,7 @@
           </div>
   
           <!-- Management -->
-          <ng-container *ngIf="this.role == 'management'">
+          <ng-container *ngIf="user.role == 'Management'">
             <div class="d-flex row align-items-center">
               <a [ngClass]="
                   activeNav == 'billing'
@@ -122,7 +122,7 @@
           </ng-container>
   
           <!-- Resident -->
-          <ng-container *ngIf="this.role == 'resident'">
+          <ng-container *ngIf="user.role == 'Resident'">
             <div class="d-flex row align-items-center">
               <a [ngClass]="
                   activeNav == 'billing'
@@ -229,7 +229,7 @@
           </ng-container>
   
           <!-- Merchant -->
-          <ng-container *ngIf="this.role == 'merchant'">
+          <ng-container *ngIf="user.role == 'Merchant'">
             <div class="d-flex row align-items-center">
               <a [ngClass]="
                 activeNav == 'product'
@@ -289,12 +289,18 @@
           <app-label class="profile-name" labelInput="ROBERT MJ"></app-label>
           <div class="border-end pe-2">
             <div class="dropdown ms-2">
-              <button class="btn btn-profile rounded-circle px-0" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false" style="width: 44px">
-                <img class="mx-0" width="30" height="30" border-radius="10" alt="logo" src="assets/general/profile.svg" />
-              </button>
+              <ng-container *ngIf="user.image; else defaultProfile">
+                <button class="btn btn-profile rounded-circle p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img class="mx-0 rounded-circle" width="44" height="44" alt="profile" [src]="user.image" style="object-fit: cover;"/>
+                </button>
+              </ng-container>
+              <ng-template #defaultProfile>
+                <button class="btn btn-profile rounded-circle px-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 44px;">
+                  <img class="mx-0 rounded-circle" width="30" height="30" alt="profile" src="assets/general/profile.svg" />
+                </button>
+              </ng-template>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item">Profile</a></li>
+                <li><a class="dropdown-item" (click)="goToProfilePage()">Profile</a></li>
                 <li><a class="dropdown-item" (click)="logOut()">Log Out</a></li>
               </ul>
             </div>

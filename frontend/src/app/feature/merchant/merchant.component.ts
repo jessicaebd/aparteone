@@ -4,6 +4,7 @@ import { MerchantService } from './service/merchant.service';
 import { Merchant } from './merchant.interface';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-merchant',
@@ -11,8 +12,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./merchant.component.css']
 })
 export class MerchantComponent implements OnInit{
-  role : string = 'resident';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableList: any;
   keySearch: string = '';
@@ -32,27 +32,25 @@ export class MerchantComponent implements OnInit{
 
   @ViewChild('closeModal') modalClose: any;
 
-  constructor(private location: Location, private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private location: Location, private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgMerchant = '';
     this.errorMsgList = '';
-    this.role = this.apps.getUserRole();
     this.colList = [{name: 'category', displayName: 'Merchant Category'}, {name: 'name', displayName: 'Merchant Name'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-    if(this.role=='management'){
+    if(this.user.role=='Management'){
       this.colMerchant = [{name: 'category', displayName: 'Merchant Category'}, {name: 'name', displayName: 'Merchant Name'}, {name: 'isApproved', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.getMerchantApartment(this.apartmentId, this.sizeMerchant, this.pageMerchant, false);
-      this.getMerchantApartment(this.apartmentId, 5, 0, true);
+      this.getMerchantApartment(this.user.id, this.sizeMerchant, this.pageMerchant, false);
+      this.getMerchantApartment(this.user.id, 5, 0, true);
     }
-    else if(this.role=='admin'){
+    else if(this.user.role=='Admin'){
       if(this.keySearch==undefined || this.keySearch==null || this.keySearch==''){
         await this.getAllMerchantApartment(this.sizeList, this.pageList);
       }
       else{
         await this.searchAllMerchantApartment(this.sizeList, this.pageList, this.keySearch);
       }
-      
     }
     this.apps.loadingPage(false);
   }

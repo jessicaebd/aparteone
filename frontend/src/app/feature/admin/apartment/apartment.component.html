@@ -4,7 +4,7 @@
         <app-label labelInput="APARTMENT" labelType="title"></app-label>
         <app-label labelInput="Apartment Information" labelType="label"></app-label>
     </div>
-    <ng-container *ngIf="role=='admin'">
+    <ng-container *ngIf="user.role=='Admin'">
         <div class="approval-apartment mb-3">
             <div class="d-flex align-items-center subtitle">
                 <app-label labelInput="APPROVAL LIST" labelType="subtitle"></app-label>
@@ -28,7 +28,7 @@
             </div>
         </div>
     </ng-container>
-    <ng-container *ngIf="role=='management'">
+    <ng-container *ngIf="user.role=='Management'">
         <div class="list-apartment">
             <div class="d-flex justify-content-between align-items-center subtitle">
                 <app-label labelInput="LIST UNIT" labelType="subtitle"></app-label>

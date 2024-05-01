@@ -4,6 +4,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Location } from '@angular/common';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { Transaction } from '../merchant.interface';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-transaction',
@@ -11,11 +12,9 @@ import { Transaction } from '../merchant.interface';
   styleUrls: ['./transaction.component.css']
 })
 export class TransactionComponent {
-  residentId = 4;
-  merchantId = 9;
-  role: string = 'resident';
+  user = this.appService.retrieveUser();
+
   filter: string = '';
-  
   listTransaction!: any;
   errorListTransaction: string = "";
   allListTransaction: any;
@@ -32,19 +31,21 @@ export class TransactionComponent {
   
   @ViewChild('closeModalDetail') modalCloseDetail: any;
 
-  constructor(private location: Location, private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private location: Location, private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorListTransaction = '';
     this.errorMsgTransaction = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='merchant'){
+    if(this.user.role=='Merchant'){
       this.colTransaction = [{name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'transactionDate', displayName: 'Transaction Date'},  {name: 'grandTotal', displayName: 'Grand Total'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      await this.getTransactionMerchant(this.merchantId, this.sizeTransaction, this.pageTransaction);
+      await this.getTransactionMerchant(this.user.id, this.sizeTransaction, this.pageTransaction);
     }
-    else if (this.role=='resident'){
-      await this.getTransactionResident(this.residentId, this.sizeList, this.pageList, this.filter);
+    else if (this.user.role=='Resident'){
+      await this.getTransactionResident(this.user.id, this.sizeList, this.pageList, this.filter);
+    }
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }
@@ -117,7 +118,7 @@ export class TransactionComponent {
   }
 
   backButton(){
-    if(this.role=='merchant'){
+    if(this.user.role=='Merchant'){
       this.location.back();
     }
     else{

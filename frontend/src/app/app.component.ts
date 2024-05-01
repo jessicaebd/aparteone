@@ -20,10 +20,10 @@ export class AppComponent implements OnInit {
   timedOut = false;
   lastPing?: Date;
   activeNav: string = 'dashboard'
-  role: string = 'resident';
   isLogin = false;
+  user!:any;
 
-  constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
+  constructor(private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);
     idle.setTimeout(environment.renewSession.timeout);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.appService.retrieveAccessToken()) {
       this.isLogin = true;
+      this.user = this.appService.retrieveUser();
     }
     let currentPath = window.location.href;
 
@@ -117,11 +118,16 @@ export class AppComponent implements OnInit {
   logOut(): void {
     console.log('Log Out');
     this.isLogin = false;
-    this.auth.onLogout();
+    this.appService.deleteUser();
+    this.router.navigateByUrl('login');
   }
 
   goToNotificationPage(){
     window.location.replace('/notification');
+  }
+
+  goToProfilePage(){
+    window.location.replace('/profile');
   }
 
   reset() {
@@ -129,10 +135,6 @@ export class AppComponent implements OnInit {
     this.idleState = 'Idle: Started.';
     console.log(this.idleState);
     this.timedOut = false;
-  }
-
-  getUserRole(){
-    return this.role;
   }
 
   onNavbarActive(e:any){

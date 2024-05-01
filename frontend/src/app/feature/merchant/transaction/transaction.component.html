@@ -4,7 +4,7 @@
         <app-label labelInput="Your transaction history" labelType="label"></app-label>
     </div>
 
-    <ng-container *ngIf="this.role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <div class="transaction-list shadow-sm border p-3" style="border-radius: 2vh;">
             <div class="d-flex mb-3">
                 <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('')">All</button>
@@ -15,11 +15,11 @@
                 <button [ngClass]="filter == 'Completed' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Completed')">Completed</button>
                 <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'" (click)="onFilterBy('Cancelled')">Cancelled</button>
             </div>
-            <app-transaction-list [role]="role" [listTransaction]="listTransaction" [length]="allListTransaction" [pageSize]="sizeList" [pageIndex]="pageList" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('listRequest', $event)" [errorMsg]="errorListTransaction"></app-transaction-list>
+            <app-transaction-list [role]="user.role" [listTransaction]="listTransaction" [length]="allListTransaction" [pageSize]="sizeList" [pageIndex]="pageList" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('listRequest', $event)" [errorMsg]="errorListTransaction"></app-transaction-list>
         </div>
     </ng-container>
 
-    <ng-container *ngIf="this.role=='merchant'">
+    <ng-container *ngIf="user.role=='Merchant'">
         <div class="transaction-list mt-5">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
                 <app-label labelInput="LIST TRANSACTION" labelType="subtitle"></app-label>
@@ -29,7 +29,7 @@
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
                     actionTarget="modalUpdateTransaction" (onClickActionEvent)="dataTransaction = $event" 
                     [length]="allDataTransaction" [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onPageIndexEvent)="onLoadData('merchant', $event)" [errorMsg]="errorMsgTransaction"></app-table> -->
-                    <app-transaction-list [role]="role"  [listTransaction]="tableTransaction" [length]="allDataTransaction" [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('merchant', $event)" [errorMsg]="errorMsgTransaction"></app-transaction-list>
+                    <app-transaction-list [role]="user.role"  [listTransaction]="tableTransaction" [length]="allDataTransaction" [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onSubmitEvent)="ngOnInit()" (onPageIndexEvent)="onLoadData('merchant', $event)" [errorMsg]="errorMsgTransaction"></app-transaction-list>
             </div>
         </div>
     </ng-container>

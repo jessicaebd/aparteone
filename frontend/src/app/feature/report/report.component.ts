@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BubbleReport, ReportList } from './report.interface';
+import { BubbleChat } from '../chat/chat.interface';
+import { ChatService } from '../chat/service/chat.service';
+import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-report',
@@ -8,165 +11,112 @@ import { BubbleReport, ReportList } from './report.interface';
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent {
-  isManagement: boolean = false;
-  isResident: boolean = true;
+  bubbleReport: BubbleChat[] = [];
+  errorMsgRoom: string = '';
+  message: string = '';
+  roomName: string = '';
+  roomImage!: any;
 
-  listReport: ReportList[] = [];
-  bubbleReport: BubbleReport[] = [];
-  activeReport!: any;
-  chatID!: number;
-  index: number = -1;
+  user = this.appService.retrieveUser();
 
-  constructor(private route: ActivatedRoute){}
+  constructor(private location: Location, private chatService: ChatService, private apps: AppComponent, private appService: AppService){}
 
-  ngOnInit(){
-    this.listReport = [
-      {
-        'id': 1,
-        'merchantId': 1,
-        'profile': 'null',
-        'name': 'Warung Kito',
-        'message': 'Nasi Goreng pedas ?',
-        'time': '01:08',
-        'status': 'received',
-        'notification': 2,
-      },
-      {
-        'id': 2,
-        'merchantId': 2,
-        'profile': 'null',
-        'name': 'Bakmi Gading Permai',
-        'message': 'Sedang di antar yaa kak',
-        'time': '00:58',
-        'status': 'received',
-        'notification': 8,
-      },
-      {
-        'id': 3,
-        'profile': 'null',
-        'name': 'Ada Greer',
-        'message': 'http://nagucli.ro/wud',
-        'time': '17/03/2024',
-        'status': 'send',
-      },
-      {
-        'id': 4,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-      {
-        'id': 5,
-        'profile': 'null',
-        'name': 'Calvin Guerrero',
-        'message': 'http://ko.im/dopato',
-        'time': '01:08',
-        'status': 'received',
-        'notification': 2,
-      },
-      {
-        'id': 6,
-        'profile': 'null',
-        'name': 'Elmer Fletcher',
-        'message': 'http://ho.ve/wujomeja',
-        'time': '00:58',
-        'status': 'received',
-        'notification': 8,
-      },
-      {
-        'id': 7,
-        'profile': 'null',
-        'name': 'Ada Greer',
-        'message': 'http://nagucli.ro/wud',
-        'time': '17/03/2024',
-        'status': 'send',
-      },
-      {
-        'id': 8,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-      {
-        'id': 9,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-      {
-        'id': 10,
-        'profile': 'null',
-        'name': 'Calvin Guerrero',
-        'message': 'http://ko.im/dopato',
-        'time': '01:08',
-        'status': 'received',
-        'notification': 2,
-      },
-      {
-        'id': 11,
-        'profile': 'null',
-        'name': 'Elmer Fletcher',
-        'message': 'http://ho.ve/wujomeja',
-        'time': '00:58',
-        'status': 'received',
-        'notification': 8,
-      },
-      {
-        'id': 12,
-        'profile': 'null',
-        'name': 'Ada Greer',
-        'message': 'http://nagucli.ro/wud',
-        'time': '17/03/2024',
-        'status': 'send',
-      },
-      {
-        'id': 13,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-    ];
-
-    this.bubbleReport = [
-      {
-        'message': 'nasi aascnasklca clascnasknca',
-        'time': '18.01',
-        'status': 'send',
-      },
-      {
-        'message': 'acascnas ajiojehiocnam cnaalsncioa',
-        'time': '18.02',
-        'status': 'receive',
-      },
-    ];
-
-    this.chatID = this.route.snapshot.params['id'];
-    console.log('ChatID: ', this.chatID);
-
-    this.index = this.listReport.findIndex(x => x.merchantId == this.chatID);
-    console.log('Index:', this.index);
+  async ngOnInit(){
+    this.apps.loadingPage(true);
+    if(this.user.role=='Resident'){
+      await this.getUserDetail(12);
+      await this.getChatMessages(this.user.id, 12);
+      // await this.getUserDetail(this.user.apartmentId);
+      // await this.getChatMessages(this.user.id, this.user.apartmentId);
+    }
+    this.apps.loadingPage(false);
   }
 
-  onReportItemClick(e:any){
-    this.activeReport = e.merchantId;
-    console.log(e);
-    window.location.replace('/report/' + e.merchantId);
+  getUserDetail(userId: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.appService.getUserDetail(userId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.roomName = response.profile.name;
+          this.roomImage = response.profile.image;
+          resolve(response);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
 
-    if(e.notification){
-      let index = this.listReport.findIndex(item => item.id == e.id);
-      this.listReport[index].notification = null;
+  getChatMessages(senderId: any, receiverId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.chatService.getChatMessages(senderId, receiverId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.length > 0){
+            this.bubbleReport = response;
+          }
+          else{
+            this.bubbleReport = [];
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.bubbleReport = [];
+          resolve(error);
+        }
+      }))
+  }
+
+  sendMessage(body: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.chatService.sendMessage(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
+
+  setBodySendMessage(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'senderId': this.user.id,
+        // 'receiverId': this.user.apartmentId,
+        'receiverId': 12,
+        'message': this.message
+      }
+      resolve(body);
+    });
+  }
+
+  async onSendChat(){
+    if(this.message!=''){
+      let body = await this.setBodySendMessage();
+      await this.sendMessage(body);
+      this.message = '';
+      let obj = {
+        'userId': 12,
+        // 'userId': this.user.apartmentId,
+        'userName': this.roomName,
+        'userImage': this.roomImage,
+      }
+      await this.goToDetailChatPage(obj);
     }
   }
 
+  async goToDetailChatPage(e:any){
+    this.roomName = e.userName;
+    this.roomImage = e.userImage;
+    await this.getChatMessages(this.user.id, e.userId);
+  }
+
   backButton(){
-    window.location.replace('/');
+    this.location.back();
   }
 }

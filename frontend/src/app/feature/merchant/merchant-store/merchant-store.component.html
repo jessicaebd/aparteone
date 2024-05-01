@@ -1,5 +1,5 @@
 <div class="container">
-    <ng-container *ngIf="role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <div class="row">
             <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
             <img class="w-100" [src]="store.image" alt="" style="object-fit: contain; height: 12rem">

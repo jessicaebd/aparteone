@@ -4,6 +4,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Product } from '../merchant.interface';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { Location } from '@angular/common';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-product-all',
@@ -11,8 +12,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./product-all.component.css']
 })
 export class ProductAllComponent {
-  role : string = 'merchant';
-  merchantId:number = 9;
+  user = this.appService.retrieveUser();
 
   table: any;
   allDataProduct: any;
@@ -26,15 +26,17 @@ export class ProductAllComponent {
   @ViewChild('closeModalAdd') modalCloseAdd: any;
   @ViewChild('closeModalDetail') modalCloseDetail: any;
 
-  constructor(private location: Location, private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private location: Location, private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='merchant'){
+    if(this.user.role=='Merchant'){
       this.col = [{name: 'name', displayName: 'Product Name'}, {name: 'price', displayName: 'Product Price'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      await this.getProductMerchant(this.merchantId, this.size, this.page);
+      await this.getProductMerchant(this.user.id, this.size, this.page);
+    }
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }
@@ -94,10 +96,10 @@ export class ProductAllComponent {
     // this.keySearch = key;
     this.page = 0;
     if(this.keySearch!='' && this.keySearch!=undefined){
-      await this.searchProductMerchant(this.merchantId, this.size, this.page, this.keySearch);
+      await this.searchProductMerchant(this.user.id, this.size, this.page, this.keySearch);
     }
     else {
-      await this.getProductMerchant(this.merchantId, this.size, this.page);
+      await this.getProductMerchant(this.user.id, this.size, this.page);
     }
     this.apps.loadingPage(false);
   }

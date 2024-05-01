@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AnnouncementService } from './service/announcement.service';
 import { AppComponent } from 'src/app/app.component';
 import { Column } from 'src/app/shared/component/table/table.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-announcement',
@@ -9,8 +10,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
   styleUrls: ['./announcement.component.css']
 })
 export class AnnouncementComponent implements OnInit{
-  role!: string;
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableAnnouncement: any;
   allDataAnnouncement: any;
@@ -25,20 +25,22 @@ export class AnnouncementComponent implements OnInit{
 
   @ViewChild('closeModal') modalClose: any;
 
-  constructor(private announcementService: AnnouncementService, private apps: AppComponent){}
+  constructor(private announcementService: AnnouncementService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsg = "";
     this.errorMsglist = "";
-    this.role = this.apps.getUserRole();
 
-    if(this.role=='resident' || this.role=='merchant'){
-      await this.getListAnnouncementResident(this.apartmentId, 'Active');
+    if(this.user.role=='Resident' || this.user.role=='Merchant'){
+      await this.getListAnnouncementResident(this.user.apartmentId, 'Active');
     }
-    else if(this.role=='management'){
+    else if(this.user.role=='Management'){
       this.colAnnouncement = [{name: 'title', displayName: 'Title'}, {name: 'startDate', displayName: 'Start Date'}, {name: 'endDate', displayName: 'End Date'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      await this.getListAnnouncement(this.apartmentId, this.size, this.page, this.sortAnnCol, this.sortAnnDir);
+      await this.getListAnnouncement(this.user.id, this.size, this.page, this.sortAnnCol, this.sortAnnDir);
+    }
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }

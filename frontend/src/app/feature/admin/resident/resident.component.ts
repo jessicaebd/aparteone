@@ -4,6 +4,7 @@ import { AdminService } from '../service/admin.service';
 import { AppComponent } from 'src/app/app.component';
 import { Resident } from '../admin.interface';
 import { Location } from '@angular/common';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-resident',
@@ -11,8 +12,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./resident.component.css']
 })
 export class ResidentComponent {
-  role: string = 'admin';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableResident: any;
   tableResidentApproval: any;
@@ -31,25 +31,24 @@ export class ResidentComponent {
 
   @ViewChild('closeModalDetail') modalCloseDetail: any;
 
-  constructor(private location: Location, private adminService: AdminService, private apps: AppComponent){}
+  constructor(private location: Location, private adminService: AdminService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgResident = '';
     this.errorMsgResidentApproval = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='management'){
+    if(this.user.role=='Management'){
       this.colResident = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name: 'unitType', displayName: 'Unit Type'}, {name: 'name', displayName: 'Resident'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colResidentApproval = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name: 'unitType', displayName: 'Unit Type'}, {name: 'name', displayName: 'Resident'}, {name: 'isApproved', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-        await this.getResidentList(this.apartmentId, this.sizeResident, this.pageResident);
+        await this.getResidentList(this.user.apartmentId, this.sizeResident, this.pageResident);
       }
       else{
-        await this.searchResident(this.apartmentId, this.sizeResident, this.pageResident, this.keySearch);
+        await this.searchResident(this.user.id, this.sizeResident, this.pageResident, this.keySearch);
       }
-      await this.getResidentListApproval(this.apartmentId, this.sizeResidentApproval, this.pageResidentApproval);
+      await this.getResidentListApproval(this.user.id, this.sizeResidentApproval, this.pageResidentApproval);
     }
-    else if(this.role=='admin'){
+    else if(this.user.role=='Admin'){
       this.colResident = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name: 'unitType', displayName: 'Unit Type'}, {name: 'name', displayName: 'Resident'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
         await this.getAllResidentList(this.sizeResident, this.pageResident);
@@ -58,7 +57,7 @@ export class ResidentComponent {
         await this.searchAllResident(this.sizeResident, this.pageResident, this.keySearch);
       }
     }
-    else if (this.role=='resident'){
+    else {
       window.location.replace('');
     }
     this.apps.loadingPage(false);

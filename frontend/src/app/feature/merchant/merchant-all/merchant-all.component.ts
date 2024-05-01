@@ -3,6 +3,7 @@ import { Merchant } from '../merchant.interface';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
 import { Column } from 'src/app/shared/component/table/table.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-merchant-all',
@@ -10,8 +11,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
   styleUrls: ['./merchant-all.component.css']
 })
 export class MerchantAllComponent implements OnInit{
-  role : string = 'resident';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableMerchant: any;
   allDataMerchant: any;
@@ -24,19 +24,18 @@ export class MerchantAllComponent implements OnInit{
 
   @ViewChild('closeModal') modalClose: any;
 
-  constructor(private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgMerchant = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='management'){
+    if(this.user.role=='Management'){
       this.colMerchant = [{name: 'category', displayName: 'Merchant Category'}, {name: 'name', displayName: 'Merchant Name'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch==undefined || this.keySearch==null || this.keySearch==''){
-        await this.getMerchantApartment(this.apartmentId, this.sizeMerchant, this.pageMerchant);
+        await this.getMerchantApartment(this.user.id, this.sizeMerchant, this.pageMerchant);
       }
       else{
-        await this.searchMerchantApartment(this.apartmentId, this.sizeMerchant, this.pageMerchant, this.keySearch);
+        await this.searchMerchantApartment(this.user.id, this.sizeMerchant, this.pageMerchant, this.keySearch);
       }
     }
     this.apps.loadingPage(false);

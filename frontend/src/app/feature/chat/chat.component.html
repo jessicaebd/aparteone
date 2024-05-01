@@ -1,6 +1,8 @@
-<div class="row mb-3">
-    <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-</div>
+<ng-container *ngIf="back">
+    <div class="row mb-3">
+        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+    </div>
+</ng-container>
 <div class="chat-container container-fluid row rounded h-100">
     <div class="col-3 rounded-start">
         <h4 class="mb-2">Chats</h4>

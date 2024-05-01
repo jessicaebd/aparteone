@@ -4,7 +4,7 @@
         <app-label labelInput="RESIDENT" labelType="title"></app-label>
         <app-label labelInput="Resident Information" labelType="label"></app-label>
     </div>
-    <ng-container *ngIf="role=='management'">
+    <ng-container *ngIf="user.role=='Management'">
         <div class="approval-resident mb-3">
             <div class="d-flex align-items-center subtitle">
                 <app-label labelInput="APPROVAL LIST" labelType="subtitle"></app-label>

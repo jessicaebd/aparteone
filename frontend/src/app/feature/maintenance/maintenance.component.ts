@@ -6,6 +6,7 @@ import { MaintenanceDetailRequestComponent } from './maintenance-detail-request/
 import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface';
 import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 
 
 @Component({
@@ -14,9 +15,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./maintenance.component.css']
 })
 export class MaintenanceComponent implements OnInit{
-  apartmentId = 1;
-  residentId = 4;
-  role: string = 'resident';
+  user = this.appService.retrieveUser();
 
   listCategory!: any;
   errorListCategory: string = '';
@@ -40,7 +39,7 @@ export class MaintenanceComponent implements OnInit{
   @ViewChild('closeModalUpdate') modalCloseUpdate: any;
   @ViewChild('closeModalAssign') modalCloseAssign: any;
 
-  constructor(private location: Location, private maintenanceService: MaintenanceService, private apps: AppComponent){}
+  constructor(private location: Location, private maintenanceService: MaintenanceService, private apps: AppComponent, private appService: AppService){}
   
   ngOnInit() {
     this.apps.loadingPage(true);
@@ -48,8 +47,7 @@ export class MaintenanceComponent implements OnInit{
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='management'){
+    if(this.user.role=='Management'){
       this.colRequest = [
         {name: 'receiptId', displayName: 'Receipt ID'}, 
         {name: 'maintenanceCategory', displayName: 'Category'}, 
@@ -61,12 +59,12 @@ export class MaintenanceComponent implements OnInit{
         {name: 'category', displayName: 'Category Name'}, 
         {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory);
-      this.getMaintenanceAllRequest(this.apartmentId, 5, 0);
+      this.getMaintenanceCategoryApartment(this.user.id, this.sizeCategory, this.pageCategory);
+      this.getMaintenanceAllRequest(this.user.id, 5, 0);
     }
-    else if (this.role=='resident'){
-      this.getMaintenanceCategoryResident(this.apartmentId);
-      this.getMaintenanceResidentRequest(this.residentId, 3, 0, '');
+    else if (this.user.role=='Resident'){
+      this.getMaintenanceCategoryResident(this.user.apartmentId);
+      this.getMaintenanceResidentRequest(this.user.id, 3, 0, '');
     }
     this.apps.loadingPage(false);
   }
