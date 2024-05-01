@@ -79,7 +79,7 @@
                 </ng-container>
             </div>
             <div class="chat-input mt-2 px-2 d-flex justify-content-center align-items-center">
-                <app-textbox></app-textbox>
+                <app-textbox [value]="message" (onChangeEvent)="message=$event"></app-textbox>
                 <div class="send-button ms-1 d-flex justify-content-center align-items-center">
                     <app-text-button iconStart="bi bi-send" type="white" (onClickEvent)="onSendChat()"></app-text-button>
                 </div>

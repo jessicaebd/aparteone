@@ -14,10 +14,11 @@ export class ChatComponent {
   listChat: ChatList[] = [];
   bubbleChat: BubbleChat[] = [];
   errorMsgRoom: string = '';
+  message: string = '';
   roomName: string = '';
   roomImage!: any;
   activeChat!: any;
-  merchantID!: number;
+  receiverId!: number;
   chatMessage: number = 0;
 
   user = this.appService.retrieveUser();
@@ -27,10 +28,10 @@ export class ChatComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     await this.getChatRooms(this.user.id);
-    this.merchantID = this.route.snapshot.params['id'];
-    if(this.merchantID){
-      console.log('MerchantID: ', this.merchantID);
-      this.setDetailChatPage(this.merchantID);
+    this.receiverId = this.route.snapshot.params['id'];
+    if(this.receiverId){
+      console.log('ReceiverID: ', this.receiverId);
+      this.setDetailChatPage(this.receiverId);
     }
     this.apps.loadingPage(false);
   }
@@ -95,21 +96,40 @@ export class ChatComponent {
       }))
   }
 
-  onSendChat(){
+  setBodySendMessage(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'senderId': this.user.id,
+        'receiverId': this.receiverId,
+        'message': this.message
+      }
+      resolve(body);
+    });
+  }
 
+  async onSendChat(){
+    if(this.message!=''){
+      let body = await this.setBodySendMessage();
+      await this.sendMessage(body);
+      this.message = '';
+      let obj = {
+        'userId': this.receiverId,
+        'userName': this.roomName,
+        'userImage': this.roomImage,
+      }
+      await this.goToDetailChatPage(obj);
+    }
   }
 
   async goToDetailChatPage(e:any){
-    this.apps.loadingPage(true);
     this.roomName = e.userName;
+    this.roomImage = e.userImage;
     this.activeChat = e.id;
+    this.receiverId = e.userId;
     await this.getChatMessages(this.user.id, e.userId);
-    this.apps.loadingPage(false);
   }
   
   async setDetailChatPage(id:any){
-    console.log('SET DETAIL!');
-    this.apps.loadingPage(true);
     let result = this.listChat.find(chat => chat.userId = id);
     console.log(result);
     if(result){
@@ -127,7 +147,6 @@ export class ChatComponent {
     }
     this.activeChat = 9999999;
     this.chatMessage = 1;
-    this.apps.loadingPage(false);
   }
 
   backButton(){
