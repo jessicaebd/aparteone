@@ -149,9 +149,34 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Merchant updateMerchantStatus(Integer merchantId, Boolean isActive) {
+    public Merchant updateMerchant(Integer merchantId, Boolean isActive, RegisterMerchantRequest merchantDTO) {
         Merchant merchant = merchantRepo.findById(merchantId).get();
-        merchant.setIsActive(isActive);
+        if(isActive != null) {
+            merchant.setIsActive(isActive);
+        }
+        if(merchantDTO != null) {
+            if(merchantDTO.getImage() != null) {
+                merchant.setImage(merchantDTO.getImage());
+            }
+            if(merchantDTO.getName() != null) {
+                merchant.setName(merchantDTO.getName());
+            }
+            if(merchantDTO.getBankAccount() != null) {
+                merchant.setBankAccount(merchantDTO.getBankAccount());
+            }
+            if(merchantDTO.getAccountNumber() != null) {
+                merchant.setAccountNumber(merchantDTO.getAccountNumber());
+            }
+            if(merchantDTO.getAccountName() != null) {
+                merchant.setAccountName(merchantDTO.getAccountName());
+            }
+            if(merchantDTO.getCategory() != null) {
+                merchant.setCategory(merchantDTO.getCategory());
+            }
+            if(merchantDTO.getAddress() != null) {
+                merchant.setAddress(merchantDTO.getAddress());
+            }
+        }
         return merchantRepo.save(merchant);
     }
 }

@@ -128,12 +128,15 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public Apartment updateApartment(Integer apartmentId, Boolean isActive, ApartmentResponse apartmentDTO) {
+    public Apartment updateApartment(Integer apartmentId, Boolean isActive, RegisterApartmentRequest apartmentDTO) {
         Apartment apartment = apartmentRepo.findById(apartmentId).get();
         if (isActive != null) {
             apartment.setIsActive(isActive);
         }
         if (apartmentDTO != null) {
+            if (apartmentDTO.getImage() != null) {
+                apartment.setImage(apartmentDTO.getImage());
+            }
             if (apartmentDTO.getName() != null) {
                 apartment.setName(apartmentDTO.getName());
             }

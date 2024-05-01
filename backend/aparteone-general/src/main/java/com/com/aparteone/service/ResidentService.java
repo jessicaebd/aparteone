@@ -9,7 +9,8 @@ public interface ResidentService {
     public PageResponse<ResidentResponse> searchResident(int page, int size, String sortBy, String sortDir, Integer apartmentId, Boolean isActive, String search);
     public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId);
     public ResidentResponse getResidentById(Integer residentId);
+    
     public Resident approveResident(Integer residentId, Boolean isApproved);
     public Resident addResident(Integer userId, RegisterResidentRequest registerResidentRequest);
-    public Resident updateResidentStatus(Integer residentId, Boolean isActive);
+    public Resident updateResident(Integer residentId, Boolean isActive, RegisterResidentRequest registerResidentRequest);
 }
