@@ -27,57 +27,66 @@ export class AppService {
   }
 
   storeToLocalStorage(response: LoginResponse) {
-    this.storeAccessToken(response.access_token, response.access_token_expires_in);
-    this.storeRefreshToken(response.refresh_token, response.refresh_token_expires_in);
+    this.storeAccessToken(response.token, response.expirationTime);
+    this.storeRefreshToken(response.refreshToken);
     this.storeUser(response);
   }
 
-  storeAccessToken(accessToken: string, accessTokenExpiredIn: string) {
-    let access_token = { token: accessToken, expired_in: accessTokenExpiredIn }
-    this.localStorage.store('access_token', access_token);
+  storeAccessToken(token: string, expirationTime: string) {
+    let accessToken = { token: token, expirationTime: expirationTime }
+    this.localStorage.store('accessToken', accessToken);
   }
 
-  storeRefreshToken(refreshToken: string, refreshTokenExpiredIn: string) {
-    let refresh_token = { token: refreshToken, expired_in: refreshTokenExpiredIn }
-    this.localStorage.store('refresh_token', refresh_token);
+  storeRefreshToken(refreshToken: string) {
+    this.localStorage.store('refreshToken', refreshToken);
   }
 
   storeUser(response: LoginResponse) {
-    this.localStorage.store('user', response.user_detail);
+    this.localStorage.store('user', response.profile);
   }
 
   clearLocalSession() {
-    this.localStorage.clear('access_token');
-    this.localStorage.clear('refresh_token');
+    this.localStorage.clear('accessToken');
+    this.localStorage.clear('refreshToken');
     this.localStorage.clear('user');
   }
 
   retrieveUser(): UserStorage {
     const user = this.localStorage.retrieve('user');
     return {
-      user_id: user['user_id'],
-      nip: user['nip'],
-      name: user['name'],
+      id: user['id'],
+      role: user['role'],
       email: user['email'],
-      company: user['company'],
-      division_code: user['division_code'],
-      division_name: user['division_name'],
-      sub_division_code: user['sub_division_code'],
-      sub_division_name: user['sub_division_name'],
-      position_code: user['sub_division_name'],
-      position_name: user['position_name'],
-      job_code: user['job_code'],
-      job_description: user['job_description'],
-      personal_title: user['personal_title'],
+      phone: user['phone'],
+      apartmentId: user['apartmentId'],
+      apartmentUnitId: user['apartmentUnitId'],
+      apartmentName: user['apartmentName'],
+      image: user['image'],
+      name: user['name'],
+      type: user['type'],
+      unitNumber: user['unitNumber'],
+      unitType: user['unitType'],
+      bankAccount: user['bankAccount'],
+      accountNumber: user['accountNumber'],
+      accountName: user['accountName'],
+      category: user['category'],
+      address: user['address'],
+      province: user['province'],
+      city: user['city'],
+      postalCode: user['postalCode'],
+      latitude: user['latitude'],
+      longitude: user['longitude'],
+      isActive: user['isActive'],
+      isApproved: user['isApproved'],
     };
   }
 
   retrieveAccessToken() {
-    return this.localStorage.retrieve('access_token');
+    return this.localStorage.retrieve('accessToken');
   }
 
   retrieveRefreshToken() {
-    return this.localStorage.retrieve('refresh_token');
+    return this.localStorage.retrieve('refreshToken');
   }
 
   public deleteUser() {
@@ -85,7 +94,7 @@ export class AppService {
   }
 
   retrieveAccessTokenExpiredIn() {
-    return this.localStorage.retrieve('access_token').expired_in;
+    return this.localStorage.retrieve('accessToken').expirationTime;
   }
 
   // NOTIFICATION

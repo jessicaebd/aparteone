@@ -13,13 +13,8 @@ export const authGuard = async () => {
     if (appService.retrieveAccessToken()) {
         let accessExpiredIn = new Date(appService.retrieveAccessTokenExpiredIn());
         if (now >= accessExpiredIn) {
-            responseToken = await authRefreshToken(responseToken, authService, appService);
-            if (responseToken.access_token) {
-                return true;
-            } else {
-                navigateToLogin(router);
-                return false;
-            }
+            navigateToLogin(router);
+            return false;
         } else {
             return true;
         }
@@ -27,27 +22,6 @@ export const authGuard = async () => {
         navigateToLogin(router);
         return false;
     }
-}
-
-async function authRefreshToken(responseToken: any, authService: AuthService, appService: AppService) {
-    console.log('refreshing token!');
-    responseToken = await new Promise<any>(resolve => authService.refreshToken().subscribe({
-        next: (response: any) => {
-            const result = response.output_schema.output_data;
-            console.log(response);
-            appService.clearLocalSession();
-            appService.saveUser(result);
-            resolve(result);
-        },
-        error: (error: any) => {
-            console.log('#error', error);
-            const { error_schema } = error.error;
-            alert("Session expired! " + error_schema.error_message.english);
-            appService.clearLocalSession();
-            resolve(error);
-        }
-    }));
-    return responseToken;
 }
 
 function navigateToLogin(router: Router) {

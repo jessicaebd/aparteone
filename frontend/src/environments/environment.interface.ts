@@ -34,6 +34,9 @@ export interface FeatureEnvironment {
 }
 
 export interface GeneralEnvironment {
+  auth: string,
+  login: string,
+  register: string,
   dashboard: string,
   request: string,
   update: string,

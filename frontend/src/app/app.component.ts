@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   lastPing?: Date;
   activeNav: string = 'dashboard'
   role: string = 'resident';
+  isLogin = false;
 
   constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);
@@ -66,6 +67,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.appService.retrieveAccessToken()) {
+      this.isLogin = true;
+    }
     let currentPath = window.location.href;
 
     if(currentPath.includes('billing')){
@@ -104,6 +108,10 @@ export class AppComponent implements OnInit {
         }, 200);
       }
     })
+  }
+
+  goToLoginPage(){
+    window.location.replace('/login');
   }
 
   logOut(): void {

@@ -8,6 +8,18 @@
     font-size: 14pt;
 }
 
+.tab-item.active{
+    border-bottom: solid 2pt var(--primary-purple) !important;
+}
+
+.tab-item button{
+    border:none !important;
+}
+
+.tab-item button:enabled:focus{
+    border:none !important;
+}
+
 :enabled:focus {
     box-shadow: none;
     border-color: var(--primary-purple);

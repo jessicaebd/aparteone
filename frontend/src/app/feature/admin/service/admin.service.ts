@@ -83,6 +83,14 @@ export class AdminService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  getActiveApartmentList(): any {
+    const apiUrl = `${this.apiUrl}/${this.apiApartment}`;
+    const headers = new HttpHeaders({ });
+    const params = new HttpParams({ fromObject: { 'size': 100, 'page': 0, 'isApproved': true, 'isActive': true } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
   searchApartment(size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiApartment}/${this.apiSearch}`;
     const headers = new HttpHeaders({ });

@@ -10,6 +10,9 @@ export const environment : EnvironmentInterface = {
     },
     modules: {
         general: {
+            auth: "auth",
+            login: "login",
+            register: "register",
             dashboard: "dashboard",
             request: "request",
             update: "update",

@@ -5,6 +5,7 @@ import { AuthService } from './../service/auth.service';
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
     selector: 'app-auth',
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-    username!: string;
+    email!: string;
     password!: any;
     invalid!: boolean;
     returnUrl!: string;
@@ -34,32 +35,33 @@ export class AuthComponent implements OnInit {
         if (params) this.params = JSON.parse(params);
     }
 
-    onLoginSubmit(){
-        // window.open("/");
-        console.log(this.username, ' | ', this.password);
-        // (document.getElementById("loginButton") as HTMLButtonElement).disabled = true;
-        
-        // let userId = form.value.user_id;
-        // const password = form.value.password;
-        // if (userId.indexOf('\\') > -1){
-        //     let udomain = userId.split('\\');
-        //     userId = udomain[1];
-        // }
 
-        // this.authService.login(userId, password).subscribe({
-        //     next: (response: ResponseSchema<LoginResponse>) => {
-        //         const result = response.output_schema.output_data;
-        //         console.log(response);
-        //         this.appService.saveUser(result);
-        //         if (!this.returnUrl) this.router.navigateByUrl('');
-        //         else this.router.navigate([this.returnUrl], { queryParams: this.params });
-        //     }, error: (error: any) => {
-        //         console.log('#error', error);
-        //         const { error_schema } = error.error;
-        //         alert("Login failed: " + error_schema.error_message.english);
-        //         (document.getElementById("loginButton") as HTMLButtonElement).disabled = false;
-        //     }
-        // });
+    login(email:any, password:any): Promise<any>{
+        return new Promise<any>(resolve => 
+          this.authService.login(email, password).subscribe({
+            next: async (response: any) => {
+              console.log('Response: ', response);
+              this.appService.saveUser(response);
+            },
+            error: (error: any) => {
+              console.log('#error', error);
+              resolve(error);
+            }
+          })
+        )
+    }
+
+    logger(){
+        console.log(this.appService.retrieveAccessToken());
+        console.log(this.appService.retrieveAccessTokenExpiredIn());
+        console.log(this.appService.retrieveRefreshToken());
+        console.log(this.appService.retrieveUser());
+    }
+      
+    async onLoginSubmit(){
+        console.log(this.email, ' | ', this.password);
+        await this.login(this.email, this.password);
+        this.router.navigateByUrl('');
     }
 
     onLogout(): void {
