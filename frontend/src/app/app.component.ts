@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   timedOut = false;
   lastPing?: Date;
   activeNav: string = 'dashboard'
-  role: string = 'resident';
+  role: string = 'management';
 
   constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);

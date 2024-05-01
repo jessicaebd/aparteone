@@ -26,7 +26,7 @@
 }
 
 .card img{
-    object-fit: contain;
+    object-fit: cover;
     min-height: 10rem;
     max-height: 10rem;
     border-top-left-radius: 10px;

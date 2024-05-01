@@ -6,11 +6,11 @@ import { Location } from '@angular/common';
 import { Apartment, Unit } from '../admin.interface';
 
 @Component({
-  selector: 'app-apartment',
-  templateUrl: './apartment.component.html',
-  styleUrls: ['./apartment.component.css']
+  selector: 'app-apartment-need-approval',
+  templateUrl: './apartment-need-approval.component.html',
+  styleUrls: ['./apartment-need-approval.component.css']
 })
-export class ApartmentComponent {
+export class ApartmentNeedApprovalComponent {
   role: string = 'admin';
   apartmentId = 1;
 
@@ -48,12 +48,7 @@ export class ApartmentComponent {
     this.errorMsgApartment = '';
     this.errorMsgApartmentApproval = '';
     this.role = this.apps.getUserRole();
-    this.colApartment = [
-      {name: 'name', displayName: 'Name'}, 
-      {name: 'province', displayName: 'Province'}, 
-      {name: 'city', displayName: 'City'}, 
-      {name: 'isActive', displayName:'Status'}, 
-      {name:"ActionCol", displayName:"Action", align:"center"}];
+    this.colApartment = [{name: 'name', displayName: 'Apartment'}, {name: 'province', displayName: 'Province'}, {name: 'city', displayName: 'City'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
     if(this.role=='admin'){
       this.colApartmentApproval = [{name: 'name', displayName: 'Apartment'}, {name: 'province', displayName: 'Province'}, {name: 'city', displayName: 'City'}, {name: 'isApproved', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){

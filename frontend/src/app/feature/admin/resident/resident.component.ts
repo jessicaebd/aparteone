@@ -39,7 +39,12 @@ export class ResidentComponent {
     this.errorMsgResidentApproval = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colResident = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name: 'unitType', displayName: 'Unit Type'}, {name: 'name', displayName: 'Resident'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colResident = [
+        {name: 'name', displayName: 'Resident'}, 
+        {name: 'unitNumber', displayName: 'Unit Number'}, 
+        {name: 'unitType', displayName: 'Unit Type'},
+        {name: 'isActive', displayName:'Status'}, 
+        {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colResidentApproval = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name: 'unitType', displayName: 'Unit Type'}, {name: 'name', displayName: 'Resident'}, {name: 'isApproved', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
         await this.getResidentList(this.apartmentId, this.sizeResident, this.pageResident);
@@ -50,7 +55,11 @@ export class ResidentComponent {
       await this.getResidentListApproval(this.apartmentId, this.sizeResidentApproval, this.pageResidentApproval);
     }
     else if(this.role=='admin'){
-      this.colResident = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name: 'unitType', displayName: 'Unit Type'}, {name: 'name', displayName: 'Resident'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colResident = [
+        {name: 'name', displayName: 'Name'}, 
+        {name: 'apartmentName', displayName: 'Apartment'}, 
+        {name: 'isActive', displayName:'Status'}, 
+        {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
         await this.getAllResidentList(this.sizeResident, this.pageResident);
       }

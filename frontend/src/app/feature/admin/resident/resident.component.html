@@ -1,13 +1,13 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="RESIDENT" labelType="title"></app-label>
-        <app-label labelInput="Resident Information" labelType="label"></app-label>
+        <app-label labelInput="Resident" labelType="title"></app-label>
+        <app-label labelInput="Manage all residents" labelType="label"></app-label>
     </div>
-    <ng-container *ngIf="role=='management'">
-        <div class="approval-resident mb-3">
+
+    <!-- <ng-container *ngIf="role=='management'">
+        <div class="approval-resident mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex align-items-center subtitle">
-                <app-label labelInput="APPROVAL LIST" labelType="subtitle"></app-label>
+                <app-label labelInput="Need Approval" labelType="subtitle"></app-label>
             </div>
             <div class="pb-2">
                 <app-table [dataTable]="tableResidentApproval" [columns]="colResidentApproval" headerAlignment="center" 
@@ -16,11 +16,9 @@
                     [length]="allDataResidentApproval" [pageIndex]="pageResidentApproval" [pageSize]="sizeResidentApproval" (onPageIndexEvent)="onLoadData('approval', $event)" [errorMsg]="errorMsgResidentApproval"></app-table>
             </div>
         </div>
-    </ng-container>
-    <div class="list-resident">
-        <div class="d-flex align-items-center subtitle">
-            <app-label labelInput="LIST RESIDENT" labelType="subtitle"></app-label>
-        </div>
+    </ng-container> -->
+
+    <div class="list-resident mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
         <div class="pb-2">
             <app-table [dataTable]="tableResident" [columns]="colResident" headerAlignment="center" 
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal"

@@ -1,27 +1,23 @@
-<div class="container">
-    <div class="maintenance-request-list mt-3 rounded shadow" style="border-radius: 2vh;">
-        <div class="py-2">
-            <app-table [dataTable]="table" [columns]="col" headerAlignment="center" iconStart="bi bi-eye-fill"
-                label="View" type="primary" actionToggle="modal" actionTarget="modalRequestDetail"
-                (onClickActionEvent)="onListItemClick($event)" prefix="#MNT00" [length]="allDataCount"
-                (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)"
-                [errorMsg]="errorMsg"></app-table>
+<div class="py-2">
+    <app-table [dataTable]="table" [columns]="col" headerAlignment="center" iconStart="bi bi-eye-fill" label="View"
+        type="primary" actionToggle="modal" actionTarget="modalRequestDetail"
+        (onClickActionEvent)="onListItemClick($event)" prefix="#MNT00" [length]="allDataCount"
+        (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)"
+        [errorMsg]="errorMsg"></app-table>
+</div>
+
+<!-- Modal -->
+<app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalContent"></app-modal>
+
+<ng-template #modalContent>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Maintenance Request Detail</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container">
+            <app-maintenance-detail-request [data]="dataRequest"
+                (onSubmitEvent)="redirect()"></app-maintenance-detail-request>
         </div>
     </div>
-
-    <!-- Modal -->
-    <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalContent"></app-modal>
-
-    <ng-template #modalContent>
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Maintenance Request Detail</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
-        </div>
-        <div class="modal-body d-flex col justify-content-center">
-            <div class="container">
-                <app-maintenance-detail-request [data]="dataRequest"
-                    (onSubmitEvent)="redirect()"></app-maintenance-detail-request>
-            </div>
-        </div>
-    </ng-template>
-</div>
+</ng-template>

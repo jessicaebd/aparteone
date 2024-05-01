@@ -27,7 +27,14 @@ export class FacilityAllRequestComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.col = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    this.col = [
+      {name: 'receiptId', displayName: 'Receipt ID'}, 
+      {name: 'residentName', displayName:'Name'}, 
+      {name: 'facilityCategory', displayName: 'Category'}, 
+      {name: 'reserveDate', displayName: 'Book Date'},
+       {name: 'startTime', displayName: 'Start Time'}, 
+       {name: 'endTime', displayName: 'End Time'}, 
+       {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
     if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
       this.getFacilityApartmentRequest(this.apartmentId, this.size, this.page);
     }

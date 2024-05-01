@@ -34,8 +34,8 @@ export class MaintenanceAllRequestComponent {
     this.errorMsg = '';
     this.col = [
       {name: 'receiptId', displayName: 'Request ID'}, 
+      {name: 'residentName', displayName:'Name'}, 
       {name: 'maintenanceCategory', displayName: 'Category'}, 
-      {name: 'residentName', displayName:'Resident Name'}, 
       {name: 'requestDate', displayName: 'Request Date'}, 
       {name: 'status', displayName: 'Status'}, 
       {name:"ActionCol", displayName:"Action", align:"center"}];

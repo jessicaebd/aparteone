@@ -1,10 +1,12 @@
 <div class="container-fluid">
-    <div class="row mb-3">
-        <app-label labelInput="Mailbox" labelType="title"></app-label>
-        <app-label labelInput="Track your package & mail information" labelType="label"></app-label>
-    </div>
 
+    <!-- Resident -->
     <ng-container *ngIf="this.role=='resident'">
+        <div class="row mb-3">
+            <app-label labelInput="Mailbox" labelType="title"></app-label>
+            <app-label labelInput="Track your package & mail information" labelType="label"></app-label>
+        </div>
+
         <div class="mailbox-list shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between mb-3">
                 <div class="d-flex">
@@ -34,11 +36,19 @@
         </div>
     </ng-container>
 
+    <!-- Management -->
     <ng-container *ngIf="this.role=='management'">
-        <div class="mailbox-list">
+        <div class="row mb-3">
+            <div class="col-6 row">
+                <app-label labelInput="Mailbox" labelType="title"></app-label>
+                <app-label labelInput="Manage mailboxes" labelType="label"></app-label>
+            </div>
+        </div>
+
+        <div class="mailbox-list mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="MAILBOX CATEGORY" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Category" data-bs-toggle="modal"
+                <app-label labelInput="Category" labelType="title"></app-label>
+                <app-button buttonLabel="+ Add Category" data-bs-toggle="modal"
                     data-bs-target="#modalAddCategory"></app-button>
             </div>
             <div class="py-2">
@@ -49,22 +59,21 @@
                     (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
-        <div class="mailbox-request-list mt-5">
+        <div class="mailbox-request-list mt-5 mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="LIST MAILBOX" labelType="subtitle"></app-label>
+                <app-label labelInput="Resident Mailboxes" labelType="title"></app-label>
                 <div>
-                    <app-button class="me-2" buttonLabel="Add Mailbox" data-bs-toggle="modal"
+                    <app-button class="me-2" buttonLabel="+ Add Mailbox" data-bs-toggle="modal"
                         data-bs-target="#modalAddMailbox" (onClickEvent)="onAddMailbox()"></app-button>
-                    <app-button buttonLabel="View All" buttonClass="outline-primary"
-                        (onClickEvent)="goToAllMailboxPage()"></app-button>
                 </div>
             </div>
             <div class="py-2">
-                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center"
+                <app-mailbox-all></app-mailbox-all>
+                <!-- <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center"
                     iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
                     actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)"
                     [length]="allDataRequest" [pageSize]="5" [pageIndex]="pageRequest" [pagination]="false"
-                    (onPageIndexEvent)="onLoadData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
+                    (onPageIndexEvent)="onLoadData('request', $event)" [errorMsg]="errorMsgRequest"></app-table> -->
             </div>
         </div>
 

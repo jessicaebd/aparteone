@@ -1,12 +1,10 @@
 <div class="container-fluid">
-    <div class="row mb-3">
-        <app-label labelInput="Maintenance" labelType="title"></app-label>
-        <app-label labelInput="Your Maintenance Request Information" labelType="label"></app-label>
-    </div>
-
-
     <!-- Resident -->
     <ng-container *ngIf="this.role=='resident'">
+        <div class="row mb-3">
+            <app-label labelInput="Maintenance" labelType="title"></app-label>
+            <app-label labelInput="Your Maintenance Request Information" labelType="label"></app-label>
+        </div>
         <!-- <div class="maintenance-category mb-4">
             <div class="subtitle mb-2">
                 <app-label labelInput="CATEGORY" labelType="subtitle"></app-label>
@@ -24,14 +22,39 @@
         </div>
     </ng-container>
 
+
     <!-- Management -->
     <ng-container *ngIf="this.role=='management'">
         <div class="row mb-3">
-            <div class="mx-2 mt-3 mb-3">
-                <app-label labelInput="Manage Maintenance" labelType="title"></app-label>
+            <div class="col-6 row">
+                <app-label labelInput="Maintenance" labelType="title"></app-label>
+                <app-label labelInput="Manage maintenance category & requests" labelType="label"></app-label>
             </div>
         </div>
 
+        <div class="maintenance-list mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="Category" labelType="title"></app-label>
+                <app-button buttonLabel="+ Add Category" data-bs-toggle="modal"
+                    data-bs-target="#modalAddCategory"></app-button>
+            </div>
+            <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center"
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)"
+                [pageIndex]="pageCategory" [pageSize]="sizeCategory" [length]="allDataCategory"
+                (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
+        </div>
+
+
+        <!-- Maintenance Request -->
+        <div class="maintenance-request-list mt-5 mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
+            <div class="d-flex justify-content-between subtitle mb-2">
+                <app-label labelInput="Resident Requests" labelType="title"></app-label>
+            </div>
+            <div class="py-2">
+                <app-maintenance-all-request></app-maintenance-all-request>
+            </div>
+        </div>
 
         <!-- Modal -->
         <app-modal modalID="modalAddCategory" [width]="600" [modalContent]="modalAddCategory"></app-modal>
@@ -46,22 +69,6 @@
                 <app-maintenance-add-category (onSubmitEvent)="redirect('add')"></app-maintenance-add-category>
             </div>
         </ng-template>
-
-
-        <!-- Maintenance Request -->
-        <div class="maintenance-request-list my-5">
-            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="Maintenance Request" labelType="subtitle"></app-label>
-                <!-- <app-button buttonLabel="View All" (onClickEvent)="goToAllMaintenancePage()"></app-button> -->
-            </div>
-            <div class="py-2">
-                <app-maintenance-all-request></app-maintenance-all-request>
-                <!-- <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" [filter]="false"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal"
-                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)"
-                    [pagination]="false" [errorMsg]="errorMsgRequest"></app-table> -->
-            </div>
-        </div>
 
         <!-- Modal -->
         <app-modal modalID="modalViewCategory" [width]="600" [modalContent]="modalViewCategory"></app-modal>

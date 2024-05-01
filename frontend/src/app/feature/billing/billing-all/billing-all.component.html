@@ -1,24 +1,14 @@
-<div class="container">
-    <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="BILLING" labelType="title"></app-label>
-        <app-label labelInput="Bill Information" labelType="label"></app-label>
-    </div>
-    <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-        <app-label labelInput="LIST BILLING" labelType="subtitle"></app-label>
-        <app-button class="me-2" buttonLabel="Add Payment" data-bs-toggle="modal" data-bs-target="#modalAddPayment" (onClickEvent)="onAddPayment()"></app-button>
-    </div>
-    <div class="py-2">
-        <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" 
-            iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" prefix="#BLN00"
-            actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick($event)" (onSearchEvent)="onSearchData($event)"
-            [length]="allDataRequest" [pageIndex]="page" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgRequest"></app-table>
-    </div>
+<div class="py-2">
+    <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center" iconStart="bi bi-eye-fill"
+        label="View" type="primary" actionToggle="modal" prefix="#BLN00" actionTarget="modalRequestDetail"
+        (onClickActionEvent)="onListItemClick($event)" (onSearchEvent)="onSearchData($event)" [length]="allDataRequest"
+        [pageIndex]="page" (onPageIndexEvent)="onLoadData($event)" [errorMsg]="errorMsgRequest"></app-table>
 </div>
+
 
 <!-- Modal -->
 <app-modal modalID="modalAddPayment" [width]="600" [modalContent]="modalAddPayment"></app-modal>
-    
+
 <ng-template #modalAddPayment>
     <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Billing</h1>
@@ -33,7 +23,7 @@
 
 <!-- Modal -->
 <app-modal modalID="modalRequestDetail" [width]="600" [modalContent]="modalRequestDetail"></app-modal>
-    
+
 <ng-template #modalRequestDetail>
     <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Billing Detail</h1>

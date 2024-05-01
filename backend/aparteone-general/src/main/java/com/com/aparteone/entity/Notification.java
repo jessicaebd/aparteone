@@ -25,4 +25,5 @@ public class Notification extends AuditEntity {
     private Integer userId;
     private String title;
     private String message;
+    private String category;
 }

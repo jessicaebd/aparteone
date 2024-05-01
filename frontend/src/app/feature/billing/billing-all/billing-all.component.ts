@@ -33,7 +33,12 @@ export class BillingAllComponent {
     this.errorMsgRequest = '';
     this.role = this.apps.getUserRole();
     if(this.role=='management'){
-      this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colRequest = [
+        {name: 'receiptId', displayName: 'Receipt ID'}, 
+        {name: 'billingCategory', displayName: 'Category'}, 
+        {name: 'residentName', displayName: 'Resident'}, 
+        {name: 'dueDate', displayName: 'Due Date'}, 
+        {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
         await this.getBillingDetailApartment(this.apartmentId, 10, this.page);
       }
