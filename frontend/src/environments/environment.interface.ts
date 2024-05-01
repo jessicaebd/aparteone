@@ -31,6 +31,10 @@ export interface FeatureEnvironment {
   apartment: string,
   unit: string,
   resident: string,
+  chat: string,
+  send: string,
+  rooms: string,
+  messages: string,
 }
 
 export interface GeneralEnvironment {

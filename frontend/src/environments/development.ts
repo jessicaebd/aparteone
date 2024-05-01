@@ -42,6 +42,10 @@ export const environment : EnvironmentInterface = {
             apartment: "apartment",
             unit: "unit",
             resident: "resident",
+            chat: "chat",
+            send: "send",
+            rooms: "rooms",
+            messages: "messages",
         },
     },
 };
