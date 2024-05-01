@@ -31,7 +31,7 @@ public class ResidentController {
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Boolean isActive,
-        @RequestParam(required = false) Boolean isApproved,
+        @RequestParam(required = false) String isApproved,
         @RequestParam(required = false) Integer apartmentId){
         log.info("[Resident] Get Resident List: apartmentId-{} | isActive-{}", isActive);
         PageResponse<ResidentResponse> response = residentService.getResidentList(page, size, sortBy, sortDir, isActive, isApproved, apartmentId);
@@ -69,5 +69,11 @@ public class ResidentController {
         log.info("[Resident] Update Resident: residentId-{} | isActive-{}", residentId, isActive);
         Resident response = residentService.updateResident(residentId, isActive, registerResidentRequest);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> countResidentByApartmentId(@RequestParam Integer apartmentId){
+        log.info("[Resident] Count Resident By ApartmentId: apartmentId-{}", apartmentId);
+        return ResponseEntity.ok(residentService.countResidentByApartmentId(apartmentId));
     }
 }

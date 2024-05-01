@@ -202,4 +202,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         }
         return maintenanceRequestRepo.save(maintenanceRequest);
     }
+
+    @Override
+    public Integer countMaintenanceRequestByResidentId(Integer residentId) {
+        return maintenanceRequestRepo.countByResidentId(residentId);
+    }
 }

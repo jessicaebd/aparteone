@@ -8,5 +8,5 @@ import com.com.aparteone.entity.Merchant;
 
 @Repository
 public interface MerchantRepo extends JpaRepository<Merchant, Integer>, JpaSpecificationExecutor<Merchant> {
-    
+    public Integer countByApartmentId(Integer apartmentId);
 }

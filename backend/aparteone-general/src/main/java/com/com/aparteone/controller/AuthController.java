@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.auth.UserResponse;
@@ -45,5 +46,11 @@ public class AuthController {
     public ResponseEntity<UserResponse> login(@RequestBody LoginRequest request) {
         log.info("[Auth] Login: {}", request.toString());
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/detail")
+    public ResponseEntity<UserResponse> getUserDetail(@RequestParam Integer userId) throws Exception {
+        log.info("[Auth] Get User Detail: userId-{}", userId);
+        return ResponseEntity.ok(authService.getUserById(userId));
     }
 }

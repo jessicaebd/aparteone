@@ -27,4 +27,6 @@ public interface MaintenanceRequestRepo extends JpaRepository<MaintenanceRequest
             "where m.apartment_id = :apartmentId" +
             "and mr.status = :status ", nativeQuery = true)
     public Page<MaintenanceRequest> findByApartmentIdAndStatus(Integer apartmentId, String status, Pageable pageable);
+
+    public Integer countByResidentId(Integer residentId);
 }

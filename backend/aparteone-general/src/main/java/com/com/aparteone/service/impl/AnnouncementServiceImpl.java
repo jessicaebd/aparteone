@@ -30,16 +30,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Autowired
     private AnnouncementRepo announcementRepo;
 
-    public Pageable pagination(int page, int size, String sortBy, String sortDir) {
-        Pageable pageable = null;
-        if (sortBy != null && sortDir != null) {
-            pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return pageable;
-    }
-
     @Override
     public Announcement addAnnouncement(AnnouncementRequest announcementRequest) {
         Announcement announcement = new Announcement();
@@ -104,7 +94,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 spec = spec.and(AnnouncementSpecification.isInactive(new Date()));
             }
         }
-        Pageable pageable = pagination(page, size, sortBy, sortDir);
+        Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<Announcement> announcements = announcementRepo.findAll(spec, pageable);
         List<AnnouncementResponse> data = new ArrayList<>();
 

@@ -68,13 +68,19 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public PageResponse<MerchantResponse> getMerchantList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId) {
+    public PageResponse<MerchantResponse> getMerchantList(int page, int size, String sortBy, String sortDir, Boolean isActive, String isApproved, Integer apartmentId) {
         Specification<Merchant> spec = Specification.where(null);
         if (isActive != null) {
             spec = spec.and(MerchantSpecification.isActive(isActive));
         }
         if (isApproved != null) {
-            spec = spec.and(MerchantSpecification.isApproved(isApproved));
+            if(isApproved.equals(AparteoneConstant.STATUS_PENDING)) {
+                spec = spec.and(MerchantSpecification.isNotApproved());
+            } else if(isApproved.equals(AparteoneConstant.STATUS_APPROVED)) {
+                spec = spec.and(MerchantSpecification.isApproved(true));
+            } else if(isApproved.equals(AparteoneConstant.STATUS_REJECTED)) {
+                spec = spec.and(MerchantSpecification.isApproved(false));
+            }
         }
         if (apartmentId != null) {
             spec = spec.and(MerchantSpecification.hasApartmentId(apartmentId));
@@ -178,5 +184,10 @@ public class MerchantServiceImpl implements MerchantService {
             }
         }
         return merchantRepo.save(merchant);
+    }
+
+    @Override
+    public Integer countMerchantByApartmentId(Integer apartmentId) {
+        return merchantRepo.countByApartmentId(apartmentId);
     }
 }

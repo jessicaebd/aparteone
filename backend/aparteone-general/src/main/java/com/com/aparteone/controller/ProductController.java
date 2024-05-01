@@ -21,16 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-
     @Autowired
     private ProductService productService;
 
     @GetMapping("/product")
     public ResponseEntity<PageResponse<ProductResponse>> getMerchantProductList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "15") int size,
+            @RequestParam(value = "size", required = false, defaultValue = "100") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam Integer merchantId) {
         log.info("[Merchant] Get Merchant Product List: merchantId-{}", merchantId);
         PageResponse<ProductResponse> response = productService.getProductListByMerchantId(page, size, sortBy, sortDir, merchantId);
@@ -40,9 +39,9 @@ public class ProductController {
     @GetMapping("/product/search")
     public ResponseEntity<PageResponse<ProductResponse>> searchMerchantProduct(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "15") int size,
+            @RequestParam(value = "size", required = false, defaultValue = "100") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam Integer merchantId,
             @RequestParam String search) {
         log.info("[Merchant] Search Merchant Product: merchantId-{} | search-{}", merchantId, search);

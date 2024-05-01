@@ -270,4 +270,9 @@ public class FacilityServiceImpl implements FacilityService {
         }
         return facilityRequestRepo.save(facilityRequest);
     }
+
+    @Override
+    public Integer countFacilityRequestByResidentId(Integer residentId) {
+        return facilityRequestRepo.countByResidentId(residentId);
+    }
 }

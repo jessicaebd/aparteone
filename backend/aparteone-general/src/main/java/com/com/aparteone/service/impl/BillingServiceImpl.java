@@ -242,4 +242,9 @@ public class BillingServiceImpl implements BillingService {
         notificationService.sendNotification(billingDetail.getResidentId(), "Bills BLN00" + billingDetailId, "Your billing payment has been " + (payment.getIsValid() == true ? "approved" : "rejected"));
         return billingDetailRepo.save(billingDetail);
     }
+
+    @Override
+    public Integer countBillingDetailByResidentId(Integer residentId) {
+        return billingDetailRepo.countByResidentId(residentId);
+    }
 }

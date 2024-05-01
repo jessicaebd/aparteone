@@ -67,9 +67,9 @@ public class BillingController {
     @GetMapping("/detail/resident")
     public ResponseEntity<PageResponse<BillingDetailResponse>> getBillingDetailByResidentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "created_date") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer residentId) {
@@ -83,7 +83,7 @@ public class BillingController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "ASC") String sortDir,
+            @RequestParam(value = "sortDir", defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer apartmentId) {
@@ -122,5 +122,11 @@ public class BillingController {
         log.info("[Billing] Verify Payment: billingDetailId-{} | isValid-{}", billingDetailId, isValid);
         BillingDetail billingDetail = billingService.verifyPayment(billingDetailId, isValid);
         return ResponseEntity.ok(billingDetail);
+    }
+
+    @GetMapping("/billing/count")
+    public ResponseEntity<Integer> countBillingDetailByResidentId(@RequestParam Integer residentId) {
+        log.info("[Billing] Count Billing By Resident Id: residentId-{}", residentId);
+        return ResponseEntity.ok(billingService.countBillingDetailByResidentId(residentId));
     }
 }

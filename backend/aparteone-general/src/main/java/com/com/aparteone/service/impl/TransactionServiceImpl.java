@@ -265,4 +265,22 @@ public class TransactionServiceImpl implements TransactionService {
         notificationService.sendNotification(transaction.getResidentId(), "Transaction MCN00" + transaction.getId(), "Your transaction payment has been " + ((isValid == true) ? "approved" : "rejected"));
         return transaction;
     }
+
+    @Override
+    public Integer countTransactionByStatus(Integer merchantId, String status) {
+        return transactionRepo.countByMerchantIdAndStatus(merchantId, status);
+    }
+
+    @Override
+    public Integer countTotalIncome(Integer merchantId) {
+        Specification<Transaction> spec = Specification.where(TransactionSpecification.hasMerchantId(merchantId));
+        spec = spec.and(TransactionSpecification.hasStatus(AparteoneConstant.STATUS_COMPLETED));
+        List<Transaction> transactions = transactionRepo.findAll(spec);
+
+        Double[] totalIncome = {0.0};
+        transactions.forEach(transaction -> {
+            totalIncome[0] += transaction.getGrandTotal();
+        });
+        return totalIncome[0].intValue();
+    }
 }

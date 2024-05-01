@@ -22,4 +22,6 @@ public interface MaintenanceService {
     public MaintenanceRequestResponse getMaintenanceRequestById(Integer maintenanceRequestId);
     public MaintenanceRequest addMaintenanceRequest(MaintenanceReserveRequest request);
     public MaintenanceRequest updateMaintenanceRequestStatus(Integer maintenanceRequestId, String status, String remarks);
+
+    public Integer countMaintenanceRequestByResidentId(Integer residentId);
 }

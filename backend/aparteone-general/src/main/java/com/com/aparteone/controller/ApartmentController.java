@@ -46,7 +46,7 @@ public class ApartmentController {
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
-            @RequestParam(value = "isApproved", required = false) Boolean isApproved) {
+            @RequestParam(value = "isApproved", required = false) String isApproved) {
         log.info("[Apartment] Get Apartment List: isActive-{} | isApproved-{}", isActive, isApproved);
         PageResponse<ApartmentResponse> response = apartmentService.getApartmentList(page, size, sortBy, sortDir, isActive, isApproved);
         return ResponseEntity.ok(response);
@@ -110,5 +110,12 @@ public class ApartmentController {
         log.info("[Apartment] Update Apartment Unit: apartmentUnitId-{} | apartmentUnitDTO-{}", apartmentUnitId, apartmentUnitDTO.toString());
         ApartmentUnit apartmentUnit = apartmentService.updateApartmentUnit(apartmentUnitId, apartmentUnitDTO);
         return ResponseEntity.ok(apartmentUnit);
+    }
+
+    @GetMapping("/count") 
+    public ResponseEntity<Integer> getApartmentTotal() {
+        log.info("[Apartment] Get Apartment Total");
+        Integer total = apartmentService.getApartmentTotal();
+        return ResponseEntity.ok(total);
     }
 }

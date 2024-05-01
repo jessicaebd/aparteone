@@ -23,4 +23,6 @@ public interface BillingService {
     public BillingDetail updateBillingDetail(Integer billingDetailId, String status);
     public BillingDetail payment(PaymentRequest paymentRequest);
     public BillingDetail verifyPayment(Integer billingDetailId, Boolean isValid);
+
+    public Integer countBillingDetailByResidentId(Integer residentId);
 }
