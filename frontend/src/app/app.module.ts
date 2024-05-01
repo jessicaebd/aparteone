@@ -4,7 +4,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { GeneralModule } from './general/general.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthComponent } from './auth/components/auth.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,7 +24,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
         AppRoutingModule,
         FormsModule,
         SharedModule,
-        GeneralModule,
         FeatureModule,
         HttpClientModule,
         BrowserAnimationsModule,

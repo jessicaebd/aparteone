@@ -1,7 +1,0 @@
-:host(app-library-page){
-    width: 100%;
-}
-
-.readonly{
-    pointer-events: none;
-}

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GeneralModule } from './../general/general.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -76,6 +75,8 @@ import { ApartmentDetailComponent } from './admin/apartment-detail/apartment-det
 import { ApartmentComponent } from './admin/apartment/apartment.component';
 import { UnitDetailComponent } from './admin/unit-detail/unit-detail.component';
 import { UnitAddComponent } from './admin/unit-add/unit-add.component';
+import { NotificationComponent } from './notification/notification.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -141,11 +142,12 @@ import { UnitAddComponent } from './admin/unit-add/unit-add.component';
     ApartmentComponent,
     UnitDetailComponent,
     UnitAddComponent,
+    NotificationComponent,
+    RegisterComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
-    GeneralModule,
     SharedModule,
     MatPaginatorModule,
   ],
@@ -207,6 +209,8 @@ import { UnitAddComponent } from './admin/unit-add/unit-add.component';
     ResidentDetailComponent,
     ApartmentDetailComponent,
     ApartmentComponent,
+    NotificationComponent,
+    RegisterComponent,
   ],
   providers:[]
 })

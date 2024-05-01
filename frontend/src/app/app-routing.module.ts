@@ -1,11 +1,9 @@
 import { HomeComponent } from './feature/home/home.component';
-import { ChartPageComponent } from './general/library/chart-page/chart-page.component';
-import { LibraryPageComponent } from './general/library/library-page/library-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/components/auth.component';
 import { authGuard } from './auth/components/auth.guard';
-import { RegisterComponent } from './general/register/register.component';
+import { RegisterComponent } from './feature/register/register.component';
 
 // ANNOUNCEMENT
 import { AnnouncementComponent } from './feature/announcement/announcement.component';
@@ -43,7 +41,7 @@ import { TransactionComponent } from './feature/merchant/transaction/transaction
 
 // REPORT
 import { ReportComponent } from './feature/report/report.component';
-import { NotificationComponent } from './general/notification/notification.component';
+import { NotificationComponent } from './feature/notification/notification.component';
 
 // PROFILE
 import { ProfileComponent } from './feature/profile/profile.component';
@@ -54,8 +52,6 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: AuthComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'library', component: LibraryPageComponent  },
-  { path: 'chart', component: ChartPageComponent  },
   { path: 'report', component: ReportComponent },
   { path: 'notification', component: NotificationComponent },
   
