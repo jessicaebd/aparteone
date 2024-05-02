@@ -138,6 +138,9 @@ public class ProductServiceImpl implements ProductService {
             if (productRequest.getDescription() != null) {
                 product.setDescription(productRequest.getDescription());
             }
+            if(productRequest.getImage() != null) {
+                product.setImage(productRequest.getImage());
+            }
         }
         return productRepo.save(product);
     }

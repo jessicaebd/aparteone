@@ -1,6 +1,17 @@
 <div class="product-card ms-2">
     <ng-container *ngFor="let item of productList">
-        <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
+        <button *ngIf="item.isActive == 'Active'"  class="col-3 col-md-2 card mx-3 mb-4" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
+            <img class="card-img-top" [src]="item.image" alt="...">
+            <div class="card-body w-100">
+                <div class="d-flex justify-content-between">
+                    <h6 class="card-title text-truncate mb-0 fw-bold">{{ item.name }}</h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text text-start fs-6 fw-semibold mt-1 mb-0"><span>Rp. </span>{{ item.price }}</p>
+                </div>
+            </div>
+        </button>
+        <button *ngIf="item.isActive == 'Inactive'" style="background-color: rgb(197, 197, 197);"  class="col-3 col-md-2 card mx-3 mb-4" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
             <img class="card-img-top" [src]="item.image" alt="...">
             <div class="card-body w-100">
                 <div class="d-flex justify-content-between">

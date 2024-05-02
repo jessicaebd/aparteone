@@ -57,6 +57,7 @@ export class MaintenanceComponent implements OnInit{
         {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [
         {name: 'category', displayName: 'Category Name'}, 
+        {name: 'isActive', displayName: 'Status'}, 
         {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getMaintenanceCategoryApartment(this.user.id, this.sizeCategory, this.pageCategory);

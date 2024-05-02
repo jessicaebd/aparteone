@@ -4,7 +4,7 @@
 
 .card{
     display: flex;
-    /* width: 20rem; */
+    width: 13.2rem;
     height: 10rem;
     /* justify-content: center; */
     align-items: center;
@@ -37,7 +37,7 @@ img{
 
 .facility-category {
     border-radius: 2vh;
-    height: 15rem;
+    height: 13rem;
 }
 
 .facility-category::-webkit-scrollbar{

@@ -14,4 +14,6 @@ public interface TransactionService {
     public Transaction checkout(TransactionRequest transactionRequest);
     public Transaction payment(PaymentRequest paymentRequest);
     public Transaction verifyPayment(Integer transactionId, Boolean isValid);
+    public Integer countTransactionByStatus(Integer merchantId, String status);
+    public Integer countTotalIncome(Integer merchantId);
 }

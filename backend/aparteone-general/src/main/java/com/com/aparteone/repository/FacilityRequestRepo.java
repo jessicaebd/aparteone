@@ -37,4 +37,5 @@ public interface FacilityRequestRepo extends JpaRepository<FacilityRequest, Inte
             "and fr.status = :status", nativeQuery = true)
     public Page<FacilityRequest> findByApartmentIdAndStatus(Integer apartmentId, String status, Pageable pageable);
 
+    public Integer countByResidentId(Integer residentId);
 }

@@ -7,6 +7,7 @@ import { AppService } from 'src/app/app.service';
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css']
 })
+
 export class NotificationComponent implements OnInit{
   residentId = 4;
   data!: any;

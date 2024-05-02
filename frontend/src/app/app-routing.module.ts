@@ -46,6 +46,7 @@ import { ReportComponent } from './feature/report/report.component';
 import { ProfileComponent } from './feature/profile/profile.component';
 import { ResidentComponent } from './feature/admin/resident/resident.component';
 import { ApartmentComponent } from './feature/admin/apartment/apartment.component';
+import { CheckoutComponent } from './feature/merchant/checkout/checkout.component';
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent },
@@ -76,13 +77,14 @@ const routes: Routes = [
   { path: 'mailbox/all', component: MailboxAllComponent, canActivate: [authGuard] },
 
   // MERCHANT
-  { path: 'merchant', component: MerchantComponent, canActivate: [authGuard] },
-  { path: 'merchant/all', component: MerchantAllComponent, canActivate: [authGuard]  },
-  { path: 'merchant/store/:id', component: MerchantStoreComponent, canActivate: [authGuard]  },
-  { path: 'merchant/history', component: MerchantHistoryComponent, canActivate: [authGuard]  },
-  { path: 'product', component: ProductAllComponent, canActivate: [authGuard]  },
-  { path: 'cart/:id', component: CartComponent, canActivate: [authGuard] },
-  { path: 'transaction', component: TransactionComponent, canActivate: [authGuard]  },
+  { path: 'merchant', component: MerchantComponent },
+  { path: 'merchant/all', component: MerchantAllComponent  },
+  { path: 'merchant/store/:id', component: MerchantStoreComponent  },
+  { path: 'merchant/history', component: MerchantHistoryComponent  },
+  { path: 'product', component: ProductAllComponent  },
+  { path: 'cart/:id', component: CartComponent },
+  { path: 'transaction', component: TransactionComponent  },
+  { path: 'checkout/:id', component: CheckoutComponent  },
   
   // CHAT
   { path: 'chat', component: ChatComponent, canActivate: [authGuard] },

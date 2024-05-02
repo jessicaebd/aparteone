@@ -27,4 +27,6 @@ public interface BillingDetailRepo extends JpaRepository<BillingDetail, Integer>
     "where b.apartment_id = :apartmentId " +
     "and bd.status = :status", nativeQuery = true)
     public Page<BillingDetail> findByApartmentIdAndStatus(Integer apartmentId, String status, Pageable pageable);
+
+    public Integer countByResidentId(Integer residentId);
 }

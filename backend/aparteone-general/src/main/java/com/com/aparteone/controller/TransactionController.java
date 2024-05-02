@@ -28,8 +28,8 @@ public class TransactionController {
     @GetMapping("/resident")
     public ResponseEntity<PageResponse<TransactionResponse>> getResidentTransactionList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer residentId) {
@@ -41,8 +41,8 @@ public class TransactionController {
     @GetMapping("/merchant")
     public ResponseEntity<PageResponse<TransactionResponse>> getTransactionListByMerchantId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam Integer merchantId) {

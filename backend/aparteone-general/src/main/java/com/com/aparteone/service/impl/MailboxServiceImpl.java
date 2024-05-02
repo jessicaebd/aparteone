@@ -188,4 +188,9 @@ public class MailboxServiceImpl implements MailboxService {
         }
         return mailboxDetailRepo.save(mailboxDetail);
     }
+
+    @Override
+    public Integer countMailboxDetailByResidentId(Integer residentId) {
+        return mailboxDetailRepo.countByResidentId(residentId);
+    }
 }

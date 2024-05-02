@@ -36,4 +36,6 @@ public interface MailboxDetailRepo extends JpaRepository<MailboxDetail, Integer>
                 "where a.id=:apartmentId " +
                 "and md.status = :status", nativeQuery = true)
     public Page<MailboxDetail> findByApartmentIdAndStatus(Integer apartmentId, String status, Pageable pageable);
+
+    public Integer countByResidentId(Integer residentId);
 }

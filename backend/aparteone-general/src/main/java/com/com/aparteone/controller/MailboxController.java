@@ -106,4 +106,11 @@ public class MailboxController {
         MailboxDetail mailboxRequest = mailboxService.updateMailboxDetailStatus(mailboxRequestId, status);
         return ResponseEntity.ok(mailboxRequest);
     }
+
+    @GetMapping("/detail/count") 
+    public ResponseEntity<Integer> getMailboxDetailCount(@RequestParam Integer residentId) {
+        log.info("[Mailbox] Get Mailbox Detail Count: residentId-{}", residentId);
+        Integer count = mailboxService.countMailboxDetailByResidentId(residentId);
+        return ResponseEntity.ok(count);
+    }
 }

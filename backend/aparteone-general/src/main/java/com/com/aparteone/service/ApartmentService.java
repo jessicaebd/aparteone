@@ -9,13 +9,13 @@ import com.com.aparteone.entity.ApartmentUnit;
 
 public interface ApartmentService {
     public PageResponse<ApartmentResponse> searchApartment(int page, int size, String sortBy, String sortDir, Boolean isActive, String search);
-    public PageResponse<ApartmentResponse> getApartmentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved);
+    public PageResponse<ApartmentResponse> getApartmentList(int page, int size, String sortBy, String sortDir, Boolean isActive, String isApproved);
     public ApartmentResponse getApartmentById(Integer apartmentId);
     
     public Apartment approveApartment(Integer apartmentId, Boolean isApproved);
     public Apartment addApartment(Integer userId, RegisterApartmentRequest reqisterApartmentRequest);
     public Apartment updateApartment(Integer apartmentId, Boolean isActive, RegisterApartmentRequest apartmentRequest);
-    public Integer getApartmentTotal(String criteria);
+    public Integer getApartmentTotal();
 
     public PageResponse<ApartmentUnitDTO> searchApartmentUnit(int page, int size, String sortBy, String sortDir, Integer apartmentId, String search);
     public PageResponse<ApartmentUnitDTO> getApartmentUnitListByApartmentId(int page, int size, String sortBy, String sortDir, Integer apartmentId);

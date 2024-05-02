@@ -13,4 +13,5 @@ import com.com.aparteone.entity.Transaction;
 public interface TransactionRepo extends JpaRepository<Transaction, Integer>, JpaSpecificationExecutor<Transaction> {
     public Page<Transaction> findAll(Pageable pageable);
     public Page<Transaction> findByMerchantId(Integer merchantId, Specification<Transaction> spec, Pageable pageable);
+    public Integer countByMerchantIdAndStatus(Integer merchantId, String status);
 }

@@ -4,8 +4,8 @@
 
 .card{
     display: flex;
-    width: 20rem;
-    height: 16rem;
+    width: 13.2rem;
+    height: 10rem;
     /* justify-content: center; */
     align-items: center;
     border-radius: 10px;
@@ -33,6 +33,11 @@ img{
     padding-bottom: 0.6rem; */
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.maintenance-category {
+    border-radius: 2vh;
+    height: 13rem;
 }
 
 .maintenance-category::-webkit-scrollbar{

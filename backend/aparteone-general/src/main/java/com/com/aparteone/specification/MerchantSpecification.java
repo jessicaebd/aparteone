@@ -20,4 +20,8 @@ public class MerchantSpecification {
     public static Specification<Merchant> isApproved(Boolean isApproved) {
         return (root, query, builder) -> builder.equal(root.get("isApproved"), isApproved);
     }
+
+    public static Specification<Merchant> isNotApproved() {
+        return (root, query, builder) -> builder.isNull(root.get("isApproved"));
+    }
 }

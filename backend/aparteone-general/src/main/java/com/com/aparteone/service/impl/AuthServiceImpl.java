@@ -9,6 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.constant.AparteoneConstant;
+import com.com.aparteone.dto.ApartmentResponse;
+import com.com.aparteone.dto.MerchantResponse;
+import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.auth.UserResponse;
 import com.com.aparteone.dto.request.auth.LoginRequest;
 import com.com.aparteone.dto.request.auth.RegisterApartmentRequest;
@@ -183,9 +186,35 @@ public class AuthServiceImpl implements AuthService {
         log.info("Request: {}", request);
         UserResponse response = new UserResponse();
         try {
-            authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             var user = userRepo.findByEmail(request.getEmail()).orElseThrow();
+            
+            String role = null;
+            Object profile = null;
+            String isActive = "Active";
+            if (user.getRoleId() == AparteoneConstant.ROLE_ID_ADMIN) {
+                role = AparteoneConstant.ROLE_ADMIN;
+            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_MANAGEMENT) {
+                role = AparteoneConstant.ROLE_MANAGEMENT;
+                profile = apartmentService.getApartmentById(user.getId());
+                ApartmentResponse apartment = (ApartmentResponse) profile;
+                isActive = apartment.getIsActive();
+            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_RESIDENT) {
+                role = AparteoneConstant.ROLE_RESIDENT;
+                profile = residentService.getResidentById(user.getId());
+                ResidentResponse resident = (ResidentResponse) profile;
+                isActive = resident.getIsActive();
+            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_MERCHANT) {
+                role = AparteoneConstant.ROLE_MERCHANT;
+                profile = merchantService.getMerchantById(user.getId());
+                MerchantResponse merchant = (MerchantResponse) profile;
+                isActive = merchant.getIsActive();
+            }
+
+            if(isActive.equals("false")) {
+                throw new Exception("User is not active");
+            }
+
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             log.info("User-{} | jwt-{} | refreshToken-{}", user, jwt, refreshToken);
@@ -194,26 +223,9 @@ public class AuthServiceImpl implements AuthService {
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Signed In");
-
             response.setId(user.getId());
-
             response.setEmail(user.getEmail());
             response.setPhone(user.getPhone());
-
-            String role = null;
-            Object profile = null;
-            if (user.getRoleId() == AparteoneConstant.ROLE_ID_ADMIN) {
-                role = AparteoneConstant.ROLE_ADMIN;
-            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_MANAGEMENT) {
-                role = AparteoneConstant.ROLE_MANAGEMENT;
-                profile = apartmentService.getApartmentById(user.getId());
-            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_RESIDENT) {
-                role = AparteoneConstant.ROLE_RESIDENT;
-                profile = residentService.getResidentById(user.getId());
-            } else if (user.getRoleId() == AparteoneConstant.ROLE_ID_MERCHANT) {
-                role = AparteoneConstant.ROLE_MERCHANT;
-                profile = merchantService.getMerchantById(user.getId());
-            }
             response.setRole(role);
             response.setProfile(profile);
 
@@ -227,24 +239,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void logout() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'logout'");
-    }
+    public UserResponse getUserById(Integer userId) {
+        User user = userRepo.findById(userId).orElse(null);
+        UserResponse response = null;
+        if(user != null) {
+            response = new UserResponse();
+            response.setId(user.getId());
+            response.setEmail(user.getEmail());
+            response.setPhone(user.getPhone());
 
-    public UserResponse refreshToken(UserResponse refreshTokenRequest) {
-        UserResponse response = new UserResponse();
-        String email = jwtUtils.extractUsername(refreshTokenRequest.getToken());
-        User user = userRepo.findByEmail(email).orElseThrow();
-        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), user)) {
-            var jwt = jwtUtils.generateToken(user);
-            response.setStatusCode(200);
-            response.setToken(jwt);
-            response.setRefreshToken(refreshTokenRequest.getToken());
-            response.setExpirationTime("24Hr");
-            response.setMessage("Successfully Refreshed Token");
+            if(user.getRoleId() == AparteoneConstant.ROLE_ID_ADMIN) {
+                response.setRole(AparteoneConstant.ROLE_ADMIN);
+            } else if(user.getRoleId() == AparteoneConstant.ROLE_ID_MERCHANT) {
+                response.setRole(AparteoneConstant.ROLE_MERCHANT);
+                response.setProfile(merchantService.getMerchantById(user.getId()));
+            } else if(user.getRoleId() == AparteoneConstant.ROLE_ID_RESIDENT) {
+                response.setRole(AparteoneConstant.ROLE_RESIDENT);
+                response.setProfile(residentService.getResidentById(user.getId()));
+            } else if(user.getRoleId() == AparteoneConstant.ROLE_ID_MANAGEMENT) {
+                response.setRole(AparteoneConstant.ROLE_MANAGEMENT);
+                response.setProfile(apartmentService.getApartmentById(user.getId()));
+            }
         }
-        response.setStatusCode(500);
-        return response;
+        return response; 
     }
 }

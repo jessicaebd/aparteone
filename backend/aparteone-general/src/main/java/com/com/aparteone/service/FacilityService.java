@@ -31,4 +31,6 @@ public interface FacilityService {
     public FacilityRequestResponse getFacilityRequestById(Integer facilityRequestId);
     public FacilityRequest addFacilityRequest(FacilityReserveRequest facilityReserveRequest);
     public FacilityRequest updateFacilityRequestStatus(Integer facilityRequestId, String status);
+
+    public Integer countFacilityRequestByResidentId(Integer residentId);
 }

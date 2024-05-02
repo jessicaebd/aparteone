@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <ng-container *ngIf="user.role=='Resident'">
         <div class="row mb-3">
             <app-label labelInput="Facility" labelType="title"></app-label>
@@ -6,15 +6,14 @@
         </div>
 
         <!-- Category -->
-        <!-- <div class="facility-category shadow-sm border p-3 mb-5" style="border-radius: 2vh;">
+        <div class="facility-category shadow-sm border p-3 mb-5" style="border-radius: 2vh;">
             <div class="subtitle px-3 py-2 mb-3">
                 <app-label labelInput="Choose Your Apartment Facility" labelType="title"></app-label>
             </div>
             <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-facility-category>
-        </div> -->
+        </div>
 
         <!-- Facility Request History -->
-
         <div class="facility-list shadow-sm border p-3" style="border-radius: 2vh;">
             <div class="subtitle px-3 py-2 mb-3">
                 <app-label labelInput="Request History" labelType="title"></app-label>
@@ -23,39 +22,33 @@
         </div>
     </ng-container>
 
+    <!-- Management -->
     <ng-container *ngIf="user.role=='Management'">
         <div class="row mb-3">
-            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left"
-                (onClickEvent)="backButton()"></app-text-button>
-            <app-label labelInput="Facility" labelType="title"></app-label>
-            <app-label labelInput="Book Facility" labelType="label"></app-label>
+            <div class="col-6 row">
+                <app-label labelInput="Facility" labelType="title"></app-label>
+                <app-label labelInput="Manage facility category & requests" labelType="label"></app-label>
+            </div>
         </div>
-        <div class="facility-list">
-            <div class="d-flex justify-content-between subtitle mb-2">
-                <app-label labelInput="FACILITY CATEGORY" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Category" data-bs-toggle="modal"
+
+        <div class="facility-list mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
+            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
+                <app-label labelInput="Category" labelType="title"></app-label>
+                <app-button buttonLabel="+ Add Category" data-bs-toggle="modal"
                     data-bs-target="#modalAddCategory"></app-button>
             </div>
-            <div class="py-2">
-                <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)"
-                    [pageIndex]="pageCategory" [pageSize]="sizeCategory" [length]="allDataCategory"
-                    (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
-            </div>
+            <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center"
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
+                actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)"
+                [pageIndex]="pageCategory" [pageSize]="sizeCategory" [length]="allDataCategory"
+                (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
         </div>
-        <div class="facility-request-list mt-5">
+
+        <div class="facility-request-list mt-5 mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between subtitle mb-2">
-                <app-label labelInput="LIST FACILITY REQUEST" labelType="subtitle"></app-label>
-                <app-button buttonLabel="View All" (onClickEvent)="goToAllFacilityPage()"></app-button>
+                <app-label labelInput="Resident Requests" labelType="title"></app-label>
             </div>
-            <div class="py-2">
-                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal"
-                    actionTarget="modalViewRequest" [pagination]="false" [filter]="false"
-                    (onClickActionEvent)="onListItemClick('request', $event)"
-                    (onPageIndexEvent)="onLoadData('request', $event)" [errorMsg]="errorMsgRequest"></app-table>
-            </div>
+            <app-facility-all-request></app-facility-all-request>
         </div>
 
         <!-- Modal -->

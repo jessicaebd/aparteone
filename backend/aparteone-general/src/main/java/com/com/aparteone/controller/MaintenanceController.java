@@ -2,7 +2,6 @@ package com.com.aparteone.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,10 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/maintenance")
 public class MaintenanceController {
-
     @Autowired
     private MaintenanceService maintenanceService;
 
@@ -64,7 +61,7 @@ public class MaintenanceController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer apartmentId) {
@@ -78,7 +75,7 @@ public class MaintenanceController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "ASC") String sortDir,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam Integer residentId) {
@@ -111,4 +108,9 @@ public class MaintenanceController {
         return ResponseEntity.ok(maintenanceRequest);
     }
 
+    @GetMapping("/request/count")
+    public ResponseEntity<Integer> countMaintenanceRequestByResidentId(@RequestParam Integer residentId) {
+        log.info("[Maintenance] Count Maintenance Request By ResidentId: residentId-{}", residentId);
+        return ResponseEntity.ok(maintenanceService.countMaintenanceRequestByResidentId(residentId));
+    }
 }

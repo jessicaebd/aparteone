@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="approval-apartment mb-3 shadow-sm p-3 mt-4" style="border-radius: 2vh;">
+        <div class="pb-2">
+            <app-table [dataTable]="tableApartmentApproval" [columns]="colApartmentApproval" headerAlignment="center"
+                iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
+                actionTarget="modalApartmentDetail" (onClickActionEvent)="onListItemClick('apartment', $event)"
+                [length]="allDataApartmentApproval" [pageIndex]="pageApartmentApproval" [pageSize]="sizeApartment"
+                (onPageIndexEvent)="onLoadData('approval', $event)" [errorMsg]="errorMsgApartmentApproval"></app-table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <app-modal modalID="modalApartmentDetail" [width]="600" [modalContent]="modalApartmentDetail"></app-modal>
+
+    <ng-template #modalApartmentDetail>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Apartment Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                #closeModalApartment></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+            <div class="container">
+                <app-apartment-detail [data]="dataApartment"
+                    (onSubmitEvent)="redirect('apartment')"></app-apartment-detail>
+            </div>
+        </div>
+    </ng-template>
+</div>

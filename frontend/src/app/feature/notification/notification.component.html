@@ -1,24 +1,14 @@
-<div class="container">
-    <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
-        <app-label labelInput="NOTIFICATION" labelType="title"></app-label>
-        <app-label labelInput="Newest Information" labelType="label"></app-label>
-    </div>
-    <div class="accordion" id="announcementParent">
-        <ng-container *ngFor="let item of data">
-            <div class="accordion-item mb-3">
-                <div class="accordion-button" type="button" aria-expanded="true">
-                    <div class="header-button w-100">
-                        <div class="row">
-                            <h6 class="col">{{ item.title }}</h6>
-                            <div class="col-2 d-flex justify-content-end">
-                                <span>{{ item.createdDate }}</span>
-                            </div>
-                        </div>
-                        <app-label labelType="span" [labelInput]="item.message"></app-label>
-                    </div>
-                </div>
+<div class="row">
+    <ng-container *ngFor="let item of data">
+        <div class="p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6>{{ item.title }}</h6>
+                <span class="text-end text-secondary fw-semibold" style="font-size: 12px;">{{ item.createdDate
+                    }}</span>
             </div>
-        </ng-container>
-    </div>
+            <div class="row">
+                <app-label labelInput="{{ item.message }}" labelType="span"></app-label>
+            </div>
+        </div>
+    </ng-container>
 </div>

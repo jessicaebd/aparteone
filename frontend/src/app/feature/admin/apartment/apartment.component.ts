@@ -47,7 +47,12 @@ export class ApartmentComponent {
     this.apps.loadingPage(true);
     this.errorMsgApartment = '';
     this.errorMsgApartmentApproval = '';
-    this.colApartment = [{name: 'name', displayName: 'Apartment'}, {name: 'province', displayName: 'Province'}, {name: 'city', displayName: 'City'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    this.colApartment = [
+      {name: 'name', displayName: 'Name'}, 
+      {name: 'province', displayName: 'Province'}, 
+      {name: 'city', displayName: 'City'}, 
+      {name: 'isActive', displayName:'Status'}, 
+      {name:"ActionCol", displayName:"Action", align:"center"}];
     if(this.user.role=='Admin'){
       this.colApartmentApproval = [{name: 'name', displayName: 'Apartment'}, {name: 'province', displayName: 'Province'}, {name: 'city', displayName: 'City'}, {name: 'isApproved', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){

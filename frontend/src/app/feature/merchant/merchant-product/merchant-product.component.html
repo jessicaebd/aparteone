@@ -7,31 +7,37 @@
     </div>
     <div class="d-flex w-25 me-3 mb-3">
         <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
-        <div class="d-flex justify-content-center align-items-center rounded ms-1" style="background-color: var(--primary-purple); height: 38px;">
+        <div class="d-flex justify-content-center align-items-center rounded ms-1"
+            style="background-color: var(--primary-purple); height: 38px;">
             <app-text-button iconEnd="bi bi-search" type="white" (onClickEvent)="onSearchData()"></app-text-button>
         </div>
     </div>
 </div>
 <div class="product-card ms-2">
-    <ng-container *ngFor="let item of productList">
-        <button class="card ms-2 me-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)">
-            <img class="card-img-top" [src]="item.image" alt="...">
-            <div class="card-body w-100">
-                <div class="d-flex justify-content-between">
-                    <h5 class="card-title text-truncate mb-0">{{ item.name }}</h5>
+    <div class="row">
+        <ng-container *ngFor="let item of productList">
+            <button class="col-4 col-md-4 card" data-bs-toggle="modal" data-bs-target="#modalProductDetail"
+                (click)="onProductClick(item)">
+                <img class="card-img-top" [src]="item.image" alt="...">
+                <div class="card-body w-100 mt-2">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-title text-truncate mb-0">{{ item.name }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="card-text text-start mb-0 text-secondary">Rp {{ item.price }}</p>
+                        <ng-container *ngIf="item.quantity > 0; else addButton">
+                            <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">{{
+                                item.quantity }}</p>
+                        </ng-container>
+                        <ng-template #addButton>
+                            <button class="fs-4 border-0 mb-0" style="background-color: var(--white);"><i
+                                    class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
+                        </ng-template>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <p class="card-text text-start mb-0">{{ item.price }}</p>
-                    <ng-container *ngIf="item.quantity > 0; else addButton">
-                        <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">{{ item.quantity }}</p>
-                    </ng-container>
-                    <ng-template #addButton>
-                        <button class="fs-4 border-0" style="background-color: var(--white);"><i class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
-                    </ng-template>
-                </div>
-            </div>
-        </button>
-    </ng-container>
+            </button>
+        </ng-container>
+    </div>
 
     <!-- Modal -->
     <app-modal modalID="modalProductDetail" [width]="400" [modalContent]="modalProductDetail"></app-modal>
@@ -45,23 +51,29 @@
             <ng-container *ngIf="productOpen">
                 <div class="w-100">
                     <div class="d-flex justify-content-center product-img mb-2">
-                        <img class="rounded" [src]="productOpen.image" alt="" style="width: 100%; object-fit: cover; height: 15rem">
+                        <img class="rounded" [src]="productOpen.image" alt=""
+                            style="width: 100%; object-fit: cover; height: 15rem">
                     </div>
                     <div class="container">
                         <div class="row mb-1">
                             <div class="col-9">
-                                <app-label class="text-break" labelType="subtitle" [labelInput]="productOpen.name"></app-label>
+                                <app-label class="text-break" labelType="subtitle"
+                                    [labelInput]="productOpen.name"></app-label>
                             </div>
                             <div class="col text-end">
-                                <app-label class="text-break" labelType="subtitle" [labelInput]="productOpen.price"></app-label>
+                                <app-label class="text-break" labelType="subtitle"
+                                    [labelInput]="productOpen.price"></app-label>
                             </div>
                         </div>
-                        <app-label class="text-break" labelType="span" [labelInput]="productOpen.description"></app-label>
+                        <app-label class="text-break" labelType="span"
+                            [labelInput]="productOpen.description"></app-label>
                         <div class="my-2">
-                            <app-textarea inputPlaceholder="Notes..." [value]="productOpen.notes" (onChangeEvent)="productOpen.notes=$event"></app-textarea>
+                            <app-textarea inputPlaceholder="Notes..." [value]="productOpen.notes"
+                                (onChangeEvent)="productOpen.notes=$event"></app-textarea>
                         </div>
                         <div class="d-flex justify-content-center mt-3">
-                            <app-add-item [counter]="counterProduct" (onCounterEvent)="counterProduct=$event"></app-add-item>
+                            <app-add-item [counter]="counterProduct"
+                                (onCounterEvent)="counterProduct=$event"></app-add-item>
                         </div>
                     </div>
                 </div>
@@ -70,11 +82,12 @@
                         <app-button buttonLabel="Save" (onClickEvent)="saveOrder()"></app-button>
                     </div>
                 </ng-container>
-                
+
                 <ng-template #deleteCart>
                     <div class="d-flex justify-content-center mt-3">
                         <ng-container *ngIf="flagCart; else noDeleteCart">
-                            <app-button buttonLabel="Delete" buttonClass="danger" (onClickEvent)="deleteOrder()"></app-button>
+                            <app-button buttonLabel="Delete" buttonClass="danger"
+                                (onClickEvent)="deleteOrder()"></app-button>
                         </ng-container>
                         <ng-template #noDeleteCart>
                             <app-button buttonLabel="Back" (onClickEvent)="redirect()"></app-button>

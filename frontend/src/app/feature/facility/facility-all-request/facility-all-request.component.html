@@ -1,30 +1,20 @@
-<div class="container">
-    <div class="row mb-3">
-        <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="onBackButton()"></app-text-button>
-        <app-label labelInput="Facility" labelType="title"></app-label>
-        <app-label labelInput="Book Facility" labelType="label"></app-label>
-    </div>
-    <div class="facility-request-list mt-3">
-        <div class="d-flex justify-content-between subtitle mb-2">
-            <app-label labelInput="LIST FACILITY REQUEST" labelType="subtitle"></app-label>
-        </div>
-        <div class="py-2">
-            <app-table [dataTable]="table" [columns]="col" headerAlignment="center" iconStart="bi bi-eye-fill" label="View" type="primary" 
-                    actionToggle="modal"  actionTarget="modalViewRequest" [length]="allDataCount" [pageIndex]="page" [pageSize]="size" prefix="#FCT00"
-                    (onClickActionEvent)="onListItemClick($event)" (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)" [errorMsg]="errorMsg"></app-table>
-        </div>
-    </div>
-    
-    <!-- Modal -->
-    <app-modal modalID="modalViewRequest" [width]="600" [modalContent]="modalViewRequest"></app-modal>
-
-    <ng-template #modalViewRequest>
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Book Facility</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
-        </div>
-        <div class="modal-body d-flex col justify-content-center">
-            <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="redirect()"></app-facility-detail-request>
-        </div>
-    </ng-template>
+<div class="py-2">
+    <app-table [dataTable]="table" [columns]="col" headerAlignment="center" iconStart="bi bi-eye-fill" label="View"
+        type="primary" actionToggle="modal" actionTarget="modalViewRequest" [length]="allDataCount" [pageIndex]="page"
+        [pageSize]="size" prefix="#FCT00" (onClickActionEvent)="onListItemClick($event)"
+        (onPageIndexEvent)="onLoadData($event)" (onSearchEvent)="onSearchData($event)"
+        [errorMsg]="errorMsg"></app-table>
 </div>
+
+<!-- Modal -->
+<app-modal modalID="modalViewRequest" [width]="600" [modalContent]="modalViewRequest"></app-modal>
+
+<ng-template #modalViewRequest>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Book Facility</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <app-facility-detail-request [data]="dataRequest" (onSubmitEvent)="redirect()"></app-facility-detail-request>
+    </div>
+</ng-template>

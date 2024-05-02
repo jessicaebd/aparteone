@@ -31,9 +31,9 @@ public class MerchantController {
         @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
         @RequestParam(required = false) Boolean isActive,
-        @RequestParam(required = false) Boolean isApproved,
+        @RequestParam(required = false) String isApproved,
         @RequestParam(required = false) Integer apartmentId){
-        log.info("[Admin][Merchant] Get Merchant List: apartmentId-{} | isActive-{} | isApproved-{}", apartmentId, isActive, isApproved);
+        log.info("[Merchant] Get Merchant List: apartmentId-{} | isActive-{} | isApproved-{}", apartmentId, isActive, isApproved);
         PageResponse<MerchantResponse> response = merchantService.getMerchantList(page, size, sortBy, sortDir, isActive, isApproved, apartmentId);
         return ResponseEntity.ok(response);
     }
@@ -47,14 +47,14 @@ public class MerchantController {
         @RequestParam(required = false) Integer apartmentId,
         @RequestParam(required = false) Boolean isActive,
         @RequestParam(required = false) String search){
-        log.info("[Admin][Merchant] Search Merchant: apartmentId-{} | search-{}", apartmentId, search);
+        log.info("[Merchant] Search Merchant: apartmentId-{} | search-{}", apartmentId, search);
         PageResponse<MerchantResponse> response = merchantService.searchMerchant(page, size, sortBy, sortDir, apartmentId, isActive, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail")
     public ResponseEntity<MerchantResponse> getMerchantDetail(@RequestParam Integer merchantId){
-        log.info("[Admin][Merchant] Get Merchant Detail: merchantId-{}", merchantId);
+        log.info("[Merchant] Get Merchant Detail: merchantId-{}", merchantId);
         MerchantResponse response = merchantService.getMerchantById(merchantId);
         return ResponseEntity.ok(response);
     }
@@ -63,7 +63,7 @@ public class MerchantController {
     public ResponseEntity<Merchant> approveMerchant(
         @RequestParam Integer merchantId,
         @RequestParam Boolean isApproved){
-        log.info("[Admin][Merchant] Approve Merchant: merchantId-{} | isApproved-{}", merchantId, isApproved);
+        log.info("[Merchant] Approve Merchant: merchantId-{} | isApproved-{}", merchantId, isApproved);
         Merchant response = merchantService.approveMerchant(merchantId, isApproved);
         return ResponseEntity.ok(response);
     }
@@ -76,5 +76,11 @@ public class MerchantController {
         log.info("[Merchant] Update Merchant: merchantId-{} | isActive-{} | merchantRequest-{}", merchantId, isActive, merchantRequest.toString());
         Merchant response = merchantService.updateMerchant(merchantId, isActive, merchantRequest);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> countMerchantByApartmentId(@RequestParam Integer apartmentId){
+        log.info("[Merchant] Count Merchant By Apartment Id: apartmentId-{}", apartmentId);
+        return ResponseEntity.ok(merchantService.countMerchantByApartmentId(apartmentId));
     }
 }

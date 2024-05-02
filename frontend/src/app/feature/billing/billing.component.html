@@ -1,11 +1,11 @@
-<div class="container">
-    <div class="row mb-3">
-        <app-label labelInput="Bills" labelType="title"></app-label>
-        <app-label labelInput="Your Bills & Payment Information" labelType="label"></app-label>
-    </div>
-
+<div class="container-fluid">
     <!-- Resident -->
     <ng-container *ngIf="user.role=='Resident'">
+        <div class="row mb-3">
+            <app-label labelInput="Bills" labelType="title"></app-label>
+            <app-label labelInput="Your Bills & Payment Information" labelType="label"></app-label>
+        </div>
+
         <div class="mailbox-list shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between mb-3">
                 <!-- Filter -->
@@ -46,10 +46,17 @@
 
     <!-- Management -->
     <ng-container *ngIf="user.role=='Management'">
-        <div class="billing-list">
+        <div class="row mb-3">
+            <div class="col-6 row">
+                <app-label labelInput="Bills" labelType="title"></app-label>
+                <app-label labelInput="Manage bills & payments" labelType="label"></app-label>
+            </div>
+        </div>
+
+        <div class="billing-list mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="BILLING CATEGORY" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Category" data-bs-toggle="modal"
+                <app-label labelInput="Category" labelType="title"></app-label>
+                <app-button buttonLabel="+ Add Category" data-bs-toggle="modal"
                     data-bs-target="#modalAddCategory"></app-button>
             </div>
             <div class="py-2">
@@ -61,22 +68,16 @@
                     [errorMsg]="errorMsgCategory"></app-table>
             </div>
         </div>
-        <div class="billing-request-list mt-5">
+
+        <div class="billing-request-list mt-5 mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="LIST BILLING" labelType="subtitle"></app-label>
+                <app-label labelInput="Resident Bills" labelType="title"></app-label>
                 <div>
-                    <app-button class="me-2" buttonLabel="Add Payment" data-bs-toggle="modal"
+                    <app-button class="me-2" buttonLabel="+ Add Bill" data-bs-toggle="modal"
                         data-bs-target="#modalAddPayment" (onClickEvent)="onAddPayment()"></app-button>
-                    <app-button buttonLabel="View All" buttonClass="outline-primary"
-                        (onClickEvent)="goToAllPaymentPage()"></app-button>
                 </div>
             </div>
-            <div class="py-2">
-                <app-table [dataTable]="tableRequest" [columns]="colRequest" headerAlignment="center"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalRequestDetail" (onClickActionEvent)="onListItemClick('request', $event)"
-                    [pagination]="false" [errorMsg]="errorMsgRequest"></app-table>
-            </div>
+            <app-billing-all></app-billing-all>
         </div>
 
         <!-- Modal -->

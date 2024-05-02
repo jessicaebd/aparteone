@@ -14,7 +14,8 @@ import { AppService } from 'src/app/app.service';
 })
 export class FacilityComponent {
   user = this.appService.retrieveUser();
-
+  
+  page: string = 'category';
   listCategory!: any;
   errorListCategory: string = '';
   tableCategory: any;
@@ -50,7 +51,7 @@ export class FacilityComponent {
     this.errorMsgRequest = '';
     if(this.user.role == 'Management'){
       this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.colCategory = [{name: 'category', displayName: 'Category Name'}, {name: 'description', displayName: 'Description'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      this.colCategory = [{name: 'category', displayName: 'Name'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getFacilityCategory(this.user.id, this.sizeCategory, this.pageCategory);
       this.getFacilityApartmentRequest(this.user.id, 5, 0);
@@ -235,7 +236,6 @@ export class FacilityComponent {
   goToAllFacilityPage(){
     window.location.replace('/facility/all');
   }
-
   
   // setFacilityCategory(response:any): Promise<any>{
   //   return new Promise<any> (resolve => {

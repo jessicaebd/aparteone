@@ -59,13 +59,19 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public PageResponse<ApartmentResponse> getApartmentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved) {
+    public PageResponse<ApartmentResponse> getApartmentList(int page, int size, String sortBy, String sortDir, Boolean isActive, String isApproved) {
         Specification<Apartment> spec = Specification.where(null);
         if (isActive != null) {
             spec = spec.and(ApartmentSpecification.isActive(isActive));
         }
         if (isApproved != null) {
-            spec = spec.and(ApartmentSpecification.isApproved(isApproved));
+            if(isApproved.equals(AparteoneConstant.STATUS_PENDING)) {
+                spec = spec.and(ApartmentSpecification.isNotApproved());
+            } else if(isApproved.equals(AparteoneConstant.STATUS_APPROVED)) {
+                spec = spec.and(ApartmentSpecification.isApproved(true));
+            } else if(isApproved.equals(AparteoneConstant.STATUS_REJECTED)) {
+                spec = spec.and(ApartmentSpecification.isApproved(false));
+            }
         }
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<Apartment> apartments = apartmentRepo.findAll(spec, pageable);
@@ -163,12 +169,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public Integer getApartmentTotal(String criteria) {
-        Specification<Apartment> spec = Specification.where(null);
-        if (criteria != null) {
-            spec = spec.and(ApartmentSpecification.isActive(true));
-        }
-        return (int) apartmentRepo.count(spec);
+    public Integer getApartmentTotal() {
+        return (int) apartmentRepo.count();
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/facility")
 public class FacilityController {
     @Autowired
@@ -103,8 +101,8 @@ public class FacilityController {
     @GetMapping("/request/resident")
     public ResponseEntity<PageResponse<FacilityRequestResponse>> getResidentFacilityRequestList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,
@@ -117,8 +115,8 @@ public class FacilityController {
     @GetMapping("/request/apartment")
     public ResponseEntity<PageResponse<FacilityRequestResponse>> getFacilityRequestByApartmentId(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "40") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "created_date") String sortBy,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search,
@@ -142,5 +140,11 @@ public class FacilityController {
         log.info("[Facility] Update Facility Request Status: facilityRequestId-{} | status-{}", facilityRequestId, status);
         FacilityRequest facilityRequest = facilityService.updateFacilityRequestStatus(facilityRequestId, status);
         return ResponseEntity.ok(facilityRequest);
+    }
+
+    @GetMapping("/request/count")
+    public ResponseEntity<Integer> countFacilityRequestByResidentId(@RequestParam Integer residentId) {
+        log.info("[Facility] Count Facility Request By Resident Id: residentId-{}", residentId);
+        return ResponseEntity.ok(facilityService.countFacilityRequestByResidentId(residentId));
     }
 }

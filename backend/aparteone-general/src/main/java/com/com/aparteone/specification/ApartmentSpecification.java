@@ -18,6 +18,10 @@ public class ApartmentSpecification {
         return (root, query, builder) -> builder.equal(root.get("isApproved"), isApproved);
     }
 
+    public static Specification<Apartment> isNotApproved() {
+        return (root, query, builder) -> builder.isNull(root.get("isApproved"));
+    }
+
     public static Specification<ApartmentUnit> hasApartmentId(Integer apartmentId) {
         return (root, query, builder) -> builder.equal(root.get("apartmentId"), apartmentId);
     }

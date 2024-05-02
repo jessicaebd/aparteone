@@ -38,7 +38,11 @@ export class MerchantComponent implements OnInit{
     this.apps.loadingPage(true);
     this.errorMsgMerchant = '';
     this.errorMsgList = '';
-    this.colList = [{name: 'category', displayName: 'Merchant Category'}, {name: 'name', displayName: 'Merchant Name'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+    this.colList = [
+      {name: 'name', displayName: 'Name'}, 
+      {name: 'category', displayName: 'Category'}, 
+      {name: 'isActive', displayName: 'Status'}, 
+      {name:"ActionCol", displayName:"Action", align:"center"}];
     if(this.user.role=='Management'){
       this.colMerchant = [{name: 'category', displayName: 'Merchant Category'}, {name: 'name', displayName: 'Merchant Name'}, {name: 'isApproved', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.getMerchantApartment(this.user.id, this.sizeMerchant, this.pageMerchant, false);

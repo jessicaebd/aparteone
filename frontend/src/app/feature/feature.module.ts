@@ -77,6 +77,8 @@ import { UnitDetailComponent } from './admin/unit-detail/unit-detail.component';
 import { UnitAddComponent } from './admin/unit-add/unit-add.component';
 import { NotificationComponent } from './notification/notification.component';
 import { RegisterComponent } from './register/register.component';
+import { ApartmentNeedApprovalComponent } from './admin/apartment-need-approval/apartment-need-approval.component';
+import { CheckoutComponent } from './merchant/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +146,8 @@ import { RegisterComponent } from './register/register.component';
     UnitAddComponent,
     NotificationComponent,
     RegisterComponent,
+    ApartmentNeedApprovalComponent,
+    CheckoutComponent,
   ],
   imports: [
     CommonModule,
@@ -211,6 +215,8 @@ import { RegisterComponent } from './register/register.component';
     ApartmentComponent,
     NotificationComponent,
     RegisterComponent,
+    ApartmentNeedApprovalComponent,
+    CheckoutComponent,
   ],
   providers:[]
 })

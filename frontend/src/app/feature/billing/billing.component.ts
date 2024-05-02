@@ -16,6 +16,7 @@ export class BillingComponent implements OnInit{
   user = this.appService.retrieveUser();
 
   filter: string = '';
+  page: string = 'category';
   listCategory!: any;
   errorListCategory: string = '';
   tableCategory: any;
@@ -301,5 +302,9 @@ export class BillingComponent implements OnInit{
 
   goToAllPaymentPage(){
     window.location.replace('/billing/all');
+  }
+
+  showPage(f:string) {
+    this.page = f;
   }
 }

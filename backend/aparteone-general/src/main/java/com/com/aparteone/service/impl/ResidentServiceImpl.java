@@ -66,7 +66,7 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, Boolean isApproved, Integer apartmentId) {
+    public PageResponse<ResidentResponse> getResidentList(int page, int size, String sortBy, String sortDir, Boolean isActive, String isApproved, Integer apartmentId) {
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Specification<Resident> spec = Specification.where(null);
         if (isActive != null) {
@@ -76,7 +76,13 @@ public class ResidentServiceImpl implements ResidentService {
             spec = spec.and(ResidentSpecification.hasApartmentId(apartmentId));
         }
         if (isApproved != null) {
-            spec = spec.and(ResidentSpecification.isApproved(isApproved));
+            if(isApproved.equals(AparteoneConstant.STATUS_PENDING)) {
+                spec = spec.and(ResidentSpecification.isNotApproved());
+            } else if(isApproved.equals(AparteoneConstant.STATUS_APPROVED)) {
+                spec = spec.and(ResidentSpecification.isApproved(true));
+            } else if(isApproved.equals(AparteoneConstant.STATUS_REJECTED)) {
+                spec = spec.and(ResidentSpecification.isApproved(false));
+            }
         }
         Page<Resident> residents = residentRepo.findAll(spec, pageable);
 
@@ -155,5 +161,10 @@ public class ResidentServiceImpl implements ResidentService {
             }
         }
         return residentRepo.save(resident);
+    }
+
+    @Override
+    public Integer countResidentByApartmentId(Integer apartmentId) {
+        return residentRepo.countByApartmentId(apartmentId);
     }
 }
