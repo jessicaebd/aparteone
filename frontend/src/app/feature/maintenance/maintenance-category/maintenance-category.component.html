@@ -5,18 +5,14 @@
 </ng-container>
 
 <ng-template #list>
-    <div class="maintenance-category d-flex w-100 overflow-auto p-1">
+    <div class="maintenance-category row d-flex w-100 overflow-auto px-4 rounded">
         <ng-container *ngFor="let item of listCategory">
-            <ng-container *ngIf="item.isActive=='Active'">
-                <!-- <div class="category-card me-3">
-                    <button class="card justify-content-between" data-bs-toggle="modal" data-bs-target="#modalNewRequest" (click)="onCategoryClick(item)">
-                        <img class="card-img-top" [src]="item.image" alt="...">
-                        <div class="card-title w-100">
-                          <h5>{{ item.category }}</h5>
-                        </div>
-                    </button>
-                </div> -->
-            </ng-container>
+            <button class="card col-2 m-2 justify-content-between" data-bs-toggle="modal" data-bs-target="#modalNewRequest" (click)="onCategoryClick(item)">
+                <img class="card-img-top" [src]="item.image" alt="...">
+                <div class="card-title w-100">
+                    <h5>{{ item.category }}</h5>
+                </div>
+            </button>
         </ng-container>
     
         <!-- Modal -->

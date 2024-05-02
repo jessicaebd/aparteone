@@ -204,7 +204,6 @@ export class FacilityComponent {
     console.log("Onload Page Index: ", e);
     if(type=='category'){
       this.pageCategory = e;
-      // this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       // this.pageRequest = e;

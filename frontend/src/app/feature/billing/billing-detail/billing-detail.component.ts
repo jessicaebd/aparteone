@@ -11,7 +11,7 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./billing-detail.component.css']
 })
 export class BillingDetailComponent {
-  residentId = 4;
+  user = this.appService.retrieveUser();
   @Input() data: Billing = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
@@ -60,7 +60,7 @@ export class BillingDetailComponent {
   }
 
   async onRemind(){
-    let result = await this.sendBillingNotification(this.residentId, this.data['id']);
+    let result = await this.sendBillingNotification(this.user.id, this.data['id']);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

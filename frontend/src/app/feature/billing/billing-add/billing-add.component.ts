@@ -4,6 +4,7 @@ import { BillingService } from '../service/billing.service';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
 import { AppComponent } from 'src/app/app.component';
 import { Billing } from '../billing.interface';
+import { AppService } from 'src/app/app.service';
 
 
 @Component({
@@ -12,18 +13,18 @@ import { Billing } from '../billing.interface';
   styleUrls: ['./billing-add.component.css']
 })
 export class BillingAddComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   data: Billing = {};
   paymentCategory: listItems[] = [];
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private billingService: BillingService, private apps: AppComponent){}
+  constructor(private billingService: BillingService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.data = {};
     this.paymentCategory = [];
-    let category = await this.getBillingActiveCategory(this.apartmentId, true);
+    let category = await this.getBillingActiveCategory(this.user.id, true);
     this.setDropdown(category);
   }
 

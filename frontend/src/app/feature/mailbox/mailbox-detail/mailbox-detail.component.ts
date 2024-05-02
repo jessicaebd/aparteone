@@ -11,7 +11,7 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./mailbox-detail.component.css']
 })
 export class MailboxDetailComponent {
-  residentId = 4;
+  user = this.appService.retrieveUser();
   @Input() data: Mailbox = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
@@ -46,7 +46,7 @@ export class MailboxDetailComponent {
   }
 
   async onRemind(){
-    let result = await this.sendMailboxNotification(this.residentId, this.data['id']);
+    let result = await this.sendMailboxNotification(this.user.id, this.data['id']);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 

@@ -204,43 +204,13 @@ export class MaintenanceComponent implements OnInit{
     console.log("Onload Page Index: ", e);
     if(type=='category'){
       this.pageCategory = e;
-      // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       // this.getMaintenanceAllRequest(1, 10, e);
     }
     this.ngOnInit();
   }
-
-  // async onSortData(type:any, e:any){
-  //   console.log("OnSort: ", e);
-  //   let arr = await this.onSplitSortEvent(type, e);
-  //   console.log(arr);
-  //   if(type=='category'){
-  //     this.pageCategory = 0;
-  //     // this.getMaintenanceCategoryApartment(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-  //   }
-  //   else if(type=='request'){
-  //     // this.getMaintenanceAllRequest(1, 10, 0);
-  //   }
-  //   this.ngOnInit();
-  // }
-
-  // onSplitSortEvent(type:any, e:any): Promise<any>{
-  //   return new Promise<any> (resolve => {
-  //     let arr = e.split(";", 2); 
-  //     if(type=='category'){
-  //       this.sortCatCol = arr[0];
-  //       this.sortCatDir = arr[1];
-  //     }
-  //     else if(type=='request'){
-  //       this.sortReqCol = arr[0];
-  //       this.sortReqDir = arr[1];
-  //     }
-  //     resolve(arr);
-  //   });
-  // }
-
+  
   backButton(){
     this.location.back();
   }

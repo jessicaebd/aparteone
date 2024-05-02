@@ -4,6 +4,7 @@ import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
 import { Mailbox } from '../mailbox.interface';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-mailbox-add',
@@ -11,18 +12,18 @@ import { listItems } from 'src/app/shared/component/dropdown/dropdown.component'
   styleUrls: ['./mailbox-add.component.css']
 })
 export class MailboxAddComponent implements OnInit{
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   data: Mailbox = {};
   mailboxCategory: listItems[] = [];
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private mailboxService: MailboxService, private apps: AppComponent){}
+  constructor(private mailboxService: MailboxService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.data = {};
     this.mailboxCategory = [];
-    let category = await this.getMailboxActiveCategory(this.apartmentId, true);
+    let category = await this.getMailboxActiveCategory(this.user.id, true);
     this.setDropdown(category);
   }
 

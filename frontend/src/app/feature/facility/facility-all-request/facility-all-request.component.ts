@@ -3,6 +3,7 @@ import { Column } from 'src/app/shared/component/table/table.component';
 import { FacilityRequest } from '../facility.interface';
 import { FacilityService } from '../service/facility.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-facility-all-request',
@@ -10,7 +11,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./facility-all-request.component.css']
 })
 export class FacilityAllRequestComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   table: any;
   allDataCount: any;
   errorMsg: string = '';
@@ -22,24 +23,29 @@ export class FacilityAllRequestComponent {
 
   @ViewChild('closeModal') modalClose: any;
 
-  constructor(private facilityService: FacilityService, private apps: AppComponent){}
+  constructor(private facilityService: FacilityService, private apps: AppComponent, private appService: AppService){}
   
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.col = [
-      {name: 'receiptId', displayName: 'Receipt ID'}, 
-      {name: 'residentName', displayName:'Name'}, 
-      {name: 'facilityCategory', displayName: 'Category'}, 
-      {name: 'reserveDate', displayName: 'Book Date'},
-       {name: 'startTime', displayName: 'Start Time'}, 
-       {name: 'endTime', displayName: 'End Time'}, 
-       {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-    if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-      this.getFacilityApartmentRequest(this.apartmentId, this.size, this.page);
+    if(this.user.role=='Management'){
+      this.col = [
+        {name: 'receiptId', displayName: 'Receipt ID'}, 
+        {name: 'residentName', displayName:'Name'}, 
+        {name: 'facilityCategory', displayName: 'Category'}, 
+        {name: 'reserveDate', displayName: 'Book Date'},
+         {name: 'startTime', displayName: 'Start Time'}, 
+         {name: 'endTime', displayName: 'End Time'}, 
+         {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        this.getFacilityApartmentRequest(this.user.id, this.size, this.page);
+      }
+      else{
+        await this.searchFacilityApartmentRequest(this.user.id, this.size, this.page, this.keySearch);
+      }
     }
     else{
-      await this.searchFacilityApartmentRequest(this.apartmentId, this.size, this.page, this.keySearch);
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }

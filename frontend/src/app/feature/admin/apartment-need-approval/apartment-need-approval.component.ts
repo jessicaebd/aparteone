@@ -4,6 +4,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { Location } from '@angular/common';
 import { Apartment, Unit } from '../admin.interface';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-apartment-need-approval',
@@ -11,8 +12,7 @@ import { Apartment, Unit } from '../admin.interface';
   styleUrls: ['./apartment-need-approval.component.css']
 })
 export class ApartmentNeedApprovalComponent {
-  role: string = 'admin';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableApartment: any;
   tableApartmentApproval: any;
@@ -41,15 +41,14 @@ export class ApartmentNeedApprovalComponent {
   @ViewChild('closeModalUnit') modalCloseUnit: any;
   @ViewChild('closeModalUnitAdd') modalCloseAdd: any;
 
-  constructor(private location: Location, private adminService: AdminService, private apps: AppComponent){}
+  constructor(private location: Location, private adminService: AdminService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgApartment = '';
     this.errorMsgApartmentApproval = '';
-    this.role = this.apps.getUserRole();
     this.colApartment = [{name: 'name', displayName: 'Apartment'}, {name: 'province', displayName: 'Province'}, {name: 'city', displayName: 'City'}, {name: 'isActive', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-    if(this.role=='admin'){
+    if(this.user.role=='Admin'){
       this.colApartmentApproval = [{name: 'name', displayName: 'Apartment'}, {name: 'province', displayName: 'Province'}, {name: 'city', displayName: 'City'}, {name: 'isApproved', displayName:'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
         await this.getApartmentList(this.sizeApartment, this.pageApartment);
@@ -59,13 +58,13 @@ export class ApartmentNeedApprovalComponent {
       }
       await this.getApartmentListApproval(this.sizeApartmentApproval, this.pageApartmentApproval);
     }
-    else if(this.role=='management'){
+    else if(this.user.role=='Management'){
       this.colUnit = [{name: 'apartmentName', displayName: 'Apartment'}, {name: 'type', displayName: 'Type'}, {name: 'unitNumber', displayName: 'Unit Number'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearchUnit=='' || this.keySearchUnit==null || this.keySearchUnit==undefined){
-        await this.getApartmentUnitList(this.apartmentId, this.sizeUnit, this.pageUnit);
+        await this.getApartmentUnitList(this.user.id, this.sizeUnit, this.pageUnit);
       }
       else{
-        await this.searchApartmentUnit(this.apartmentId, this.sizeApartment, this.pageApartment, this.keySearchUnit);
+        await this.searchApartmentUnit(this.user.id, this.sizeApartment, this.pageApartment, this.keySearchUnit);
       }
     }
     else {

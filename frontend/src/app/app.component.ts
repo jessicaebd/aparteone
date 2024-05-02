@@ -91,6 +91,12 @@ export class AppComponent implements OnInit {
     else if(currentPath.includes('announcement')){
       this.activeNav = 'announcement'
     }
+    else if(currentPath.includes('merchant')){
+      this.activeNav = 'merchant'
+    }
+    else if(currentPath.includes('transaction')){
+      this.activeNav = 'transaction'
+    }
     else{
       this.activeNav = 'dashboard'
     }

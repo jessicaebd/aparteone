@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FacilityService } from '../service/facility.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-facility-history',
@@ -8,7 +9,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./facility-history.component.css']
 })
 export class FacilityHistoryComponent {
-  residentId = 4;
+  user = this.appService.retrieveUser();
   
   table: any;
   allDataCount: any;
@@ -18,16 +19,16 @@ export class FacilityHistoryComponent {
   filter: string = '';
   errorMsg: string = '';
 
-  constructor(private facilityService: FacilityService, private apps: AppComponent){}
+  constructor(private facilityService: FacilityService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
     if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-      await this.getFacilityResidentRequest(this.residentId, this.size, this.page, this.filter);
+      await this.getFacilityResidentRequest(this.user.id, this.size, this.page, this.filter);
     }
     else{
-      await this.searchFacilityResidentRequest(this.residentId, this.size, this.page, this.keySearch);
+      await this.searchFacilityResidentRequest(this.user.id, this.size, this.page, this.keySearch);
     }
     this.apps.loadingPage(false);
   }

@@ -9,7 +9,7 @@ import { AppService } from 'src/app/app.service';
 })
 
 export class NotificationComponent implements OnInit{
-  residentId = 4;
+  user = this.appService.retrieveUser();
   data!: any;
   errorMsg: string = '';
 
@@ -18,7 +18,7 @@ export class NotificationComponent implements OnInit{
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    await this.getMailboxCategory(this.residentId);
+    await this.getMailboxCategory(this.user.id);
     this.apps.loadingPage(false);
   }
 

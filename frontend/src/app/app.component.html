@@ -87,7 +87,7 @@
               " routerLink="/billing" data-bs-dismiss="offcanvas" (click)="onNavbarActive('billing')">
               <i *ngIf="activeNav == 'billing'" class="navbar-icon bi bi-cash-coin"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-receipt-cutoff"
+              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-cash"
                 style="color: var(--black)"></i>
               <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
                   <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
@@ -180,7 +180,7 @@
               " routerLink="/billing" data-bs-dismiss="offcanvas" (click)="onNavbarActive('billing')">
               <i *ngIf="activeNav == 'billing'" class="navbar-icon bi bi-cash-coin"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-receipt-cutoff"
+              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-cash"
                 style="color: var(--black)"></i>
               <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
           <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
@@ -252,9 +252,9 @@
                   ? 'navbar-item py-3 active'
                   : 'navbar-item py-3'
               " routerLink="/transaction" data-bs-dismiss="offcanvas" (click)="onNavbarActive('transaction')">
-              <i *ngIf="activeNav == 'transaction'" class="navbar-icon bi bi-shop-window"
+              <i *ngIf="activeNav == 'transaction'" class="navbar-icon bi bi-receipt-cutoff"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'transaction'" class="navbar-icon bi bi-shop" style="color: var(--black)"></i>
+              <i *ngIf="activeNav != 'transaction'" class="navbar-icon bi bi-receipt" style="color: var(--black)"></i>
               <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
           <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
               <label class="navbar-name ms-2">Transaction</label>
@@ -362,26 +362,26 @@
             </span>
           </button>
         </div>
+        
+        <!-- Modal -->
+        <app-modal modalID="modalNotification" [width]="500" [modalContent]="modalNotification"></app-modal>
+        <ng-template #modalNotification>
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Notifications</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+          </div>
+          <div class="modal-body d-flex col justify-content-center">
+            <div class="container">
+              <app-notification></app-notification>
+            </div>
+          </div>
+        </ng-template>
       </ng-container>
 
       <ng-template #topBarGuest>
         <div class="nav fixed fixed-top justify-content-end align-items-center p-3" style="background-color: var(--white); z-index: 0;">
           <app-button buttonClass="primary" buttonLabel="Login" (onClickEvent)="goToLoginPage()"></app-button>
           <app-button class="ms-3" buttonClass="outline-primary" buttonLabel="Register" routerLink="/register"></app-button>
-        </div>
-      </ng-template>
-
-      <!-- Modal -->
-      <app-modal modalID="modalNotification" [width]="500" [modalContent]="modalNotification"></app-modal>
-      <ng-template #modalNotification>
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Notifications</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
-        </div>
-        <div class="modal-body d-flex col justify-content-center">
-          <div class="container">
-            <app-notification></app-notification>
-          </div>
         </div>
       </ng-template>
 

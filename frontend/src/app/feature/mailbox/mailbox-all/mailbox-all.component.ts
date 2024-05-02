@@ -126,23 +126,6 @@ export class MailboxAllComponent {
     this.page = e;
     this.getMailboxDetailApartment(this.user.id, 10, this.page);
   }
-
-  // async onSortData(e:any){
-  //   console.log("OnSort: ", e);
-  //   this.page = 0;
-  //   let arr = await this.onSplitSortEvent(e);
-  //   console.log(arr);
-  //   this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
-  // }
-
-  // onSplitSortEvent(e:any): Promise<any>{
-  //   return new Promise<any> (resolve => {
-  //     let arr = e.split(";", 2); 
-  //     this.sortReqCol = arr[0];
-  //     this.sortReqDir = arr[1];
-  //     resolve(arr);
-  //   });
-  // }
   
   redirect(type: string){
     if(type=='detail'){

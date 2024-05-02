@@ -211,47 +211,15 @@ export class MailboxComponent {
     console.log("Onload Page Index: ", e);
     if(type=='category'){
       this.pageCategory = e;
-      // this.getMailboxCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       this.pageRequest = e;
-      // this.getMailboxDetailApartment(this.apartmentId, 5, this.pageRequest, this.sortReqCol, this.sortReqDir);
     }
     else if(type=='listRequest'){
       this.pageList = e;
-      // this.getMailboxDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
     }
     this.ngOnInit();
   }
-
-  // async onSortData(type:any, e:any){
-  //   console.log("OnSort: ", e);
-  //   let arr = await this.onSplitSortEvent(type, e);
-  //   console.log(arr);
-  //   if(type=='category'){
-  //     this.pageCategory = 0;
-  //   }
-  //   else if(type=='request'){
-  //     this.pageRequest = 0;
-  //     // this.getMailboxDetailApartment(this.apartmentId, 10, this.pageRequest, this.sortReqCol, this.sortReqDir);
-  //   }
-  //   this.ngOnInit();
-  // }
-
-  // onSplitSortEvent(type:any, e:any): Promise<any>{
-  //   return new Promise<any> (resolve => {
-  //     let arr = e.split(";", 2); 
-  //     if(type=='category'){
-  //       this.sortCatCol = arr[0];
-  //       this.sortCatDir = arr[1];
-  //     }
-  //     else if(type=='request'){
-  //       this.sortReqCol = arr[0];
-  //       this.sortReqDir = arr[1];
-  //     }
-  //     resolve(arr);
-  //   });
-  // }
 
   onFilterBy(e:any){
     this.filter = e;

@@ -4,6 +4,7 @@ import { MaintenanceRequest } from '../maintenance.interface';
 import { MaintenanceDetailRequestComponent } from '../maintenance-detail-request/maintenance-detail-request.component';
 import { MaintenanceService } from '../service/maintenance.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-maintenance-all-request',
@@ -11,7 +12,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./maintenance-all-request.component.css']
 })
 export class MaintenanceAllRequestComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   table: any;
   allDataCount: any;
@@ -27,23 +28,28 @@ export class MaintenanceAllRequestComponent {
   @ViewChild('closeModal') modalClose: any;
   @ViewChild(MaintenanceDetailRequestComponent) detailMaintenance !: MaintenanceDetailRequestComponent;
 
-  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    this.col = [
-      {name: 'receiptId', displayName: 'Request ID'}, 
-      {name: 'residentName', displayName:'Name'}, 
-      {name: 'maintenanceCategory', displayName: 'Category'}, 
-      {name: 'requestDate', displayName: 'Request Date'}, 
-      {name: 'status', displayName: 'Status'}, 
-      {name:"ActionCol", displayName:"Action", align:"center"}];
-    if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-      await this.getMaintenanceAllRequest(this.apartmentId, this.size, this.page);
+    if(this.user.role=='Management'){
+      this.col = [
+        {name: 'receiptId', displayName: 'Request ID'}, 
+        {name: 'residentName', displayName:'Name'}, 
+        {name: 'maintenanceCategory', displayName: 'Category'}, 
+        {name: 'requestDate', displayName: 'Request Date'}, 
+        {name: 'status', displayName: 'Status'}, 
+        {name:"ActionCol", displayName:"Action", align:"center"}];
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        await this.getMaintenanceAllRequest(this.user.id, this.size, this.page);
+      }
+      else{
+        await this.searchMaintenanceAllRequest(this.user.id, this.size, this.page, this.keySearch);
+      }
     }
-    else{
-      await this.searchMaintenanceAllRequest(this.apartmentId, this.size, this.page, this.keySearch);
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }

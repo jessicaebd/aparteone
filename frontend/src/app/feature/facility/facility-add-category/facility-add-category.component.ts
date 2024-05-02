@@ -3,6 +3,7 @@ import { FacilityCategory } from '../facility.interface';
 import Swal from 'sweetalert2';
 import { FacilityService } from '../service/facility.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 export interface Time{
   id: any,
@@ -16,14 +17,14 @@ export interface Time{
   styleUrls: ['./facility-add-category.component.css']
 })
 export class FacilityAddCategoryComponent implements OnInit{
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   index: number = 0;
   data: FacilityCategory = {};
   dataTime: Time[] = [];
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private facilityService: FacilityService, private apps: AppComponent){}
+  constructor(private facilityService: FacilityService, private apps: AppComponent, private appService: AppService){}
 
   ngOnInit() {
     this.index = this.dataTime.length;
@@ -170,7 +171,7 @@ export class FacilityAddCategoryComponent implements OnInit{
       console.log(times);
       alert('times');
       let body = {
-        'apartmentId': this.apartmentId,
+        'apartmentId': this.user.id,
         'image': this.data['image'],
         'category': this.data['category'],
         'description': this.data['description'],

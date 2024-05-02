@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Merchant, Product } from '../merchant.interface';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
 import { AppService } from 'src/app/app.service';
+import { CartComponent } from '../cart/cart.component';
 
 @Component({
   selector: 'app-merchant-store',
@@ -17,6 +18,8 @@ export class MerchantStoreComponent {
   store: Merchant = { };
   productList: Product[] = [];
   errorMsgProduct: string = '';
+
+  @ViewChild(CartComponent) cart: any;
 
   constructor(private route: ActivatedRoute, private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
@@ -47,6 +50,10 @@ export class MerchantStoreComponent {
           resolve(error);
         }
       }))
+  }
+
+  onCartRefresh(){
+    this.cart.ngOnInit();
   }
 
   backButton(){

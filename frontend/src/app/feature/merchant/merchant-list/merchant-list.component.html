@@ -29,16 +29,18 @@
     </div>
 
     <div class="merchant-card ms-2">
-        <div class="row">
+        <div class="row w-100">
             <ng-container *ngIf="errorMsgMerchant==''; else noData">
                 <ng-container *ngFor="let item of merchantCard">
-                    <button class="col-3 col-md-2 card mx-3 mb-4" (click)="goToMerchantStorePage(item.id)">
-                        <img class="card-img-top" [src]="item.image" alt="...">
-                        <div class="card-body w-100">
-                            <div class="d-flex justify-content-end pb-2">
-                                <app-badge [badgeText]="item.category" badgeType="primary"></app-badge>
+                    <button class="col-md-3 pe-2 mb-3 border-0" (click)="goToMerchantStorePage(item.id)" style="background-color: transparent;">
+                        <div class="card">
+                            <img class="card-img-top" [src]="item.image" alt="...">
+                            <div class="card-body w-100">
+                                <div class="d-flex justify-content-end pb-2">
+                                    <app-badge [badgeText]="item.category" badgeType="primary"></app-badge>
+                                </div>
+                                <h5 class="card-title text-truncate">{{ item.name }}</h5>
                             </div>
-                            <h5 class="card-title text-truncate">{{ item.name }}</h5>
                         </div>
                     </button>
                 </ng-container>

@@ -5,14 +5,14 @@
 </ng-container>
 
 <ng-template #list>
-    <div class="facility-category row d-flex w-100 overflow-auto p-3 rounded">
+    <div class="facility-category row d-flex w-100 overflow-auto px-4 rounded">
         <ng-container *ngFor="let item of listCategory">
-                <button class="card col-2 m-1 justify-content-between" data-bs-toggle="modal" data-bs-target="#modalNewRequest" (click)="onCategoryClick(item)">
-                    <img class="card-img-top" [src]="item.image" alt="...">
-                    <div class="card-title w-100">
-                      <h5>{{ item.category }}</h5>
-                    </div>
-                </button>
+            <button class="card col-2 m-2 justify-content-between" data-bs-toggle="modal" data-bs-target="#modalNewRequest" (click)="onCategoryClick(item)">
+                <img class="card-img-top" [src]="item.image" alt="...">
+                <div class="card-title w-100">
+                    <h5>{{ item.category }}</h5>
+                </div>
+            </button>
         </ng-container>
         
         <!-- Modal -->

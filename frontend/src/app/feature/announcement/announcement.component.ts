@@ -96,7 +96,6 @@ export class AnnouncementComponent implements OnInit{
     console.log("Onload Page Index: ", e);
     this.page = e;
     this.ngOnInit();
-    // this.getListAnnouncement(this.apartmentId, 10, e, this.sortAnnCol, this.sortAnnDir);
   }
 
   async onSortData(type:any, e:any){
@@ -104,7 +103,6 @@ export class AnnouncementComponent implements OnInit{
     await this.onSplitSortEvent(e);
     this.page = 0;
     this.ngOnInit();
-    // this.getListAnnouncement(this.apartmentId, 10, 0, this.sortAnnCol, this.sortAnnDir);
   }
 
   onSplitSortEvent(e:any): Promise<any>{

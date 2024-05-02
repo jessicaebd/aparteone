@@ -14,25 +14,26 @@
     </div>
 </div>
 <div class="product-card ms-2">
-    <div class="row">
+    <div class="row w-100">
         <ng-container *ngFor="let item of productList">
-            <button class="col-4 col-md-4 card" data-bs-toggle="modal" data-bs-target="#modalProductDetail"
-                (click)="onProductClick(item)">
-                <img class="card-img-top" [src]="item.image" alt="...">
-                <div class="card-body w-100 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h6 class="card-title text-truncate mb-0">{{ item.name }}</h6>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p class="card-text text-start mb-0 text-secondary">Rp {{ item.price }}</p>
-                        <ng-container *ngIf="item.quantity > 0; else addButton">
-                            <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">{{
-                                item.quantity }}</p>
-                        </ng-container>
-                        <ng-template #addButton>
-                            <button class="fs-4 border-0 mb-0" style="background-color: var(--white);"><i
-                                    class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
-                        </ng-template>
+            <button class="col-md-3 pe-2 mb-2 border-0" data-bs-toggle="modal" data-bs-target="#modalProductDetail" (click)="onProductClick(item)" style="background-color: transparent;">
+                <div class="card">
+                    <img class="card-img-top" [src]="item.image" alt="..." style="object-fit: cover;">
+                    <div class="card-body w-100 mt-2">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-title text-truncate mb-0">{{ item.name }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text text-start mb-0 text-secondary">Rp {{ item.price }}</p>
+                            <ng-container *ngIf="item.quantity > 0; else addButton">
+                                <p class="rounded-circle mb-0 px-2 fs-6" style="border: 1pt solid var(--primary-purple);">{{
+                                    item.quantity }}</p>
+                            </ng-container>
+                            <ng-template #addButton>
+                                <button class="fs-4 border-0 mb-0" style="background-color: var(--white);"><i
+                                        class="bi bi-plus-circle-fill" style="color: var(--primary-purple);"></i></button>
+                            </ng-template>
+                        </div>
                     </div>
                 </div>
             </button>

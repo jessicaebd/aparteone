@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { AdminService } from '../service/admin.service';
 import { AppComponent } from 'src/app/app.component';
 import { Unit } from '../admin.interface';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-unit-add',
@@ -10,12 +11,13 @@ import { Unit } from '../admin.interface';
   styleUrls: ['./unit-add.component.css']
 })
 export class UnitAddComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
+
   flagValidasi?: boolean = false;
   data: Unit = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private adminService: AdminService, private apps: AppComponent){}
+  constructor(private adminService: AdminService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -86,7 +88,7 @@ export class UnitAddComponent {
   setBodyInsert(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': this.apartmentId,
+        'apartmentId': this.user.id,
         'unitNumber': this.data['unitNumber'],
         'type': this.data['type']
       }
