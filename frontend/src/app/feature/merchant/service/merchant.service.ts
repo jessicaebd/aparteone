@@ -40,7 +40,7 @@ export class MerchantService {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(apartmentId==null || apartmentId==''){
-      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'isApproved': true } });
+      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'isApproved': isApproved } });
     }
     else{
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isApproved': isApproved } });
@@ -191,7 +191,13 @@ export class MerchantService {
   updateCart(cartId:any, quantity:any, notes:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiCart}/${this.apiUpdate}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
-    const params = new HttpParams({ fromObject: { 'cartId': cartId, 'quantity': quantity, 'notes': notes } });
+    let params;
+    if(notes=='' || notes==null || notes==undefined){
+      params = new HttpParams({ fromObject: { 'cartId': cartId, 'quantity': quantity } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'cartId': cartId, 'quantity': quantity, 'notes': notes } });
+    }
     const options = { headers, params };
     const body = { };
     return this.httpClient.post<any>(apiUrl, body, options);

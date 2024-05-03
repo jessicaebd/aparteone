@@ -28,7 +28,7 @@ export class AdminService {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(apartmentId=='' || apartmentId == null){
-      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'isApproved': true  } });
+      params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'isApproved': isApproved  } });
     }
     else{
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'isApproved': isApproved } });
@@ -41,14 +41,14 @@ export class AdminService {
     const apiUrl = `${this.apiUrl}/${this.apiResident}/${this.apiSearch}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
-    if(search!=''){
-      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search } });
-    }
-    else if(search!='' && apartmentId == null){
+    if(search!='' && apartmentId == null){
       params = new HttpParams({ fromObject: { 'size': size, 'page': page, 'search': search } });
     }
     else if(search=='' && apartmentId == null){
       params = new HttpParams({ fromObject: { 'size': size, 'page': page} });
+    }
+    else if(search!=''){
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search } });
     }
     else{
       params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });

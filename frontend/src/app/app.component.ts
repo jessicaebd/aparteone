@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   idleState = 'Not started.';
   timedOut = false;
   lastPing?: Date;
-  activeNav: string = 'dashboard'
+  activeNav: string = 'home'
   isLogin = false;
   user!:any;
 
@@ -94,11 +94,20 @@ export class AppComponent implements OnInit {
     else if(currentPath.includes('merchant')){
       this.activeNav = 'merchant'
     }
+    else if(currentPath.includes('chat')){
+      this.activeNav = 'merchant'
+    }
+    else if(currentPath.includes('resident')){
+      this.activeNav = 'resident'
+    }
+    else if(currentPath.includes('apartment')){
+      this.activeNav = 'apartment'
+    }
     else if(currentPath.includes('transaction')){
       this.activeNav = 'transaction'
     }
     else{
-      this.activeNav = 'dashboard'
+      this.activeNav = 'home'
     }
   }
 

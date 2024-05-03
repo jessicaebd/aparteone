@@ -10,7 +10,7 @@
             <div class="subtitle px-3 py-2">
                 <app-label labelInput="Choose Your Apartment Facility" labelType="title"></app-label>
             </div>
-            <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-facility-category>
+            <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory" (onSubmitEvent)="ngOnInit()"></app-facility-category>
         </div>
 
         <!-- Facility Request History -->

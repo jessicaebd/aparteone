@@ -68,14 +68,6 @@ export class ResidentDetailComponent {
             confirmButtonColor: '#5025FA'
           });
         }
-        else if (result==false && type==true) {
-          Swal.fire({
-            title: 'Error',
-            html: 'Failed Approved Resident',
-            icon: 'error',
-            confirmButtonColor: '#5025FA'
-          });
-        }
         else if (result==true && type==false) {
           Swal.fire({
             title: 'Success',
@@ -84,7 +76,15 @@ export class ResidentDetailComponent {
             confirmButtonColor: '#5025FA'
           });
         }
-        else if (result==false && type==false) {
+        else if (type==true) {
+          Swal.fire({
+            title: 'Error',
+            html: 'Failed Approved Resident',
+            icon: 'error',
+            confirmButtonColor: '#5025FA'
+          });
+        }
+        else if (type==false) {
           Swal.fire({
             title: 'Error',
             html: 'Failed Reject Resident',

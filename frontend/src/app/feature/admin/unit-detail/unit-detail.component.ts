@@ -96,7 +96,7 @@ export class UnitDetailComponent {
     return new Promise<any>(resolve => 
       this.adminService.updateApartmentUnit(id, body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
+          // console.log('Response: ', response);
           resolve(true);
         },
         error: (error: any) => {

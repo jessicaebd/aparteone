@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { Announcement } from '../announcement.interface';
 import { AnnouncementService } from '../service/announcement.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-announcement-add',
@@ -10,6 +11,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./announcement-add.component.css']
 })
 export class AnnouncementAddComponent {
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   data: Announcement = {};
   description!: any;
@@ -17,7 +19,7 @@ export class AnnouncementAddComponent {
   sel!: any;
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private announcementService: AnnouncementService, private apps: AppComponent){}
+  constructor(private announcementService: AnnouncementService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.description = document.getElementById("description")!.innerHTML;
@@ -105,7 +107,7 @@ export class AnnouncementAddComponent {
   setBodyInsertAnnouncement(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': 1,
+        'apartmentId': this.user.id,
         'image': this.data['image'],
         'title': this.data['title'],
         'description': this.description,

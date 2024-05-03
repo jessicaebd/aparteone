@@ -67,6 +67,14 @@ export class BillingService {
     return this.httpClient.get<any>(apiUrl, options);
   }
 
+  getBillingVerifyApartment(apartmentId: any, size:number, page: number): any {
+    const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiApartment}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'status': 'Waiting for Confirmation'} });
+    const options = { headers, params }
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
   searchBillingDetailApartment(apartmentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiDetail}/${this.apiApartment}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });

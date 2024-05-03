@@ -4,7 +4,7 @@
             <app-table [dataTable]="tableApartmentApproval" [columns]="colApartmentApproval" headerAlignment="center"
                 iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
                 actionTarget="modalApartmentDetail" (onClickActionEvent)="onListItemClick('apartment', $event)"
-                [length]="allDataApartmentApproval" [pageIndex]="pageApartmentApproval" [pageSize]="sizeApartment"
+                [length]="allDataApartmentApproval" [pageIndex]="pageApartmentApproval" [pageSize]="sizeApartmentApproval"
                 (onPageIndexEvent)="onLoadData('approval', $event)" [errorMsg]="errorMsgApartmentApproval"></app-table>
         </div>
     </div>

@@ -15,10 +15,14 @@ export class AppService {
   private apiNotification = `${environment.modules.feature.notification}`;
   private apiUser = `${environment.modules.general.user}`;
   private apiDetail = `${environment.modules.general.detail}`;
+  private apiCount = `${environment.modules.general.count}`;
   private apiBilling = `${environment.modules.feature.billing}`;
   private apiMailbox = `${environment.modules.feature.mailbox}`;
+  private apiMaintenance = `${environment.modules.feature.maintenance}`;
+  private apiFacility = `${environment.modules.feature.facility}`;
   private apiMerchant = `${environment.modules.feature.merchant}`;
   private apiUpdate = `${environment.modules.general.update}`;
+  private apiRequest = `${environment.modules.general.request}`;
   private apiApartment = `${environment.modules.feature.apartment}`;
   private apiResident = `${environment.modules.feature.resident}`;
 
@@ -38,7 +42,12 @@ export class AppService {
   storeToLocalStorage(response: LoginResponse): Promise<any> {
     return new Promise<any> (async resolve => {
       await this.storeAccessToken(response.token);
-      await this.storeUser(response);
+      if(response.profile){
+        await this.storeUser(response);
+      }
+      else {
+        await this.storeAdmin(response);
+      }
       resolve(true);
     })
   }
@@ -46,6 +55,19 @@ export class AppService {
   storeAccessToken(token: string): Promise<any> {
     return new Promise<any> (resolve => {
       this.localStorage.store('accessToken', token);
+      resolve(true);
+    })
+  }
+
+  storeAdmin(response: LoginResponse): Promise<any> {
+    return new Promise<any> (resolve => {
+      let obj = {
+        id: response['id'],
+        role: response['role'],
+        email: response['email'],
+        phone: response['phone'],
+      };
+      this.localStorage.store('user', obj);
       resolve(true);
     })
   }
@@ -163,6 +185,62 @@ export class AppService {
     const apiUrl = `${this.apiUrl}/${this.apiUser}/${this.apiDetail}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'userId': userId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+
+  // Home
+  getApartmentTotal(): any {
+    const apiUrl = `${this.apiUrl}/${this.apiApartment}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  countResidentByApartmentId(apartmentId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiResident}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  countMerchantByApartmentId(apartmentId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  countBillingDetailByResidentId(residentId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiBilling}/${this.apiBilling}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'residentId': residentId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  countFacilityRequestByResidentId(residentId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'residentId': residentId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  countMailboxDetailByResidentId(residentId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMailbox}/${this.apiDetail}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'residentId': residentId } });
+    const options = { headers, params };
+    return this.httpClient.get<any>(apiUrl, options);
+  }
+  
+  countMaintenanceRequestByResidentId(residentId: any): any {
+    const apiUrl = `${this.apiUrl}/${this.apiMaintenance}/${this.apiRequest}/${this.apiCount}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
+    const params = new HttpParams({ fromObject: { 'residentId': residentId } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }

@@ -4,20 +4,6 @@
         <app-label labelInput="Manage all residents" labelType="label"></app-label>
     </div>
 
-    <!-- <ng-container *ngIf="user.role=='Management'">
-        <div class="approval-resident mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
-            <div class="d-flex align-items-center subtitle">
-                <app-label labelInput="Need Approval" labelType="subtitle"></app-label>
-            </div>
-            <div class="pb-2">
-                <app-table [dataTable]="tableResidentApproval" [columns]="colResidentApproval" headerAlignment="center" 
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalResidentDetail" (onClickActionEvent)="onListItemClick($event)" 
-                    [length]="allDataResidentApproval" [pageIndex]="pageResidentApproval" [pageSize]="sizeResidentApproval" (onPageIndexEvent)="onLoadData('approval', $event)" [errorMsg]="errorMsgResidentApproval"></app-table>
-            </div>
-        </div>
-    </ng-container> -->
-
     <div class="list-resident mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
         <div class="pb-2">
             <app-table [dataTable]="tableResident" [columns]="colResident" headerAlignment="center" 

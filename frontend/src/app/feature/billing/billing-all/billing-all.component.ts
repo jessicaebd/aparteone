@@ -31,6 +31,7 @@ export class BillingAllComponent {
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgRequest = '';
+    this.tableRequest = [];
     if(this.user.role=='Management'){
       this.colRequest = [
         {name: 'receiptId', displayName: 'Receipt ID'}, 
@@ -114,6 +115,7 @@ export class BillingAllComponent {
   setDataRequest(response: any): Promise<any>{
     return new Promise<any> (resolve => {
       this.dataRequest['id'] = response.id;
+      this.dataRequest['receiptId'] = response.receiptId;
       this.dataRequest['residentId'] = response.residentId;
       this.dataRequest['residentUnit'] = response.residentUnit;
       this.dataRequest['residentName'] = response.residentName;

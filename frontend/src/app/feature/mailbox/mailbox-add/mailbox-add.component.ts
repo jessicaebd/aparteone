@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Mailbox } from '../mailbox.interface';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
 import { AppService } from 'src/app/app.service';
+import { AdminService } from '../../admin/service/admin.service';
 
 @Component({
   selector: 'app-mailbox-add',
@@ -16,15 +17,18 @@ export class MailboxAddComponent implements OnInit{
   flagValidasi?: boolean = false;
   data: Mailbox = {};
   mailboxCategory: listItems[] = [];
+  residentList: listItems[] = [];
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private mailboxService: MailboxService, private apps: AppComponent, private appService: AppService){}
+  constructor(private mailboxService: MailboxService, private apps: AppComponent, private appService: AppService, private adminService: AdminService){}
 
   async ngOnInit() {
     this.data = {};
     this.mailboxCategory = [];
     let category = await this.getMailboxActiveCategory(this.user.id, true);
     this.setDropdown(category);
+    let resident = await this.getResidentList(this.user.id);
+    this.setResidentList(resident);
   }
 
   onButtonSubmit(){
@@ -137,6 +141,31 @@ export class MailboxAddComponent implements OnInit{
   getMailboxActiveCategory(apartementId:any, isActive:any): Promise<any>{
     return new Promise<any>(resolve => 
       this.mailboxService.getMailboxActiveCategory(apartementId, isActive).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(response.data);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      })
+    )
+  }
+
+  setResidentList(data: any){
+    for(let i=0; i<data.length; i++){
+      this.residentList.push({
+        'code': data[i].name,
+        'value': data[i].id,
+        'selected': false
+      });
+    }
+  }
+
+  getResidentList(apartementId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.adminService.getResidentList(apartementId, 9999, 0, 'Approved').subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           resolve(response.data);

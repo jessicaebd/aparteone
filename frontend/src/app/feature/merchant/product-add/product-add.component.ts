@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
 import { Product } from '../merchant.interface';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-product-add',
@@ -10,13 +11,13 @@ import { Product } from '../merchant.interface';
   styleUrls: ['./product-add.component.css']
 })
 export class ProductAddComponent {
-  merchantId = 9;
+  user = this.appService.retrieveUser();
 
   flagValidasi: boolean = false;
   data: Product = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   insertProduct(body:any): Promise<any>{
     return new Promise<any>(resolve => 
@@ -84,7 +85,7 @@ export class ProductAddComponent {
   setInsertBodyProduct(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'merchantId': this.merchantId,
+        'merchantId': this.user.id,
         'image': this.data['image'],
         'name': this.data['name'],
         'price': this.data['price'],

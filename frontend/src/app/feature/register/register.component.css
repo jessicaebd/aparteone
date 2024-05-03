@@ -1,7 +1,7 @@
 :host(app-register){
     height: 40rem;
     border-radius: 1rem;
-    /* background-color: var(--light-purple); */
+    margin-left: 5rem;
 }
 
 .input-group{

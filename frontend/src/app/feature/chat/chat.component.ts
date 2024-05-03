@@ -12,8 +12,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
-  @Input() back: boolean = true;
-
   listChat: ChatList[] = [];
   bubbleChat: BubbleChat[] = [];
   errorMsgRoom: string = '';
@@ -30,12 +28,17 @@ export class ChatComponent {
 
   async ngOnInit(){
     this.apps.loadingPage(true);
-    await this.getChatRooms(this.user.id);
-    this.receiverId = this.route.snapshot.params['id'];
-    if(this.receiverId){
-      console.log('ReceiverID: ', this.receiverId);
-      let user = await this.getUserDetail(this.receiverId);
-      this.setDetailChatPage(user.profile);
+    if(this.user.role!='Admin'){
+      await this.getChatRooms(this.user.id);
+      this.receiverId = this.route.snapshot.params['id'];
+      if(this.receiverId){
+        console.log('ReceiverID: ', this.receiverId);
+        let user = await this.getUserDetail(this.receiverId);
+        this.setDetailChatPage(user.profile);
+      }
+    }
+    else{
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }

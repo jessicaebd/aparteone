@@ -1,11 +1,10 @@
 <div class="container-fluid">
-    <div class="row mb-3">
-        <app-label labelInput="Apartment" labelType="title"></app-label>
-        <app-label labelInput="Manage all apartments" labelType="label"></app-label>
-    </div>
-
     <!-- Admin -->
     <ng-container *ngIf="user.role=='Admin'">
+        <div class="row mb-3">
+            <app-label labelInput="Apartment" labelType="title"></app-label>
+            <app-label labelInput="Manage all apartments" labelType="label"></app-label>
+        </div>
         <div class="list-apartment mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
             <div class="pb-2">
                 <app-table [dataTable]="tableApartment" [columns]="colApartment" headerAlignment="center" 
@@ -17,10 +16,14 @@
     </ng-container>
     
     <ng-container *ngIf="user.role=='Management'">
-        <div class="list-apartment">
-            <div class="d-flex justify-content-between align-items-center subtitle">
-                <app-label labelInput="LIST UNIT" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Unit" data-bs-toggle="modal" data-bs-target="#modalUnitAdd"></app-button>
+        <div class="row mb-3">
+            <app-label labelInput="Unit" labelType="title"></app-label>
+            <app-label labelInput="Manage all units" labelType="label"></app-label>
+        </div>
+        <div class="list-apartment mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
+            <div class="d-flex justify-content-end align-items-center subtitle">
+                <!-- <app-label labelInput="Unit" labelType="title"></app-label> -->
+                <app-button buttonLabel="+ Add Unit" data-bs-toggle="modal" data-bs-target="#modalUnitAdd"></app-button>
             </div>
             <div class="pb-2">
                 <app-table [dataTable]="tableUnit" [columns]="colUnit" headerAlignment="center" 

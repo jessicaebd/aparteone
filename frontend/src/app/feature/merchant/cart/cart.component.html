@@ -16,8 +16,8 @@
                     <img class="rounded w-100" [src]="item.productImage" alt="" style="height: 100%; object-fit: cover;">
                 </div>
                 <div class="col-9 pt-3 pb-2 row d-flex align-items-center">
-                    <h6 class="fs-6 fw-semibold text-truncate">{{item.productName}}</h6>
-                    <ng-container *ngIf="item.notes != null">
+                    <h6 class="fs-6 fw-semibold text-truncate">{{item.quantity}}x {{item.productName}}</h6>
+                    <ng-container *ngIf="item.notes != null && item.notes!">
                         <span class="text-secondary mb-2" style="font-size: 12px;"><span class="fw-semibold">Notes:
                             </span>{{item.notes}}</span>
                     </ng-container>

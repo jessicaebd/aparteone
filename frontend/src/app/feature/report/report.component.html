@@ -1,11 +1,10 @@
 <div class="row mb-3 ms-4">
-    <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
     <app-label labelInput="Report" labelType="title"></app-label>
     <app-label labelInput="Chat for Report" labelType="label"></app-label>
 </div>
 
 <ng-container *ngIf="user.role=='Management'">
-    <app-chat [back]="false"></app-chat>    
+    <app-chat></app-chat>    
 </ng-container>
 
 <ng-container *ngIf="user.role=='Resident'">
@@ -13,8 +12,16 @@
         <div class="detail-report col border rounded p-0">
             <div class="report-profile d-flex justify-content-between align-items-center">
                 <div class="d-flex ms-3">
-                    <!-- <img width="40" height="40" alt="profile-picture" [src]="roomImage" style="border-radius: 50%;"/> -->
-                    <img width="40" height="40" alt="profile-picture" src="assets/general/2.png" style="border-radius: 50%;"/>
+                    <ng-container *ngIf="roomImage; else defaultProfile">
+                        <button class="btn btn-profile rounded-circle p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: solid 1pt var(--black);">
+                            <img width="40" height="40" alt="profile-picture" [src]="roomImage" style="border-radius: 50%;"/>
+                        </button>
+                    </ng-container>
+                    <ng-template #defaultProfile>
+                        <button class="btn btn-profile rounded-circle px-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 44px; border: solid 1pt var(--black);">
+                            <img class="mx-0 rounded-circle" width="30" height="30" alt="profile" src="assets/general/profile.svg" />
+                        </button>
+                    </ng-template>
                     <h6 class="m-0 ms-2 d-flex align-items-center">Customer Service - {{ roomName }}</h6>
                 </div>
             </div>

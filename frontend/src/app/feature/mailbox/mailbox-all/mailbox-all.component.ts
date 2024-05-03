@@ -31,6 +31,7 @@ export class MailboxAllComponent {
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgRequest = '';
+    this.tableRequest = [];
     if(this.user.role=='Management'){
       this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){

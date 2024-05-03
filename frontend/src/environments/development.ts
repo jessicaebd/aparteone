@@ -14,6 +14,7 @@ export const environment : EnvironmentInterface = {
             login: "login",
             user: "user",
             register: "register",
+            count: "count",
             dashboard: "dashboard",
             request: "request",
             update: "update",

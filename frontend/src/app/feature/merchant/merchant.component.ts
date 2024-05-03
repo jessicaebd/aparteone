@@ -21,13 +21,6 @@ export class MerchantComponent implements OnInit{
   pageList: number = 0;
   sizeList: number = 10;
   colList: Column[] =[];
-
-  tableMerchant: any;
-  allDataMerchant: any;
-  errorMsgMerchant: string = '';
-  pageMerchant: number = 0;
-  sizeMerchant: number = 5;
-  colMerchant: Column[] = [];
   dataMerchant: Merchant = {};
 
   @ViewChild('closeModal') modalClose: any;
@@ -36,7 +29,6 @@ export class MerchantComponent implements OnInit{
 
   async ngOnInit() {
     this.apps.loadingPage(true);
-    this.errorMsgMerchant = '';
     this.errorMsgList = '';
     this.colList = [
       {name: 'name', displayName: 'Name'}, 
@@ -44,9 +36,7 @@ export class MerchantComponent implements OnInit{
       {name: 'isActive', displayName: 'Status'}, 
       {name:"ActionCol", displayName:"Action", align:"center"}];
     if(this.user.role=='Management'){
-      this.colMerchant = [{name: 'category', displayName: 'Merchant Category'}, {name: 'name', displayName: 'Merchant Name'}, {name: 'isApproved', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
-      this.getMerchantApartment(this.user.id, this.sizeMerchant, this.pageMerchant, false);
-      this.getMerchantApartment(this.user.id, 5, 0, true);
+      this.getMerchantApartment(this.user.id, this.sizeList, this.pageList);
     }
     else if(this.user.role=='Admin'){
       if(this.keySearch==undefined || this.keySearch==null || this.keySearch==''){
@@ -61,9 +51,8 @@ export class MerchantComponent implements OnInit{
 
   getAllMerchantApartment(size:any, page: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.merchantService.getMerchantApartment(null, size, page, true).subscribe({
+      this.merchantService.getMerchantApartment(null, size, page, 'Approved').subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           if(response.data.length > 0){
             this.tableList = response.data;
             this.allMerchantList = response.totalElements;
@@ -107,36 +96,24 @@ export class MerchantComponent implements OnInit{
       }))
   }
 
-  getMerchantApartment(apartementId:any, size:any, page: any, isApproved:any): Promise<any>{
+  getMerchantApartment(apartementId:any, size:any, page: any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.merchantService.getMerchantApartment(apartementId, size, page, isApproved).subscribe({
+      this.merchantService.getMerchantApartment(apartementId, size, page, 'Approved').subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           if(response.data.length > 0){
-            if(isApproved){
-              this.tableList = response.data;
-            }
-            else{
-              this.tableMerchant = response.data;
-              this.allDataMerchant = response.totalElements;
-            }
+            this.tableList = response.data;
+            this.allMerchantList = response.totalElements;
           }
           else{
-            if(isApproved){
-              this.errorMsgList = 'No Data Found!'
-              this.tableList = [];
-            }
-            else{
-              this.errorMsgMerchant = 'No Data Found!'
-              this.tableMerchant = [];
-            }
+            this.errorMsgList = 'No Data Found!'
+            this.tableList = [];
           }
           resolve(true);
         },
         error: (error: any) => {
           console.log('#error', error);
-          this.errorMsgMerchant = 'No Data Found!'
-          this.tableMerchant = [];
+          this.errorMsgList = 'No Data Found!'
+          this.tableList = [];
           resolve(error);
         }
       }))
@@ -159,26 +136,17 @@ export class MerchantComponent implements OnInit{
   }
 
   onSearchMerchant(key:any){
-    console.log('Search :', key);
     this.keySearch = key;
     this.pageList = 0;
     this.ngOnInit();
   }
 
   async onListItemClick(e:any){
-    console.log('OnList:', e);
-    let data = await this.setDataMerchant(e);
-    console.log('Data Merchant:', data);
+    await this.setDataMerchant(e);
   }
 
-  onLoadData(type:any, e:any){
-    console.log("Onload Page Index: ", e);
-    if(type == 'admin'){
-      this.pageList = e;
-    }
-    else{
-      this.pageMerchant = e;
-    }
+  onLoadData(e:any){
+    this.pageList = e;
     this.ngOnInit();
   }
 

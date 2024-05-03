@@ -143,7 +143,6 @@ export class ProfileComponent implements OnInit{
     let body, result;
     if(type=='Resident'){
       body = await this.setBodyInsertResident();
-      console.log(body);
       result = await this.updateResident(this.user.id, body);
     }
     else if(type=='Management'){
@@ -220,7 +219,6 @@ export class ProfileComponent implements OnInit{
     return new Promise<any>(resolve => 
       this.appService.updateResident(residentId, body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           resolve(response);
         },
         error: (error: any) => {
@@ -234,7 +232,6 @@ export class ProfileComponent implements OnInit{
     return new Promise<any>(resolve => 
       this.appService.updateApartment(apartmentId, body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           resolve(response);
         },
         error: (error: any) => {
@@ -248,7 +245,6 @@ export class ProfileComponent implements OnInit{
     return new Promise<any>(resolve => 
       this.appService.updateMerchant(merchantId, body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           resolve(response);
         },
         error: (error: any) => {

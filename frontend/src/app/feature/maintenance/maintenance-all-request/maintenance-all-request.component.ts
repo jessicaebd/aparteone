@@ -33,6 +33,7 @@ export class MaintenanceAllRequestComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
+    this.table = [];
     if(this.user.role=='Management'){
       this.col = [
         {name: 'receiptId', displayName: 'Request ID'}, 

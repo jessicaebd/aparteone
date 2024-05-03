@@ -54,6 +54,9 @@ export class BillingComponent implements OnInit{
 
   async ngOnInit() {
     this.apps.loadingPage(true);
+    this.tableCategory = [];
+    this.tableRequest = [];
+    this.listRequest = [];
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';

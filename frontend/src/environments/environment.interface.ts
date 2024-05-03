@@ -42,6 +42,7 @@ export interface GeneralEnvironment {
   login: string,
   user: string,
   register: string,
+  count: string,
   dashboard: string,
   request: string,
   update: string,

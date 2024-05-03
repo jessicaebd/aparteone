@@ -100,7 +100,7 @@ export class UnitAddComponent {
     return new Promise<any>(resolve => 
       this.adminService.addApartmentUnit(body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
+          // console.log('Response: ', response);
           resolve(true);
         },
         error: (error: any) => {

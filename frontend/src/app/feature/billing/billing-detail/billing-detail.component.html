@@ -1,57 +1,57 @@
 <div class="container w-100 pb-4">
-    <div class="mt-0 pt-0">
-        <app-label labelType="label"  labelFor="unit" labelInput="Unit"></app-label>
-        <app-textbox inputID="unit" [value]="data['residentUnit']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="recipient" labelInput="Recipient"></app-label>
-        <app-textbox inputID="recipient" [value]="data['residentName']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="type" labelInput="Type"></app-label>
-        <app-textbox inputID="type" [value]="data['billingCategory']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="amount" labelInput="Amount"></app-label>
-        <app-textbox inputID="amount" [value]="data['amount']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="billingDate" labelInput="Billing Date"></app-label>
-        <app-textbox inputID="billingDate" [value]="data['billingDate']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="dueDate" labelInput="Due Date"></app-label>
-        <app-textbox inputID="dueDate" [value]="data['dueDate']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="status" labelInput="Status"></app-label>
-        <app-textbox inputID="status" [value]="data['status']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <ng-container *ngIf="data['payment']!=null">
-        <div class="mt-2">
-            <app-label labelType="label"  labelFor="paymentDate" labelInput="Payment Date"></app-label>
-            <app-textbox inputID="paymentDate" [value]="data['payment']['paymentDate']" [isReadOnly]="true"></app-textbox>
+    <app-label labelType="subtitle" [labelInput]="data['receiptId'] + ' - ' + data['billingCategory']"></app-label>
+    <div class="ms-2 mt-1">
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Unit"></app-label>
+            <app-label class="col" [labelInput]="data['residentUnit']? (': ' + data['residentUnit']) : ': -'"></app-label>
         </div>
-        <ng-container *ngIf="data['payment']['paymentStatus']=='Valid'">
-            <div class="mt-2">
-                <app-label labelType="label"  labelFor="verifiedDate" labelInput="Verify Date"></app-label>
-                <app-textbox inputID="verifiedDate" [value]="data['payment']['verifiedDate']" [isReadOnly]="true"></app-textbox>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Recipient"></app-label>
+            <app-label class="col" [labelInput]="data['residentName']? (': ' + data['residentName']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Amount"></app-label>
+            <app-label class="col" [labelInput]="data['amount']? (': ' + data['amount']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Billing Date"></app-label>
+            <app-label class="col" [labelInput]="data['billingDate']? (': ' + data['billingDate']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Due Date"></app-label>
+            <app-label class="col" [labelInput]="data['dueDate']? (': ' + data['dueDate']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Status"></app-label>
+            <app-label class="col" [labelInput]="data['status']? (': ' + data['status']) : ': -'"></app-label>
+        </div>
+        <ng-container *ngIf="data['payment']!=null">
+            <div class="row mb-1">
+                <app-label class="col-3" labelInput="Payment Date"></app-label>
+                <app-label class="col" [labelInput]="data['payment']['paymentDate']? (': ' + data['payment']['paymentDate']) : ': -'"></app-label>
+            </div>
+            <ng-container *ngIf="data['payment']['paymentStatus']=='Valid'">
+                <div class="row mb-1">
+                    <app-label class="col-3" labelInput="Verify Date"></app-label>
+                    <app-label class="col" [labelInput]="data['payment']['verifiedDate']? (': ' + data['payment']['verifiedDate']) : ': -'"></app-label>
+                </div>
+            </ng-container>
+            <div class="row mb-1">
+                <app-label class="col-3" labelInput="Payment Proof"></app-label>
+                <img class="mt-2 w-100 rounded" [src]="data['payment']['paymentProofImage']">
             </div>
         </ng-container>
-        <div class="mt-2">
-            <app-label labelType="label" labelInput="Payment Proof"></app-label>
-            <img class="w-100 rounded" [src]="data['payment']['paymentProofImage']">
-        </div>
-    </ng-container>
-    <ng-container *ngIf="data['status']=='Waiting for Payment'">
-        <div class="container d-flex justify-content-center py-4">
-            <app-button class="me-3" buttonClass="outline-primary" buttonLabel="Remind" (onClickEvent)="onRemind()"></app-button>
-            <app-button buttonClass="primary" buttonLabel="Cancelled" (onClickEvent)="onButtonSubmit('Cancelled')"></app-button>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="data['status']=='Waiting for Confirmation'">
-        <div class="container d-flex justify-content-center py-4">
-            <app-button buttonClass="primary" buttonLabel="Verify" (onClickEvent)="onButtonSubmit('Verify')"></app-button>
-        </div>
-    </ng-container>
+        <ng-container *ngIf="data['status']=='Waiting for Payment'">
+            <div class="container d-flex justify-content-center py-4">
+                <app-button class="me-3" buttonClass="outline-primary" buttonLabel="Remind" (onClickEvent)="onRemind()"></app-button>
+                <app-button buttonClass="primary" buttonLabel="Cancel" (onClickEvent)="onButtonSubmit('Cancelled')"></app-button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="data['status']=='Waiting for Confirmation'">
+            <div class="container d-flex justify-content-center py-4">
+                <app-button class="me-3" buttonClass="outline-primary" buttonLabel="Reject" (onClickEvent)="onButtonSubmit('Rejected')"></app-button>
+                <app-button buttonClass="primary" buttonLabel="Approve" (onClickEvent)="onButtonSubmit('Approved')"></app-button>
+            </div>
+        </ng-container>
+    </div>
 </div>

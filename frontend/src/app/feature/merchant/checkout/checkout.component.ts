@@ -117,38 +117,6 @@ export class CheckoutComponent {
       })
     )
   }
-
-  deleteCart(cartId:any): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.merchantService.deleteCart(cartId).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          this.cartList = response;
-          resolve(true);
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          resolve(error);
-        }
-      })
-    )
-  }
-
-  checkoutCart(body:any): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.merchantService.checkout(body).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          this.checkout = response;
-          resolve(true);
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          resolve(error);
-        }
-      })
-    )
-  }
   
   checkoutPayment(body:any): Promise<any>{
     return new Promise<any>(resolve => 
@@ -165,21 +133,6 @@ export class CheckoutComponent {
     )
   }
 
-  setBodyCheckoutCart(): Promise<any>{
-    return new Promise<any>(resolve =>{
-      let listId = [];
-      for(let item of this.cartList){
-        listId.push(item.id);
-      }
-      let body = {
-        residentId: this.user.id,
-        merchantId: this.merchantId,
-        carts: listId
-      }
-      resolve(body);
-    });
-  }
-
   setBodyCheckoutPay(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
@@ -190,54 +143,27 @@ export class CheckoutComponent {
     });
   }
 
-  onCartClick(item:any){
-    this.productOpen = item;
-    console.log(this.productOpen);
-    this.counterProduct = item.quantity;
-  }
-
-  async saveOrder(){
-    this.apps.loadingPage(true);
-    this.productOpen.quantity = this.counterProduct;
-    console.log('Open Product:', this.productOpen);
-    await this.updateCart(this.productOpen.id, this.productOpen.quantity, this.productOpen.notes);
-    this.ngOnInit();
-    this.apps.loadingPage(false);
-    
-    this.modalClose.nativeElement.click();
-  }
-
-  async deleteOrder(){
-    this.apps.loadingPage(true);
-    this.productOpen.quantity = this.counterProduct;
-    console.log('Open Product:', this.productOpen);
-    await this.deleteCart(this.productOpen.id);
-    this.ngOnInit();
-    this.apps.loadingPage(false);
-    
-    this.modalClose.nativeElement.click();
-  }
-
   async payCheckout(){
     this.apps.loadingPage(true);
     let body = await this.setBodyCheckoutPay();
-    let result = await this.checkoutPayment(body);
-    if(result==true){
-      Swal.fire({
-        title: 'Success',
-        html: 'Payment Successfuly',
-        icon: 'success',
-        confirmButtonColor: '#5025FA'
-      });
-    }
-    else {
-      Swal.fire({
-        title: 'Error',
-        html: 'Failed Payment',
-        icon: 'error',
-        confirmButtonColor: '#5025FA'
-      });
-    }
+    console.log(body);
+    // let result = await this.checkoutPayment(body);
+    // if(result==true){
+    //   Swal.fire({
+    //     title: 'Success',
+    //     html: 'Payment Successfuly',
+    //     icon: 'success',
+    //     confirmButtonColor: '#5025FA'
+    //   });
+    // }
+    // else {
+    //   Swal.fire({
+    //     title: 'Error',
+    //     html: 'Failed Payment',
+    //     icon: 'error',
+    //     confirmButtonColor: '#5025FA'
+    //   });
+    // }
     this.modalCloseCO.nativeElement.click();
     this.apps.loadingPage(false);
     this.goToTransactionPage();
@@ -247,7 +173,7 @@ export class CheckoutComponent {
     window.location.replace('/transaction-list');
   }
 
-  async onCheckoutCart(){
+  async onCheckoutPay(){
     this.flagValidasi = false;
     let errorMsg = "";
 
@@ -270,10 +196,7 @@ export class CheckoutComponent {
         cancelButtonText: 'Cancel',
       }).then(async (result) => {
         if (result.value) {
-          this.apps.loadingPage(true);
-          let body = await this.setBodyCheckoutCart();
-          await this.checkoutCart(body);
-          this.apps.loadingPage(false);
+          await this.payCheckout();
         }
       });
     }

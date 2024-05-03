@@ -28,6 +28,7 @@ export class FacilityAllRequestComponent {
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
+    this.table = [];
     if(this.user.role=='Management'){
       this.col = [
         {name: 'receiptId', displayName: 'Receipt ID'}, 
@@ -54,7 +55,7 @@ export class FacilityAllRequestComponent {
     return new Promise<any>(resolve => 
       this.facilityService.getFacilityApartmentRequest(apartementId, size, page).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
+          console.log('Response All: ', response);
           if(response.data.length > 0){
             this.table = response.data;
             this.allDataCount = response.totalElements;

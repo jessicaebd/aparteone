@@ -1,34 +1,33 @@
 <div class="container w-100">
-    <div class="mt-0 pt-0">
-        <app-label labelType="label"  labelFor="receiptId" labelInput="Receipt Unit"></app-label>
-        <app-textbox inputID="receiptId" [value]="data['receiptId']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="unit" labelInput="Unit"></app-label>
-        <app-textbox inputID="unit" [value]="data['residentUnit']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="recipient" labelInput="Recipient"></app-label>
-        <app-textbox inputID="recipient" [value]="data['residentName']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="type" labelInput="Type"></app-label>
-        <app-textbox inputID="type" [value]="data['mailboxCategory']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="desc" labelInput="Description"></app-label>
-        <app-textbox inputID="desc" [value]="data['description']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="desc" labelInput="Received Date"></app-label>
-        <app-textbox inputID="desc" [value]="data['receivedDate']" [isReadOnly]="true"></app-textbox>
-    </div>
-    <div class="mt-2">
-        <app-label labelType="label"  labelFor="status" labelInput="Status"></app-label>
-        <app-textbox inputID="status" [value]="data['status']" [isReadOnly]="true"></app-textbox>
+    <app-label labelType="subtitle" [labelInput]="data['receiptId'] + ' - ' + data['mailboxCategory']"></app-label>
+    <div class="ms-2 mt-1">
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Unit"></app-label>
+            <app-label class="col" [labelInput]="data['residentUnit']? (': ' + data['residentUnit']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Recipient"></app-label>
+            <app-label class="col" [labelInput]="data['residentName']? (': ' + data['residentName']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Description"></app-label>
+            <app-label class="col" [labelInput]="data['description']? (': ' + data['description']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Status"></app-label>
+            <app-label class="col" [labelInput]="data['status']? (': ' + data['status']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Received Date"></app-label>
+            <app-label class="col" [labelInput]="data['receivedDate']? (': ' + data['receivedDate']) : ': -'"></app-label>
+        </div>
+        <div class="row mb-1">
+            <app-label class="col-3" labelInput="Completed Date"></app-label>
+            <app-label class="col" [labelInput]="data['completedDate']? (': ' + data['completedDate']) : ': -'"></app-label>
+        </div>
     </div>
     <div class="container d-flex justify-content-center py-4">
         <app-button class="me-3" buttonClass="outline-primary" buttonLabel="Remind" (onClickEvent)="onRemind()"></app-button>
-        <app-button buttonClass="primary" buttonLabel="Completed" (onClickEvent)="onButtonSubmit()"></app-button>
+        <app-button buttonClass="primary" buttonLabel="Complete" (onClickEvent)="onButtonSubmit()"></app-button>
     </div>
 </div>

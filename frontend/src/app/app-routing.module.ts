@@ -51,7 +51,8 @@ import { CheckoutComponent } from './feature/merchant/checkout/checkout.componen
 const routes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '', component: HomeComponent, canActivate: [authGuard] },
+  { path: '', component: HomeComponent },
+  // { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'report', component: ReportComponent, canActivate: [authGuard] },
   
   // ANNOUNCEMENT

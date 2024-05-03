@@ -205,13 +205,13 @@
                         </div>
 
                         <div class="row d-flex justify-content-center">
-                            <ng-container *ngIf="role=='resident'">
+                            <ng-container *ngIf="user.role=='Resident'">
                                 <div class="col-1 button-chat d-flex justify-content-center align-items-center rounded ps-1 pe-2 me-2"
                                 style="border: solid 1pt var(--primary-purple); height: 38px;">
                                 <app-text-button iconStart="bi bi-chat" label="Chat" link="/chat"></app-text-button>
                             </div>
                             </ng-container>
-                            <ng-container *ngIf="item.status=='Pending' && role=='resident'">
+                            <ng-container *ngIf="item.status=='Pending' && user.role=='Resident'">
                                 <!-- If payment exist disabled button -->
                                 <div class="col-1 justify-content-center">
                                     <app-button buttonClass="primary" buttonLabel="Pay" data-bs-toggle="modal"
@@ -219,7 +219,7 @@
                                         (onClickEvent)="onSetCheckout(item)"></app-button>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="item.status=='Waiting for Confirmation' && role=='merchant'">
+                            <ng-container *ngIf="item.status=='Waiting for Confirmation' && user.role=='Merchant'">
                                 <!-- If payment exist disabled button -->
                                 <div class="col-2 d-flex justify-content-center">
                                     <app-button class="me-2" buttonClass="outline-primary" buttonLabel="Canceled"
@@ -228,14 +228,14 @@
                                         (onClickEvent)="onButtonVerify(item.id)"></app-button>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="item.status=='On Process' && role=='merchant'">
+                            <ng-container *ngIf="item.status=='On Process' && user.role=='Merchant'">
                                 <!-- If payment exist disabled button -->
                                 <div class="col-2 d-flex justify-content-center">
                                     <app-button class="me-2" buttonClass="primary" buttonLabel="On Delivery"
                                         (onClickEvent)="onButtonClick('On Delivery', item.id)"></app-button>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="item.status=='On Delivery' && role=='merchant'">
+                            <ng-container *ngIf="item.status=='On Delivery' && user.role=='Merchant'">
                                 <!-- If payment exist disabled button -->
                                 <div class="col-2 d-flex justify-content-center">
                                     <app-button class="me-2" buttonClass="primary" buttonLabel="Completed"

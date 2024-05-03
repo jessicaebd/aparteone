@@ -79,6 +79,10 @@ import { NotificationComponent } from './notification/notification.component';
 import { RegisterComponent } from './register/register.component';
 import { ApartmentNeedApprovalComponent } from './admin/apartment-need-approval/apartment-need-approval.component';
 import { CheckoutComponent } from './merchant/checkout/checkout.component';
+import { ResidentNeedApprovalComponent } from './admin/resident-need-approval/resident-need-approval.component';
+import { MerchantNeedApprovalComponent } from './admin/merchant-need-approval/merchant-need-approval.component';
+import { BillingVerifyComponent } from './billing/billing-verify/billing-verify.component';
+import { FacilityUpcomingComponent } from './facility/facility-upcoming/facility-upcoming.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +152,10 @@ import { CheckoutComponent } from './merchant/checkout/checkout.component';
     RegisterComponent,
     ApartmentNeedApprovalComponent,
     CheckoutComponent,
+    ResidentNeedApprovalComponent,
+    MerchantNeedApprovalComponent,
+    BillingVerifyComponent,
+    FacilityUpcomingComponent,
   ],
   imports: [
     CommonModule,

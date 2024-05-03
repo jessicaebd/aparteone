@@ -16,7 +16,6 @@ import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
-import com.com.aparteone.dto.response.stats.ResidentStatsResponse;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.repository.ResidentRepo;
 import com.com.aparteone.service.ApartmentService;
