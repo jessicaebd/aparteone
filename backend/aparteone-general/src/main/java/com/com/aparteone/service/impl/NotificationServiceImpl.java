@@ -17,7 +17,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotifications(Integer userId) {
-        List<Notification> notifications = notificationRepo.findFirst5ByUserIdOrderByCreatedDate(userId);
+        List<Notification> notifications = notificationRepo.findFirst5ByUserIdOrderByCreatedDateDesc(userId);
         return notifications;
     }
 

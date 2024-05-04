@@ -187,7 +187,11 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Integer countMerchantByApartmentId(Integer apartmentId) {
-        return merchantRepo.countByApartmentId(apartmentId);
+    public Integer countMerchant(Integer apartmentId) {
+        Specification<Merchant> spec = Specification.where(null);
+        if (apartmentId != null) {
+            spec = spec.and(MerchantSpecification.hasApartmentId(apartmentId));
+        }
+        return merchantRepo.findAll(spec).size();
     }
 }
