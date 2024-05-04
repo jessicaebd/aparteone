@@ -14,5 +14,5 @@ public interface ResidentService {
     public Resident addResident(Integer userId, RegisterResidentRequest registerResidentRequest);
     public Resident updateResident(Integer residentId, Boolean isActive, RegisterResidentRequest registerResidentRequest);
 
-    public Integer countResidentByApartmentId(Integer apartmentId);
+    public Integer countResident(Integer apartmentId);
 }

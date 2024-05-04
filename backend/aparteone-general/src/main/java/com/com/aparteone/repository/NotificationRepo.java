@@ -9,5 +9,5 @@ import com.com.aparteone.entity.Notification;
 
 @Repository
 public interface NotificationRepo extends JpaRepository<Notification, Integer> {
-    public List<Notification> findFirst5ByUserIdOrderByCreatedDate(Integer userId);
+    public List<Notification> findFirst5ByUserIdOrderByCreatedDateDesc(Integer userId);
 }

@@ -14,5 +14,5 @@ public interface MerchantService {
     public Merchant addMerchant(Integer userId, RegisterMerchantRequest registerMerchantRequest);
     public Merchant updateMerchant(Integer merchantId, Boolean isActive, RegisterMerchantRequest merchantDTO);
 
-    public Integer countMerchantByApartmentId(Integer apartmentId);
+    public Integer countMerchant(Integer apartmentId);
 }

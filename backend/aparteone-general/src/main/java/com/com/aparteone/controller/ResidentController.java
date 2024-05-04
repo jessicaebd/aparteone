@@ -72,8 +72,8 @@ public class ResidentController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Integer> countResidentByApartmentId(@RequestParam Integer apartmentId){
-        log.info("[Resident] Count Resident By ApartmentId: apartmentId-{}", apartmentId);
-        return ResponseEntity.ok(residentService.countResidentByApartmentId(apartmentId));
+    public ResponseEntity<Integer> countResident(@RequestParam(required = false) Integer apartmentId){
+        log.info("[Resident] Count Resident: apartmentId-{}", apartmentId);
+        return ResponseEntity.ok(residentService.countResident(apartmentId));
     }
 }
