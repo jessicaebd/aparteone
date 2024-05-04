@@ -309,56 +309,56 @@
                     </div>
                     <div class="row">
                         <div class="p-3 col-3">
-                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('transaction')">
                                 <div class="row d-flex">
                                     <img class="mt-3 card-img-top ms-2" src="assets/icon/transaction-status/pending.png"
                                         alt="...">
                                     <div class="card-title w-100 d-flex justify-content-center">
                                         <div class="row">
                                             <h6 style="font-weight: 650;">Pending</h6>
-                                            <h4 style="font-weight: 650;">1</h4>
+                                            <h4 style="font-weight: 650;">{{ pendingTransaction }}</h4>
                                         </div>
                                     </div>
                                 </div>
                             </button>
                         </div>
                         <div class="p-3 col-3">
-                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('transaction')">
                                 <div class="row d-flex">
                                     <img class="mt-3 card-img-top" src="assets/icon/transaction-status/on-delivery.png"
                                         alt="...">
                                     <div class="card-title w-100 d-flex justify-content-center">
                                         <div class="row">
                                             <h6 style="font-weight: 650;">On Delivery</h6>
-                                            <h4 style="font-weight: 650;">1</h4>
+                                            <h4 style="font-weight: 650;">{{ deliveryTransaction }}</h4>
                                         </div>
                                     </div>
                                 </div>
                             </button>
                         </div>
                         <div class="p-3 col-3">
-                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('transaction')">
                                 <div class="row d-flex">
                                     <img class="mt-3 card-img-top" src="assets/icon/transaction-status/completed.png"
                                         alt="...">
                                     <div class="card-title w-100 d-flex justify-content-center">
                                         <div class="row">
                                             <h6 style="font-weight: 650;">Completed</h6>
-                                            <h4 style="font-weight: 650;">10</h4>
+                                            <h4 style="font-weight: 650;">{{ completedTransaction }}</h4>
                                         </div>
                                     </div>
                                 </div>
                             </button>
                         </div>
                         <div class="p-3 col-3">
-                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('payment')">
+                            <button class="card justify-content-between w-100" (click)="goToFeaturePage('transaction')">
                                 <div class="row d-flex">
                                     <img class="mt-3 card-img-top"
                                         src="assets/icon/transaction-status/payment-approval.png" alt="...">
                                     <div class="card-title w-100 d-flex justify-content-center">
                                         <div class="row">
                                             <h6 style="font-weight: 650;">Payment Approval</h6>
-                                            <h4 style="font-weight: 650;">1</h4>
+                                            <h4 style="font-weight: 650;">{{ paymentApproval }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -368,95 +368,25 @@
                 </div>
 
                 <!-- Information -->
-                <div class="right col-4 shadow-sm p-3" style="border-radius: 2vh;">
+                <div class="information right col-4 shadow-sm p-3" style="border-radius: 2vh;">
                     <div class="row p-4 shadow-sm border mb-4" style="border-radius: 2vh;">
                         <div class="row">
                             <div class="col">
                                 <app-label labelInput="Total Income" labelType="title"></app-label>
                             </div>
                             <div class="col-4">
-                                <p class="text-secondary fw-semibold text-end">April 2024</p>
+                                <p class="text-secondary fw-semibold text-end">{{ dateInformation }}</p>
                             </div>
                         </div>
                         <h2 class="mt-3 p-3 text-center fw-bold">Rp 1.000.000</h2>
                     </div>
 
-                    <div class="latest-transaction border shadow-sm p-2" style="border-radius: 2vh;">
-                        <div class="mx-2 my-3">
+                    <div class="upcoming border shadow-sm p-2" style="border-radius: 2vh;">
+                        <div class="mx-2 mt-2 mb-2">
                             <app-label labelInput="Latest Transaction" labelType="title"></app-label>
                         </div>
-                        <div class="latest-transaction p-1">
-                            <div class="row p-3 shadow-sm">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
-                                        <div class="col-2 d-flex justify-content-end">
-                                            <span
-                                                class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00
-                                            -
-                                            10:00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="latest-transaction p-1">
-                            <div class="row p-3 shadow-sm">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
-                                        <div class="col-2 d-flex justify-content-end">
-                                            <span
-                                                class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00
-                                            -
-                                            10:00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="latest-transaction p-1">
-                            <div class="row p-3 shadow-sm">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
-                                        <div class="col-2 d-flex justify-content-end">
-                                            <span
-                                                class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00
-                                            -
-                                            10:00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="latest-transaction p-1">
-                            <div class="row p-3 shadow-sm">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h6 class="col-10 fw-bolder fs-6">#TXN001</h6>
-                                        <div class="col-2 d-flex justify-content-end">
-                                            <span
-                                                class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <span class="col-10 text-secondary" style="font-size: 12px;">24 Apr 2024 | 09:00
-                                            -
-                                            10:00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        <app-transaction-latest></app-transaction-latest>
                     </div>
                 </div>
             </div>

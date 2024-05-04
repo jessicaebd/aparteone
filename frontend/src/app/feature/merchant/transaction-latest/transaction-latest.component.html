@@ -6,19 +6,19 @@
 
 <ng-template #list>
     <div style="height: 16rem">
-        <ng-container *ngFor="let item of listApproval">
-            <button class="btn py-0 w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalRequestDetail" (click)="onListItemClick(item)">
+        <ng-container *ngFor="let item of listTransaction">
+            <button class="btn py-0 w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalViewTransaction" (click)="onListItemClick(item)">
                 <div class="row p-3 shadow-sm">
                     <div class="card-body">
                         <div class="row">
-                            <h6 class="col-9 fw-bolder fs-6 text-start mb-0 text-truncate">{{item.receiptId}}-{{item.billingCategory}}</h6>
+                            <h6 class="col-9 fw-bolder fs-6 text-start mb-0 text-truncate">#MRC00{{item.id}} - {{item.residentName}}</h6>
                             <div class="col-3 d-flex justify-content-end">
                                 <span
-                                    class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Payment</span>
+                                    class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Approval</span>
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <span class="col-11 text-secondary text-start text-truncate" style="font-size: 12px;">{{item.dueDate}}</span>
+                            <span class="col-11 text-secondary text-start text-truncate" style="font-size: 12px;">{{item.transactionDate}} | Rp {{item.grandTotal}}</span>
                         </div>
                     </div>
                 </div>
@@ -33,18 +33,16 @@
     </mat-paginator>
 
     <!-- Modal -->
-    <app-modal modalID="modalRequestDetail" [width]="600" [modalContent]="modalRequestDetail"></app-modal>
+    <app-modal modalID="modalViewTransaction" [width]="600" [modalContent]="modalViewTransaction"></app-modal>
 
-    <ng-template #modalRequestDetail>
+    <ng-template #modalViewTransaction>
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Billing Detail</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Transaction</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                #closeModalDetail></button>
+                #closeModalTransaction></button>
         </div>
         <div class="modal-body d-flex col justify-content-center">
-            <div class="container">
-                <app-billing-detail [data]="data" (onSubmitEvent)="redirect()"></app-billing-detail>
-            </div>
+            <app-transaction-detail [data]="dataTransaction" (onSubmitEvent)="redirect()"></app-transaction-detail>
         </div>
     </ng-template>
 </ng-template>

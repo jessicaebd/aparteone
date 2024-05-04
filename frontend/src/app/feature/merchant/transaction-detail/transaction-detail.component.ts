@@ -60,7 +60,7 @@ export class TransactionDetailComponent {
     });
   }
 
-  onButtonVerify(){
+  onButtonVerify(type: any){
     Swal.fire({
       title: 'Are you sure?',
       icon: 'question',
@@ -72,19 +72,35 @@ export class TransactionDetailComponent {
     }).then(async (result) => {
       if (result.value) {
         this.apps.loadingPage(true);
-        let result = await this.verifyPayment(this.data['id'], true);
-        if(result==true){
+        let result = await this.verifyPayment(this.data['id'], type);
+        if(result==true && type==true){
           Swal.fire({
             title: 'Success',
-            html: 'Verify Successfuly',
+            html: 'Approved Successfuly',
             icon: 'success',
             confirmButtonColor: '#5025FA'
           });
         }
-        else {
+        else if(result==true && type==true){
+          Swal.fire({
+            title: 'Success',
+            html: 'Rejected Successfuly',
+            icon: 'success',
+            confirmButtonColor: '#5025FA'
+          });
+        }
+        else if(type==true){
           Swal.fire({
             title: 'Error',
-            html: 'Failed Verify Payment',
+            html: 'Failed Approve Payment',
+            icon: 'error',
+            confirmButtonColor: '#5025FA'
+          });
+        }
+        else if(type==false){
+          Swal.fire({
+            title: 'Error',
+            html: 'Failed Reject Payment',
             icon: 'error',
             confirmButtonColor: '#5025FA'
           });

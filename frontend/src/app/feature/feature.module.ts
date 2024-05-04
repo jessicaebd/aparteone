@@ -83,6 +83,7 @@ import { ResidentNeedApprovalComponent } from './admin/resident-need-approval/re
 import { MerchantNeedApprovalComponent } from './admin/merchant-need-approval/merchant-need-approval.component';
 import { BillingVerifyComponent } from './billing/billing-verify/billing-verify.component';
 import { FacilityUpcomingComponent } from './facility/facility-upcoming/facility-upcoming.component';
+import { TransactionLatestComponent } from './merchant/transaction-latest/transaction-latest.component';
 
 @NgModule({
   declarations: [
@@ -156,6 +157,7 @@ import { FacilityUpcomingComponent } from './facility/facility-upcoming/facility
     MerchantNeedApprovalComponent,
     BillingVerifyComponent,
     FacilityUpcomingComponent,
+    TransactionLatestComponent,
   ],
   imports: [
     CommonModule,

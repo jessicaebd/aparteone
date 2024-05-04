@@ -13,6 +13,10 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
+
+  .information{
+    height: 39rem;
+  }
   
   .card {
     display: flex;

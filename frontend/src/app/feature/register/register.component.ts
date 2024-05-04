@@ -304,7 +304,7 @@ export class RegisterComponent {
     if(result==true){
       Swal.fire({
         title: 'Success',
-        html: 'Inserted Successfuly',
+        html: 'Register Successfuly',
         icon: 'success',
         confirmButtonColor: '#5025FA'
       });
@@ -312,7 +312,7 @@ export class RegisterComponent {
     else {
       Swal.fire({
         title: 'Error',
-        html: 'Failed Insert Category',
+        html: 'Failed Register',
         icon: 'error',
         confirmButtonColor: '#5025FA'
       });

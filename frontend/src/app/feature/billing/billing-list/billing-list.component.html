@@ -104,7 +104,7 @@
                             </div>
                             <div class="col">
                                 <app-label *ngIf="item.billingDate; else noData"
-                                    [labelInput]="': ' + item.billingDate"></app-label>
+                                    [labelInput]="': ' + item.dueDate"></app-label>
                             </div>
                         </div>
                         <div class="row w-50">
@@ -122,7 +122,7 @@
                                     <app-label labelInput="Payment History" class="fw-semibold"></app-label>
                                 </div>
                                 <div class="col">
-                                    <span>: </span><a href="">View</a>
+                                    <span>: </span><app-text-button size="small" label="View" data-bs-toggle="modal" data-bs-target="#modalPaymentHistory" (onClickEvent)="onPayClick(item)"></app-text-button>
                                 </div>
                             </div>
                         </ng-container>
@@ -158,11 +158,28 @@
 <ng-template #modalPayBilling>
     <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Pay Billing</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalPay></button>
     </div>
     <div class="modal-body d-flex col justify-content-center">
         <div class="container">
-            <app-billing-pay [data]="data" (onSubmitEvent)="redirect()"></app-billing-pay>
+            <app-billing-pay [data]="data" (onSubmitEvent)="redirect('pay')"></app-billing-pay>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Modal -->
+<app-modal modalID="modalPaymentHistory" [width]="600" [modalContent]="modalPaymentHistory"></app-modal>
+
+<ng-template #modalPaymentHistory>
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment History</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalHistory></button>
+    </div>
+    <div class="modal-body d-flex col justify-content-center">
+        <div class="container d-flex justify-content-center w-100">
+            <ng-container *ngIf="data['payment']!=null">
+                <img class="rounded" [src]="data['payment']['paymentProofImage']" style="object-fit: contain; width: 25rem;">
+            </ng-container>
         </div>
     </div>
 </ng-template>

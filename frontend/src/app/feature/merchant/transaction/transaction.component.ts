@@ -52,9 +52,8 @@ export class TransactionComponent {
 
   getTransactionMerchant(merchantId: any, size:number, page: number): Promise<any>{
     return new Promise<any>(resolve => 
-      this.merchantService.getTransactionMerchant(merchantId, size, page).subscribe({
+      this.merchantService.getTransactionMerchant(merchantId, size, page, null).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           if(response.data.length > 0){
             this.tableTransaction = response.data;
             this.allDataTransaction = response.totalElements;
@@ -76,7 +75,6 @@ export class TransactionComponent {
     return new Promise<any>(resolve => 
       this.merchantService.getTransactionResident(residentId, size, page, status).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
           if(response.data.length > 0){
             this.listTransaction = response.data;
             this.allListTransaction = response.totalElements;
@@ -107,7 +105,6 @@ export class TransactionComponent {
   }
 
   onLoadData(type:any, e:any){
-    console.log("Onload Page Index: ", e);
     if(type=='request'){
       this.pageList = e;
     }

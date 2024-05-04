@@ -212,10 +212,16 @@ export class MerchantService {
   }
 
   // TRANSACTION
-  getTransactionMerchant(merchantId: any, size:number, page: number): any {
+  getTransactionMerchant(merchantId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiTransaction}/${this.apiMerchant}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
-    const params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
+    let params;
+    if(status=='' || status==null){
+      params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page } });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'merchantId': merchantId, 'size': size, 'page': page, 'status': status } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }

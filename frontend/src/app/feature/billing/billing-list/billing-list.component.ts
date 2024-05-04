@@ -23,7 +23,8 @@ export class BillingListComponent {
 
   data: Billing = {};
 
-  @ViewChild('closeModal') modalClose: any;
+  @ViewChild('closeModalPay') modalClosePay: any;
+  @ViewChild('closeModalHistory') modalCloseHistory: any;
 
   onClickPageIndex(e:any){
     this.onPageIndexEvent.emit(e.pageIndex);
@@ -47,13 +48,15 @@ export class BillingListComponent {
       resolve(this.data);
     });
   }
-
-  onDownloadPDF(e:any){
-    console.log('Download PDF');
-  }
-
-  redirect(){
-    this.modalClose.nativeElement.click();
+  
+  redirect(type:any){
+    if(type=='pay'){
+      this.modalClosePay.nativeElement.click();
+    }
+    else if(type=='history'){
+      this.modalCloseHistory.nativeElement.click();
+    }
+    
     this.onSubmitEvent.emit();
   }
 }

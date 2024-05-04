@@ -197,18 +197,30 @@ export class AppService {
     return this.httpClient.get<any>(apiUrl, options);
   }
   
-  countResidentByApartmentId(apartmentId: any): any {
+  countResident(apartmentId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiResident}/${this.apiCount}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    let params;
+    if(apartmentId == null){
+      params = new HttpParams({ });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
   
-  countMerchantByApartmentId(apartmentId: any): any {
+  countMerchant(apartmentId: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiMerchant}/${this.apiCount}`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.retrieveAccessToken() });
-    const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    let params;
+    if(apartmentId == null){
+      params = new HttpParams({ });
+    }
+    else{
+      params = new HttpParams({ fromObject: { 'apartmentId': apartmentId } });
+    }
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
   }
