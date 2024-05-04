@@ -31,24 +31,22 @@
             </div>
         </ng-container>
 
-        <div class="d-flex row rounded mx-3 px-4 pt-2 mb-2">
-            <div class="col-1 d-flex justify-content-center ms-3">
+        <div class="d-flex row rounded mx-3 ps-3 pe-4 pt-2 mb-2">
+            <div class="d-flex justify-content-between pe-3">
                 <app-label labelInput="Total" style="font-weight: 600; font-size: 1rem;"></app-label>
-            </div>
-            <div class="col d-flex justify-content-end">
-                <p class="fs-6 fw-bold">Rp {{subtotal}}</p>
+                <p class="fs-6 fw-bold pe-2">Rp {{subtotal}}</p>
             </div>
         </div>
 
-        <div class="row mb-2 px-4">
+        <!-- <div class="row mb-2 px-4">
             <app-label labelType="label" labelFor="uploadImage" labelInput="Payment Proof" [isMandatory]="true"></app-label>
             <div class="d-flex justify-content-center w-100">
                 <app-attachment-image attachmentID="uploadImage" previewWidth="20vw" (onChangeEvent)="paymentProof=$event" style="width: 75%;"></app-attachment-image>
             </div>
-        </div>
+        </div> -->
 
         <div class="d-flex justify-content-center my-3">
-            <app-button buttonLabel="Order Now" (onClickEvent)="onCheckoutPay()"
+            <app-button buttonLabel="Order Now" (onClickEvent)="onCheckoutCart()"
                 (onSubmitEvent)="ngOnInit()"></app-button>
         </div>
     </ng-template>

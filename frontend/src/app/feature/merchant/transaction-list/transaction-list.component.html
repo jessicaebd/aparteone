@@ -129,7 +129,7 @@
                                 </div>
                             </div>
 
-                            <div class="order-detail w-50">
+                            <div class="order-detail w-50 mt-2">
                                 <app-label labelInput="Order Detail :" style="font-weight: 600;"></app-label>
                                 <ng-container *ngFor="let i of item.details">
                                     <div class="row ms-2 mb-2">
@@ -262,7 +262,7 @@
     </ng-container>
 
     <!-- Modal -->
-    <app-modal modalID="modalCheckout" [width]="450" [modalContent]="modalCheckout"></app-modal>
+    <app-modal modalID="modalCheckout" [width]="500" [modalContent]="modalCheckout"></app-modal>
 
     <ng-template #modalCheckout>
         <div class="modal-header">
@@ -271,7 +271,7 @@
         </div>
         <div class="modal-body justify-content-center">
             <ng-container *ngIf="checkout">
-                <div class="w-100">
+                <div class="w-100 px-2">
                     <div class="row mb-1">
                         <div class="col-5">
                             <app-label class="text-break fw-semibold" labelType="label"

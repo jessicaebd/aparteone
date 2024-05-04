@@ -165,20 +165,20 @@ export class CartComponent {
     )
   }
 
-  setBodyCheckoutCart(): Promise<any>{
-    return new Promise<any>(resolve =>{
-      let listId = [];
-      for(let item of this.cartList){
-        listId.push(item.id);
-      }
-      let body = {
-        residentId: this.user.id,
-        merchantId: this.merchantId,
-        carts: listId
-      }
-      resolve(body);
-    });
-  }
+  // setBodyCheckoutCart(): Promise<any>{
+  //   return new Promise<any>(resolve =>{
+  //     let listId = [];
+  //     for(let item of this.cartList){
+  //       listId.push(item.id);
+  //     }
+  //     let body = {
+  //       residentId: this.user.id,
+  //       merchantId: this.merchantId,
+  //       carts: listId
+  //     }
+  //     resolve(body);
+  //   });
+  // }
 
   setBodyCheckoutPay(): Promise<any>{
     return new Promise<any>(resolve =>{
@@ -247,45 +247,45 @@ export class CartComponent {
     window.location.replace('/transaction-list');
   }
 
-  async onCheckoutCart(){
-    this.flagValidasi = false;
-    let errorMsg = "";
+  // async onCheckoutCart(){
+  //   this.flagValidasi = false;
+  //   let errorMsg = "";
 
-    if(this.paymentProof=="" || this.paymentProof==undefined){
-      errorMsg = "Please Upload Payment Proof";
-    }
-    else{
-      this.flagValidasi = true
-    }
+  //   if(this.paymentProof=="" || this.paymentProof==undefined){
+  //     errorMsg = "Please Upload Payment Proof";
+  //   }
+  //   else{
+  //     this.flagValidasi = true
+  //   }
 
-    if(this.flagValidasi){
-      //SUBMIT REQUEST
-      Swal.fire({
-        title: 'Are you sure?',
-        icon: 'question',
-        showCancelButton: true,
-        cancelButtonColor: "#697988",
-        confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
-      }).then(async (result) => {
-        if (result.value) {
-          this.apps.loadingPage(true);
-          let body = await this.setBodyCheckoutCart();
-          await this.checkoutCart(body);
-          this.apps.loadingPage(false);
-        }
-      });
-    }
-    else{
-      Swal.fire({
-        title: 'Validasi',
-        html: errorMsg,
-        icon: 'warning',
-        confirmButtonColor: '#5025FA'
-      });
-    }
-  }
+  //   if(this.flagValidasi){
+  //     //SUBMIT REQUEST
+  //     Swal.fire({
+  //       title: 'Are you sure?',
+  //       icon: 'question',
+  //       showCancelButton: true,
+  //       cancelButtonColor: "#697988",
+  //       confirmButtonColor: "#5025FA",
+  //       confirmButtonText: 'Yes',
+  //       cancelButtonText: 'No',
+  //     }).then(async (result) => {
+  //       if (result.value) {
+  //         this.apps.loadingPage(true);
+  //         let body = await this.setBodyCheckoutCart();
+  //         await this.checkoutCart(body);
+  //         this.apps.loadingPage(false);
+  //       }
+  //     });
+  //   }
+  //   else{
+  //     Swal.fire({
+  //       title: 'Validasi',
+  //       html: errorMsg,
+  //       icon: 'warning',
+  //       confirmButtonColor: '#5025FA'
+  //     });
+  //   }
+  // }
 
   backButton(){
     window.location.replace('merchant/store/' + this.merchantId);

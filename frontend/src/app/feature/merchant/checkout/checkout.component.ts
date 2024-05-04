@@ -102,12 +102,12 @@ export class CheckoutComponent {
     )
   }
 
-  updateCart(cartId:any, quantity:any, notes:any): Promise<any>{
+  checkoutCart(body:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.merchantService.updateCart(cartId, quantity, notes).subscribe({
+      this.merchantService.checkout(body).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
-          this.cartList = response;
+          this.checkout = response;
           resolve(true);
         },
         error: (error: any) => {
@@ -118,96 +118,44 @@ export class CheckoutComponent {
     )
   }
   
-  checkoutPayment(body:any): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.merchantService.payment(body).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          resolve(true);
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          resolve(error);
-        }
-      })
-    )
-  }
-
-  setBodyCheckoutPay(): Promise<any>{
+  setBodyCheckoutCart(): Promise<any>{
     return new Promise<any>(resolve =>{
+      let listId = [];
+      for(let item of this.cartList){
+        listId.push(item.id);
+      }
       let body = {
-        id: this.checkout.id,
-        paymentProofImage: this.paymentProof
+        residentId: this.user.id,
+        merchantId: this.merchantId,
+        carts: listId
       }
       resolve(body);
     });
   }
 
-  async payCheckout(){
-    this.apps.loadingPage(true);
-    let body = await this.setBodyCheckoutPay();
-    console.log(body);
-    // let result = await this.checkoutPayment(body);
-    // if(result==true){
-    //   Swal.fire({
-    //     title: 'Success',
-    //     html: 'Payment Successfuly',
-    //     icon: 'success',
-    //     confirmButtonColor: '#5025FA'
-    //   });
-    // }
-    // else {
-    //   Swal.fire({
-    //     title: 'Error',
-    //     html: 'Failed Payment',
-    //     icon: 'error',
-    //     confirmButtonColor: '#5025FA'
-    //   });
-    // }
-    this.modalCloseCO.nativeElement.click();
-    this.apps.loadingPage(false);
-    this.goToTransactionPage();
+  async onCheckoutCart(){
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'question',
+      showCancelButton: true,
+      cancelButtonColor: "#697988",
+      confirmButtonColor: "#5025FA",
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then(async (result) => {
+      if (result.value) {
+        this.apps.loadingPage(true);
+        let body = await this.setBodyCheckoutCart();
+        console.log(body);
+        await this.checkoutCart(body);
+        this.goToTransactionPage();
+        this.apps.loadingPage(false);
+      }
+    });
   }
   
   goToTransactionPage(){
-    window.location.replace('/transaction-list');
-  }
-
-  async onCheckoutPay(){
-    this.flagValidasi = false;
-    let errorMsg = "";
-
-    if(this.paymentProof=="" || this.paymentProof==undefined){
-      errorMsg = "Please Upload Payment Proof";
-    }
-    else{
-      this.flagValidasi = true
-    }
-
-    if(this.flagValidasi){
-      //SUBMIT REQUEST
-      Swal.fire({
-        title: 'Are you sure?',
-        icon: 'question',
-        showCancelButton: true,
-        cancelButtonColor: "#697988",
-        confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
-      }).then(async (result) => {
-        if (result.value) {
-          await this.payCheckout();
-        }
-      });
-    }
-    else{
-      Swal.fire({
-        title: 'Validasi',
-        html: errorMsg,
-        icon: 'warning',
-        confirmButtonColor: '#5025FA'
-      });
-    }
+    window.location.replace('/transaction');
   }
 
   backButton(){
