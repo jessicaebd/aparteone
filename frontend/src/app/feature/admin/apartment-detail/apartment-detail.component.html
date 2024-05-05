@@ -1,8 +1,10 @@
 <div class="container">
     <div class="ms-2 mt-1">
-        <div class="row mb-3 apartment-image">
-            <img [src]="data['image']" alt="apartment-image">
-        </div>
+        <ng-container *ngIf="data['image']">
+            <div class="row mb-3 apartment-image">
+                <img [src]="data['image']" alt="apartment-image">
+            </div>
+        </ng-container>
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Apartment" style="font-weight: 600;"></app-label>
             <app-label class="col" [labelInput]="data['name']? (': ' + data['name']) : ': -'" style="font-weight: 600;"></app-label>
