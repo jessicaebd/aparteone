@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
@@ -15,7 +15,7 @@ export class CheckoutComponent {
   user = this.appService.retrieveUser();
   
   merchantId!: number;
-  cartList: Cart[] = [];
+  @Input() cartList: Cart[] = [];
   merchant!: any;
   errorMsg: string = '';
   subtotal!: any;

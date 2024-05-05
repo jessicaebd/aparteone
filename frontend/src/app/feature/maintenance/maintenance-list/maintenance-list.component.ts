@@ -73,7 +73,7 @@ export class MaintenanceListComponent {
 
   updateMaintenanceRequest(status:any, remarks:any, maintenanceRequestId:any): Promise<any>{
     return new Promise<any>(resolve => 
-      this.maintenanceService.updateMaintenanceRequest(status, remarks, maintenanceRequestId).subscribe({
+      this.maintenanceService.updateMaintenanceRequest(maintenanceRequestId, status, remarks).subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           resolve(true);

@@ -38,20 +38,15 @@ export class FacilityAddCategoryComponent implements OnInit{
       endTime: null,
     })
     this.index++;
-    // console.log(this.dataTime);
   }
 
   onDeleteItem(index: any){
-    // console.log(index);
     let length1 = this.dataTime.length;
     let temp1 = this.dataTime.splice(index + 1, length1 - (index + 1));
-    // console.log('SPLICE', temp1);
     this.dataTime.pop();
-    // console.log('POP', this.dataTime);
     for(let i=0; i<temp1.length; i++){
       this.dataTime.push(temp1[i]);
     }
-    // console.log(this.dataTime);
   }
 
   validateTime(): Promise<any>{
@@ -125,9 +120,9 @@ export class FacilityAddCategoryComponent implements OnInit{
   async submitRequest(){
     let body = await this.setBodyInsertCategory();
     let result = await this.insertFacilityCategory(body);
+    this.clearData();
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
-    this.clearData();
 
     if(result==true){
       Swal.fire({

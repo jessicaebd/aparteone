@@ -7,6 +7,8 @@ import { MaintenanceCategory, MaintenanceRequest } from './maintenance.interface
 import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
 import { AppService } from 'src/app/app.service';
+import { MaintenanceHistoryComponent } from './maintenance-history/maintenance-history.component';
+import { MaintenanceAllRequestComponent } from './maintenance-all-request/maintenance-all-request.component';
 
 
 @Component({
@@ -38,6 +40,8 @@ export class MaintenanceComponent implements OnInit{
   @ViewChild('closeModalAdd') modalCloseAdd: any;
   @ViewChild('closeModalUpdate') modalCloseUpdate: any;
   @ViewChild('closeModalAssign') modalCloseAssign: any;
+  @ViewChild(MaintenanceHistoryComponent) maintenanceHistory!: MaintenanceHistoryComponent;
+  @ViewChild(MaintenanceAllRequestComponent) maintenanceRequest!: MaintenanceAllRequestComponent;
 
   constructor(private location: Location, private maintenanceService: MaintenanceService, private apps: AppComponent, private appService: AppService){}
   
@@ -61,11 +65,11 @@ export class MaintenanceComponent implements OnInit{
         {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getMaintenanceCategoryApartment(this.user.id, this.sizeCategory, this.pageCategory);
-      this.getMaintenanceAllRequest(this.user.id, 5, 0);
+      // this.maintenanceRequest.ngOnInit();
     }
     else if (this.user.role=='Resident'){
       this.getMaintenanceCategoryResident(this.user.apartmentId);
-      this.getMaintenanceResidentRequest(this.user.id, 3, 0, '');
+      this.maintenanceHistory.ngOnInit();
     }
     this.apps.loadingPage(false);
   }

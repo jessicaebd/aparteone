@@ -6,6 +6,8 @@ import { FacilityService } from './service/facility.service';
 import { AppComponent } from 'src/app/app.component';
 import { FacilityUpdateCategoryComponent } from './facility-update-category/facility-update-category.component';
 import { AppService } from 'src/app/app.service';
+import { FacilityHistoryComponent } from './facility-history/facility-history.component';
+import { FacilityAllRequestComponent } from './facility-all-request/facility-all-request.component';
 
 @Component({
   selector: 'app-facility',
@@ -40,6 +42,8 @@ export class FacilityComponent {
   @ViewChild('closeModalUpdate') modalCloseUpdate: any;
   @ViewChild('closeModalRequest') modalCloseRequest: any;
   @ViewChild(FacilityUpdateCategoryComponent) facilityUpdateCategory!: FacilityUpdateCategoryComponent;
+  @ViewChild(FacilityHistoryComponent) facilityHistory!: FacilityHistoryComponent;
+  @ViewChild(FacilityAllRequestComponent) facilityRequest!: FacilityAllRequestComponent;
 
   constructor(private location: Location, private facilityService: FacilityService, private apps: AppComponent, private appService: AppService){}
   
@@ -54,11 +58,11 @@ export class FacilityComponent {
       this.colCategory = [{name: 'category', displayName: 'Name'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
       this.getFacilityCategory(this.user.id, this.sizeCategory, this.pageCategory);
-      this.getFacilityApartmentRequest(this.user.id, 5, 0);
+      // this.facilityRequest.ngOnInit();
     }
     else if (this.user.role == 'Resident'){
       this.getFacilityActiveCategory(this.user.apartmentId);
-      this.getFacilityResidentRequest(this.user.id, 3, 0, '');
+      this.facilityHistory.ngOnInit();
     }
     else {
       window.location.replace('');
