@@ -59,7 +59,6 @@ export class AnnouncementAddComponent {
         cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
-          this.apps.loadingPage(true);
           this.submitRequest();
         }
       });
@@ -75,6 +74,7 @@ export class AnnouncementAddComponent {
   }
   
   async submitRequest(){
+    this.apps.loadingPage(true);
     let body = await this.setBodyInsertAnnouncement();
     let result = await this.insertAnnouncement(body);
     await this.setSelection();

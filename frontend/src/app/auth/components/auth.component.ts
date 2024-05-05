@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-auth',
@@ -42,7 +43,17 @@ export class AuthComponent implements OnInit {
         this.authService.login(email, password).subscribe({
           next: async (response: any) => {
             console.log('Response: ', response);
-            await this.appService.saveUser(response);
+            if(response.statusCode!='401'){
+              await this.appService.saveUser(response);
+            }
+            else {
+              Swal.fire({
+                title: 'Error',
+                html: 'Invalid Username or Password',
+                icon: 'error',
+                confirmButtonColor: '#5025FA'
+              });
+            }
             resolve(true);
           },
           error: (error: any) => {
