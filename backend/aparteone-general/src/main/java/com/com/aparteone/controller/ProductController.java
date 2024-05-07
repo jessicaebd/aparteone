@@ -25,7 +25,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/product")
-    public ResponseEntity<PageResponse<ProductResponse>> getMerchantProductList(
+    public ResponseEntity<PageResponse<ProductResponse>> getProductList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "100") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,

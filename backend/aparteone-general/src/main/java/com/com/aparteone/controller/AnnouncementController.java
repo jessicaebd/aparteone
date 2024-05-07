@@ -25,7 +25,7 @@ public class AnnouncementController {
     private AnnouncementService announcementService;
 
     @GetMapping("")
-    public ResponseEntity<PageResponse<AnnouncementResponse>> getAnnouncementListByApartmentId(
+    public ResponseEntity<PageResponse<AnnouncementResponse>> getAnnouncementList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "40") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "createdDate") String sortBy,
