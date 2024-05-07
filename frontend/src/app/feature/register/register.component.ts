@@ -220,18 +220,6 @@ export class RegisterComponent {
       else if(this.merchant.password=="" || this.merchant.password=="Type a value" || this.merchant.password==undefined){
         errorMsg = "Please set Password";
       }
-      else if(this.merchant.bankAccount=="" || this.merchant.bankAccount=="Type a value" || this.merchant.bankAccount==undefined){
-        errorMsg = "Please fill Bank Account";
-      }
-      else if(this.merchant.accountNumber=="" || this.merchant.accountNumber=="Type a value" || this.merchant.accountNumber==undefined){
-        errorMsg = "Please fill Account Number";
-      }
-      else if(this.merchant.accountName=="" || this.merchant.accountName=="Type a value" || this.merchant.accountName==undefined){
-        errorMsg = "Please fill Account Name";
-      }
-      else if(this.merchant.address=="" || this.merchant.address=="Type a value" || this.merchant.address==undefined){
-        errorMsg = "Please fill Address";
-      }
       else{
         errorMsg = ''
       }
