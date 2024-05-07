@@ -74,9 +74,9 @@ export class RegisterComponent {
     ) {  }
 
   async ngOnInit() {
-    // if (this.appService.retrieveAccessToken()) {
-    //     this.router.navigateByUrl('');
-    // }
+    if (this.appService.retrieveAccessToken()) {
+        this.router.navigateByUrl('');
+    }
     if(this.flagApartement==false){
       let data = await this.getApartmentList();
       await this.setDropdownApartment(data);

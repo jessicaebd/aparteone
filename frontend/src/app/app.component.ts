@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.appService.retrieveAccessToken()) {
-      // this.isLogin = true;
+      this.isLogin = true;
       this.user = this.appService.retrieveUser();
     }
     let currentPath = window.location.href;
