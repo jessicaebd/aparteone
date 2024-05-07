@@ -8,7 +8,7 @@
     </div>
     <div class="col-6 ps-4 border-start">
       <ng-container *ngIf="flagApartement; else user">
-        <h3 class="fw-semibold text-center mb-3">REGISTER APARTEMENT</h3>
+        <h3 class="fw-semibold text-center mb-3">Register Apartment</h3>
         <div class="mb-2">
           <app-label labelType="label" labelFor="name" labelInput="Apartement Name" [isMandatory]="true"></app-label>
           <input type="text" [(ngModel)]="apartment['name']" id="name" class="form-control" placeholder="Type a value">
@@ -50,7 +50,7 @@
       </ng-container>
 
       <ng-template #user>
-        <h3 class="fw-semibold text-center mb-3">REGISTER</h3>
+        <h3 class="fw-semibold text-center mb-3">Register</h3>
         <div class="tab-register row px-3 mb-3">
           <div [ngClass]="!flagMerchant? 'tab-item active col me-2': 'tab-item col me-2 border-bottom'">
             <button class="btn w-100" (click)="onMerchantChange(false)">Resident</button>
