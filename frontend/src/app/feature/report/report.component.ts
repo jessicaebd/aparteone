@@ -23,11 +23,9 @@ export class ReportComponent {
 
   async ngOnInit(){
     this.apps.loadingPage(true);
-    if(this.user.role=='Resident'){
-      await this.getUserDetail(12);
-      await this.getChatMessages(this.user.id, 12);
-      // await this.getUserDetail(this.user.apartmentId);
-      // await this.getChatMessages(this.user.id, this.user.apartmentId);
+    if(this.user.role=='Resident' || this.user.role=='Merchant'){
+      await this.getUserDetail(this.user.apartmentId);
+      await this.getChatMessages(this.user.id, this.user.apartmentId);
     }
     this.apps.loadingPage(false);
   }
