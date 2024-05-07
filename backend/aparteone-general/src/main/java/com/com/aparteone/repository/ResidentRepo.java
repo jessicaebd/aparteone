@@ -8,5 +8,5 @@ import com.com.aparteone.entity.Resident;
 
 @Repository
 public interface ResidentRepo extends JpaRepository<Resident, Integer>, JpaSpecificationExecutor<Resident> {
-    public Integer countByApartmentId(Integer apartmentId);
+    
 }

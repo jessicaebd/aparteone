@@ -97,11 +97,10 @@ export class AnnouncementUpdateComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
-          this.apps.loadingPage(true);
           this.submitRequest();
         }
       });
@@ -117,6 +116,7 @@ export class AnnouncementUpdateComponent {
   }
   
   async submitRequest(){
+    this.apps.loadingPage(true);
     let body = await this.setBodyUpdateAnnouncement();
     let result = await this.updateAnnouncement(body);
     this.apps.loadingPage(false);

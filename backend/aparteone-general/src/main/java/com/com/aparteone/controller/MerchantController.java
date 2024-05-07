@@ -79,8 +79,8 @@ public class MerchantController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Integer> countMerchantByApartmentId(@RequestParam Integer apartmentId){
-        log.info("[Merchant] Count Merchant By Apartment Id: apartmentId-{}", apartmentId);
-        return ResponseEntity.ok(merchantService.countMerchantByApartmentId(apartmentId));
+    public ResponseEntity<Integer> countMerchant(@RequestParam(required = false) Integer apartmentId){
+        log.info("[Merchant] Count Merchant: apartmentId-{}", apartmentId);
+        return ResponseEntity.ok(merchantService.countMerchant(apartmentId));
     }
 }

@@ -4,6 +4,7 @@ import { AnnouncementService } from '../service/announcement.service';
 import { Announcement } from '../announcement.interface';
 import { AppComponent } from 'src/app/app.component';
 import { AnnouncementUpdateComponent } from '../announcement-update/announcement-update.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-announcement-detail',
@@ -11,7 +12,7 @@ import { AnnouncementUpdateComponent } from '../announcement-update/announcement
   styleUrls: ['./announcement-detail.component.css']
 })
 export class AnnouncementDetailComponent implements OnInit{
-  role!: string;
+  user = this.appService.retrieveUser();
   id: any = null;
   errorMsg: string = "";
   announcement!: Announcement;
@@ -19,11 +20,10 @@ export class AnnouncementDetailComponent implements OnInit{
   @ViewChild('closeModal') modalClose: any;
   @ViewChild(AnnouncementUpdateComponent) updateAnnouncement!: AnnouncementUpdateComponent;
 
-  constructor(private route: ActivatedRoute, private announcementService: AnnouncementService, private apps: AppComponent) { }
+  constructor(private route: ActivatedRoute, private announcementService: AnnouncementService, private apps: AppComponent, private appService: AppService) { }
 
   async ngOnInit(){
     this.apps.loadingPage(true);
-    this.role = this.apps.getUserRole();
     this.id = this.route.snapshot.params['id'];
     await this.getDetailAnnouncement(this.id);
     document.querySelectorAll('.paragraf')[0].innerHTML = this.announcement.description;
@@ -51,7 +51,7 @@ export class AnnouncementDetailComponent implements OnInit{
   }
 
   backButton(){
-    if(this.role == 'management'){
+    if(this.user.role == 'Management'){
       window.location.replace('announcement');
     }
     else{

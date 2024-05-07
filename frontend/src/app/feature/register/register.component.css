@@ -1,11 +1,23 @@
 :host(app-register){
     height: 40rem;
     border-radius: 1rem;
-    /* background-color: var(--light-purple); */
+    margin-left: 5rem;
 }
 
 .input-group{
     font-size: 14pt;
+}
+
+.tab-item.active{
+    border-bottom: solid 2pt var(--primary-purple) !important;
+}
+
+.tab-item button{
+    border:none !important;
+}
+
+.tab-item button:enabled:focus{
+    border:none !important;
 }
 
 :enabled:focus {

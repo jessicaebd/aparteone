@@ -9,7 +9,7 @@ import { AppService } from 'src/app/app.service';
 })
 
 export class NotificationComponent implements OnInit{
-  residentId = 4;
+  user = this.appService.retrieveUser();
   data!: any;
   errorMsg: string = '';
 
@@ -18,15 +18,15 @@ export class NotificationComponent implements OnInit{
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    await this.getMailboxCategory(this.residentId);
+    await this.getNotifications(this.user.id);
     this.apps.loadingPage(false);
   }
 
-  getMailboxCategory(userId:any): Promise<any>{
+  getNotifications(userId:any): Promise<any>{
     return new Promise<any>(resolve => 
       this.appService.getNotifications(userId).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
+          // console.log('Response: ', response);
           if(response.length > 0){
             this.data = response;
           }

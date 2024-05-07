@@ -233,13 +233,20 @@ public class BillingServiceImpl implements BillingService {
     public BillingDetail verifyPayment(Integer billingDetailId, Boolean isValid) {
         BillingDetail billingDetail = billingDetailRepo.findById(billingDetailId).get();
 
-        Payment payment = paymentRepo.findById(billingDetail.getPaymentId()).get();
-        payment.setIsValid(isValid);
-        payment.setVerifiedDate(new Date());
+        if(!isValid) {
+            billingDetail.setStatus(AparteoneConstant.STATUS_WAITING_PAYMENT);
+            notificationService.sendNotification(billingDetail.getResidentId(), "Bills BLN00" + billingDetailId, "Your billing payment has been rejected");
+        }  else {
+            billingDetail.setStatus(AparteoneConstant.STATUS_COMPLETED);
+            billingDetail.setCompletedDate(new Date());
+            notificationService.sendNotification(billingDetail.getResidentId(), "Bills BLN00" + billingDetailId, "Your billing payment has been approved");
 
-        billingDetail.setStatus((payment.getIsValid() == true) ? AparteoneConstant.STATUS_COMPLETED : AparteoneConstant.STATUS_CANCELLED);
-
-        notificationService.sendNotification(billingDetail.getResidentId(), "Bills BLN00" + billingDetailId, "Your billing payment has been " + (payment.getIsValid() == true ? "approved" : "rejected"));
+            Payment payment = paymentRepo.findById(billingDetail.getPaymentId()).get();
+            payment.setIsValid(isValid);
+            payment.setVerifiedDate(new Date());
+            paymentRepo.save(payment);
+        }
+        
         return billingDetailRepo.save(billingDetail);
     }
 

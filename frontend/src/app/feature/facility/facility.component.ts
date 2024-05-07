@@ -5,6 +5,9 @@ import { FacilityCategory, FacilityCategoryTime, FacilityRequest } from './facil
 import { FacilityService } from './service/facility.service';
 import { AppComponent } from 'src/app/app.component';
 import { FacilityUpdateCategoryComponent } from './facility-update-category/facility-update-category.component';
+import { AppService } from 'src/app/app.service';
+import { FacilityHistoryComponent } from './facility-history/facility-history.component';
+import { FacilityAllRequestComponent } from './facility-all-request/facility-all-request.component';
 
 @Component({
   selector: 'app-facility',
@@ -12,11 +15,9 @@ import { FacilityUpdateCategoryComponent } from './facility-update-category/faci
   styleUrls: ['./facility.component.css']
 })
 export class FacilityComponent {
-  apartmentId = 1;
-  residentId = 4;
-  role: string = 'resident';
+  user = this.appService.retrieveUser();
+  
   page: string = 'category';
-
   listCategory!: any;
   errorListCategory: string = '';
   tableCategory: any;
@@ -41,8 +42,10 @@ export class FacilityComponent {
   @ViewChild('closeModalUpdate') modalCloseUpdate: any;
   @ViewChild('closeModalRequest') modalCloseRequest: any;
   @ViewChild(FacilityUpdateCategoryComponent) facilityUpdateCategory!: FacilityUpdateCategoryComponent;
+  @ViewChild(FacilityHistoryComponent) facilityHistory!: FacilityHistoryComponent;
+  @ViewChild(FacilityAllRequestComponent) facilityRequest!: FacilityAllRequestComponent;
 
-  constructor(private location: Location, private facilityService: FacilityService, private apps: AppComponent){}
+  constructor(private location: Location, private facilityService: FacilityService, private apps: AppComponent, private appService: AppService){}
   
   ngOnInit(): void {
     this.apps.loadingPage(true);
@@ -50,17 +53,19 @@ export class FacilityComponent {
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';
-    this.role = this.apps.getUserRole();
-    if(this.role == 'management'){
+    if(this.user.role == 'Management'){
       this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'facilityCategory', displayName: 'Category'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName:'Resident'}, {name: 'reserveDate', displayName: 'Book Date'}, {name: 'startTime', displayName: 'Start Time'}, {name: 'endTime', displayName: 'End Time'}, {name: 'facilityRequeststatus', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Name'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory);
-      this.getFacilityApartmentRequest(this.apartmentId, 5, 0);
+      this.getFacilityCategory(this.user.id, this.sizeCategory, this.pageCategory);
+      // this.facilityRequest.ngOnInit();
     }
-    else if (this.role == 'resident'){
-      this.getFacilityActiveCategory(this.apartmentId);
-      this.getFacilityResidentRequest(this.residentId, 3, 0, '');
+    else if (this.user.role == 'Resident'){
+      this.getFacilityActiveCategory(this.user.apartmentId);
+      this.facilityHistory.ngOnInit();
+    }
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }
@@ -203,7 +208,6 @@ export class FacilityComponent {
     console.log("Onload Page Index: ", e);
     if(type=='category'){
       this.pageCategory = e;
-      // this.getFacilityCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
     }
     else if(type=='request'){
       // this.pageRequest = e;

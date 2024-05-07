@@ -1,4 +1,4 @@
-<div class="container h-100 d-flex align-items-center">
+<div class="container h-100 d-flex align-items-center mt-4">
     <div class="col-1"></div>
     <div class="col-4">
       <h2 class="fw-bold text-end me-4 pe-1" style="color: var(--dark-purple);">WELCOME TO</h2>
@@ -7,62 +7,142 @@
       </div>
     </div>
     <div class="col-6 ps-4 border-start">
-      <ng-container *ngIf="flagApartement; else resident">
+      <ng-container *ngIf="flagApartement; else user">
         <h3 class="fw-semibold text-center mb-3">REGISTER APARTEMENT</h3>
         <div class="mb-2">
           <app-label labelType="label" labelFor="name" labelInput="Apartement Name" [isMandatory]="true"></app-label>
-          <input type="text" [(ngModel)]="apartement['name']" id="name" class="form-control" placeholder="Type a value">
+          <input type="text" [(ngModel)]="apartment['name']" id="name" class="form-control" placeholder="Type a value">
         </div>
         <div class="mb-2">
           <app-label labelType="label" labelFor="address" labelInput="Apartement Address" [isMandatory]="true"></app-label>
           <div class="grow-wrap">
-            <textarea class="form-control" [(ngModel)]="apartement['address']" id="address" rows="3" placeholder="Type a value"></textarea>
+            <textarea class="form-control" [(ngModel)]="apartment['address']" id="address" rows="3" placeholder="Type a value"></textarea>
           </div>
         </div>
         <div class="mb-2">
           <app-label labelType="label" labelFor="province" labelInput="Province" [isMandatory]="true"></app-label>
-          <input type="text" [(ngModel)]="apartement['province']" id="province" class="form-control" placeholder="Type a value">
+          <input type="text" [(ngModel)]="apartment['province']" id="province" class="form-control" placeholder="Type a value">
         </div>
         <div class="mb-2">
           <app-label labelType="label" labelFor="city" labelInput="City" [isMandatory]="true"></app-label>
-          <input type="text" [(ngModel)]="apartement['city']" id="city" class="form-control" placeholder="Type a value">
+          <input type="text" [(ngModel)]="apartment['city']" id="city" class="form-control" placeholder="Type a value">
         </div>
         <div class="mb-2">
           <app-label labelType="label" labelFor="postalCode" labelInput="Postal Code" [isMandatory]="true"></app-label>
-          <input type="text" [(ngModel)]="apartement['postalCode']" id="postalCode" class="form-control" placeholder="Type a value">
+          <input type="text" [(ngModel)]="apartment['postalCode']" id="postalCode" class="form-control" placeholder="Type a value">
+        </div>
+        <div class="mb-2">
+          <app-label labelType="label" labelFor="phone" labelInput="Phone" [isMandatory]="true"></app-label>
+          <input type="text" [(ngModel)]="apartment['phone']" id="phone" class="form-control" placeholder="Type a value">
         </div>
         <div class="mb-2">
           <app-label labelType="label" labelFor="email" labelInput="Email" [isMandatory]="true"></app-label>
-          <input type="email" [(ngModel)]="apartement['email']" id="email" class="form-control" placeholder="Type an email">
-        </div>
-        <app-text-button label="Join an Apartement ?" type="primary" size="small" (onClickEvent)="flagApartement = false" style="font-size: small;"></app-text-button>
-        <div class="d-flex justify-content-center pt-3">
-          <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit()"></app-button>
-        </div>
-      </ng-container>
-
-      <ng-template #resident>
-        <h3 class="fw-semibold text-center mb-3">REGISTER</h3>
-        <div class="mb-2">
-          <app-label labelType="label" labelFor="name" labelInput="Name" [isMandatory]="true"></app-label>
-          <input type="text" [(ngModel)]="register['name']" id="name" class="form-control" placeholder="Type a value">
-        </div>
-        <div class="mb-2">
-          <app-label labelType="label" labelFor="email" labelInput="Email" [isMandatory]="true"></app-label>
-          <input type="email" [(ngModel)]="register['email']" id="email" class="form-control" placeholder="Type an email">
+          <input type="email" [(ngModel)]="apartment['email']" id="email" class="form-control" placeholder="Type a value">
         </div>
         <div class="mb-2">
           <app-label labelType="label" labelFor="password" labelInput="Password" [isMandatory]="true"></app-label>
-          <input type="password" [(ngModel)]="register['password']" id="password" class="form-control" placeholder="Type a password">
+          <input type="password" [(ngModel)]="apartment['password']" id="password" class="form-control" placeholder="Type a value">
         </div>
-        <div class="mb-2">
-          <app-label labelType="label" labelFor="code" labelInput="Code" [isMandatory]="true"></app-label>
-          <input type="text" [(ngModel)]="register['code']" id="code" class="form-control" placeholder="Type a code">
-        </div>
-        <app-text-button label="Create your own apartement ?" type="primary" size="small" (onClickEvent)="flagApartement = true" style="font-size: small;"></app-text-button>
+        <app-text-button label="Join an Apartement ?" type="primary" size="small" (onClickEvent)="onRegisterChange(false)" style="font-size: small;"></app-text-button>
         <div class="d-flex justify-content-center pt-3">
-          <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit()"></app-button>
+          <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit('apartment')"></app-button>
         </div>
+      </ng-container>
+
+      <ng-template #user>
+        <h3 class="fw-semibold text-center mb-3">REGISTER</h3>
+        <div class="tab-register row px-3 mb-3">
+          <div [ngClass]="!flagMerchant? 'tab-item active col me-2': 'tab-item col me-2 border-bottom'">
+            <button class="btn w-100" (click)="onMerchantChange(false)">Resident</button>
+          </div>
+          <div [ngClass]="flagMerchant? 'tab-item active col': 'tab-item col border-bottom'">
+            <button class="btn w-100" (click)="onMerchantChange(true)">Merchant</button>
+          </div>
+        </div>
+
+        <ng-container *ngIf="flagMerchant; else resident">
+          <div class="mb-2">
+            <app-label labelType="label"  labelFor="apartmentName" labelInput="Apartment Name" [isMandatory]="true"></app-label>
+            <app-dropdown [itemDropDown]="apartmentList" (onDropdownEvent)="merchant['apartmentId']=$event"></app-dropdown>
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="name" labelInput="Name" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="merchant['name']" id="name" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label"  labelFor="category" labelInput="Category" [isMandatory]="true"></app-label>
+            <app-dropdown [itemDropDown]="categoryList" (onDropdownEvent)="merchant['category']=$event"></app-dropdown>
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="phone" labelInput="Phone" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="merchant['phone']" id="phone" class="form-control" placeholder="Type your phone">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="email" labelInput="Email" [isMandatory]="true"></app-label>
+            <input type="email" [(ngModel)]="merchant['email']" id="email" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="password" labelInput="Password" [isMandatory]="true"></app-label>
+            <input type="password" [(ngModel)]="merchant['password']" id="password" class="form-control" placeholder="Type a value">
+          </div>
+          <!-- <div class="mb-2">
+            <app-label labelType="label" labelFor="bankAccount" labelInput="Bank Account" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="merchant['bankAccount']" id="bankAccount" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="accountNumber" labelInput="Account Number" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="merchant['accountNumber']" id="accountNumber" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="accountName" labelInput="Account Name" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="merchant['accountName']" id="accountName" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="address" labelInput="Address" [isMandatory]="true"></app-label>
+            <div class="grow-wrap">
+              <textarea class="form-control" [(ngModel)]="merchant['address']" id="address" rows="3" placeholder="Type a value"></textarea>
+            </div>
+          </div> -->
+          <app-text-button label="Create your own apartement ?" type="primary" size="small" (onClickEvent)="onRegisterChange(true)" style="font-size: small;"></app-text-button>
+          <div class="d-flex justify-content-center pt-3">
+            <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit('merchant')"></app-button>
+          </div>
+        </ng-container>
+
+        <ng-template #resident>
+          <div class="mb-2">
+            <app-label labelType="label"  labelFor="apartmentName" labelInput="Apartment Name" [isMandatory]="true"></app-label>
+            <app-dropdown [itemDropDown]="apartmentList" (onDropdownEvent)="onApartmentChange($event)"></app-dropdown>
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label"  labelFor="apartUnit" labelInput="Unit Number" [isMandatory]="true"></app-label>
+            <app-dropdown [itemDropDown]="unitList" (onDropdownEvent)="register['apartmentUnitId']=$event"></app-dropdown>
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="name" labelInput="Name" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="register['name']" id="name" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="phone" labelInput="Phone" [isMandatory]="true"></app-label>
+            <input type="text" [(ngModel)]="register['phone']" id="phone" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="email" labelInput="Email" [isMandatory]="true"></app-label>
+            <input type="email" [(ngModel)]="register['email']" id="email" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label" labelFor="password" labelInput="Password" [isMandatory]="true"></app-label>
+            <input type="password" [(ngModel)]="register['password']" id="password" class="form-control" placeholder="Type a value">
+          </div>
+          <div class="mb-2">
+            <app-label labelType="label"  labelFor="type" labelInput="Type" [isMandatory]="true"></app-label>
+            <app-dropdown [itemDropDown]="typeResident" (onDropdownEvent)="register['type']=$event"></app-dropdown>
+          </div>
+          <app-text-button label="Create your own apartement ?" type="primary" size="small" (onClickEvent)="onRegisterChange(true)" style="font-size: small;"></app-text-button>
+          <div class="d-flex justify-content-center pt-3">
+            <app-button buttonLabel="Register" [isDisabled]="invalid" (onClickEvent)="onRegisterSubmit('resident')"></app-button>
+          </div>
+        </ng-template>
       </ng-template>
       
     </div>

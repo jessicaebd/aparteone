@@ -2,15 +2,6 @@
     width: 100%;
 }
 
-.image-cart img{
-    /* object-fit: contain;
-    height: 4rem; */
-    /* min-height: 2rem;
-    max-height: 7rem;
-    min-width: 7rem;
-    max-width: 7rem; */
-}
-
 .product-card{
     display: flex;
     justify-content: flex-start;
@@ -34,17 +25,10 @@
     box-shadow: 0 0.15rem 0.3rem rgba(80, 37, 250, 0.2);
 }
 
-.card img{
-    object-fit: contain;
-    height: 2rem;
-}
-
 .card-body{
     height: 5rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    /* margin-top: 0.5rem;
-    margin-bottom: 0.5rem; */
 }
 
 .modal-body::-webkit-scrollbar{

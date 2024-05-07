@@ -5,7 +5,7 @@
     </div>
 
     <div class="transaction-list shadow-sm border p-3" style="border-radius: 2vh;">
-        <ng-container *ngIf="this.role=='resident'">
+        <ng-container *ngIf="user.role=='Resident'">
             <div class="d-flex mb-3">
                 <button [ngClass]="filter == '' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
                     (click)="onFilterBy('')">All</button>
@@ -23,13 +23,13 @@
                 <button [ngClass]="filter == 'Cancelled' ? 'btn filter mx-2 my-1 active' : 'btn filter mx-2 my-1'"
                     (click)="onFilterBy('Cancelled')">Cancelled</button>
             </div>
-            <app-transaction-list [role]="role" [listTransaction]="listTransaction" [length]="allListTransaction"
+            <app-transaction-list [role]="user.role" [listTransaction]="listTransaction" [length]="allListTransaction"
                 [pageSize]="sizeList" [pageIndex]="pageList" (onSubmitEvent)="ngOnInit()"
                 (onPageIndexEvent)="onLoadData('listRequest', $event)"
                 [errorMsg]="errorListTransaction"></app-transaction-list>
         </ng-container>
 
-        <ng-container *ngIf="this.role=='merchant'">
+        <ng-container *ngIf="user.role=='Merchant'">
             <div class="row justify-content-end">
                 <div class="d-flex w-25 me-3 mb-3">
                     <app-textbox inputPlaceholder="Search..." (onChangeEvent)="keySearch=$event"></app-textbox>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <app-transaction-list [role]="role" [listTransaction]="tableTransaction" [length]="allDataTransaction"
+            <app-transaction-list [role]="user.role" [listTransaction]="tableTransaction" [length]="allDataTransaction"
                 [pageSize]="sizeTransaction" [pageIndex]="pageTransaction" (onSubmitEvent)="ngOnInit()"
                 (onPageIndexEvent)="onLoadData('merchant', $event)"
                 [errorMsg]="errorMsgTransaction"></app-transaction-list>

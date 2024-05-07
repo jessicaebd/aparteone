@@ -4,6 +4,8 @@ import { BillingService } from '../service/billing.service';
 import { listItems } from 'src/app/shared/component/dropdown/dropdown.component';
 import { AppComponent } from 'src/app/app.component';
 import { Billing } from '../billing.interface';
+import { AppService } from 'src/app/app.service';
+import { AdminService } from '../../admin/service/admin.service';
 
 
 @Component({
@@ -12,19 +14,22 @@ import { Billing } from '../billing.interface';
   styleUrls: ['./billing-add.component.css']
 })
 export class BillingAddComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   data: Billing = {};
   paymentCategory: listItems[] = [];
+  residentList: listItems[] = [];
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private billingService: BillingService, private apps: AppComponent){}
+  constructor(private billingService: BillingService, private apps: AppComponent, private appService: AppService, private adminService: AdminService){}
 
   async ngOnInit() {
     this.data = {};
     this.paymentCategory = [];
-    let category = await this.getBillingActiveCategory(this.apartmentId, true);
+    let category = await this.getBillingActiveCategory(this.user.id, true);
     this.setDropdown(category);
+    let resident = await this.getResidentList(this.user.id);
+    this.setResidentList(resident);
   }
 
   onButtonSubmit(){
@@ -56,8 +61,8 @@ export class BillingAddComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
@@ -141,6 +146,31 @@ export class BillingAddComponent {
   getBillingActiveCategory(apartementId:any, isActive:any): Promise<any>{
     return new Promise<any>(resolve => 
       this.billingService.getBillingActiveCategory(apartementId, isActive).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(response.data);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      })
+    )
+  }
+
+  setResidentList(data: any){
+    for(let i=0; i<data.length; i++){
+      this.residentList.push({
+        'code': data[i].name,
+        'value': data[i].id,
+        'selected': false
+      });
+    }
+  }
+
+  getResidentList(apartementId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.adminService.getResidentList(apartementId, 9999, 0, 'Approved').subscribe({
         next: async (response: any) => {
           console.log('Response: ', response);
           resolve(response.data);

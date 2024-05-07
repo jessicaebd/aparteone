@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { AdminService } from '../service/admin.service';
 import { AppComponent } from 'src/app/app.component';
 import { Unit } from '../admin.interface';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-unit-add',
@@ -10,12 +11,13 @@ import { Unit } from '../admin.interface';
   styleUrls: ['./unit-add.component.css']
 })
 export class UnitAddComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
+
   flagValidasi?: boolean = false;
   data: Unit = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private adminService: AdminService, private apps: AppComponent){}
+  constructor(private adminService: AdminService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -39,8 +41,8 @@ export class UnitAddComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
@@ -86,7 +88,7 @@ export class UnitAddComponent {
   setBodyInsert(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': this.apartmentId,
+        'apartmentId': this.user.id,
         'unitNumber': this.data['unitNumber'],
         'type': this.data['type']
       }
@@ -98,7 +100,7 @@ export class UnitAddComponent {
     return new Promise<any>(resolve => 
       this.adminService.addApartmentUnit(body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
+          // console.log('Response: ', response);
           resolve(true);
         },
         error: (error: any) => {

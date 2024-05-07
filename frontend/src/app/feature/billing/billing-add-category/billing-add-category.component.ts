@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 import { BillingService } from '../service/billing.service';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-billing-add-category',
@@ -9,12 +10,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./billing-add-category.component.css']
 })
 export class BillingAddCategoryComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   category!: string
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private billingService: BillingService, private apps: AppComponent){}
+  constructor(private billingService: BillingService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -35,8 +36,8 @@ export class BillingAddCategoryComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
@@ -81,7 +82,7 @@ export class BillingAddCategoryComponent {
   setBodyInsertCategory(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': this.apartmentId,
+        'apartmentId': this.user.id,
         'category': this.category,
         'isActive': true
       }

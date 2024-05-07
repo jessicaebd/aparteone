@@ -1,7 +1,7 @@
 <div class="container-fluid">
 
     <!-- Resident -->
-    <ng-container *ngIf="this.role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <div class="row mb-3">
             <app-label labelInput="Mailbox" labelType="title"></app-label>
             <app-label labelInput="Track your package & mail information" labelType="label"></app-label>
@@ -37,7 +37,7 @@
     </ng-container>
 
     <!-- Management -->
-    <ng-container *ngIf="this.role=='management'">
+    <ng-container *ngIf="user.role=='Management'">
         <div class="row mb-3">
             <div class="col-6 row">
                 <app-label labelInput="Mailbox" labelType="title"></app-label>

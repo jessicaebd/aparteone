@@ -4,6 +4,7 @@ import { FacilityCategory, FacilityCategoryTime, FacilityRequest } from '../faci
 import { FacilityService } from '../service/facility.service';
 import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-facility-request',
@@ -14,13 +15,13 @@ export class FacilityRequestComponent {
   @Input() dataCategory: FacilityCategory = {}
   @Output() onSubmitEvent = new EventEmitter<any>;
   
-  residentId = 4;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   typeFacility: listItems[] = [];
   data: FacilityRequest = { };
   dataTime: FacilityCategoryTime[] = [];
 
-  constructor(private facilityService: FacilityService, private apps: AppComponent){}
+  constructor(private facilityService: FacilityService, private apps: AppComponent, private appService: AppService){}
 
   setTimelist(response:any): Promise<any>{
     return new Promise<any> (resolve => {
@@ -94,8 +95,8 @@ export class FacilityRequestComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.submitRequest();
@@ -140,7 +141,7 @@ export class FacilityRequestComponent {
   setBodyInsertRequest(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'residentId': this.residentId,
+        'residentId': this.user.id,
         'facilityTimeId': this.data['facilityTimeId'],
         'reserveDate': this.data['reserveDate']
       }

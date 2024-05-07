@@ -3,6 +3,7 @@ import { Cart, Product } from '../merchant.interface';
 import Swal from 'sweetalert2';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-merchant-product',
@@ -10,11 +11,11 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./merchant-product.component.css']
 })
 export class MerchantProductComponent {
-  residentId = 4;
-
   @Input() merchantId!: number;
   @Output() onSubmitEvent = new EventEmitter<any>;
   
+  user = this.appService.retrieveUser();
+
   productList: Product[] = [];
   cartList: Cart[] = [];
   productNote: string = '';
@@ -29,13 +30,13 @@ export class MerchantProductComponent {
 
   @ViewChild('closeModal') modalClose: any;
 
-  constructor(private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgProduct = '';
     await this.getProductResident(this.merchantId);
-    await this.getCartMerchant(this.residentId, this.merchantId);
+    await this.getCartMerchant(this.user.id, this.merchantId);
     this.productList = await this.updateProductQuantity(this.productList, this.cartList);
     this.productList = await this.updateProductNotes(this.productList, this.cartList);
     console.log(this.productList);
@@ -59,7 +60,7 @@ export class MerchantProductComponent {
   setBodyAddToCart(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        residentId: this.residentId,
+        residentId: this.user.id,
         merchantId: this.merchantId,
         productId: this.productOpen.id,
         quantity: this.counterProduct,
@@ -176,6 +177,7 @@ export class MerchantProductComponent {
     this.ngOnInit();
     this.apps.loadingPage(false);
     
+    this.onSubmitEvent.emit();
     this.modalClose.nativeElement.click();
   }
 
@@ -195,6 +197,7 @@ export class MerchantProductComponent {
     this.ngOnInit();
     this.apps.loadingPage(false);
     
+    this.onSubmitEvent.emit();
     this.modalClose.nativeElement.click();
   }
 

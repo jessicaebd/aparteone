@@ -4,6 +4,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Column } from 'src/app/shared/component/table/table.component';
 import { MailboxAddComponent } from '../mailbox-add/mailbox-add.component';
 import { Mailbox } from '../mailbox.interface';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-mailbox-all',
@@ -11,8 +12,7 @@ import { Mailbox } from '../mailbox.interface';
   styleUrls: ['./mailbox-all.component.css']
 })
 export class MailboxAllComponent {
-  role: string = 'management';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   tableRequest: any;
   allDataRequest: any;
@@ -26,22 +26,22 @@ export class MailboxAllComponent {
   @ViewChild('closeModalDetail') modalCloseDetail: any;
   @ViewChild(MailboxAddComponent) mailboxAdd!: MailboxAddComponent;
 
-  constructor(private mailboxService: MailboxService, private apps: AppComponent){}
+  constructor(private mailboxService: MailboxService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgRequest = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='management'){
+    this.tableRequest = [];
+    if(this.user.role=='Management'){
       this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'mailboxCategory', displayName: 'Category'}, {name: 'residentUnit', displayName: 'Unit'}, {name: 'residentName', displayName:'Recipient'}, {name: 'receivedDate', displayName: 'Received Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-        await this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
+        await this.getMailboxDetailApartment(this.user.id, 10, this.page);
       }
       else{
-        await this.searchMailboxDetailApartment(this.apartmentId, 10, this.page, this.keySearch);
+        await this.searchMailboxDetailApartment(this.user.id, 10, this.page, this.keySearch);
       }
     }
-    else if (this.role=='resident'){
+    else {
       window.location.replace('');
     }
     this.apps.loadingPage(false);
@@ -125,25 +125,8 @@ export class MailboxAllComponent {
   onLoadData(e:any){
     console.log("Onload Page Index: ", e);
     this.page = e;
-    this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
+    this.getMailboxDetailApartment(this.user.id, 10, this.page);
   }
-
-  // async onSortData(e:any){
-  //   console.log("OnSort: ", e);
-  //   this.page = 0;
-  //   let arr = await this.onSplitSortEvent(e);
-  //   console.log(arr);
-  //   this.getMailboxDetailApartment(this.apartmentId, 10, this.page);
-  // }
-
-  // onSplitSortEvent(e:any): Promise<any>{
-  //   return new Promise<any> (resolve => {
-  //     let arr = e.split(";", 2); 
-  //     this.sortReqCol = arr[0];
-  //     this.sortReqDir = arr[1];
-  //     resolve(arr);
-  //   });
-  // }
   
   redirect(type: string){
     if(type=='detail'){

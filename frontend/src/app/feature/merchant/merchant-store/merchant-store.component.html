@@ -1,5 +1,5 @@
 <div class="container-fluid row">
-    <ng-container *ngIf="role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <div class="col-8 left">
             <div class="row">
             <img class="w-100" [src]="store.image" alt="" style="object-fit: contain; height: 12rem">
@@ -32,7 +32,7 @@
             </div>
 
             <div class="product-list shadow-sm border p-3" style="border-radius: 2vh;">
-                <app-merchant-product [merchantId]="merchantId"></app-merchant-product>
+                <app-merchant-product [merchantId]="merchantId" (onSubmitEvent)="onCartRefresh()"></app-merchant-product>
             </div>
         </div>
 

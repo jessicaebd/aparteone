@@ -10,6 +10,11 @@ export const environment : EnvironmentInterface = {
     },
     modules: {
         general: {
+            auth: "auth",
+            login: "login",
+            user: "user",
+            register: "register",
+            count: "count",
             dashboard: "dashboard",
             request: "request",
             update: "update",
@@ -39,6 +44,10 @@ export const environment : EnvironmentInterface = {
             apartment: "apartment",
             unit: "unit",
             resident: "resident",
+            chat: "chat",
+            send: "send",
+            rooms: "rooms",
+            messages: "messages",
         },
     },
 };

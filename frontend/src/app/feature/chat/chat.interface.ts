@@ -1,17 +1,16 @@
 export interface ChatList {
     id?: any,
-    merchantId?: any,
-    profile?: any,
-    name?: any,
-    time?: any,
-    message?: any,
-    status?: any,
-    notification?: any,
+    chatId?: any,
+    userId?: any,
+    userName?: any,
+    userImage?: any
 }
 
 export interface BubbleChat {
     id?: any,
-    time?: any,
+    chatId?: any,
+    senderId?: any,
+    receiverId?: any,
     message?: any,
-    status?: any,
+    createdDate?: any
 }

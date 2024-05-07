@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Merchant } from '../merchant.interface';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-merchant-list',
@@ -9,22 +10,23 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./merchant-list.component.css']
 })
 export class MerchantListComponent {
-  role : string = 'resident';
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
 
   merchantCard: Merchant[] = [];
   keySearch: string = '';
   category: string = '';
   errorMsgMerchant: string = '';
 
-  constructor(private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
     this.errorMsgMerchant = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='resident'){
-      await this.getMerchantResident(this.apartmentId);
+    if(this.user.role=='Resident'){
+      await this.getMerchantResident(this.user.apartmentId);
+    }
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }
@@ -83,7 +85,7 @@ export class MerchantListComponent {
 
   onSearchData(){
     console.log('Search :', this.keySearch);
-    this.searchMerchantResident(this.apartmentId, this.keySearch);
+    this.searchMerchantResident(this.user.apartmentId, this.keySearch);
   }
 
   goToMerchantStorePage(id: any){

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <!-- Resident -->
-    <ng-container *ngIf="this.role=='resident'">
+    <ng-container *ngIf="user.role=='Resident'">
         <div class="row mb-3">
             <app-label labelInput="Maintenance" labelType="title"></app-label>
             <app-label labelInput="Your Maintenance Request Information" labelType="label"></app-label>
@@ -8,10 +8,10 @@
         
         <!-- Category -->
         <div class="maintenance-category shadow-sm border p-3 mb-5" style="border-radius: 2vh;">
-            <div class="subtitle px-3 py-2 mb-3">
+            <div class="subtitle px-3 py-2">
                 <app-label labelInput="Choose Your Apartment Maintenance" labelType="title"></app-label>
             </div>
-            <app-facility-category [listCategory]="listCategory" [errorMsg]="errorListCategory"></app-facility-category>
+            <app-maintenance-category [listCategory]="listCategory" [errorMsg]="errorListCategory" (onSubmitEvent)="ngOnInit()"></app-maintenance-category>
         </div>
 
         <!-- Maintenance Request History -->
@@ -25,7 +25,7 @@
 
 
     <!-- Management -->
-    <ng-container *ngIf="this.role=='management'">
+    <ng-container *ngIf="user.role=='Management'">
         <div class="row mb-3">
             <div class="col-6 row">
                 <app-label labelInput="Maintenance" labelType="title"></app-label>
@@ -87,7 +87,7 @@
         </ng-template>
 
         <!-- Modal -->
-        <app-modal modalID="modalRequestDetail" [width]="800" [modalContent]="modalRequestDetail"></app-modal>
+        <app-modal modalID="modalRequestDetail" [width]="600" [modalContent]="modalRequestDetail"></app-modal>
 
         <ng-template #modalRequestDetail>
             <div class="modal-header">

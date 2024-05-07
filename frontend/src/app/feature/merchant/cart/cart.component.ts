@@ -4,6 +4,7 @@ import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
 import { Cart } from '../merchant.interface';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-cart',
@@ -11,8 +12,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent {
-  residentId = 4;
-  role: string = 'resident';
+  user = this.appService.retrieveUser();
+
   merchantId!: number;
   cartList: Cart[] = [];
   merchant!: any;
@@ -28,17 +29,21 @@ export class CartComponent {
   @ViewChild('closeModal') modalClose: any;
   @ViewChild('closeModalCO') modalCloseCO: any;
 
-  constructor(private route: ActivatedRoute, private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private route: ActivatedRoute, private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit(){
     this.apps.loadingPage(true);
-    this.role = this.apps.getUserRole();
     this.errorMsg = '';
     this.merchantId = this.route.snapshot.params['id'];
     console.log('MerchantID: ', this.merchantId);
-    this.getMerchantDetail(this.merchantId)
-    await this.getCartMerchant(this.residentId, this.merchantId);
-    await this.countSubtotal();
+    if(this.user.role=='Resident'){
+      this.getMerchantDetail(this.merchantId)
+      await this.getCartMerchant(this.user.id, this.merchantId);
+      await this.countSubtotal();
+    }
+    else {
+      window.location.replace('');
+    }
     this.apps.loadingPage(false);
   }
 
@@ -160,20 +165,20 @@ export class CartComponent {
     )
   }
 
-  setBodyCheckoutCart(): Promise<any>{
-    return new Promise<any>(resolve =>{
-      let listId = [];
-      for(let item of this.cartList){
-        listId.push(item.id);
-      }
-      let body = {
-        residentId: this.residentId,
-        merchantId: this.merchantId,
-        carts: listId
-      }
-      resolve(body);
-    });
-  }
+  // setBodyCheckoutCart(): Promise<any>{
+  //   return new Promise<any>(resolve =>{
+  //     let listId = [];
+  //     for(let item of this.cartList){
+  //       listId.push(item.id);
+  //     }
+  //     let body = {
+  //       residentId: this.user.id,
+  //       merchantId: this.merchantId,
+  //       carts: listId
+  //     }
+  //     resolve(body);
+  //   });
+  // }
 
   setBodyCheckoutPay(): Promise<any>{
     return new Promise<any>(resolve =>{
@@ -242,45 +247,45 @@ export class CartComponent {
     window.location.replace('/transaction-list');
   }
 
-  async onCheckoutCart(){
-    this.flagValidasi = false;
-    let errorMsg = "";
+  // async onCheckoutCart(){
+  //   this.flagValidasi = false;
+  //   let errorMsg = "";
 
-    if(this.paymentProof=="" || this.paymentProof==undefined){
-      errorMsg = "Please Upload Payment Proof";
-    }
-    else{
-      this.flagValidasi = true
-    }
+  //   if(this.paymentProof=="" || this.paymentProof==undefined){
+  //     errorMsg = "Please Upload Payment Proof";
+  //   }
+  //   else{
+  //     this.flagValidasi = true
+  //   }
 
-    if(this.flagValidasi){
-      //SUBMIT REQUEST
-      Swal.fire({
-        title: 'Are you sure?',
-        icon: 'question',
-        showCancelButton: true,
-        cancelButtonColor: "#697988",
-        confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
-      }).then(async (result) => {
-        if (result.value) {
-          this.apps.loadingPage(true);
-          let body = await this.setBodyCheckoutCart();
-          await this.checkoutCart(body);
-          this.apps.loadingPage(false);
-        }
-      });
-    }
-    else{
-      Swal.fire({
-        title: 'Validasi',
-        html: errorMsg,
-        icon: 'warning',
-        confirmButtonColor: '#5025FA'
-      });
-    }
-  }
+  //   if(this.flagValidasi){
+  //     //SUBMIT REQUEST
+  //     Swal.fire({
+  //       title: 'Are you sure?',
+  //       icon: 'question',
+  //       showCancelButton: true,
+  //       cancelButtonColor: "#697988",
+  //       confirmButtonColor: "#5025FA",
+  //       confirmButtonText: 'Yes',
+  //       cancelButtonText: 'No',
+  //     }).then(async (result) => {
+  //       if (result.value) {
+  //         this.apps.loadingPage(true);
+  //         let body = await this.setBodyCheckoutCart();
+  //         await this.checkoutCart(body);
+  //         this.apps.loadingPage(false);
+  //       }
+  //     });
+  //   }
+  //   else{
+  //     Swal.fire({
+  //       title: 'Validasi',
+  //       html: errorMsg,
+  //       icon: 'warning',
+  //       confirmButtonColor: '#5025FA'
+  //     });
+  //   }
+  // }
 
   backButton(){
     window.location.replace('merchant/store/' + this.merchantId);

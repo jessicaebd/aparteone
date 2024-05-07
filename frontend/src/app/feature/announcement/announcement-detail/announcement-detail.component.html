@@ -10,7 +10,7 @@
     </div>
 
     <div class="paragraf text-justify text-break mb-5"></div>
-    <ng-container *ngIf="role=='management' && announcement.status=='Active'">
+    <ng-container *ngIf="user.role=='Management' && announcement.status=='Active'">
         <div class="d-flex justify-content-center">
             <!-- <app-button buttonLabel="Delete" buttonClass="outline-primary"></app-button> -->
             <app-button buttonLabel="Edit" buttonClass="primary" data-bs-toggle="modal" data-bs-target="#modalEditAnnouncement" (onClickEvent)="initViewUpdate(announcement)"></app-button>

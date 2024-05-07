@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BubbleChat, ChatList } from './chat.interface';
 import { ActivatedRoute } from '@angular/router';
+import { ChatService } from './service/chat.service';
+import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -10,160 +14,164 @@ import { ActivatedRoute } from '@angular/router';
 export class ChatComponent {
   listChat: ChatList[] = [];
   bubbleChat: BubbleChat[] = [];
+  errorMsgRoom: string = '';
+  message: string = '';
+  roomName: string = '';
+  roomImage!: any;
   activeChat!: any;
-  merchantID!: number;
-  index: number = -1;
+  receiverId!: number;
+  chatMessage: number = 0;
 
-  constructor(private route: ActivatedRoute){}
+  user = this.appService.retrieveUser();
 
-  ngOnInit(){
-    this.listChat = [
-      {
-        'id': 1,
-        'merchantId': 1,
-        'profile': 'null',
-        'name': 'Warung Kito',
-        'message': 'Nasi Goreng pedas ?',
-        'time': '01:08',
-        'status': 'received',
-        'notification': 2,
-      },
-      {
-        'id': 2,
-        'merchantId': 2,
-        'profile': 'null',
-        'name': 'Bakmi Gading Permai',
-        'message': 'Sedang di antar yaa kak',
-        'time': '00:58',
-        'status': 'received',
-        'notification': 8,
-      },
-      {
-        'id': 3,
-        'profile': 'null',
-        'name': 'Ada Greer',
-        'message': 'http://nagucli.ro/wud',
-        'time': '17/03/2024',
-        'status': 'send',
-      },
-      {
-        'id': 4,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-      {
-        'id': 5,
-        'profile': 'null',
-        'name': 'Calvin Guerrero',
-        'message': 'http://ko.im/dopato',
-        'time': '01:08',
-        'status': 'received',
-        'notification': 2,
-      },
-      {
-        'id': 6,
-        'profile': 'null',
-        'name': 'Elmer Fletcher',
-        'message': 'http://ho.ve/wujomeja',
-        'time': '00:58',
-        'status': 'received',
-        'notification': 8,
-      },
-      {
-        'id': 7,
-        'profile': 'null',
-        'name': 'Ada Greer',
-        'message': 'http://nagucli.ro/wud',
-        'time': '17/03/2024',
-        'status': 'send',
-      },
-      {
-        'id': 8,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-      {
-        'id': 9,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-      {
-        'id': 10,
-        'profile': 'null',
-        'name': 'Calvin Guerrero',
-        'message': 'http://ko.im/dopato',
-        'time': '01:08',
-        'status': 'received',
-        'notification': 2,
-      },
-      {
-        'id': 11,
-        'profile': 'null',
-        'name': 'Elmer Fletcher',
-        'message': 'http://ho.ve/wujomeja',
-        'time': '00:58',
-        'status': 'received',
-        'notification': 8,
-      },
-      {
-        'id': 12,
-        'profile': 'null',
-        'name': 'Ada Greer',
-        'message': 'http://nagucli.ro/wud',
-        'time': '17/03/2024',
-        'status': 'send',
-      },
-      {
-        'id': 13,
-        'profile': 'null',
-        'name': 'Jack Logan',
-        'message': 'http://dobec.gr/cu',
-        'time': '31/01/2024',
-        'status': 'received',
-      },
-    ];
+  constructor(private location: Location, private route: ActivatedRoute, private chatService: ChatService, private apps: AppComponent, private appService: AppService){}
 
-    this.bubbleChat = [
-      {
-        'message': 'nasi aascnasklca clascnasknca',
-        'time': '18.01',
-        'status': 'send',
-      },
-      {
-        'message': 'acascnas ajiojehiocnam cnaalsncioa',
-        'time': '18.02',
-        'status': 'receive',
-      },
-    ];
-
-    this.merchantID = this.route.snapshot.params['id'];
-    console.log('MerchantID: ', this.merchantID);
-
-    this.index = this.listChat.findIndex(x => x.merchantId == this.merchantID);
-    console.log('Index:', this.index);
+  async ngOnInit(){
+    this.apps.loadingPage(true);
+    if(this.user.role!='Admin'){
+      await this.getChatRooms(this.user.id);
+      this.receiverId = this.route.snapshot.params['id'];
+      if(this.receiverId){
+        console.log('ReceiverID: ', this.receiverId);
+        let user = await this.getUserDetail(this.receiverId);
+        this.setDetailChatPage(user.profile);
+      }
+    }
+    else{
+      window.location.replace('');
+    }
+    this.apps.loadingPage(false);
   }
 
-  goToDetailChatPage(e:any){
-    this.activeChat = e.merchantId;
-    console.log(e);
-    window.location.replace('/chat/' + e.merchantId);
+  getUserDetail(userId: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.appService.getUserDetail(userId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(response);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
 
-    if(e.notification){
-      let index = this.listChat.findIndex(item => item.id == e.id);
-      this.listChat[index].notification = null;
+  getChatRooms(userId: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.chatService.getChatRooms(userId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          if(response.length > 0){
+            this.listChat = response;
+          }
+          else{
+            this.errorMsgRoom = 'No Chat Found!'
+            this.listChat = [];
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.errorMsgRoom = 'No Chat Found!'
+          this.listChat = [];
+          resolve(error);
+        }
+      }))
+  }
+
+  getChatMessages(senderId: any, receiverId:any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.chatService.getChatMessages(senderId, receiverId).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          this.chatMessage = response.length;
+          if(response.length > 0){
+            this.bubbleChat = response;
+          }
+          else{
+            this.bubbleChat = [];
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          this.bubbleChat = [];
+          this.chatMessage = 0;
+          resolve(error);
+        }
+      }))
+  }
+
+  sendMessage(body: any): Promise<any>{
+    return new Promise<any>(resolve => 
+      this.chatService.sendMessage(body).subscribe({
+        next: async (response: any) => {
+          console.log('Response: ', response);
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log('#error', error);
+          resolve(error);
+        }
+      }))
+  }
+
+  setBodySendMessage(): Promise<any>{
+    return new Promise<any>(resolve =>{
+      let body = {
+        'senderId': this.user.id,
+        'receiverId': this.receiverId,
+        'message': this.message
+      }
+      resolve(body);
+    });
+  }
+
+  async onSendChat(){
+    if(this.message!=''){
+      let body = await this.setBodySendMessage();
+      await this.sendMessage(body);
+      this.message = '';
+      let obj = {
+        'userId': this.receiverId,
+        'userName': this.roomName,
+        'userImage': this.roomImage,
+      }
+      await this.goToDetailChatPage(obj);
     }
   }
 
+  async goToDetailChatPage(e:any){
+    this.roomName = e.userName;
+    this.roomImage = e.userImage;
+    this.activeChat = e.id;
+    this.receiverId = e.userId;
+    await this.getChatMessages(this.user.id, e.userId);
+  }
+  
+  async setDetailChatPage(e:any){
+    let result = this.listChat.find(chat => chat.userId == e.id);
+    console.log(result);
+    if(result){
+      await this.goToDetailChatPage(result);
+      this.activeChat = result.id;
+    }
+    else {
+      this.roomName = e.name;
+      this.roomImage = e.image;
+      this.listChat.unshift({
+        'id': 999999,
+        'userId': e.id,
+        'userImage': e.image,
+        'userName': e.name,
+      })
+    }
+    this.activeChat = 999999;
+    this.chatMessage = 1;
+  }
+
   backButton(){
-    window.location.replace('/merchant/');
+    this.location.back();
   }
 }

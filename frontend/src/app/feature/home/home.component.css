@@ -13,6 +13,10 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
+
+  .information{
+    height: 39rem;
+  }
   
   .card {
     display: flex;
@@ -106,6 +110,6 @@
   }
 
   .upcoming {
-    height: 28rem;
+    height: 24.5rem;
     overflow: hidden;
   }

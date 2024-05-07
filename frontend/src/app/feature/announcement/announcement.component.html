@@ -1,4 +1,4 @@
-<ng-container *ngIf="role=='resident'">
+<ng-container *ngIf="user.role=='Resident'">
     <div class="container">
         <ng-container *ngIf="errorMsglist==''; else noData">
             <div id="carouselAnnouncement" class="carousel slide" data-bs-ride="carousel">
@@ -60,14 +60,11 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="d-flex justify-content-center align-items-center border rounded shadow-sm" style="height: 20rem;">
-                <p class="mb-0">{{ errorMsglist }}</p>
-            </div> -->
         </ng-template>
     </div>
 </ng-container>
 
-<ng-container *ngIf="role=='merchant'">
+<ng-container *ngIf="user.role=='Merchant'">
     <div class="container">
         <ng-container *ngIf="errorMsglist==''; else noData">
             <div id="carouselAnnouncement" class="carousel slide" data-bs-ride="carousel">
@@ -129,28 +126,28 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="d-flex justify-content-center align-items-center border rounded shadow-sm" style="height: 20rem;">
-                <p class="mb-0">{{ errorMsglist }}</p>
-            </div> -->
         </ng-template>
     </div>
 </ng-container>
 
-<ng-container *ngIf="role=='management'">
-    <div class="container">
-        <div class="announcement-list">
-            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="Announcement" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Announcement" buttonClass="primary" data-bs-toggle="modal"
-                    data-bs-target="#modalAddAnnouncement"></app-button>
-            </div>
-            <div class="py-2">
-                <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center"
-                    [filter]="false" iconStart="bi bi-eye-fill" label="View" type="primary"
-                    (onClickActionEvent)="goToDetailAnnouncementPage('announcement', $event)" [length]="allDataAnnouncement"
-                    [pageIndex]="page" [pageSize]="size" (onPageIndexEvent)="onLoadData('announcement', $event)"
-                    (onSortEvent)="onSortData('announcement', $event)" [errorMsg]="errorMsglist"></app-table>
-            </div>
+<ng-container *ngIf="user.role=='Management'">
+    <div class="row mb-3">
+        <div class="col-6 row">
+            <app-label labelInput="Announcement" labelType="title"></app-label>
+            <app-label labelInput="Manage announcements" labelType="label"></app-label>
+        </div>
+    </div>
+    <div class="announcement-list me-2 mb-3 shadow-sm border p-3 mt-4" style="border-radius: 2vh;">
+        <div class="d-flex justify-content-end align-items-center subtitle mb-2">
+            <app-button buttonLabel="Add Announcement" buttonClass="primary" data-bs-toggle="modal"
+                data-bs-target="#modalAddAnnouncement"></app-button>
+        </div>
+        <div class="py-2">
+            <app-table [dataTable]="tableAnnouncement" [columns]="colAnnouncement" headerAlignment="center"
+                [filter]="false" iconStart="bi bi-eye-fill" label="View" type="primary"
+                (onClickActionEvent)="goToDetailAnnouncementPage('announcement', $event)" [length]="allDataAnnouncement"
+                [pageIndex]="page" [pageSize]="size" (onPageIndexEvent)="onLoadData('announcement', $event)"
+                (onSortEvent)="onSortData('announcement', $event)" [errorMsg]="errorMsglist"></app-table>
         </div>
     </div>
 

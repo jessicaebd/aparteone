@@ -1,4 +1,4 @@
-<ng-container *ngIf="role=='merchant'">
+<ng-container *ngIf="user.role=='Merchant'">
     <div class="container">
         <div class="row mb-3">
             <div class="col-6 row">
@@ -36,7 +36,7 @@
             </div> -->
         </div>
         <!-- Modal -->
-        <app-modal modalID="modalProductAdd" [width]="800" [modalContent]="modalProductAdd"></app-modal>
+        <app-modal modalID="modalProductAdd" [width]="600" [modalContent]="modalProductAdd"></app-modal>
 
         <ng-template #modalProductAdd>
             <div class="modal-header">
@@ -52,7 +52,7 @@
         </ng-template>
 
         <!-- Modal -->
-        <app-modal modalID="modalProductDetail" [width]="800" [modalContent]="modalProductDetail"></app-modal>
+        <app-modal modalID="modalProductDetail" [width]="600" [modalContent]="modalProductDetail"></app-modal>
 
         <ng-template #modalProductDetail>
             <div class="modal-header">

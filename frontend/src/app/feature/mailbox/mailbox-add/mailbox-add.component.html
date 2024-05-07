@@ -1,7 +1,7 @@
 <div class="container w-100">
     <div class="mt-0 pt-0">
         <app-label labelType="label"  labelFor="recipient" labelInput="Recipient" [isMandatory]="true"></app-label>
-        <app-textbox inputID="recipient" [value]="data['residentId']" (onChangeEvent)="data['residentId']=$event"></app-textbox>
+        <app-dropdown [itemDropDown]="residentList" (onDropdownEvent)="data['residentId']=$event"></app-dropdown>
     </div>
     <div class="mt-2">
         <app-label labelType="label"  labelFor="type" labelInput="Type" [isMandatory]="true"></app-label>

@@ -1,4 +1,5 @@
 <div class="container">
+    <app-label labelType="subtitle" [labelInput]="'#MRC00' + data['id'] + ' - ' + data['merchantName']"></app-label>
     <div class="ms-2 mt-1">
         <div class="row mb-1">
             <app-label class="col-3" labelInput="Unit"></app-label>
@@ -56,8 +57,8 @@
                     <img [src]="data['payment']['paymentProofImage']" alt="">
                 </div>
                 <div class="container d-flex justify-content-center py-4">
-                    <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('Cancelled')"></app-button>
-                    <app-button class="ms-3" buttonClass="primary" buttonLabel="Verify" (onClickEvent)="onButtonVerify()"></app-button>
+                    <app-button class="" buttonClass="outline-primary" buttonLabel="Reject" (onClickEvent)="onButtonVerify(false)"></app-button>
+                    <app-button class="ms-3" buttonClass="primary" buttonLabel="Approve" (onClickEvent)="onButtonVerify(true)"></app-button>
                 </div>
             </ng-container>
         </div>

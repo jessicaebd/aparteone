@@ -11,13 +11,13 @@
 
     <ng-template #list>
         <ng-container *ngFor="let item of cartList">
-            <div class="row  my-1">
+            <div class="row" style="height: 120px;">
                 <div class="col-3 p-3 image-cart">
-                    <img class="rounded w-100" [src]="item.productImage" alt="">
+                    <img class="rounded w-100" [src]="item.productImage" alt="" style="height: 100%; object-fit: cover;">
                 </div>
-                <div class="col-9 py-2 row ">
-                    <h6 class="fs-6 fw-semibold text-truncate">{{item.productName}}</h6>
-                    <ng-container *ngIf="item.notes != null">
+                <div class="col-9 pt-3 pb-2 row d-flex align-items-center">
+                    <h6 class="fs-6 fw-semibold text-truncate">{{item.quantity}}x {{item.productName}}</h6>
+                    <ng-container *ngIf="item.notes != null && item.notes!">
                         <span class="text-secondary mb-2" style="font-size: 12px;"><span class="fw-semibold">Notes:
                             </span>{{item.notes}}</span>
                     </ng-container>
@@ -51,7 +51,7 @@
     </ng-template>
 
     <!-- Modal -->
-    <app-modal modalID="modalCartDetail" [width]="400" [modalContent]="modalCartDetail"></app-modal>
+    <app-modal modalID="modalCartDetail" [width]="600" [modalContent]="modalCartDetail"></app-modal>
 
     <ng-template #modalCartDetail>
         <div class="modal-header">
@@ -98,7 +98,7 @@
     </ng-template>
 
     <!-- Modal -->
-    <app-modal modalID="modalCheckout" [width]="700" [modalContent]="modalCheckout"></app-modal>
+    <app-modal modalID="modalCheckout" [width]="600" [modalContent]="modalCheckout"></app-modal>
 
     <ng-template #modalCheckout>
         <div class="modal-header">
@@ -106,7 +106,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalCO></button>
         </div>
         <div class="modal-body justify-content-center">
-            <app-checkout></app-checkout>
+            <app-checkout [cartList]="cartList"></app-checkout>
         </div>
     </ng-template>
 </div>

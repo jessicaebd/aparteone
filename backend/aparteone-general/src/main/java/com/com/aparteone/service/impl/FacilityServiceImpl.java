@@ -36,7 +36,9 @@ import com.com.aparteone.service.ResidentService;
 import com.com.aparteone.specification.FacilitySpecification;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class FacilityServiceImpl implements FacilityService {
@@ -191,9 +193,10 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public PageResponse<FacilityRequestResponse> getFacilityRequestListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search) {
+        log.info("[Facility] Get Facility Request List By Apartment Id: apartmentId-{} | status-{} | search-{}", apartmentId, status, search);
         Pageable pageable = PageRequest.of(page, size, sortDir.equals(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Page<FacilityRequest> facilityRequests = null;
-        if (status == null) {
+        if (status != null) {
             facilityRequests = facilityRequestRepo.findByApartmentIdAndStatus(apartmentId, status, pageable);
         } else if (search != null) {
             facilityRequests = facilityRequestRepo.findByApartmentIdAndId(apartmentId, Integer.parseInt(search), pageable);
@@ -201,6 +204,7 @@ public class FacilityServiceImpl implements FacilityService {
             facilityRequests = facilityRequestRepo.findByApartmentId(apartmentId, pageable);
         }
 
+        log.info("[Facility] Get Facility Request List By Apartment Id: facilityRequests-{}", facilityRequests.getContent());
         List<FacilityRequestResponse> data = new ArrayList<>();
         facilityRequests.forEach(request -> {
             data.add(getFacilityRequestById(request.getId()));

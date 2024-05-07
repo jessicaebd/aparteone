@@ -19,10 +19,11 @@ export class AppComponent implements OnInit {
   idleState = 'Not started.';
   timedOut = false;
   lastPing?: Date;
-  activeNav: string = 'dashboard'
-  role: string = 'management';
+  activeNav: string = 'home'
+  isLogin = false;
+  user!:any;
 
-  constructor(private auth: AuthComponent, private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
+  constructor(private appService: AppService, private router: Router, private route: ActivatedRoute, private idle: Idle, private keepalive: Keepalive, private spinner: NgxSpinnerService) {
     idle.setIdle(environment.renewSession.idle);
     idle.setTimeout(environment.renewSession.timeout);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
@@ -66,6 +67,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.appService.retrieveAccessToken()) {
+      this.isLogin = true;
+      this.user = this.appService.retrieveUser();
+    }
     let currentPath = window.location.href;
 
     if(currentPath.includes('billing')){
@@ -86,8 +91,23 @@ export class AppComponent implements OnInit {
     else if(currentPath.includes('announcement')){
       this.activeNav = 'announcement'
     }
+    else if(currentPath.includes('merchant')){
+      this.activeNav = 'merchant'
+    }
+    else if(currentPath.includes('chat')){
+      this.activeNav = 'merchant'
+    }
+    else if(currentPath.includes('resident')){
+      this.activeNav = 'resident'
+    }
+    else if(currentPath.includes('apartment')){
+      this.activeNav = 'apartment'
+    }
+    else if(currentPath.includes('transaction')){
+      this.activeNav = 'transaction'
+    }
     else{
-      this.activeNav = 'dashboard'
+      this.activeNav = 'home'
     }
   }
 
@@ -106,13 +126,23 @@ export class AppComponent implements OnInit {
     })
   }
 
+  goToLoginPage(){
+    window.location.replace('/login');
+  }
+
   logOut(): void {
     console.log('Log Out');
-    this.auth.onLogout();
+    this.isLogin = false;
+    this.appService.deleteUser();
+    this.router.navigateByUrl('login');
   }
 
   goToNotificationPage(){
     window.location.replace('/notification');
+  }
+
+  goToProfilePage(){
+    window.location.replace('/profile');
   }
 
   reset() {
@@ -120,10 +150,6 @@ export class AppComponent implements OnInit {
     this.idleState = 'Idle: Started.';
     console.log(this.idleState);
     this.timedOut = false;
-  }
-
-  getUserRole(){
-    return this.role;
   }
 
   onNavbarActive(e:any){

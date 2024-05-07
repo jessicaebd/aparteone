@@ -1,17 +1,146 @@
-
-        <!-- Maintenance Category -->
-        <!-- <div class="maintenance-list">
-            <div class="d-flex justify-content-between align-items-center subtitle mb-2">
-                <app-label labelInput="Category" labelType="subtitle"></app-label>
-                <app-button buttonLabel="Add Category" data-bs-toggle="modal"
-                    data-bs-target="#modalAddCategory"></app-button>
+<div class="container w-75 d-flex justify-content-center mt-5">
+    <div class="row">
+        <div class="row d-flex align-items-center mb-2">
+            <app-text-button type="secondary" label="BACK" iconStart="bi bi-arrow-left" (onClickEvent)="backButton()"></app-text-button>
+            <h3 class="fw-semibold text-center ms-3">Profile</h3>
+        </div>
+        <ng-container *ngIf="user.role!='Admin'">
+            <div class="mb-2">
+                <app-label labelType="label"  labelFor="profileImage" labelInput="Profile Image" [isMandatory]="true"></app-label>
+                <app-attachment-image attachmentID="profileImage" previewWidth="20vw" [base]="data['image']" (onChangeEvent)="data['image']=$event"></app-attachment-image>
+            </div>    
+        </ng-container>
+        <ng-container *ngIf="user.role=='Management'">
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="email" labelInput="Email"></app-label>
+                <input type="email" [(ngModel)]="data['email']" id="email" class="form-control" [readOnly]="true">
             </div>
-
-            <div class="py-2">
-                <app-table [dataTable]="tableCategory" [columns]="colCategory" headerAlignment="center"
-                    iconStart="bi bi-eye-fill" label="View" type="primary" actionToggle="modal" [filter]="false"
-                    actionTarget="modalViewCategory" (onClickActionEvent)="onListItemClick('category', $event)"
-                    [pageIndex]="pageCategory" [pageSize]="sizeCategory" [length]="allDataCategory"
-                    (onPageIndexEvent)="onLoadData('category', $event)" [errorMsg]="errorMsgCategory"></app-table>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="phone" labelInput="Phone"></app-label>
+                <input type="text" [(ngModel)]="data['phone']" id="phone" class="form-control" [readOnly]="true">
             </div>
-        </div> -->
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="name" labelInput="Apartement Name" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['name']" id="name" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="address" labelInput="Apartement Address" [isMandatory]="true"></app-label>
+                <div class="grow-wrap">
+                    <textarea class="form-control" [(ngModel)]="data['address']" id="address" rows="3" placeholder="Type a value"></textarea>
+                </div>
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="province" labelInput="Province" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['province']" id="province" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="city" labelInput="City" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['city']" id="city" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="postalCode" labelInput="Postal Code" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['postalCode']" id="postalCode" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="latitude" labelInput="Latitude" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['latitude']" id="latitude" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="longitude" labelInput="Longitude" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['longitude']" id="longitude" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="d-flex justify-content-center pt-3 pb-5">
+                <app-button buttonLabel="Save" (onClickEvent)="onSaveClick('Management')"></app-button>
+            </div>
+        </ng-container>
+    
+        <ng-container *ngIf="user.role=='Merchant'">
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="name" labelInput="Apartement Name"></app-label>
+                <input type="text" [(ngModel)]="data['apartmentName']" id="name" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="name" labelInput="Name" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['name']" id="name" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label"  labelFor="category" labelInput="Category" [isMandatory]="true"></app-label>
+                <app-dropdown [itemDropDown]="categoryList" (onDropdownEvent)="data['category']=$event"></app-dropdown>
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="email" labelInput="Email"></app-label>
+                <input type="email" [(ngModel)]="data['email']" id="email" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="phone" labelInput="Phone"></app-label>
+                <input type="text" [(ngModel)]="data['phone']" id="phone" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="bankAccount" labelInput="Bank Account" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['bankAccount']" id="bankAccount" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="accountNumber" labelInput="Account Number" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['accountNumber']" id="accountNumber" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="accountName" labelInput="Account Name" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['accountName']" id="accountName" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="address" labelInput="Address" [isMandatory]="true"></app-label>
+                <div class="grow-wrap">
+                  <textarea class="form-control" [(ngModel)]="data['address']" id="address" rows="3" placeholder="Type a value"></textarea>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center pt-3 pb-5">
+                <app-button buttonLabel="Save" (onClickEvent)="onSaveClick('Merchant')"></app-button>
+            </div>
+        </ng-container>
+        
+        <ng-container *ngIf="user.role=='Resident'">
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="name" labelInput="Apartement Name"></app-label>
+                <input type="text" [(ngModel)]="data['apartmentName']" id="name" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="unitType" labelInput="Unit Type"></app-label>
+                <input type="text" [(ngModel)]="data['unitType']" id="unitType" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="unitNumber" labelInput="Unit Number"></app-label>
+                <input type="text" [(ngModel)]="data['unitNumber']" id="unitNumber" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="type" labelInput="Type"></app-label>
+                <input type="text" [(ngModel)]="data['type']" id="type" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="name" labelInput="Name" [isMandatory]="true"></app-label>
+                <input type="text" [(ngModel)]="data['name']" id="name" class="form-control" placeholder="Type a value">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="email" labelInput="Email"></app-label>
+                <input type="email" [(ngModel)]="data['email']" id="email" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="phone" labelInput="Phone"></app-label>
+                <input type="text" [(ngModel)]="data['phone']" id="phone" class="form-control" [readOnly]="true">
+            </div>
+            <div class="d-flex justify-content-center pt-3 pb-5">
+                <app-button buttonLabel="Save" (onClickEvent)="onSaveClick('Resident')"></app-button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="user.role=='Admin'">
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="name" labelInput="Name"></app-label>
+                <input type="text" value="Admin" id="name" class="form-control" [readOnly]="true">
+            </div>
+            <div class="mb-2">
+                <app-label labelType="label" labelFor="email" labelInput="Email"></app-label>
+                <input type="email" [(ngModel)]="data['email']" id="email" class="form-control" [readOnly]="true">
+            </div>
+        </ng-container>
+    </div>
+</div>

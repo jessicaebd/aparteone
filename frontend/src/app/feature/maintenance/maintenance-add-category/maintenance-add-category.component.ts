@@ -3,6 +3,7 @@ import { MaintenanceCategory } from '../maintenance.interface';
 import Swal from 'sweetalert2';
 import { MaintenanceService } from '../service/maintenance.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 
 @Component({
@@ -11,11 +12,12 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./maintenance-add-category.component.css']
 })
 export class MaintenanceAddCategoryComponent {
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   data: MaintenanceCategory = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -42,8 +44,8 @@ export class MaintenanceAddCategoryComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
@@ -89,7 +91,7 @@ export class MaintenanceAddCategoryComponent {
   setBodyInsertCategory(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': 1,
+        'apartmentId': this.user.id,
         'image': this.data['image'],
         'category': this.data['category'],
         'description': this.data['description'],

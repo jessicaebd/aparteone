@@ -11,7 +11,7 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./billing-detail.component.css']
 })
 export class BillingDetailComponent {
-  residentId = 4;
+  user = this.appService.retrieveUser();
   @Input() data: Billing = {};
   @Output() onSubmitEvent = new EventEmitter<any>;
 
@@ -60,7 +60,7 @@ export class BillingDetailComponent {
   }
 
   async onRemind(){
-    let result = await this.sendBillingNotification(this.residentId, this.data['id']);
+    let result = await this.sendBillingNotification(this.user.id, this.data['id']);
     this.apps.loadingPage(false);
     this.onSubmitEvent.emit();
 
@@ -102,10 +102,13 @@ export class BillingDetailComponent {
   
   async submitRequest(type:any){
     let result;
-    if(type=='Verify'){
+    if(type=='Approved'){
       result = await this.verifyPayment(this.data['id'], true);
     }
-    else{
+    else if(type=='Rejected'){
+      result = await this.verifyPayment(this.data['id'], false);
+    }
+    else if(type=='Cancelled'){
       result = await this.updateBillingDetail(this.data['id'], type);
     }
     this.apps.loadingPage(false);

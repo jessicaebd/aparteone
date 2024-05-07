@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MaintenanceService } from '../service/maintenance.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-maintenance-history',
@@ -8,7 +9,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./maintenance-history.component.css']
 })
 export class MaintenanceHistoryComponent {
-  residentId = 4;
+  user = this.appService.retrieveUser();
   
   table: any;
   allDataCount: any;
@@ -20,16 +21,21 @@ export class MaintenanceHistoryComponent {
   sortCol?: string = 'id';
   sortDir?: string = 'DESC';
 
-  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit(){
     this.apps.loadingPage(true);
     this.errorMsg = '';
-    if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-      await this.getMaintenanceResidentRequest(this.residentId, this.size, this.page, this.filter);
+    if(this.user.role=='Resident'){
+      if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
+        await this.getMaintenanceResidentRequest(this.user.id, this.size, this.page, this.filter);
+      }
+      else{
+        await this.searchMaintenanceResidentRequest(this.user.id, this.size, this.page, this.keySearch);
+      }
     }
     else{
-      await this.searchMaintenanceResidentRequest(this.residentId, this.size, this.page, this.keySearch);
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }

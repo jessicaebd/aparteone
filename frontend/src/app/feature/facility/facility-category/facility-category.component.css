@@ -4,8 +4,8 @@
 
 .card{
     display: flex;
-    width: 13.2rem;
-    height: 10rem;
+    width: 14rem;
+    height: 12rem;
     /* justify-content: center; */
     align-items: center;
     border-radius: 10px;
@@ -20,9 +20,9 @@
 }
 
 img{
-    object-fit: fill;
-    min-height: 6rem;
-    max-height: 6rem;
+    object-fit: cover;
+    min-height: 9rem;
+    max-height: 9rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }

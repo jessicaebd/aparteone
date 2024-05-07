@@ -5,6 +5,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Location } from '@angular/common';
 import { Billing, BillingCategory, PaymentProof } from './billing.interface';
 import { BillingAddComponent } from './billing-add/billing-add.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-billing',
@@ -12,12 +13,10 @@ import { BillingAddComponent } from './billing-add/billing-add.component';
   styleUrls: ['./billing.component.css']
 })
 export class BillingComponent implements OnInit{
-  apartmentId = 1;
-  residentId = 4;
-  role: string = 'resident';
+  user = this.appService.retrieveUser();
+
   filter: string = '';
   page: string = 'category';
-
   listCategory!: any;
   errorListCategory: string = '';
   tableCategory: any;
@@ -51,28 +50,33 @@ export class BillingComponent implements OnInit{
   @ViewChild('closeModalDetail') modalCloseDetail: any;
   @ViewChild(BillingAddComponent) billingAdd!: BillingAddComponent;
 
-  constructor(private location: Location, private billingService: BillingService, private apps: AppComponent){}
+  constructor(private location: Location, private billingService: BillingService, private apps: AppComponent, private appService: AppService){}
 
   async ngOnInit() {
     this.apps.loadingPage(true);
+    this.tableCategory = [];
+    this.tableRequest = [];
+    this.listRequest = [];
     this.errorListRequest = '';
     this.errorMsgCategory = '';
     this.errorMsgRequest = '';
-    this.role = this.apps.getUserRole();
-    if(this.role=='management'){
+    if(this.user.role=='Management'){
       this.colRequest = [{name: 'receiptId', displayName: 'Receipt ID'}, {name: 'billingCategory', displayName: 'Category'}, {name: 'billingDate', displayName: 'Billing Date'}, {name: 'residentUnit', displayName:'Unit'}, {name: 'residentName', displayName: 'Resident'}, {name: 'dueDate', displayName: 'Due Date'}, {name: 'status', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       this.colCategory = [{name: 'category', displayName: 'Billing Category'}, {name: 'isActive', displayName: 'Status'}, {name:"ActionCol", displayName:"Action", align:"center"}];
       
-      await this.getBillingCategory(this.apartmentId, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
-      await this.getBillingDetailApartment(this.apartmentId, 3, 0);
+      await this.getBillingCategory(this.user.id, this.sizeCategory, this.pageCategory, this.sortCatCol, this.sortCatDir);
+      await this.getBillingDetailApartment(this.user.id, 3, 0);
     }
-    else if (this.role=='resident'){
+    else if (this.user.role=='Resident'){
       if(this.keySearch=='' || this.keySearch==null || this.keySearch==undefined){
-        await this.getBillingDetailResident(this.residentId, this.sizeRequest, this.pageList, this.filter);
+        await this.getBillingDetailResident(this.user.id, this.sizeRequest, this.pageList, this.filter);
       }
       else{
-        await this.searchBillingDetailResident(this.residentId, this.sizeRequest, this.pageList, this.keySearch);
+        await this.searchBillingDetailResident(this.user.id, this.sizeRequest, this.pageList, this.keySearch);
       }
+    }
+    else {
+      window.location.replace('');
     }
     this.apps.loadingPage(false);
   }

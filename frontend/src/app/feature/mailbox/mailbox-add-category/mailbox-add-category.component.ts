@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 import { MailboxService } from '../service/mailbox.service';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-mailbox-add-category',
@@ -9,12 +10,12 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./mailbox-add-category.component.css']
 })
 export class MailboxAddCategoryComponent {
-  apartmentId = 1;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   category!: string
   @Output() onSubmitEvent = new EventEmitter<any>;
 
-  constructor(private mailboxService: MailboxService, private apps: AppComponent){}
+  constructor(private mailboxService: MailboxService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -35,8 +36,8 @@ export class MailboxAddCategoryComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
@@ -81,7 +82,7 @@ export class MailboxAddCategoryComponent {
   setBodyInsertCategory(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'apartmentId': this.apartmentId,
+        'apartmentId': this.user.id,
         'category': this.category
       }
       resolve(body);

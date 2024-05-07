@@ -38,8 +38,8 @@ export class UnitDetailComponent {
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.apps.loadingPage(true);
@@ -96,7 +96,7 @@ export class UnitDetailComponent {
     return new Promise<any>(resolve => 
       this.adminService.updateApartmentUnit(id, body).subscribe({
         next: async (response: any) => {
-          console.log('Response: ', response);
+          // console.log('Response: ', response);
           resolve(true);
         },
         error: (error: any) => {

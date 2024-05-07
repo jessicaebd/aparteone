@@ -16,6 +16,7 @@ import com.com.aparteone.dto.ApartmentUnitDTO;
 import com.com.aparteone.dto.ResidentResponse;
 import com.com.aparteone.dto.base.PageResponse;
 import com.com.aparteone.dto.request.auth.RegisterResidentRequest;
+import com.com.aparteone.entity.Merchant;
 import com.com.aparteone.entity.Resident;
 import com.com.aparteone.repository.ResidentRepo;
 import com.com.aparteone.service.ApartmentService;
@@ -163,7 +164,11 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Integer countResidentByApartmentId(Integer apartmentId) {
-        return residentRepo.countByApartmentId(apartmentId);
+    public Integer countResident(Integer apartmentId) {
+        Specification<Resident> spec = Specification.where(null);
+        if  (apartmentId != null) {
+            spec = spec.and(ResidentSpecification.hasApartmentId(apartmentId));
+        } 
+        return residentRepo.findAll(spec).size();
     }
 }

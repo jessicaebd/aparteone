@@ -4,6 +4,7 @@ import { MaintenanceCategory, MaintenanceRequest } from '../maintenance.interfac
 import { MaintenanceService } from '../service/maintenance.service';
 import Swal from 'sweetalert2';
 import { AppComponent } from 'src/app/app.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-maintenance-request',
@@ -14,12 +15,12 @@ export class MaintenanceRequestComponent{
   @Input() dataCategory!: MaintenanceCategory
   @Output() onSubmitEvent = new EventEmitter<any>;
   
-  residentId = 4;
+  user = this.appService.retrieveUser();
   flagValidasi?: boolean = false;
   typeMaintenance: listItems[] = [];
   data: MaintenanceRequest = { };
 
-  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent){}
+  constructor(private maintenanceService: MaintenanceService, private apps: AppComponent, private appService: AppService){}
 
   onButtonSubmit(){
     this.flagValidasi = false;
@@ -40,8 +41,8 @@ export class MaintenanceRequestComponent{
         showCancelButton: true,
         cancelButtonColor: "#697988",
         confirmButtonColor: "#5025FA",
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
       }).then((result) => {
         if (result.value) {
           this.submitRequest();
@@ -87,7 +88,7 @@ export class MaintenanceRequestComponent{
   setBodyInsertRequest(): Promise<any>{
     return new Promise<any>(resolve =>{
       let body = {
-        'residentId': this.residentId,
+        'residentId': this.user.id,
         'maintenanceId': this.dataCategory['id'],
         'description': this.data['description']
       }

@@ -3,7 +3,8 @@
 </ngx-spinner>
 
 <div class="container-fluid">
-  <div class="row">
+  <ng-container *ngIf="isLogin==true; else guest">
+    <div class="row">
     <!-- Sidebar -->
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
       <div class="position-sticky px-3">
@@ -14,33 +15,29 @@
           <hr />
 
           <a [ngClass]="
-              activeNav == 'dashboard'
+              activeNav == 'home'
                 ? 'navbar-item py-3 active'
                 : 'navbar-item py-3'
-            " routerLink="/" data-bs-dismiss="offcanvas" (click)="onNavbarActive('dashboard')">
-            <i *ngIf="activeNav == 'dashboard'" class="navbar-icon bi bi-house-fill"
+            " routerLink="/" data-bs-dismiss="offcanvas" (click)="onNavbarActive('home')">
+            <i *ngIf="activeNav == 'home'" class="navbar-icon bi bi-house-fill"
               style="color: var(--primary-purple)"></i>
-            <i *ngIf="activeNav != 'dashboard'" class="navbar-icon bi bi-house" style="color: var(--black)"></i>
-            <!-- <img *ngIf="activeNav == 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard-active.svg">
-              <img *ngIf="activeNav != 'dashboard'" class="navbar-icon" height="25" alt="dashboard-icon" src="assets/general/dashboard.svg"> -->
-            <label class="navbar-name ms-2">Dashboard</label>
+            <i *ngIf="activeNav != 'home'" class="navbar-icon bi bi-house" style="color: var(--black)"></i>
+            <label class="navbar-name ms-2">Home</label>
           </a>
         </div>
 
         <!-- Admin -->
-        <ng-container *ngIf="this.role == 'admin'">
+        <ng-container *ngIf="user.role == 'Admin'">
           <div class="d-flex row align-items-center">
             <a [ngClass]="
                 activeNav == 'apartment'
                   ? 'navbar-item py-3 active'
                   : 'navbar-item py-3'
               " routerLink="/apartment" data-bs-dismiss="offcanvas" (click)="onNavbarActive('apartment')">
-              <i *ngIf="activeNav == 'apartment'" class="navbar-icon bi bi-cash-coin"
+              <i *ngIf="activeNav == 'apartment'" class="navbar-icon bi bi-building-fill"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'apartment'" class="navbar-icon bi bi-receipt-cutoff"
+              <i *ngIf="activeNav != 'apartment'" class="navbar-icon bi bi-building"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
-                  <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
               <label class="navbar-name ms-2">Apartment</label>
             </a>
           </div>
@@ -50,34 +47,54 @@
                   ? 'navbar-item py-3 active'
                   : 'navbar-item py-3'
               " routerLink="/resident" data-bs-dismiss="offcanvas" (click)="onNavbarActive('resident')">
-              <i *ngIf="activeNav == 'resident'" class="navbar-icon bi bi-envelope-open-fill"
+              <i *ngIf="activeNav == 'resident'" class="navbar-icon bi bi-people-fill"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'resident'" class="navbar-icon bi bi-envelope" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'resident'" class="navbar-icon" height="25" alt="resident-icon" src="assets/general/resident-active.svg">
-                  <img *ngIf="activeNav != 'resident'" class="navbar-icon" height="25" alt="resident-icon" src="assets/general/resident.svg"> -->
+              <i *ngIf="activeNav != 'resident'" class="navbar-icon bi bi-people" style="color: var(--black)"></i>
               <label class="navbar-name ms-2">Residents</label>
             </a>
           </div>
-
           <div class="d-flex row align-items-center">
             <a [ngClass]="
                 activeNav == 'merchant'
                   ? 'navbar-item py-3 active'
                   : 'navbar-item py-3'
               " routerLink="/merchant" data-bs-dismiss="offcanvas" (click)="onNavbarActive('merchant')">
-              <i *ngIf="activeNav == 'merchant'" class="navbar-icon bi bi-calendar-check-fill"
+              <i *ngIf="activeNav == 'merchant'" class="navbar-icon bi bi-shop-window"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'merchant'" class="navbar-icon bi bi-calendar-check"
+              <i *ngIf="activeNav != 'merchant'" class="navbar-icon bi bi-shop"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
-                  <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
               <label class="navbar-name ms-2">Merchant</label>
             </a>
           </div>
         </ng-container>
 
         <!-- Management -->
-        <ng-container *ngIf="this.role == 'management'">
+        <ng-container *ngIf="user.role == 'Management'">
+          <div class="d-flex row align-items-center">
+            <a [ngClass]="
+                activeNav == 'apartment'
+                  ? 'navbar-item py-3 active'
+                  : 'navbar-item py-3'
+              " routerLink="/apartment" data-bs-dismiss="offcanvas" (click)="onNavbarActive('apartment')">
+              <i *ngIf="activeNav == 'apartment'" class="navbar-icon bi bi-building-fill"
+                style="color: var(--primary-purple)"></i>
+              <i *ngIf="activeNav != 'apartment'" class="navbar-icon bi bi-building"
+                style="color: var(--black)"></i>
+              <label class="navbar-name ms-2">Units</label>
+            </a>
+          </div>
+          <div class="d-flex row align-items-center">
+            <a [ngClass]="
+                activeNav == 'announcement'
+                  ? 'navbar-item py-3 active'
+                  : 'navbar-item py-3'
+              " routerLink="/announcement" data-bs-dismiss="offcanvas" (click)="onNavbarActive('announcement')">
+              <i *ngIf="activeNav == 'announcement'" class="navbar-icon bi bi-megaphone-fill"
+                style="color: var(--primary-purple)"></i>
+              <i *ngIf="activeNav != 'announcement'" class="navbar-icon bi bi-megaphone" style="color: var(--black)"></i>
+              <label class="navbar-name ms-2">Announcement</label>
+            </a>
+          </div>
           <div class="d-flex row align-items-center">
             <a [ngClass]="
                 activeNav == 'billing'
@@ -86,10 +103,8 @@
               " routerLink="/billing" data-bs-dismiss="offcanvas" (click)="onNavbarActive('billing')">
               <i *ngIf="activeNav == 'billing'" class="navbar-icon bi bi-cash-coin"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-receipt-cutoff"
+              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-cash"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
-                  <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
               <label class="navbar-name ms-2">Bills</label>
             </a>
           </div>
@@ -102,8 +117,6 @@
               <i *ngIf="activeNav == 'mailbox'" class="navbar-icon bi bi-envelope-open-fill"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'mailbox'" class="navbar-icon bi bi-envelope" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
-                  <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
               <label class="navbar-name ms-2">Mailbox</label>
             </a>
           </div>
@@ -118,8 +131,6 @@
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'facility'" class="navbar-icon bi bi-calendar-check"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility-active.svg">
-                  <img *ngIf="activeNav != 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility.svg"> -->
               <label class="navbar-name ms-2">Facility</label>
             </a>
           </div>
@@ -132,12 +143,22 @@
               <i *ngIf="activeNav == 'maintenance'" class="navbar-icon bi bi-gear-fill"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'maintenance'" class="navbar-icon bi bi-gear" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance-active.svg">
-                  <img *ngIf="activeNav != 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance.svg"> -->
               <label class="navbar-name ms-2">Maintenance</label>
             </a>
           </div>
 
+          <div class="d-flex row align-items-center">
+            <a [ngClass]="
+                activeNav == 'resident'
+                  ? 'navbar-item py-3 active'
+                  : 'navbar-item py-3'
+              " routerLink="/resident" data-bs-dismiss="offcanvas" (click)="onNavbarActive('resident')">
+              <i *ngIf="activeNav == 'resident'" class="navbar-icon bi bi-people-fill"
+                style="color: var(--primary-purple)"></i>
+              <i *ngIf="activeNav != 'resident'" class="navbar-icon bi bi-people" style="color: var(--black)"></i>
+              <label class="navbar-name ms-2">Residents</label>
+            </a>
+          </div>
           <div class="d-flex row align-items-center">
             <a [ngClass]="
                 activeNav == 'merchant'
@@ -147,8 +168,6 @@
               <i *ngIf="activeNav == 'merchant'" class="navbar-icon bi bi-shop-window"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'merchant'" class="navbar-icon bi bi-shop" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
-                  <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
               <label class="navbar-name ms-2">E-Mart</label>
             </a>
           </div>
@@ -162,15 +181,13 @@
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'report'" class="navbar-icon bi bi-question-circle"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report-active.svg">
-                  <img *ngIf="activeNav != 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report.svg"> -->
               <label class="navbar-name ms-2">Report</label>
             </a>
           </div>
         </ng-container>
 
         <!-- Resident -->
-        <ng-container *ngIf="this.role == 'resident'">
+        <ng-container *ngIf="user.role == 'Resident'">
           <div class="d-flex row align-items-center">
             <a [ngClass]="
                 activeNav == 'billing'
@@ -179,10 +196,8 @@
               " routerLink="/billing" data-bs-dismiss="offcanvas" (click)="onNavbarActive('billing')">
               <i *ngIf="activeNav == 'billing'" class="navbar-icon bi bi-cash-coin"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-receipt-cutoff"
+              <i *ngIf="activeNav != 'billing'" class="navbar-icon bi bi-cash"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
-          <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
               <label class="navbar-name ms-2">Bills</label>
             </a>
           </div>
@@ -195,8 +210,6 @@
               <i *ngIf="activeNav == 'mailbox'" class="navbar-icon bi bi-envelope-open-fill"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'mailbox'" class="navbar-icon bi bi-envelope" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
-          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
               <label class="navbar-name ms-2">Mailbox</label>
             </a>
           </div>
@@ -211,8 +224,6 @@
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'facility'" class="navbar-icon bi bi-calendar-check"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility-active.svg">
-          <img *ngIf="activeNav != 'facility'" class="navbar-icon" height="25" alt="facility-icon" src="assets/general/facility.svg"> -->
               <label class="navbar-name ms-2">Facility</label>
             </a>
           </div>
@@ -225,8 +236,6 @@
               <i *ngIf="activeNav == 'maintenance'" class="navbar-icon bi bi-gear-fill"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'maintenance'" class="navbar-icon bi bi-gear" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance-active.svg">
-          <img *ngIf="activeNav != 'maintenance'" class="navbar-icon" height="25" alt="maintenance-icon" src="assets/general/maintenance.svg"> -->
               <label class="navbar-name ms-2">Maintenance</label>
             </a>
           </div>
@@ -240,8 +249,6 @@
               <i *ngIf="activeNav == 'merchant'" class="navbar-icon bi bi-shop-window"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'merchant'" class="navbar-icon bi bi-shop" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
-          <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
               <label class="navbar-name ms-2">E-Mart</label>
             </a>
           </div>
@@ -251,11 +258,9 @@
                   ? 'navbar-item py-3 active'
                   : 'navbar-item py-3'
               " routerLink="/transaction" data-bs-dismiss="offcanvas" (click)="onNavbarActive('transaction')">
-              <i *ngIf="activeNav == 'transaction'" class="navbar-icon bi bi-shop-window"
+              <i *ngIf="activeNav == 'transaction'" class="navbar-icon bi bi-receipt-cutoff"
                 style="color: var(--primary-purple)"></i>
-              <i *ngIf="activeNav != 'transaction'" class="navbar-icon bi bi-shop" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant-active.svg">
-          <img *ngIf="activeNav != 'merchant'" class="navbar-icon" height="25" alt="merchant-icon" src="assets/general/merchant.svg"> -->
+              <i *ngIf="activeNav != 'transaction'" class="navbar-icon bi bi-receipt" style="color: var(--black)"></i>
               <label class="navbar-name ms-2">Transaction</label>
             </a>
           </div>
@@ -269,15 +274,13 @@
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'report'" class="navbar-icon bi bi-question-circle"
                 style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report-active.svg">
-          <img *ngIf="activeNav != 'report'" class="navbar-icon" height="25" alt="report-icon" src="assets/general/report.svg"> -->
               <label class="navbar-name ms-2">Report</label>
             </a>
           </div>
         </ng-container>
 
         <!-- Merchant -->
-        <ng-container *ngIf="this.role == 'merchant'">
+        <ng-container *ngIf="user.role == 'Merchant'">
           <div class="d-flex row align-items-center">
             <a [ngClass]="
               activeNav == 'product'
@@ -287,8 +290,6 @@
               <i *ngIf="activeNav == 'product'" class="navbar-icon bi bi-basket2-fill"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'product'" class="navbar-icon bi bi-basket2" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment-active.svg">
-          <img *ngIf="activeNav != 'payment'" class="navbar-icon" height="25" alt="payment-icon" src="assets/general/payment.svg"> -->
               <label class="navbar-name ms-2">Product</label>
             </a>
           </div>
@@ -302,8 +303,6 @@
               <i *ngIf="activeNav == 'transaction'" class="navbar-icon bi bi-receipt-cutoff"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'transaction'" class="navbar-icon bi bi-receipt" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
-          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
               <label class="navbar-name ms-2">Transaction</label>
             </a>
           </div>
@@ -317,8 +316,6 @@
               <i *ngIf="activeNav == 'chat'" class="navbar-icon bi bi-chat-dots-fill"
                 style="color: var(--primary-purple)"></i>
               <i *ngIf="activeNav != 'chat'" class="navbar-icon bi bi-chat-dots" style="color: var(--black)"></i>
-              <!-- <img *ngIf="activeNav == 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox-active.svg">
-          <img *ngIf="activeNav != 'mailbox'" class="navbar-icon" height="25" alt="mailbox-icon" src="assets/general/mailbox.svg"> -->
               <label class="navbar-name ms-2">Chat</label>
             </a>
           </div>
@@ -329,43 +326,62 @@
     <!-- Main content area -->
     <main class="col-md-9 ms-sm-auto col-lg-10">
       <!-- Topbar -->
-      <div class="nav fixed fixed-top justify-content-end align-items-center p-3"
+      <ng-container *ngIf="isLogin==true; else topBarGuest">
+        <div class="nav fixed fixed-top justify-content-end align-items-center p-3"
         style="background-color: var(--white); z-index: 0;">
-        <label class="me-1" style="font-size: 1rem; font-weight: 500; color: var(--black)">Hello,</label>
-        <app-label class="profile-name" labelInput="ROBERT MJ"></app-label>
-        <div class="border-end pe-2">
-          <div class="dropdown ms-2">
-            <button class="btn btn-profile rounded-circle px-0" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false" style="width: 44px">
-              <img class="mx-0" width="30" height="30" border-radius="10" alt="logo" src="assets/general/profile.svg" />
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item">Profile</a></li>
-              <li><a class="dropdown-item" (click)="logOut()">Log Out</a></li>
-            </ul>
+          <label class="me-1" style="font-size: 1rem; font-weight: 500; color: var(--black)">Hello,</label>
+          <ng-container *ngIf="user.name; else adminProfile">
+            <app-label class="profile-name" [labelInput]="user.name"></app-label>
+          </ng-container>
+          <ng-template #adminProfile>
+            <app-label class="profile-name" labelInput="Admin"></app-label>
+          </ng-template>
+          <div class="border-end pe-2">
+            <div class="dropdown ms-2">
+              <ng-container *ngIf="user.image; else defaultProfile">
+                <button class="btn btn-profile rounded-circle p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img class="mx-0 rounded-circle" width="44" height="44" alt="profile" [src]="user.image" style="object-fit: cover;"/>
+                </button>
+              </ng-container>
+              <ng-template #defaultProfile>
+                <button class="btn btn-profile rounded-circle px-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 44px;">
+                  <img class="mx-0 rounded-circle" width="30" height="30" alt="profile" src="assets/general/profile.svg" />
+                </button>
+              </ng-template>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" (click)="goToProfilePage()">Profile</a></li>
+                <li><a class="dropdown-item" (click)="logOut()">Log Out</a></li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <button type="button" class="btn btn-notification position-relative ms-3 me-3" data-bs-toggle="modal"
-          data-bs-target="#modalNotification">
-          <i class="bi bi-bell-fill"></i>
-          <span
+          <button type="button" class="btn btn-notification position-relative ms-3 me-3" data-bs-toggle="modal" data-bs-target="#modalNotification">
+            <i class="bi bi-bell-fill"></i>
+            <span
             class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-            <span class="visually-hidden">New alerts</span>
-          </span>
-        </button>
-      </div>
-
-      <!-- Modal -->
-      <app-modal modalID="modalNotification" [width]="500" [modalContent]="modalNotification"></app-modal>
-      <ng-template #modalNotification>
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Notifications</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+              <span class="visually-hidden">New alerts</span>
+            </span>
+          </button>
         </div>
-        <div class="modal-body d-flex col justify-content-center">
-          <div class="container">
-            <app-notification></app-notification>
+        
+        <!-- Modal -->
+        <app-modal modalID="modalNotification" [width]="600" [modalContent]="modalNotification"></app-modal>
+        <ng-template #modalNotification>
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Notifications</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
           </div>
+          <div class="modal-body d-flex col justify-content-center">
+            <div class="container">
+              <app-notification></app-notification>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-template #topBarGuest>
+        <div class="nav fixed fixed-top justify-content-end align-items-center p-3" style="background-color: var(--white); z-index: 0;">
+          <app-button buttonClass="primary" buttonLabel="Login" (onClickEvent)="goToLoginPage()"></app-button>
+          <app-button class="ms-3" buttonClass="outline-primary" buttonLabel="Register" routerLink="/register"></app-button>
         </div>
       </ng-template>
 
@@ -377,4 +393,79 @@
       </main>
     </main>
   </div>
+  </ng-container>
 </div>
+
+<ng-template #guest>
+  <div class="row">
+  <!-- Main content area -->
+  <main class="col-md ms-sm-auto col-lg">
+    <!-- Topbar -->
+    <ng-container *ngIf="isLogin==true; else topBarGuest">
+      <div class="nav fixed fixed-top justify-content-end align-items-center p-3"
+      style="background-color: var(--white); z-index: 0;">
+        <label class="me-1" style="font-size: 1rem; font-weight: 500; color: var(--black)">Hello,</label>
+        <ng-container *ngIf="user.name; else adminProfile">
+          <app-label class="profile-name" [labelInput]="user.name"></app-label>
+        </ng-container>
+        <ng-template #adminProfile>
+          <app-label class="profile-name" labelInput="Admin"></app-label>
+        </ng-template>
+        <div class="border-end pe-2">
+          <div class="dropdown ms-2">
+            <ng-container *ngIf="user.image; else defaultProfile">
+              <button class="btn btn-profile rounded-circle p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="mx-0 rounded-circle" width="44" height="44" alt="profile" [src]="user.image" style="object-fit: cover;"/>
+              </button>
+            </ng-container>
+            <ng-template #defaultProfile>
+              <button class="btn btn-profile rounded-circle px-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 44px;">
+                <img class="mx-0 rounded-circle" width="30" height="30" alt="profile" src="assets/general/profile.svg" />
+              </button>
+            </ng-template>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="goToProfilePage()">Profile</a></li>
+              <li><a class="dropdown-item" (click)="logOut()">Log Out</a></li>
+            </ul>
+          </div>
+        </div>
+        <button type="button" class="btn btn-notification position-relative ms-3 me-3" data-bs-toggle="modal" data-bs-target="#modalNotification">
+          <i class="bi bi-bell-fill"></i>
+          <span
+          class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+            <span class="visually-hidden">New alerts</span>
+          </span>
+        </button>
+      </div>
+      
+      <!-- Modal -->
+      <app-modal modalID="modalNotification" [width]="600" [modalContent]="modalNotification"></app-modal>
+      <ng-template #modalNotification>
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Notifications</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+          <div class="container">
+            <app-notification></app-notification>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #topBarGuest>
+      <div class="nav fixed fixed-top justify-content-end align-items-center p-3" style="background-color: var(--white); z-index: 0;">
+        <app-button buttonClass="primary" buttonLabel="Login" (onClickEvent)="goToLoginPage()"></app-button>
+        <app-button class="ms-3" buttonClass="outline-primary" buttonLabel="Register" routerLink="/register"></app-button>
+      </div>
+    </ng-template>
+
+    <!-- Content -->
+    <main class="page container-fluid">
+      <div class="mt-5 pt-3" role="main">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </main>
+</div>
+</ng-template>

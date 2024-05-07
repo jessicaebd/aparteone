@@ -1,0 +1,49 @@
+<ng-container *ngIf="errorMsg!=''; else list">
+    <div class="d-flex justify-content-center align-items-center" style="height: 10rem;">
+        <p class="mb-0">{{ errorMsg }}</p>
+    </div>
+</ng-container>
+
+<ng-template #list>
+    <div style="height: 16rem">
+        <ng-container *ngFor="let item of listApproval">
+            <button class="btn py-0 w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalMerchantDetail" (click)="onListItemClick(item)">
+                <div class="row p-3 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <h6 class="col-9 fw-bolder fs-6 text-start mb-0 text-truncate">{{item.name}}</h6>
+                            <div class="col-3 d-flex justify-content-end">
+                                <span
+                                    class="badge rounded-pill text-bg-dark px-3 py-1 align-items-center">Merchant</span>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <span class="col-11 text-secondary text-start text-truncate" style="font-size: 12px;">{{item.category}}</span>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </ng-container>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator #paginator (page)="onClickPageIndex($event)" [length]="allDataCount" [pageSize]="pageSize"
+        [showFirstLastButtons]="false" [hidePageSize]="true" [pageIndex]="pageIndex"
+        aria-label="Select page">
+    </mat-paginator>
+
+    <!-- Modal -->
+    <app-modal modalID="modalMerchantDetail" [width]="600" [modalContent]="modalMerchantDetail"></app-modal>
+        
+    <ng-template #modalMerchantDetail>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Merchant Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalDetail></button>
+        </div>
+        <div class="modal-body d-flex col justify-content-center">
+            <div class="container">
+                <app-merchant-detail [data]="data" (onSubmitEvent)="redirect()"></app-merchant-detail>
+            </div>
+        </div>
+    </ng-template>
+</ng-template>

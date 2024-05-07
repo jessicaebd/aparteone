@@ -5,35 +5,35 @@
             <img class="w-100 rounded" [src]="data['image']">
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Category"></app-label>
+            <app-label class="col-3" labelInput="Category"></app-label>
             <app-label class="col" [labelInput]="data['category']? (': ' + data['category']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Bank Account"></app-label>
+            <app-label class="col-3" labelInput="Bank Account"></app-label>
             <app-label class="col" [labelInput]="data['bankAccount']? (': ' + data['bankAccount']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Account Number"></app-label>
+            <app-label class="col-3" labelInput="Account Number"></app-label>
             <app-label class="col" [labelInput]="data['accountNumber']? (': ' + data['accountNumber']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Account Name"></app-label>
+            <app-label class="col-3" labelInput="Account Name"></app-label>
             <app-label class="col" [labelInput]="data['accountName']? (': ' + data['accountName']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Bank Account"></app-label>
+            <app-label class="col-3" labelInput="Bank Account"></app-label>
             <app-label class="col" [labelInput]="data['bankAccount']? (': ' + data['bankAccount']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Address"></app-label>
+            <app-label class="col-3" labelInput="Address"></app-label>
             <app-label class="col" [labelInput]="data['address']? (': ' + data['address']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Approval"></app-label>
+            <app-label class="col-3" labelInput="Approval"></app-label>
             <app-label class="col" [labelInput]="data['isApproved']? (': ' + data['isApproved']) : ': -'"></app-label>
         </div>
         <div class="row mb-1">
-            <app-label class="col-2" labelInput="Active"></app-label>
+            <app-label class="col-3" labelInput="Active"></app-label>
             <app-label class="col" [labelInput]="data['isActive']? (': ' + data['isActive']) : ': -'"></app-label>
         </div>
     </div>
@@ -41,6 +41,7 @@
     <ng-container *ngIf="data['isApproved']=='Pending'">
         <div class="border-top w-100 mt-3 pt-2">
             <div class="container d-flex justify-content-center mt-2">
+                <app-button class="d-flex justify-content-center me-3" buttonClass="outline-primary" buttonLabel="Reject" (onClickEvent)="onButtonClick('approve', false)"></app-button>
                 <app-button class="d-flex justify-content-center" buttonClass="primary" buttonLabel="Approve" (onClickEvent)="onButtonClick('approve', true)"></app-button>
             </div>
         </div>
@@ -61,18 +62,4 @@
             </div>
         </div>
     </ng-container>
-
-    <!-- <ng-container *ngIf="data['isApproved']=='Pending'">
-        <div class="border-top w-100 mt-3 pt-2">
-            <app-label labelType="subtitle" labelInput="Assign"></app-label>
-            <div class="mt-1">
-                <app-label labelType="label" labelFor="assignedName" labelInput="Staff Name" [isMandatory]="true"></app-label>
-                <app-textbox inputID="assignedName" (onChangeEvent)="data['Assigned Name']=$event"></app-textbox>
-            </div>
-            <div class="container d-flex justify-content-center mt-4">
-                <app-button class="" buttonClass="outline-primary" buttonLabel="Cancel" (onClickEvent)="onButtonClick('Cancelled')"></app-button>
-                <app-button class="ms-3" buttonClass="primary" buttonLabel="Assign" (onClickEvent)="onButtonAssign('Assigned')"></app-button>
-            </div>
-        </div>
-    </ng-container> -->
 </div>

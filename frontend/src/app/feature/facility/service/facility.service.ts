@@ -21,8 +21,7 @@ export class FacilityService {
   // CATEGORY
   getFacilityCategory(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -30,8 +29,7 @@ export class FacilityService {
 
   getFacilityActiveCategory(apartmentId: any, isActive: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'isActive': isActive } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -39,13 +37,16 @@ export class FacilityService {
 
   insertFacilityCategory(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers };
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateFacilityCategory(facilityId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'facilityId': facilityId, 'isActive': isActive } });
-    const options = { params };
+    const options = { headers, params };
     const body = {};
     return this.httpClient.post<any>(apiUrl, body, options);
   }
@@ -53,8 +54,7 @@ export class FacilityService {
   // TIME
   getFacilityTime(facilityId: any, date: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiTime}`;
-    const headers = new HttpHeaders({
-    });
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'facilityId': facilityId, 'date': date } });
     const options = { headers, params };
     return this.httpClient.get<any>(apiUrl, options);
@@ -62,15 +62,17 @@ export class FacilityService {
   
   insertFacilityTime(facilityId: any, body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiTime}/${this.apiAdd}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'facilityId': facilityId } });
-    const options = { params };
+    const options = { headers, params };
     return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateFacilityTime(facilityTimeId:any, isActive:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiTime}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'facilityTimeId': facilityTimeId, 'isActive': isActive } });
-    const options = { params };
+    const options = { headers, params };
     const body = {};
     return this.httpClient.post<any>(apiUrl, body, options);
   }
@@ -78,20 +80,23 @@ export class FacilityService {
   // REQUEST
   getFacilityApartmentRequest(apartmentId: any, size:number, page: number): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiApartment}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page} });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   searchFacilityApartmentRequest(apartmentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiApartment}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'apartmentId': apartmentId, 'size': size, 'page': page, 'search': search} });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
   
   getFacilityResidentRequest(residentId: any, size:number, page: number, status: any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiResident}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     let params;
     if(status == '' || status == null){
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page } });
@@ -99,26 +104,30 @@ export class FacilityService {
     else{
       params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'status': status } });
     }
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   searchFacilityResidentRequest(residentId: any, size:number, page: number, search:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiResident}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'residentId': residentId, 'size': size, 'page': page, 'search': search} });
-    const options = { params }
+    const options = { headers, params }
     return this.httpClient.get<any>(apiUrl, options);
   }
 
   insertFacilityRequest(body:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiAdd}`;
-    return this.httpClient.post<any>(apiUrl, body);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    const options = { headers }
+    return this.httpClient.post<any>(apiUrl, body, options);
   }
 
   updateFacilityRequest(facilityRequestId:any, status:any): any {
     const apiUrl = `${this.apiUrl}/${this.apiFacility}/${this.apiRequest}/${this.apiUpdate}`;
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'facilityRequestId': facilityRequestId, 'status': status } });
-    const options = { params };
+    const options = { headers, params };
     const body = {};
     return this.httpClient.post<any>(apiUrl, body, options);
   }

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
+import { Transaction } from '../merchant.interface';
 
 @Component({
   selector: 'app-transaction-list',
@@ -24,14 +26,17 @@ export class TransactionListComponent {
   @Output() onPageIndexEvent = new EventEmitter<number>;
   @Output() onSubmitEvent = new EventEmitter<number>;
 
+  user = this.appService.retrieveUser();
   merchant!: any;
   checkout!: any;
   counterProduct = 1;
   paymentProof!: any;
+
+  data: Transaction = {};
   
   @ViewChild('closeModalCO') modalCloseCO: any;
 
-  constructor(private merchantService: MerchantService, private apps: AppComponent){}
+  constructor(private merchantService: MerchantService, private apps: AppComponent, private appService: AppService){}
 
   onClickPageIndex(e:any){
     this.onPageIndexEvent.emit(e.pageIndex);
@@ -210,6 +215,11 @@ export class TransactionListComponent {
         confirmButtonColor: '#5025FA'
       });
     }
+  }
+
+  onPaymentHistory(e:any){
+    this.data = e;
+    console.log(this.data);
   }
 
   redirect(){
