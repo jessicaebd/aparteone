@@ -58,6 +58,12 @@ export class AuthComponent implements OnInit {
           },
           error: (error: any) => {
             console.log('#error', error);
+            Swal.fire({
+              title: 'Error',
+              html: 'Login Error',
+              icon: 'error',
+              confirmButtonColor: '#5025FA'
+            });
             resolve(error);
           }
         })
