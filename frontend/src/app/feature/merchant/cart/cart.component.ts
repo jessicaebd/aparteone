@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantService } from '../service/merchant.service';
 import { AppComponent } from 'src/app/app.component';
@@ -25,6 +25,8 @@ export class CartComponent {
   paymentProof!: any;
   flagNoCart: boolean = false;
   flagValidasi = false;
+
+  @Output() onSubmitEvent = new EventEmitter<any>;
 
   @ViewChild('closeModal') modalClose: any;
   @ViewChild('closeModalCO') modalCloseCO: any;
@@ -203,7 +205,7 @@ export class CartComponent {
     await this.updateCart(this.productOpen.id, this.productOpen.quantity, this.productOpen.notes);
     this.ngOnInit();
     this.apps.loadingPage(false);
-    
+    this.onSubmitEvent.emit();
     this.modalClose.nativeElement.click();
   }
 
@@ -214,7 +216,7 @@ export class CartComponent {
     await this.deleteCart(this.productOpen.id);
     this.ngOnInit();
     this.apps.loadingPage(false);
-    
+    this.onSubmitEvent.emit();
     this.modalClose.nativeElement.click();
   }
 
@@ -240,6 +242,7 @@ export class CartComponent {
     }
     this.modalCloseCO.nativeElement.click();
     this.apps.loadingPage(false);
+    this.onSubmitEvent.emit();
     this.goToTransactionPage();
   }
   

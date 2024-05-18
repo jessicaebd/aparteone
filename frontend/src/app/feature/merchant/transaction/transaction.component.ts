@@ -25,7 +25,7 @@ export class TransactionComponent {
   allDataTransaction: any;
   errorMsgTransaction: string = '';
   pageTransaction = 0;
-  sizeTransaction = 10;
+  sizeTransaction = 5;
   colTransaction: Column[] = [];
   dataTransaction: Transaction = {};
   
