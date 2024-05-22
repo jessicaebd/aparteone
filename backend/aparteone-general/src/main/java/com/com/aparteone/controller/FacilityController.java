@@ -91,10 +91,17 @@ public class FacilityController {
         return ResponseEntity.ok(facilityTime);
     }
 
-    @GetMapping("/request")
-    public ResponseEntity<FacilityRequestResponse> getFacilityRequestDetail(@RequestParam Integer facilityRequestId) {
-        log.info("[Facility] Get Facility Request Detail: facilityRequestId-{}",facilityRequestId);
-        FacilityRequestResponse response = facilityService.getFacilityRequestById(facilityRequestId);
+    @GetMapping("/request/apartment")
+    public ResponseEntity<PageResponse<FacilityRequestResponse>> getApartmentFacilityRequestList(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam Integer apartmentId) {
+        log.info("[Facility] Get Facility Request List - Apartment: apartmentId-{} | status-{}", apartmentId, status);
+        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 
@@ -112,17 +119,10 @@ public class FacilityController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/request/apartment")
-    public ResponseEntity<PageResponse<FacilityRequestResponse>> getFacilityRequestByApartmentId(
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
-            @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", required = false, defaultValue = "DESC") String sortDir,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam Integer apartmentId) {
-        log.info("[Facility] Get Facility Request List - Apartment: apartmentId-{} | status-{}", apartmentId, status);
-        PageResponse<FacilityRequestResponse> response = facilityService.getFacilityRequestListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
+    @GetMapping("/request")
+    public ResponseEntity<FacilityRequestResponse> getFacilityRequestDetail(@RequestParam Integer facilityRequestId) {
+        log.info("[Facility] Get Facility Request Detail: facilityRequestId-{}",facilityRequestId);
+        FacilityRequestResponse response = facilityService.getFacilityRequestById(facilityRequestId);
         return ResponseEntity.ok(response);
     }
 
@@ -143,7 +143,7 @@ public class FacilityController {
     }
 
     @GetMapping("/request/count")
-    public ResponseEntity<Integer> countFacilityRequestByResidentId(@RequestParam Integer residentId) {
+    public ResponseEntity<Integer> countFacility(@RequestParam Integer residentId) {
         log.info("[Facility] Count Facility Request By Resident Id: residentId-{}", residentId);
         return ResponseEntity.ok(facilityService.countFacilityRequestByResidentId(residentId));
     }

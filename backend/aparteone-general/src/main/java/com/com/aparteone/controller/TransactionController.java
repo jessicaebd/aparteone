@@ -39,7 +39,7 @@ public class TransactionController {
     }
 
     @GetMapping("/merchant")
-    public ResponseEntity<PageResponse<TransactionResponse>> getTransactionListByMerchantId(
+    public ResponseEntity<PageResponse<TransactionResponse>> getMerchantTransactionList(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,

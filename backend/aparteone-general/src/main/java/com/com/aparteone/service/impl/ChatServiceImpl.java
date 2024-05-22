@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.com.aparteone.dto.response.ChatRoomResponse;
+import com.com.aparteone.entity.ChatMessage;
 import com.com.aparteone.entity.ChatRoom;
 import com.com.aparteone.entity.User;
+import com.com.aparteone.repository.ChatMessageRepo;
 import com.com.aparteone.repository.ChatRoomRepo;
 import com.com.aparteone.repository.UserRepo;
-import com.com.aparteone.service.ChatRoomService;
+import com.com.aparteone.service.ChatService;
+import com.com.aparteone.service.NotificationService;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +23,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
-public class ChatRoomServiceImpl implements ChatRoomService {
+public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private ChatRoomRepo chatRoomRepo;
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private ChatMessageRepo chatMessageRepo;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public String getChatRoomId(Integer senderId, Integer receiverId) {
@@ -80,6 +89,22 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         });
 
         return response;
+    }
+
+    @Override
+    public List<ChatMessage> getChatMessages(Integer senderId, Integer recipientId) {
+        String chatId = getChatRoomId(senderId, recipientId);
+        List<ChatMessage> chatMessages = chatMessageRepo.findByChatId(chatId);
+        return chatMessages;
+    }
+
+    @Override
+    public ChatMessage saveChatMessage(ChatMessage chatMessage) {
+        String chatId = getChatRoomId(chatMessage.getSenderId(), chatMessage.getReceiverId());
+        chatMessage.setChatId(chatId);
+        chatMessageRepo.save(chatMessage);
+        notificationService.sendNotification(chatMessage.getReceiverId(), "Chat", "You have a new message!");
+        return chatMessage;
     }
 
 }

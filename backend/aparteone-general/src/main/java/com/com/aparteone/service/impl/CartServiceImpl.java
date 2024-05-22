@@ -49,28 +49,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartResponse> getCartListByResidentIdAndMerchantId(Integer residentId, Integer merchantId) {
-        List<Cart> carts = cartRepo.findByResidentIdAndMerchantId(residentId, merchantId);
-        List<CartResponse> response = new ArrayList<>();
-        carts.forEach(cart -> {
-            ProductResponse product = productService.getProductById(cart.getProductId());
-            response.add(new CartResponse(
-                    cart.getId(),
-                    cart.getResidentId(),
-                    product.getMerchantId(),
-                    product.getMerchantName(),
-                    cart.getProductId(),
-                    product.getImage(),
-                    product.getName(),
-                    product.getPrice(),
-                    cart.getQuantity(),
-                    cart.getNotes(),
-                    product.getPrice() * cart.getQuantity()));
-        });
-        return response;
-    }
-
-    @Override
     public Cart addCart(CartRequest cartRequest) {
         Cart cart = new Cart();
         cart.setResidentId(cartRequest.getResidentId());

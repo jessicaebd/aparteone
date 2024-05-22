@@ -7,4 +7,5 @@ import com.com.aparteone.entity.Payment;
 
 @Repository
 public interface PaymentRepo extends JpaRepository<Payment, Integer> {
+    
 }

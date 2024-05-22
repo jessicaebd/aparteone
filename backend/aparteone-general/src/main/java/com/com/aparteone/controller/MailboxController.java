@@ -108,7 +108,7 @@ public class MailboxController {
     }
 
     @GetMapping("/detail/count") 
-    public ResponseEntity<Integer> getMailboxDetailCount(@RequestParam Integer residentId) {
+    public ResponseEntity<Integer> countMailbox(@RequestParam Integer residentId) {
         log.info("[Mailbox] Get Mailbox Detail Count: residentId-{}", residentId);
         Integer count = mailboxService.countMailboxDetailByResidentId(residentId);
         return ResponseEntity.ok(count);

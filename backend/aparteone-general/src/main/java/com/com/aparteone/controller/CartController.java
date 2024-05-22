@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,15 +30,6 @@ public class CartController {
     public ResponseEntity<List<CartResponse>> getCartList(@RequestParam Integer residentId) {
         log.info("[Cart] Get Cart List: residentId-{}", residentId);
         List<CartResponse> response = cartService.getCartListByResidentId(residentId);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{residentId}/{merchantId}")
-    public ResponseEntity<List<CartResponse>> getCartListPerMerchant(
-            @PathVariable Integer residentId,
-            @PathVariable Integer merchantId) {
-        log.info("[Cart] Get Cart List Per Merchant: residentId-{}, merchantId-{}", residentId, merchantId);
-        List<CartResponse> response = cartService.getCartListByResidentIdAndMerchantId(residentId, merchantId);
         return ResponseEntity.ok(response);
     }
 

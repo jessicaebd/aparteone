@@ -49,7 +49,7 @@ public class BillingController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Billing> updateBillingActiveStatus(
+    public ResponseEntity<Billing> updateBillingCategoryStatus(
             @RequestParam Integer billingId,
             @RequestParam Boolean isActive) {
         log.info("[Billing] Update Billing Status: billingId-{} | isActive-{}", billingId, isActive);
@@ -57,15 +57,22 @@ public class BillingController {
         return ResponseEntity.ok(billing);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<BillingDetailResponse> getBillingDetail(@RequestParam Integer billingDetailId) {
-        log.info("[Billing] Get Billing Request By Id: {}", billingDetailId);
-        BillingDetailResponse response = billingService.getBillingDetailById(billingDetailId);
+    @GetMapping("/detail/apartment")
+    public ResponseEntity<PageResponse<BillingDetailResponse>> getApartmentBillingDetail(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "DESC") String sortDir,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam Integer apartmentId) {
+        log.info("[Billing] Get Billing Request List By Apartment Id: {}", apartmentId);
+        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail/resident")
-    public ResponseEntity<PageResponse<BillingDetailResponse>> getBillingDetailByResidentId(
+    public ResponseEntity<PageResponse<BillingDetailResponse>> getResidentBillingDetail(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
@@ -78,17 +85,10 @@ public class BillingController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/detail/apartment")
-    public ResponseEntity<PageResponse<BillingDetailResponse>> getBillingDetailByApartmentId(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "DESC") String sortDir,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam Integer apartmentId) {
-        log.info("[Billing] Get Billing Request List By Apartment Id: {}", apartmentId);
-        PageResponse<BillingDetailResponse> response = billingService.getBillingDetailListByApartmentId(page, size, sortBy, sortDir, status, apartmentId, search);
+    @GetMapping("/detail")
+    public ResponseEntity<BillingDetailResponse> getBillingDetail(@RequestParam Integer billingDetailId) {
+        log.info("[Billing] Get Billing Request By Id: {}", billingDetailId);
+        BillingDetailResponse response = billingService.getBillingDetailById(billingDetailId);
         return ResponseEntity.ok(response);
     }
 
@@ -125,7 +125,7 @@ public class BillingController {
     }
 
     @GetMapping("/billing/count")
-    public ResponseEntity<Integer> countBillingDetailByResidentId(@RequestParam Integer residentId) {
+    public ResponseEntity<Integer> countBillingDetail(@RequestParam Integer residentId) {
         log.info("[Billing] Count Billing By Resident Id: residentId-{}", residentId);
         return ResponseEntity.ok(billingService.countBillingDetailByResidentId(residentId));
     }

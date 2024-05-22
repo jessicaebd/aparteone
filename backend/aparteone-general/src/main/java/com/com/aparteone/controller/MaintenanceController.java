@@ -109,7 +109,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/request/count")
-    public ResponseEntity<Integer> countMaintenanceRequestByResidentId(@RequestParam Integer residentId) {
+    public ResponseEntity<Integer> countMaintenance(@RequestParam Integer residentId) {
         log.info("[Maintenance] Count Maintenance Request By ResidentId: residentId-{}", residentId);
         return ResponseEntity.ok(maintenanceService.countMaintenanceRequestByResidentId(residentId));
     }

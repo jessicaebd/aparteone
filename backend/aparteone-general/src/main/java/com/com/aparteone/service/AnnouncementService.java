@@ -6,8 +6,8 @@ import com.com.aparteone.dto.response.AnnouncementResponse;
 import com.com.aparteone.entity.Announcement;
 
 public interface AnnouncementService {
+    public PageResponse<AnnouncementResponse> getAnnouncementListByApartmentId(int page, int size, String sortBy, String sortDir, String criteria, Integer apartmentId);
+    public AnnouncementResponse getAnnouncementById(Integer announcementId);
     public Announcement addAnnouncement(AnnouncementRequest announcementRequest);
     public Announcement updateAnnouncement(Integer announcementId, AnnouncementRequest announcementRequest);
-    public AnnouncementResponse getAnnouncementById(Integer announcementId);
-    public PageResponse<AnnouncementResponse> getAnnouncementListByApartmentId(int page, int size, String sortBy, String sortDir, String criteria, Integer apartmentId);
 }

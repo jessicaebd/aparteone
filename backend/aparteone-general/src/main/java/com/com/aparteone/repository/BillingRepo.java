@@ -8,4 +8,5 @@ import com.com.aparteone.entity.Billing;
 
 @Repository
 public interface BillingRepo extends JpaRepository<Billing, Integer>, JpaSpecificationExecutor<Billing> {
+    
 }

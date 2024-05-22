@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.response.ChatRoomResponse;
 import com.com.aparteone.entity.ChatMessage;
-import com.com.aparteone.service.ChatMessageService;
-import com.com.aparteone.service.ChatRoomService;
+import com.com.aparteone.service.ChatService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,25 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/chat")
 public class ChatController {
     @Autowired
-    private ChatMessageService chatMessageService;
+    private ChatService chatService;
 
-    @Autowired
-    private ChatRoomService chatRoomService;
-
-    // Local Testing
-    @PostMapping("/send")
-    public ChatMessage sendMessageLocal(@RequestBody ChatMessage chatMessage) {
-        log.info("[Chat] Process Message: {}", chatMessage);
-        ChatMessage response = chatMessageService.save(chatMessage);
-        return response;
-    }
-
-    @MessageMapping("/send")
-    @SendTo("/send/message")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        log.info("[Chat] Process Message: {}", chatMessage);
-        ChatMessage response = chatMessageService.save(chatMessage);
-        return response;
+    @GetMapping("/rooms")
+    public ResponseEntity<List<ChatRoomResponse>> getChatRoomList(@RequestParam Integer userId) {
+        log.info("[Chat] Get Chat Rooms: userId={}", userId);
+        return ResponseEntity.ok(chatService.getChatRoomList(userId));
     }
 
     @GetMapping("/messages")
@@ -52,12 +38,22 @@ public class ChatController {
             @RequestParam Integer senderId,
             @RequestParam Integer receiverId) {
         log.info("[Chat] Get Chat Messages: senderId={}, receiverId={}", senderId, receiverId);
-        return ResponseEntity.ok(chatMessageService.getChatMessages(senderId, receiverId));
+        return ResponseEntity.ok(chatService.getChatMessages(senderId, receiverId));
     }
 
-    @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomResponse>> getChatRooms(@RequestParam Integer userId) {
-        log.info("[Chat] Get Chat Rooms: userId={}", userId);
-        return ResponseEntity.ok(chatRoomService.getChatRoomList(userId));
+    @MessageMapping("/send")
+    @SendTo("/send/message")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+        log.info("[Chat] Process Message: {}", chatMessage);
+        ChatMessage response = chatService.saveChatMessage(chatMessage);
+        return response;
+    }
+
+    // Local Testing
+    @PostMapping("/send")
+    public ChatMessage sendMessageLocal(@RequestBody ChatMessage chatMessage) {
+        log.info("[Chat] Process Message: {}", chatMessage);
+        ChatMessage response = chatService.saveChatMessage(chatMessage);
+        return response;
     }
 }

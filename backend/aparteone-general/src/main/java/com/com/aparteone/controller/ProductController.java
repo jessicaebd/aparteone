@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/search")
-    public ResponseEntity<PageResponse<ProductResponse>> searchMerchantProduct(
+    public ResponseEntity<PageResponse<ProductResponse>> searchProduct(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "100") int size,
             @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,

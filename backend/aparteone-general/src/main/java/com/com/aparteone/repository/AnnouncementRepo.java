@@ -8,4 +8,5 @@ import com.com.aparteone.entity.Announcement;
 
 @Repository
 public interface AnnouncementRepo extends JpaRepository<Announcement, Integer>, JpaSpecificationExecutor<Announcement> {
+    
 }

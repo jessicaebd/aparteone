@@ -14,7 +14,6 @@ public interface MailboxService {
     public Mailbox addMailbox(MailboxCategoryRequest mailboxCategoryRequest);
     public Mailbox updateMailboxIsActive(Integer mailboxId, Boolean isActive);
     
-
     // Mailbox Request
     public PageResponse<MailboxDetailResponse> getMailboxDetailListByApartmentId(int page, int size, String sortBy, String sortDir, String status, Integer apartmentId, String search);
     public PageResponse<MailboxDetailResponse> getMailboxDetailListByResidentId(int page, int size, String sortBy, String sortDir, String status, Integer residentId, String search);

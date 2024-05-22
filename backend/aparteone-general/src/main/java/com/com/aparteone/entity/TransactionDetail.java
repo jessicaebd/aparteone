@@ -24,11 +24,4 @@ public class TransactionDetail {
     private Integer productId;
     private Integer quantity;
     private String notes;
-
-    public TransactionDetail(Integer transactionId, Cart cart) {
-        this.transactionId = transactionId;
-        this.productId = cart.getProductId();
-        this.quantity = cart.getQuantity();
-        this.notes = cart.getNotes();
-    }
 }
