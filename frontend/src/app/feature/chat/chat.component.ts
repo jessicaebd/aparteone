@@ -48,18 +48,18 @@ export class ChatComponent {
   }
 
   connectWebSocket(){
-    const url = '/api/chat-websocket';
+    const url = '/chat-websocket';
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
     const temp = this;
     this.stompClient.connect({}, () => {
-      // temp.stompClient.subscribe('/api/chat/rooms', (message: {body: string }) => {
-      //   if (message.body) {
-      //     let obj = JSON.parse(message.body);
-      //     console.log(obj);
-      //     // this.getChatRoom();
-      //   }
-      // })
+      temp.stompClient.subscribe('/chat/messages', (message: {body: string }) => {
+        if (message.body) {
+          let obj = JSON.parse(message.body);
+          console.log(obj);
+          // this.getChatRoom();
+        }
+      })
     });
   }
 

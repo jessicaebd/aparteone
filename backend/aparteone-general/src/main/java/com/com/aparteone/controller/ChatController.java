@@ -39,8 +39,8 @@ public class ChatController {
         return response;
     }
 
-    @MessageMapping("/send")
-    @SendTo("/send/message")
+    @MessageMapping("/sendmsg")
+    @SendTo("/chat/messages")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         log.info("[Chat] Process Message: {}", chatMessage);
         ChatMessage response = chatMessageService.save(chatMessage);
