@@ -51,9 +51,11 @@ export class ChatComponent {
     const url = 'http://localhost:8081/chat-websocket';
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
-    const temp = this;
-    this.stompClient.connect({}, () => {
-      temp.stompClient.subscribe('/chat/messages', (message: {body: string }) => {
+
+    // const temp = this;
+    this.stompClient.connect({}, (frame:any) => {
+      console.log('Connected: ' + frame);
+      this.stompClient.subscribe('/chat/messages', (message: {body: string }) => {
         if (message.body) {
           let obj = JSON.parse(message.body);
           console.log(obj);
