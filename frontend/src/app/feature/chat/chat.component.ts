@@ -48,7 +48,7 @@ export class ChatComponent {
   }
 
   connectWebSocket(){
-    const url = '/chat-websocket';
+    const url = 'http://localhost:8081/chat-websocket';
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
     const temp = this;

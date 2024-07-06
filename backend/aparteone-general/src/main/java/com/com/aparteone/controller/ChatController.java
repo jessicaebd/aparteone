@@ -7,12 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.com.aparteone.dto.response.ChatRoomResponse;
 import com.com.aparteone.entity.ChatMessage;
@@ -22,8 +21,8 @@ import com.com.aparteone.service.ChatRoomService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController
-@RequestMapping("/api/chat")
+@Controller
+// @RequestMapping("/api/chat")
 public class ChatController {
     @Autowired
     private ChatMessageService chatMessageService;
@@ -32,7 +31,7 @@ public class ChatController {
     private ChatRoomService chatRoomService;
 
     // Local Testing
-    @PostMapping("/send")
+    @PostMapping("/api/chat/send")
     public ChatMessage sendMessageLocal(@RequestBody ChatMessage chatMessage) {
         log.info("[Chat] Process Message: {}", chatMessage);
         ChatMessage response = chatMessageService.save(chatMessage);
@@ -47,7 +46,7 @@ public class ChatController {
         return response;
     }
 
-    @GetMapping("/messages")
+    @GetMapping("/api/chat/messages")
     public ResponseEntity<List<ChatMessage>> getChatMessages(
             @RequestParam Integer senderId,
             @RequestParam Integer receiverId) {
@@ -55,7 +54,7 @@ public class ChatController {
         return ResponseEntity.ok(chatMessageService.getChatMessages(senderId, receiverId));
     }
 
-    @GetMapping("/rooms")
+    @GetMapping("/api/chat/rooms")
     public ResponseEntity<List<ChatRoomResponse>> getChatRooms(@RequestParam Integer userId) {
         log.info("[Chat] Get Chat Rooms: userId={}", userId);
         return ResponseEntity.ok(chatRoomService.getChatRoomList(userId));
