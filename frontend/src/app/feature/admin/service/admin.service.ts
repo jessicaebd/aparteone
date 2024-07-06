@@ -86,9 +86,9 @@ export class AdminService {
 
   getActiveApartmentList(): any {
     const apiUrl = `${this.apiUrl}/${this.apiApartment}`;
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
+    // const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const params = new HttpParams({ fromObject: { 'size': 100, 'page': 0, 'isApproved': 'Approved', 'isActive': true } });
-    const options = { headers, params };
+    const options = { params };
     return this.httpClient.get<any>(apiUrl, options);
   }
 

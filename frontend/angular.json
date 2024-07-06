@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "k2_frontend": {
+    "aparteone": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -14,11 +14,11 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": ["lodash"],
-            "outputPath": "dist/k2_frontend",
+            "outputPath": "dist/aparteone",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -29,14 +29,12 @@
               "src/custom-theme.scss",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/apexcharts/dist/apexcharts.min.js",
-              "node_modules/quill/dist/quill.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js"
             ]
           },
           "configurations": {
@@ -76,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "k2_frontend:build:production"
+              "browserTarget": "aparteone:build:production"
             },
             "development": {
-              "browserTarget": "k2_frontend:build:development"
+              "browserTarget": "aparteone:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "k2_frontend:build"
+            "browserTarget": "aparteone:build"
           }
         },
         "test": {

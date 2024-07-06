@@ -5,6 +5,8 @@ import { ChatService } from './service/chat.service';
 import { AppComponent } from 'src/app/app.component';
 import { AppService } from 'src/app/app.service';
 import { Location } from '@angular/common';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +23,7 @@ export class ChatComponent {
   activeChat!: any;
   receiverId!: number;
   chatMessage: number = 0;
+  stompClient: any;
 
   user = this.appService.retrieveUser();
 
@@ -28,6 +31,7 @@ export class ChatComponent {
 
   async ngOnInit(){
     this.apps.loadingPage(true);
+    this.connectWebSocket();
     if(this.user.role!='Admin'){
       await this.getChatRooms(this.user.id);
       this.receiverId = this.route.snapshot.params['id'];
@@ -41,6 +45,22 @@ export class ChatComponent {
       window.location.replace('');
     }
     this.apps.loadingPage(false);
+  }
+
+  connectWebSocket(){
+    const url = '/api/chat-websocket';
+    const socket = new SockJS(url);
+    this.stompClient = Stomp.over(socket);
+    const temp = this;
+    this.stompClient.connect({}, () => {
+      // temp.stompClient.subscribe('/api/chat/rooms', (message: {body: string }) => {
+      //   if (message.body) {
+      //     let obj = JSON.parse(message.body);
+      //     console.log(obj);
+      //     // this.getChatRoom();
+      //   }
+      // })
+    });
   }
 
   getUserDetail(userId: any): Promise<any>{

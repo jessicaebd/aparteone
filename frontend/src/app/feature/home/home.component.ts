@@ -229,4 +229,8 @@ export class HomeComponent implements OnInit {
   showLatestApproval(e:string) {
     this.latestApproval = e;
   }
+
+  redirectToRegister(){
+    window.location.replace('/register');
+  }
 }
