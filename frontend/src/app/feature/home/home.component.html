@@ -1,6 +1,6 @@
 <ng-container *ngIf="isGuest==true; else home">
     <div style="position: absolute; top: 37rem; left: 13rem;">
-        <app-button buttonLabel="Register"></app-button>
+        <app-button buttonLabel="Register" (onClickEvent)="redirectToRegister()"></app-button>
     </div>
     <div class="d-flex justify-content-center">
         <img src="assets/general/landing-page.png" width="90%" alt="">

@@ -27,10 +27,23 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
-    @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomResponse>> getChatRoomList(@RequestParam Integer userId) {
-        log.info("[Chat] Get Chat Rooms: userId={}", userId);
-        return ResponseEntity.ok(chatService.getChatRoomList(userId));
+    @Autowired
+    private ChatRoomService chatRoomService;
+
+    // Local Testing
+    @PostMapping("/send")
+    public ChatMessage sendMessageLocal(@RequestBody ChatMessage chatMessage) {
+        log.info("[Chat] Process Message: {}", chatMessage);
+        ChatMessage response = chatMessageService.save(chatMessage);
+        return response;
+    }
+
+    @MessageMapping("/sendmsg")
+    @SendTo("/chat/messages")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+        log.info("[Chat] Process Message: {}", chatMessage);
+        ChatMessage response = chatMessageService.save(chatMessage);
+        return response;
     }
 
     @GetMapping("/messages")
@@ -39,21 +52,5 @@ public class ChatController {
             @RequestParam Integer receiverId) {
         log.info("[Chat] Get Chat Messages: senderId={}, receiverId={}", senderId, receiverId);
         return ResponseEntity.ok(chatService.getChatMessages(senderId, receiverId));
-    }
-
-    @MessageMapping("/send")
-    @SendTo("/send/message")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        log.info("[Chat] Process Message: {}", chatMessage);
-        ChatMessage response = chatService.saveChatMessage(chatMessage);
-        return response;
-    }
-
-    // Local Testing
-    @PostMapping("/send")
-    public ChatMessage sendMessageLocal(@RequestBody ChatMessage chatMessage) {
-        log.info("[Chat] Process Message: {}", chatMessage);
-        ChatMessage response = chatService.saveChatMessage(chatMessage);
-        return response;
     }
 }
