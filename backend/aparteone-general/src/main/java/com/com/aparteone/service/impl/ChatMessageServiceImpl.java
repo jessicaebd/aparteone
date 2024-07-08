@@ -30,7 +30,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Override
     public List<ChatMessage> getChatMessages(Integer senderId, Integer recipientId) {
         String chatId = chatRoomService.getChatRoomId(senderId, recipientId);
-        List<ChatMessage> chatMessages = chatMessageRepo.findByChatIdOrderByCreatedDateAsc(chatId);
+        List<ChatMessage> chatMessages = chatMessageRepo.findByChatIdOrderByCreatedDateDesc(chatId);
         return chatMessages;
     }
 

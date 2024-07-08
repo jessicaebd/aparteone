@@ -9,5 +9,5 @@ import com.com.aparteone.entity.ChatMessage;
 
 @Repository
 public interface ChatMessageRepo extends JpaRepository<ChatMessage, Integer> {
-    List<ChatMessage> findByChatIdOrderByCreatedDateAsc(String chatId);
+    List<ChatMessage> findByChatIdOrderByCreatedDateDesc(String chatId);
 }
