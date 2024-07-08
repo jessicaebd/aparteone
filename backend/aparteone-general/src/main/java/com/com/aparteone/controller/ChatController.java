@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.com.aparteone.dto.ChatPayload;
 import com.com.aparteone.dto.response.ChatRoomResponse;
 import com.com.aparteone.entity.ChatMessage;
 import com.com.aparteone.service.ChatMessageService;
@@ -33,7 +34,7 @@ public class ChatController {
 
     // Local Testing
     @PostMapping("/api/chat/send")
-    public ChatMessage sendMessageLocal(@RequestBody ChatMessage chatMessage) {
+    public ChatMessage sendMessageLocal(@RequestBody ChatPayload chatMessage) {
         log.info("[Chat] Process Message: {}", chatMessage);
         ChatMessage response = chatMessageService.save(chatMessage);
         return response;
@@ -41,8 +42,8 @@ public class ChatController {
 
     @MessageMapping("/sendmsg")
     @SendTo("/chat/messages")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        log.info("[Chat] Process Message: {}", chatMessage);
+    public ChatMessage sendMessage(@Payload ChatPayload chatMessage) {
+        // log.info("[Chat] Process Message: {}", chatMessage.toString());
         ChatMessage response = chatMessageService.save(chatMessage);
         return response;
     }

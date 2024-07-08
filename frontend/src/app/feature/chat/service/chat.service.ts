@@ -16,7 +16,7 @@ export class ChatService {
   constructor(private httpClient: HttpClient, private appService: AppService) { }
 
   sendMessage(body:any): any {
-    const apiUrl = `${this.apiUrl}/${this.apiChat}/${this.apiSend}`;
+    const apiUrl = `http://localhost:8081/api/sendmsg`;
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.appService.retrieveAccessToken() });
     const options = { headers };
     return this.httpClient.post<any>(apiUrl, body, options);

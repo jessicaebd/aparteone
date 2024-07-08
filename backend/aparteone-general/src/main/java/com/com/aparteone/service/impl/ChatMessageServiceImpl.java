@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.com.aparteone.dto.ChatPayload;
 import com.com.aparteone.entity.ChatMessage;
 import com.com.aparteone.repository.ChatMessageRepo;
 import com.com.aparteone.service.ChatMessageService;
@@ -34,12 +35,16 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-    public ChatMessage save(ChatMessage chatMessage) {
+    public ChatMessage save(ChatPayload chatMessage) {
         String chatId = chatRoomService.getChatRoomId(chatMessage.getSenderId(), chatMessage.getReceiverId());
-        chatMessage.setChatId(chatId);
-        chatMessageRepo.save(chatMessage);
+        ChatMessage res = new ChatMessage();
+        res.setChatId(chatId);
+        res.setSenderId(chatMessage.getSenderId());
+        res.setReceiverId(chatMessage.getReceiverId());
+        res.setMessage(chatMessage.getMessage());
+        chatMessageRepo.save(res);
         notificationService.sendNotification(chatMessage.getReceiverId(), "Chat", "You have a new message!");
-        return chatMessage;
+        return res;
     }
 
 }
