@@ -51,15 +51,13 @@ export class ChatComponent {
     const url = 'http://localhost:8081/chat-websocket';
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
-
-    // const temp = this;
     this.stompClient.connect({}, (frame:any) => {
       console.log('Connected: ' + frame);
       this.stompClient.subscribe('/chat/messages', (message: {body: string }) => {
         if (message.body) {
           let obj = JSON.parse(message.body);
           console.log(obj);
-          // this.getChatRoom();
+          this.getChatRooms(this.user.id);
         }
       })
     });
@@ -126,17 +124,22 @@ export class ChatComponent {
   }
 
   sendMessage(body: any): Promise<any>{
-    return new Promise<any>(resolve => 
-      this.chatService.sendMessage(body).subscribe({
-        next: async (response: any) => {
-          console.log('Response: ', response);
-          resolve(true);
-        },
-        error: (error: any) => {
-          console.log('#error', error);
-          resolve(error);
-        }
-      }))
+    return new Promise<any>(resolve => {
+      this.stompClient.subscribe('/chat/messages', body);
+      console.log("done send");
+      resolve(true);
+    }
+      // this.chatService.sendMessage(body).subscribe({
+      //   next: async (response: any) => {
+      //     console.log('Response: ', response);
+      //     resolve(true);
+      //   },
+      //   error: (error: any) => {
+      //     console.log('#error', error);
+      //     resolve(error);
+      //   }
+      // })
+    )
   }
 
   setBodySendMessage(): Promise<any>{
@@ -153,6 +156,7 @@ export class ChatComponent {
   async onSendChat(){
     if(this.message!=''){
       let body = await this.setBodySendMessage();
+      console.log("done set body");
       await this.sendMessage(body);
       this.message = '';
       let obj = {
@@ -160,6 +164,7 @@ export class ChatComponent {
         'userName': this.roomName,
         'userImage': this.roomImage,
       }
+      console.log("done set obj");
       await this.goToDetailChatPage(obj);
     }
   }
