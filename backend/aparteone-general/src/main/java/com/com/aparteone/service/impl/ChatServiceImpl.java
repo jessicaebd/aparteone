@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.com.aparteone.dto.ChatPayload;
 import com.com.aparteone.dto.response.ChatRoomResponse;
 import com.com.aparteone.entity.ChatMessage;
 import com.com.aparteone.entity.ChatRoom;
@@ -94,17 +95,21 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<ChatMessage> getChatMessages(Integer senderId, Integer recipientId) {
         String chatId = getChatRoomId(senderId, recipientId);
-        List<ChatMessage> chatMessages = chatMessageRepo.findByChatId(chatId);
+        List<ChatMessage> chatMessages = chatMessageRepo.findByChatIdOrderByCreatedDateDesc(chatId);
         return chatMessages;
     }
 
     @Override
-    public ChatMessage saveChatMessage(ChatMessage chatMessage) {
+    public ChatMessage save(ChatPayload chatMessage) {
         String chatId = getChatRoomId(chatMessage.getSenderId(), chatMessage.getReceiverId());
-        chatMessage.setChatId(chatId);
-        chatMessageRepo.save(chatMessage);
+        ChatMessage res = new ChatMessage();
+        res.setChatId(chatId);
+        res.setSenderId(chatMessage.getSenderId());
+        res.setReceiverId(chatMessage.getReceiverId());
+        res.setMessage(chatMessage.getMessage());
+        chatMessageRepo.save(res);
         notificationService.sendNotification(chatMessage.getReceiverId(), "Chat", "You have a new message!");
-        return chatMessage;
+        return res;
     }
 
 }

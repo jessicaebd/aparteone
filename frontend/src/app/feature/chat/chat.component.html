@@ -71,7 +71,7 @@
                     <h6 class="m-0 ms-2 d-flex align-items-center">{{ roomName }}</h6>
                 </div>
             </div>
-            <div class="chat-room px-3 py-2">
+            <div class="chat-room px-3 py-2 d-flex flex-column-reverse">
                 <ng-container *ngFor="let item of bubbleChat">
                     <ng-container *ngIf="item.receiverId==user.id; else bubbleMe">
                         <div class="d-flex justify-content-start">

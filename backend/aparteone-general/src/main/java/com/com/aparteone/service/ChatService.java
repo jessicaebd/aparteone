@@ -2,6 +2,7 @@ package com.com.aparteone.service;
 
 import java.util.List;
 
+import com.com.aparteone.dto.ChatPayload;
 import com.com.aparteone.dto.response.ChatRoomResponse;
 import com.com.aparteone.entity.ChatMessage;
 
@@ -13,5 +14,5 @@ public interface ChatService {
 
     // Chat Message
     public List<ChatMessage> getChatMessages(Integer senderId, Integer recipientId);
-    public ChatMessage saveChatMessage(ChatMessage chatMessage);
+    public ChatMessage save(ChatPayload chatMessage);
 }
